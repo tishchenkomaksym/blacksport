@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route::resource('user', 'UserController');
+//Route::resource('news', 'NewsController');
+//Route::resource('page', 'PageController');
+//Route::resource('ambassador', 'AmbassadorController');
+//Route::resource('partner', 'PartnerController');
+//Route::resource('service', 'ServiceController');
+//Route::resource('servicesexapmle', 'ServicesExapmleController');
+//Route::resource('category', 'CategoryController');
+//Route::resource('product', 'ProductController');
+//Route::resource('order', 'OrderController');
+//Route::resource('program', 'ProgramController');
+//Route::resource('participationrequest', 'ParticipationRequestController');
+//Route::resource('servicesorder', 'ServicesOrderController');
+
