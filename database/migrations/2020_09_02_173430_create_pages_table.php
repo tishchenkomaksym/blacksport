@@ -10,7 +10,6 @@ class CreatePagesTable extends Migration {
 		Schema::create('pages', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('name');
-			$table->string('name');
 			$table->string('page_key');
 			$table->text('meta_description');
 			$table->tinyInteger('noindex');

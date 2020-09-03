@@ -11,7 +11,7 @@ class CreateNewsTable extends Migration {
 			$table->increments('id');
 			$table->string('title', 255);
 			$table->text('description');
-			$table->text('Images')->nullable();
+			$table->text('images')->nullable();
 			$table->timestamps();
 			$table->string('published');
 		});

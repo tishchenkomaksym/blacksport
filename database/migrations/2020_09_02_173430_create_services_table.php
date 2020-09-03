@@ -12,7 +12,7 @@ class CreateServicesTable extends Migration {
 			$table->timestamps();
 			$table->string('name');
 			$table->text('description');
-			$table->integer('services_example_id')->unsigned();
+			$table->integer('services_example_id')->unsigned()->nullable();
 		});
 	}
 

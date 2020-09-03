@@ -2,9 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+
+use App\Models\Order;
 use App\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,10 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define( Order::class, function () {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'role_id' => rand(1,2),
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'user_id' => User::inRandomOrder()->value('id'),
+        'product_id' => Product::inRandomOrder()->value('id'),
+        'delivery' => array_rand(['самовывоз', 'доставка почтой'], 1)
     ];
 });

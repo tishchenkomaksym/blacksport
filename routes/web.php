@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Facades\Voyager;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -12,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //Route::resource('user', 'UserController');
 //Route::resource('news', 'NewsController');
@@ -31,3 +29,13 @@ Route::get('/', function () {
 //Route::resource('participationrequest', 'ParticipationRequestController');
 //Route::resource('servicesorder', 'ServicesOrderController');
 
+Route::get('/', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/main', 'HomeController@main')->name('home')->middleware('auth');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
