@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Ambassador;
+use App\Models\Category;
 use App\Models\News;
 use App\Models\Order;
 use App\Models\ParticipationRequest;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
     {
 //         $this->call(UserSeeder::class);
         factory(User::class, 10)->create();
+        factory(Category::class, 5)->create();
         factory( Program::class, 10)->create();
         factory( Ambassador::class, 10)->create();
         factory( Partner::class, 10)->create();

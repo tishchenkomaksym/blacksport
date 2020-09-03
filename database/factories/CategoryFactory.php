@@ -3,7 +3,6 @@
 /** @var Factory $factory */
 
 use App\Models\Category;
-use App\Models\Product;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -18,12 +17,11 @@ use Illuminate\Database\Eloquent\Factory;
 |
 */
 
-$factory->define( Product::class, function (Faker $faker) {
+$factory->define( Category::class, function (Faker $faker) {
+    $array = [ 'Одежда', 'Аксессуары', 'Экипировка', 'Сувениры', 'Литература'];
     return [
-        'description' => $faker->text(),
-        'specifications' => $faker->text(300),
-        'image' => $faker->imageUrl(),
-        'price' => rand(1000, 2000),
-        'category_id' => Category::inRandomOrder()->value('id')
+        'name' => $array[array_rand($array,1)],
+        'url' => $faker->text(10),
+        'image' => $faker->imageUrl()
     ];
 });
