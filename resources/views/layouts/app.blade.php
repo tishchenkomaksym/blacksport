@@ -78,12 +78,12 @@
                     <div class="menu-wrap">
                         <aside>
                             <ul class="menu">
-                                <li class="menu__item"><a href="">Главная</a></li>
-                                <li class="menu__item"><a href="">Новости</a></li>
-                                <li class="menu__item"><a href="">О нас</a></li>
-                                <li class="menu__item"><a href="">Услуги</a></li>
+                                <li class="menu__item"><a href="{{ route('home') }}">Главная</a></li>
+                                <li class="menu__item"><a href="{{ route('news') }}">Новости</a></li>
+                                <li class="menu__item"><a href="{{ route('about') }}">О нас</a></li>
+                                <li class="menu__item"><a href="{{ route('services') }}">Услуги</a></li>
                                 <li class="menu__item"><a href="">Магазин</a></li>
-                                <li class="menu__item"><a href="">Программы</a></li>
+                                <li class="menu__item"><a href="{{ route('programs') }}">Программы</a></li>
                                 <li class="menu__item"><a href="">Контакты</a></li>
                             </ul>
                         </aside>

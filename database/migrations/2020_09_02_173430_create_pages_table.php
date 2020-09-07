@@ -14,8 +14,6 @@ class CreatePagesTable extends Migration {
 			$table->text('meta_description');
 			$table->tinyInteger('noindex');
 			$table->tinyInteger('nofollow');
-			$table->string('image1', 255)->nullable();
-			$table->string('image2', 255)->nullable();
 			$table->timestamps();
 		});
 	}

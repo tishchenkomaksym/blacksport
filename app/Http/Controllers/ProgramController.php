@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller 
@@ -14,7 +15,9 @@ class ProgramController extends Controller
    */
   public function index()
   {
-    
+    $programs = Program::orderByDesc('created_at')->get();
+
+    return view('programs', compact('programs'));
   }
 
   /**
@@ -83,4 +86,3 @@ class ProgramController extends Controller
   
 }
 
-?>

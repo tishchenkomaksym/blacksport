@@ -10,7 +10,7 @@ class CreateParticipationRequestTable extends Migration {
 		Schema::create('participation_request', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('program_id')->unsigned();
-			$table->integer('user_id')->unsigned();
+			$table->bigInteger('user_id')->unsigned();
 			$table->timestamps();
 		});
 	}

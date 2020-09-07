@@ -28,7 +28,8 @@ class HomeController extends Controller
     public function index()
     {
 //        $news = Program::orderByDesc('created_at')->get();
-        $news = News::whereBetween('created_at', [Carbon::now()->subDays(30)->toDateTime()->format('Y-m-d H:i:s'),now()->format('Y-m-d H:i:s')])->limit(5)->get();
+        $news = News::whereBetween('created_at', [Carbon::now()->subDays(30)->toDateTime()->format('Y-m-d H:i:s'),now()->format('Y-m-d H:i:s')])
+                    ->orderByDesc('created_at')->limit(5)->get();
         $services = Service::all();
         $programs = Program::orderByDesc('created_at')->get();
         return view('home', compact('news', 'services', 'programs'));

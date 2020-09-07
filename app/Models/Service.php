@@ -41,6 +41,11 @@ class Service extends Model
 
     protected $table = 'services';
     public $timestamps = true;
-    protected $fillable = ['name', 'description', 'services_example_id'];
+    protected $fillable = ['name', 'description'];
+
+    public function examples()
+    {
+        return $this->hasMany(ServiceInstance::class, 'service_id', 'id');
+    }
 
 }

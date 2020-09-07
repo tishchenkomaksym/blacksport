@@ -10,8 +10,8 @@ class CreateServicesOrderTable extends Migration {
 		Schema::create('services_order', function(Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
-			$table->integer('user_id')->unsigned();
-			$table->integer('services_id')->unsigned();
+			$table->bigInteger('user_id')->unsigned();
+			$table->unsignedBigInteger('service_id')->unsigned();
 		});
 	}
 

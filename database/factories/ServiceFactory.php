@@ -4,7 +4,7 @@
 
 use App\Models\Program;
 use App\Models\Service;
-use App\Models\ServicesExapmle;
+use App\Models\ServiceInstance;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define( Service::class, function (Faker $faker) {
     return [
         'name' => $faker->title,
-        'description' => $faker->text(),
-        'services_example_id' => ServicesExapmle::inRandomOrder()->value('id')
+        'description' => $faker->text()
     ];
 });

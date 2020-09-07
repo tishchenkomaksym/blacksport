@@ -8,11 +8,10 @@ class CreateServicesTable extends Migration {
 	public function up()
 	{
 		Schema::create('services', function(Blueprint $table) {
-			$table->increments('id');
-			$table->timestamps();
+			$table->bigIncrements('id');
 			$table->string('name');
 			$table->text('description');
-			$table->integer('services_example_id')->unsigned()->nullable();
+            $table->timestamps();
 		});
 	}
 

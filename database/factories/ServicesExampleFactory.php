@@ -2,8 +2,9 @@
 
 /** @var Factory $factory */
 
-use App\Models\News;
-use App\Models\ServicesExapmle;
+
+use App\Models\ServiceInstance;
+use App\Models\Service;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -19,10 +20,11 @@ use Illuminate\Database\Eloquent\Factory;
 |
 */
 
-$factory->define( ServicesExapmle::class, function (Faker $faker) {
+$factory->define( ServiceInstance::class, function (Faker $faker) {
     return [
         'name' => $faker->streetName,
         'description' => $faker->text,
-        'media' => "[\"{$faker->imageUrl()}\"]"
+        'media' => "[\"{$faker->imageUrl()}\"]",
+        'service_id' => Service::inRandomOrder()->value('id')
     ];
 });

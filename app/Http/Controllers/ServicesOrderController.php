@@ -82,5 +82,3 @@ class ServicesOrderController extends Controller
   }
   
 }
-
-?>

@@ -7,8 +7,9 @@ class CreateServicesExampleTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('services_example', function(Blueprint $table) {
+		Schema::create('services_examples', function(Blueprint $table) {
 			$table->increments('id');
+			$table->unsignedBigInteger('service_id');
 			$table->string('name');
 			$table->text('description');
 			$table->timestamps();
@@ -18,6 +19,6 @@ class CreateServicesExampleTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('services_example');
+		Schema::drop('services_examples');
 	}
 }

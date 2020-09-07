@@ -49,6 +49,11 @@ class Page extends Model
 
     protected $table = 'pages';
     public $timestamps = true;
-    protected $fillable = ['name',  'page_key', 'meta_description', 'noindex', 'nofollow', 'image1', 'image2'];
+    protected $fillable = ['name',  'page_key', 'meta_description', 'noindex', 'nofollow'];
+
+    public function viewTexts()
+    {
+        return $this->hasMany(ViewText::class);
+    }
 
 }

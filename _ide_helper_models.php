@@ -323,18 +323,18 @@ namespace App\Models{
  * @property-read null $translated
  * @property-read \Illuminate\Database\Eloquent\Collection|\TCG\Voyager\Models\Translation[] $translations
  * @property-read int|null $translations_count
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle query()
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereMedia($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereTranslation($field, $operator, $value = null, $locales = null, $default = true)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle withTranslation($locale = null, $fallback = true)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicesExapmle withTranslations($locales = null, $fallback = true)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereMedia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereTranslation($field, $operator, $value = null, $locales = null, $default = true)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance withTranslation($locale = null, $fallback = true)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServiceInstance withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
 	class ServicesExapmle extends \Eloquent {}

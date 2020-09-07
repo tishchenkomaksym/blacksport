@@ -23,6 +23,6 @@ use App\User;
 $factory->define( ServicesOrder::class, function () {
     return [
         'user_id' => User::inRandomOrder()->value('id'),
-        'services_id' => Service::inRandomOrder()->value('id')
+        'service_id' => Service::inRandomOrder()->value('id')
     ];
 });
