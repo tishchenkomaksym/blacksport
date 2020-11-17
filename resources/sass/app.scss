@@ -1,1 +1,24 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.menu-wrap {
+  max-width: fit-content;
+}
+
+ul li {
+  list-style: none;
+}
+
+.main-wrap {
+  display: flex;
+}
+
+.news__item {
+  display: flex;
+}
