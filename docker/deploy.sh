@@ -18,7 +18,7 @@ service apache2 restart
 
 printf "Installing extensions. This may take some time...\n"
 {
-  docker-php-ext-install mysqli pdo_mysql bcmath mbstring gd xml openssl zip
+  docker-php-ext-install mysqli pdo_mysql bcmath gd xml openssl zip
   pecl install xdebug
   docker-php-ext-enable xdebug
 }  >> ./docker/logs/apt.log
