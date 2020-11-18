@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  db-blacksport:
+    container_name: db-blacksport  # DIFFERENT IN PRODUCTION
+    hostname: ${MYSQL_HOST}
+    image: mysql:8
+    command: --init-file /data/application/init.sql
+    restart: always
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - db-blacksport:/var/lib/mysql  # DIFFERENT IN PRODUCTION
+      - ./docker/conf/mysql:/etc/mysql
+      - ./docker/init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: W7zXgR0LHp4nV86T
+      MYSQL_DATABASE: bot-admin
+      MYSQL_USER: wedo
+      MYSQL_PASSWORD: test
+    logging:
+      options:
+        max-size: 10m
+
+  apache-blacksport:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+      args:
+        APP_DOMAIN: ${APP_DOMAIN}
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+        MYSQL_PORT: ${MYSQL_PORT}
+        MYSQL_HOST: ${MYSQL_HOST}
+    stdin_open: true
+    tty: true
+    container_name: apache-blacksport  # DIFFERENT IN PRODUCTION
+    volumes:
+      - ./:/var/www/
+      - ./docker/apache2/apache2.conf:/etc/apache2/apache2.conf
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/cron/root.txt:/var/spool/cron/crotabs/root.txt
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+      APACHE_HOST: db-blacksport # Delete this?
+    restart: always
+    ports:
+      - ${APP_PORT}:80
+      - ${SSH_PORT}:22
+    expose:
+      - ${XDEBUG_PORT}
+    depends_on:
+      - db-blacksport
+    logging:
+      options:
+        max-size: 10m
+
+  phpmyadmin-blacksport:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-blacksport  # DIFFERENT IN PRODUCTION
+    ports:
+      - ${PHPMYADMIN_PORT}:80
+    volumes:
+      - ./:/init
+    environment:
+      MYSQL_ROOT_PASSWORD: W7zXgR0LHp4nV86T
+      PMA_PORT: ${MYSQL_PORT}
+      PMA_HOST: db-blacksport
+    depends_on:
+      - db-blacksport
+    logging:
+      options:
+        max-size: 10m
+
+volumes:
+  db-blacksport:  # DIFFERENT IN PRODUCTION
