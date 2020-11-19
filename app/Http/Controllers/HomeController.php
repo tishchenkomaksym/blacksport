@@ -20,6 +20,12 @@ class HomeController extends Controller
 
     }
 
+
+    public function vue() {
+        return view('vue');
+    }
+
+
     /**
      * Show the application dashboard.
      *
