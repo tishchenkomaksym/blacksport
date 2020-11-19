@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Models\Program;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -29,7 +30,7 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return false|string
      */
     public function index()
     {
@@ -38,7 +39,13 @@ class HomeController extends Controller
                     ->orderByDesc('created_at')->limit(5)->get();
         $services = Service::all();
         $programs = Program::orderByDesc('created_at')->get();
-        return view('home', compact('news', 'services', 'programs'));
+
+        return json_encode([
+            'news' => $news,
+            'services' => $services,
+            'programs' => $programs
+        ]);
+//        return view('home', compact('news', 'services', 'programs'));
     }
 
     public function main()

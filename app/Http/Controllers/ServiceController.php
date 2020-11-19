@@ -1,23 +1,23 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller 
+class ServiceController extends Controller
 {
 
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return
    */
   public function index()
   {
       $services = Service::with('examples')->orderByDesc('created_at')->get();
-
-      return view('services', compact('services'));
+      return json_encode(compact('services'));
+//      return view('services', );
   }
 
   /**
@@ -27,7 +27,7 @@ class ServiceController extends Controller
    */
   public function create()
   {
-    
+
   }
 
   /**
@@ -37,7 +37,7 @@ class ServiceController extends Controller
    */
   public function store(Request $request)
   {
-    
+
   }
 
   /**
@@ -48,7 +48,7 @@ class ServiceController extends Controller
    */
   public function show($id)
   {
-    
+
   }
 
   /**
@@ -59,7 +59,7 @@ class ServiceController extends Controller
    */
   public function edit($id)
   {
-    
+
   }
 
   /**
@@ -70,7 +70,7 @@ class ServiceController extends Controller
    */
   public function update($id)
   {
-    
+
   }
 
   /**
@@ -81,8 +81,8 @@ class ServiceController extends Controller
    */
   public function destroy($id)
   {
-    
+
   }
-  
+
 }
 

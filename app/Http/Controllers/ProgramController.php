@@ -1,23 +1,24 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Program;
 use Illuminate\Http\Request;
 
-class ProgramController extends Controller 
+class ProgramController extends Controller
 {
 
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return
    */
   public function index()
   {
     $programs = Program::orderByDesc('created_at')->get();
 
-    return view('programs', compact('programs'));
+    return json_encode(compact('programs'));
+//    return view('programs', compact('programs'));
   }
 
   /**
@@ -27,7 +28,7 @@ class ProgramController extends Controller
    */
   public function create()
   {
-    
+
   }
 
   /**
@@ -37,7 +38,7 @@ class ProgramController extends Controller
    */
   public function store(Request $request)
   {
-    
+
   }
 
   /**
@@ -48,7 +49,7 @@ class ProgramController extends Controller
    */
   public function show($id)
   {
-    
+
   }
 
   /**
@@ -59,7 +60,7 @@ class ProgramController extends Controller
    */
   public function edit($id)
   {
-    
+
   }
 
   /**
@@ -70,7 +71,7 @@ class ProgramController extends Controller
    */
   public function update($id)
   {
-    
+
   }
 
   /**
@@ -81,8 +82,8 @@ class ProgramController extends Controller
    */
   public function destroy($id)
   {
-    
+
   }
-  
+
 }
 

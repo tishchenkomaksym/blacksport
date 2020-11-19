@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -13,7 +13,7 @@ class AboutController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return false|string
      */
     public function index()
     {
@@ -22,6 +22,12 @@ class AboutController extends Controller
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
 
-        return view( 'about', compact( 'ambassadors', 'partners', 'texts' ) );
+//        return view( 'about', compact( 'ambassadors', 'partners', 'texts' ) );
+
+        return json_encode([
+            'texts' => $texts,
+            'ambassadors' => $ambassadors,
+            'partners' => $partners
+            ]);
     }
 }

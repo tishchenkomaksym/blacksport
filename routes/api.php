@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/home', 'HomeController@index');
+Route::get('/about', 'AboutController@index');
+Route::get('/news', 'NewsController@index');
+Route::get('/services', 'ServiceController@index');
+Route::get('/programs', 'ProgramController@index');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
