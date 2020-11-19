@@ -1,0 +1,64 @@
+php artisan db:seed --class=UsersTableSeeder - команда для добавления фейковых значений
+php artisan db:seed  - команда для добавления фейковых значений
+composer dump-autoload -o - команда для запуска фейковых значения, чтоб при новой загрузки миграции,
+                             composer пройдет по всем папкам classmap и проставит namespace
+
+php artisan help migrate - help показывает что делает команда и допю параметры
+
+php artisan route:list | grep order
+
+php artisan make:command User/VerifyCommand - создание класса для консольной команды с директорией
+
+php artisan make:migration CreateRegionsTable - пример создания миграции
+
+php artisan make:mail -m -- Auth\\VerifyMail
+
+php artisan make:request  Auth\\RegisterRequest
+
+php artisan make:controller  Admin\\BookController --resource
+php artisan make:controller Admin/OrderController -r -m Entity/Order
+
+yarn add -s --dev font-awesome - пример скачивания библиотеки js/css
+
+composer require barryvdh/laravel-debugbar --dev
+
+composer require davejamesmiller/laravel-breadcrumbs:5.x
+create file route/breadcrumbs.php
+php artisan vendor:publish --tag=breadcrumbs-config
+Then open config/breadcrumbs.php and edit this line:
+'view' => 'breadcrumbs::bootstrap4',
+
+composer require --dev barryvdh/laravel-ide-helper
+php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config
+
+php artisan ide-helper:eloquent
+            ide-helper:generate
+            ide-helper:meta
+            ide-helper:models
+
+npm install -g yarn
+npm run watch
+npm run watch-poll
+yarn install
+yarn watch
+
+php artisan queue:table - для созданий миграций для очередей
+php artisan config:cache
+php artisan make:job NotificationTimer
+php artisan queue:failed-table
+ps ax | grep artisan  - проверить запущенные процессы
+
+sudo supervisorctl reread
+
+sudo supervisorctl update
+
+sudo supervisorctl start laravel-worker:*
+
+laravel 6
+
+composer require laravel/ui --dev
+php artisan ui bootstrap
+php artisan ui vue --auth
+
+вызов метода из другого контроллера
+app()->call('App\Http\Controllers\CarController@getCars', [$param1, $param2]);
