@@ -31,7 +31,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Service withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Service extends Model 
+class Service extends Model
 {
     use Translatable;
 
@@ -46,6 +46,12 @@ class Service extends Model
     public function examples()
     {
         return $this->hasMany(ServiceInstance::class, 'service_id', 'id');
+    }
+
+    public static function translatedFields(){
+        return [
+            'name', 'description'
+        ];
     }
 
 }

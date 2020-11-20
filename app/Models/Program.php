@@ -31,7 +31,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Program withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Program extends Model 
+class Program extends Model
 {
 
     use Translatable;
@@ -43,5 +43,11 @@ class Program extends Model
     protected $table = 'programs';
     public $timestamps = true;
     protected $fillable = ['name', 'description', 'images'];
+
+    public static function translatedFields(){
+        return [
+            'name', 'description'
+        ];
+    }
 
 }

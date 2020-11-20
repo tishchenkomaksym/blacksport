@@ -3,21 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return
-   */
-  public function index()
+    /**
+     * @var TranslateService
+     */
+    private $translate_service;
+
+    public function __construct(TranslateService $translate_service)
+    {
+
+        $this->translate_service = $translate_service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param null $locale
+     *
+     * @return false|string
+     */
+  public function index($locale = null)
   {
-      $services = Service::with('examples')->orderByDesc('created_at')->get();
+      $services = $this->translate_service->translate(
+          $locale, Service::with('examples')->orderByDesc('created_at')->get(), Service::class
+      );
       return json_encode(compact('services'));
-//      return view('services', );
   }
 
   /**

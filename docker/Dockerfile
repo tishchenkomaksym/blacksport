@@ -10,6 +10,7 @@ ADD . /var/www
 
 RUN chmod 777 /var/www/docker/deploy.sh
 RUN chmod 777 /var/www/docker/run.sh
+
 RUN bash /var/www/docker/deploy.sh $APP_DOMAIN $GITHUB_TOKEN $MYSQL_HOST $MYSQL_PORT
 
 RUN mkdir -p /var/run/sshd

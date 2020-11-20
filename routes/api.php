@@ -14,11 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', 'HomeController@index');
-Route::get('/about', 'AboutController@index');
-Route::get('/news', 'NewsController@index');
-Route::get('/services', 'ServiceController@index');
-Route::get('/programs', 'ProgramController@index');
+// Bag API
+
+Route::get('basket', 'BasketController@get');
+
+Route::post('basket/{id}/{n?}', 'BasketController@post') -> where('id', '[0-9]+')
+     -> where('n', '[0-9]+');
+
+Route::patch('basket/{id}/{n}', 'BasketController@patch') -> where('id', '[0-9]+')
+     -> where('n', '[0-9]+');
+
+Route::delete('basket/{id}', 'BasketController@delete') -> where('id', '[0-9]+');
+
+Route::get('/home/{locale?}', 'HomeController@index');
+Route::get('/about/{locale?}', 'AboutController@index');
+Route::get('/news/{locale?}', 'NewsController@index');
+Route::get('/services/{locale?}', 'ServiceController@index');
+Route::get('/programs/{locale?}', 'ProgramController@index');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

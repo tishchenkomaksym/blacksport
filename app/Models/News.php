@@ -33,7 +33,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|News withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class News extends Model 
+class News extends Model
 {
     use Translatable;
 
@@ -43,6 +43,12 @@ class News extends Model
 
     protected $table = 'news';
     public $timestamps = true;
-    protected $fillable = ['title', 'description', 'Images', 'published'];
+    protected $fillable = ['title', 'description', 'images', 'published'];
+
+    public static function translatedFields(){
+        return [
+            'title', 'description'
+        ];
+    }
 
 }

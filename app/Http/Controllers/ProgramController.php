@@ -3,22 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return
-   */
-  public function index()
+    /**
+     * @var TranslateService
+     */
+    private $translate_service;
+
+    public function __construct(TranslateService $translate_service)
+    {
+
+        $this->translate_service = $translate_service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param null $locale
+     *
+     * @return false|string
+     */
+  public function index($locale = null)
   {
-    $programs = Program::orderByDesc('created_at')->get();
+    $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class);
 
     return json_encode(compact('programs'));
-//    return view('programs', compact('programs'));
+
   }
 
   /**

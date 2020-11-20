@@ -17,11 +17,11 @@ service apache2 restart
 } >> ./docker/logs/apt.log
 
 printf "Installing extensions. This may take some time...\n"
-{
+#{
   docker-php-ext-install mysqli pdo_mysql bcmath gd xml openssl zip
   pecl install xdebug
   docker-php-ext-enable xdebug
-}  >> ./docker/logs/apt.log
+#}  >> ./docker/logs/apt.log
 
 service apache2 restart
 
@@ -30,14 +30,14 @@ service apache2 restart
 
 printf "Installing composer dependencies!\n"
 
-bash -c "curl -sS https://getcomposer.org/installer | php"
+#bash -c "curl -sS https://getcomposer.org/installer | php"
 
 ./composer.phar config -g github-oauth.github.com "$2"
 
 chmod -R 777 .
 chmod -R 755 ./docker
 
-./composer.phar install --no-interaction
+#./composer.phar install --no-interaction
 
 
 # Configure SSH for xdebug
