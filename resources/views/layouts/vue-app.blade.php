@@ -23,5 +23,10 @@
     <div id="app" class="body">
         @yield('content')
     </div>
+    <?php
+        if (env('APP_ENV') === 'local') {
+            echo '<script src="http://localhost:3000/browser-sync/browser-sync-client.js?v=2.26.13" async></script>';
+        }
+    ?>
 </body>
 </html>
