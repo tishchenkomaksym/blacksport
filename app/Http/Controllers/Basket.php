@@ -21,62 +21,6 @@ trait Basket
     protected $items = [];
 
 
-
-    private static function deletedProductStub(string $id): array {
-        return [
-            'id' => '0',
-            'is_offer' => FALSE,
-            'name' => 'Deleted',
-            'price' => 'Deleted',
-            'img' => 'Deleted',
-            'quantity' => 'Deleted',
-            'url' => $id
-        ];
-    }
-
-    public static function getClassByType(string $type): string {
-        return $type == 'instruments' ? Instrument::class : Offer::class;
-    }
-
-    private static function productsBlock(string $type, int $id, int $count): array {
-        $class = self::getClassByType($type);
-
-        /** @noinspection PhpUndefinedMethodInspection */
-        $product = $class::withTrashed() -> where('id', $id) -> first();
-        if(!$product)
-            throw new ApiException(500,'No '.$type);
-
-        self::localize($product, ['title'], LaravelLocalization::getCurrentLocale());
-        return [
-            'id' => $product -> id,
-            'is_offer' => $product instanceof Offer,
-            'name' => $product -> title,
-            'price' => $product -> price,
-            'img' => '/storage/'.$product -> img,
-            'img_thumb' => '/storage/'.$product -> catalogImage(),
-            'quantity' => $count,
-            'url' => $product -> url
-        ];
-    }
-
-    private static function analyzeProductCard(string $type, int $id, int $count): array {
-        try {
-            return self::productsBlock($type, $id, $count);
-        } catch (ApiException $exception) {
-            return self::deletedProductStub($id);
-        }
-    }
-
-    public static function structurizeCheckout(array $items) {
-        $ret = [];
-        foreach ($items as $key => $count) {
-            list($type, $id) = explode('|', $key);
-            if (!isset($ret[$type]))
-                $ret[$type] = [];
-            $ret[$type][$id] = static::analyzeProductCard($type, $id, $count);
-        }
-        return $ret;
-    }
 //
 //    public static function flattenData(array $items) {
 //        $mixed = [];
@@ -87,7 +31,7 @@ trait Basket
 //    }
 //
     protected function getData() {
-        return self::structurizeCheckout($this -> items);
+        return session() -> get('basket');
     }
 //
 //    private function getSum(array $flattenedData) {
@@ -119,7 +63,25 @@ trait Basket
             ->header('Content-Type', 'text/plain');
     }
 
-    protected function get(): string {
+
+    /**
+     * @OA\Get(
+     *     path="/api/basket",
+     *     description="Getting basket",
+     *     tags={"basket"},
+     *     summary="Get Basket",
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="productId", type="integer",
+     *          example="Products quantity")
+     *              )
+     *       )
+     *     )
+     * )
+     */
+    public function get(): string {
         $this -> open();
         return json_encode($this -> getData());
     }
@@ -147,7 +109,42 @@ trait Basket
         return $this -> get();
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/basket/{id}/{n}",
+     *     description="Add to basket",
+     *     tags={"basket"},
+     *     summary="Add to Basket",
+     *
+     *      @OA\Parameter(
+     *        description="Product Id",
+     *        in="path",
+     *        name="id",
+     *        required=true,
+     *        example="1",
+     *        @OA\Schema(type="integer")
+     *    ),
+     *
+     *      @OA\Parameter(
+     *        description="Quantity of product",
+     *        in="path",
+     *        name="n",
+     *        required=true,
+     *        example="2",
+     *        @OA\Schema(type="integer")
+     *    ),
+     *
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="productId", type="integer",
+     *          example="Products quantity")
+     *              )
+     *       )
+     *     )
+     * )
+     */
     public function post(string $id, ?int $n = 1): string
     {
         return $this -> itemHandler($id, function(string $k) use ($n) {
@@ -157,6 +154,33 @@ trait Basket
         });
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/basket/{id}",
+     *     description="Delete product in basket",
+     *     tags={"basket"},
+     *     summary="Delete",
+     *
+     *      @OA\Parameter(
+     *        description="Product Id",
+     *        in="path",
+     *        name="id",
+     *        required=true,
+     *        example="1",
+     *        @OA\Schema(type="integer")
+     *    ),
+     *
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="productId", type="integer",
+     *          example="Products quantity")
+     *              )
+     *       )
+     *     )
+     * )
+     */
     public function delete(string $id): string
     {
         return $this -> itemHandler($id, function(string $k) {
@@ -166,6 +190,42 @@ trait Basket
         });
     }
 
+    /**
+     * @OA\Patch(
+     *     path="/api/basket/{id}/{n}",
+     *     description="Update product in basket",
+     *     tags={"basket"},
+     *     summary="Update",
+     *
+     *      @OA\Parameter(
+     *        description="Product Id",
+     *        in="path",
+     *        name="id",
+     *        required=true,
+     *        example="1",
+     *        @OA\Schema(type="integer")
+     *    ),
+     *
+     *      @OA\Parameter(
+     *        description="Quantity of product",
+     *        in="path",
+     *        name="n",
+     *        required=true,
+     *        example="2",
+     *        @OA\Schema(type="integer")
+     *    ),
+     *
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="productId", type="integer",
+     *          example="Products quantity")
+     *              )
+     *       )
+     *     )
+     * )
+     */
     public function patch(string $id, int $n): string {
         return $this -> itemHandler($id, function(string $k) use ($n) {
             if (!isset($this -> items[$k]))

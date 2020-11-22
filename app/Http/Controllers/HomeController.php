@@ -33,13 +33,57 @@ class HomeController extends Controller
         return view('vue');
     }
 
-
     /**
-     * Show the application dashboard.
-     *
-     * @param null $locale
-     *
-     * @return false|string
+     * @OA\Get(
+     *     path="/api/home/{locale?}",
+     *     description="Getting news, services, programs",
+     *     tags={"home"},
+     *     summary="Home Page",
+     *      @OA\Parameter(
+     *        description="Language",
+     *        in="path",
+     *        name="Locale",
+     *        required=false,
+     *        example="ru, en, uk",
+     *        @OA\Schema(type="string")
+     *    ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="news", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="title", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="images", type="string"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="published", type="string"),
+     *                  )
+     *              ),
+     *           @OA\Property(property="services", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              ),
+     *              @OA\Property(property="programs", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="images", type="string"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              ),
+     *       )
+     *     )
+     * )
      */
     public function index($locale = null)
     {
