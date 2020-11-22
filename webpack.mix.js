@@ -11,9 +11,12 @@ const mix = require('laravel-mix')
  |
  */
 
+require('dotenv').config();
+
+mix.browserSync({
+    proxy: 'localhost:8009'
+});
+
 mix
   .js('resources/js/app.js', 'public/js')
-  .vue()
-  .browserSync({
-    proxy: 'localhost',
-  })
+  .vue();
