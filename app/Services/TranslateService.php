@@ -4,6 +4,8 @@
 namespace App\Services;
 
 use App;
+use App\Models\Service;
+use App\Models\ServiceInstance;
 
 class TranslateService
 {
@@ -26,10 +28,17 @@ class TranslateService
 
     public function translate($locale, $collection, $class)
     {
-        foreach ( $collection as $key => $value ) {
+        foreach ($collection as $key => $value) {
             foreach ( $class::translatedFields() as $field ) {
-                $collection[$key]->$field = $collection[$key]->getTranslatedAttribute($field, $locale, App::getLocale());
-                unset($collection[$key]->translations);
+                $collection[ $key ]->$field = $collection[ $key ]->getTranslatedAttribute( $field, $locale, App::getLocale() );
+                unset( $collection[ $key ]->translations );
+            }
+            if ($class === Service::class){
+                foreach ( $collection[$key]->examples as $k => $example ) {
+                    foreach ( ServiceInstance::translatedFields() as $field ) {
+                        $collection[ $key ]->examples[ $k ]->field = $collection[ $key ]->examples[ $k ]->getTranslatedAttribute( $field, $locale, App::getLocale() );
+                    }
+                }
             }
 
         }

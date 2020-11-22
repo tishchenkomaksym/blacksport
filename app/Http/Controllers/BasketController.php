@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class BasketController extends PageController
+class BasketController extends Controller
 {
 //    private const LIQPAY_PRIVATE_KEY = 'sandbox_8LFgWcW7saY2MYEyrPg7eUwMpqNcvOoexYO9hJOG';
 //    private const LIQPAY_PUBLIC_KEY = 'sandbox_i36441580441';
