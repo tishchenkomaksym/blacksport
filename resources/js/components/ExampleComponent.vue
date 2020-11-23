@@ -1,23 +1,32 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="test">I'm an example component</div>
+  <div>{{i18n.$t('hello_world')}}</div>
+  <button @click="switchLanguage">Switch language</button>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+import {useI18n} from '../i18nPlugin'
+
+export default {
+  name: 'ExampleComponent',
+  setup() {
+    const i18n = useI18n()
+
+    const switchLanguage = () => {
+      const locale = i18n.locale.value === 'en' ? 'ru' : 'en'
+      i18n.locale.value = locale
     }
+
+    return {
+      i18n,
+      switchLanguage,
+    }
+  },
+}
 </script>
+
+<style lang="scss">
+.test {
+  color: red;
+}
+</style>
