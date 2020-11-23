@@ -13,16 +13,16 @@ class CreateForeignKeys extends Migration {
                                            ->onDelete('restrict')
                                            ->onUpdate('restrict');
 		});
-		Schema::table('orders', function(Blueprint $table) {
-			$table->foreign('user_id')->references('id')->on('users')
-						->onDelete('restrict')
-						->onUpdate('restrict');
-		});
-		Schema::table('orders', function(Blueprint $table) {
-			$table->foreign('product_id')->references('id')->on('products')
-						->onDelete('restrict')
-						->onUpdate('restrict');
-		});
+//		Schema::table('orders', function(Blueprint $table) {
+//			$table->foreign('user_id')->references('id')->on('users')
+//						->onDelete('restrict')
+//						->onUpdate('restrict');
+//		});
+//		Schema::table('orders', function(Blueprint $table) {
+//			$table->foreign('product_id')->references('id')->on('products')
+//						->onDelete('restrict')
+//						->onUpdate('restrict');
+//		});
 		Schema::table('participation_request', function(Blueprint $table) {
 			$table->foreign('program_id')->references('id')->on('programs')
 						->onDelete('restrict')

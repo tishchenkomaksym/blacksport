@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BasketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Route::patch('basket/{id}/{n}', 'BasketController@patch') -> where('id', '[0-9]+
      -> where('n', '[0-9]+');
 
 Route::delete('basket/{id}', 'BasketController@delete') -> where('id', '[0-9]+');
+
+Route::get('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
+Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
 
 Route::get('/home/{locale?}', 'HomeController@index');
 Route::get('/about/{locale?}', 'AboutController@index');

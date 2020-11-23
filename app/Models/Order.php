@@ -37,7 +37,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static Builder|Order withTranslations($locales = null, $fallback = true)
  * @mixin Eloquent
  */
-class Order extends Model 
+class Order extends Model
 {
     use Translatable;
 
@@ -47,16 +47,7 @@ class Order extends Model
 
     protected $table = 'orders';
     public $timestamps = true;
-    protected $fillable = ['user_id', 'product_id', 'delivery'];
+    protected $fillable = ['products', 'delivery'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
-    }
 
 }
