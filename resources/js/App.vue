@@ -1,24 +1,42 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">Example Component</div>
-
-          <div class="card-body">
-            I'm an example component.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Layout>
+    <router-view/>
+  </Layout>
 </template>
 
 <script>
+import {provideI18n} from './i18nPlugin'
+import Layout from './components/Layout/Layout'
+
 export default {
   name: 'App',
-  mounted() {
-    console.log('this')
+  components: {Layout},
+  setup() {
+    provideI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          helloWorld: 'Hello world',
+        },
+        ru: {
+          helloWorld: 'Привет мир',
+        },
+        ua: {
+          helloWorld: 'Привiт свiту',
+        },
+      },
+    })
   },
 }
 </script>
+
+<style lang="scss">
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  height: 100%;
+}
+</style>

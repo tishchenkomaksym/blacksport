@@ -1,5 +1,10 @@
-import 'bootstrap/scss/bootstrap.scss'
 import {createApp} from 'vue'
 import App from './App.vue'
+import router from './router'
 
-createApp(App).mount('#app')
+import 'normalize.css'
+import './assets/scss/index.scss'
+
+createApp(App)
+  .use(router)
+  .mount('#app')
