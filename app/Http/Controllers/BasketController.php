@@ -196,7 +196,17 @@ class BasketController extends Controller
 //
     public function checkResponse()
     {
-        $a = 1;
+        $order = null;
+        foreach ( $this->request->all() as $key => $value) {
+            $order = Order::where('id', json_decode($key. '"pr" }')->orderReference)->first();
+            $order->is_paid = true;
+            $order->save();
+        }
+        if ($order){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -239,8 +249,8 @@ class BasketController extends Controller
      */
     public function wayForPayRequest() {
 
-        $products =  json_decode($this->request['products']);  //[['id' => 1, 'name' => 'test', 'price' => 1, 'count' => 1]];
-        $client =  json_decode($this->request['client']); //['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз'];
+        $products =  [['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]]; //json_decode($this->request['products']);
+        $client =   ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз']; //json_decode($this->request['client']);
         $credential = new AccountSecretCredential(self::WAYFORPAY_LOGIN, self::WAYFORPAY_SECRET_KEY);
         $clientEntity = new Client(
             $client['name'],
@@ -249,10 +259,9 @@ class BasketController extends Controller
             $client['phone']
         );
 
-        $productIds = [];
+
         $array = [];
         foreach ($products as $product) {
-            $productIds[] = $product['id'];
             $array[] = new Product(
                 $product['name'],
                 $product['price'],
@@ -261,7 +270,7 @@ class BasketController extends Controller
         }
 
         $order = Order::create([
-            'products' => json_encode($productIds),
+            'products' => json_encode($products),
             'delivery' => $client['delivery']
         ]);
 

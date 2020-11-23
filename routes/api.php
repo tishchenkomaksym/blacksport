@@ -27,7 +27,7 @@ Route::patch('basket/{id}/{n}', 'BasketController@patch') -> where('id', '[0-9]+
 
 Route::delete('basket/{id}', 'BasketController@delete') -> where('id', '[0-9]+');
 
-Route::get('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
+Route::post('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
 Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
 
 Route::get('/home/{locale?}', 'HomeController@index');
