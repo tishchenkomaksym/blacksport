@@ -1,21 +1,35 @@
-import {ref, provide, inject} from 'vue'
+import {ref, reactive, provide, inject} from 'vue'
 
 const createI18n = config => ({
   locale: ref(config.locale),
-  messages: config.messages,
+  translations: reactive(config.translations),
+  /**
+   * @desc Method for changing a language.
+   * @example setLanguage('en')
+   * @param locale {string}
+   */
+  setLanguage(locale) {
+    this.locale.value = locale
+  },
+  /**
+   * @desc Method for getting translations inside components. Supports dot notation.
+   * @example t('defaults.home')
+   * @param key {string}
+   * @returns string
+   */
   $t(key) {
-    return this.messages[this.locale.value][key]
+    return key.split('.').reduce((prev, curr) => prev ? prev[curr] : null, this.translations[this.locale.value])
   },
 })
 
 const i18nSymbol = Symbol()
 
-export function provideI18n(i18nConfig) {
+export const provideI18n = i18nConfig => {
   const i18n = createI18n(i18nConfig)
   provide(i18nSymbol, i18n)
 }
 
-export function useI18n() {
+export const useI18n = () => {
   const i18n = inject(i18nSymbol)
   if (!i18n) throw new Error('No i18n provided!!!')
 
