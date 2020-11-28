@@ -6,6 +6,11 @@
 
 <script>
 import {provideI18n} from './i18nPlugin'
+import {LANGS} from './router'
+import en from './assets/locale/en.json'
+import ru from './assets/locale/ru.json'
+import ua from './assets/locale/ua.json'
+
 import Layout from './components/Layout/Layout'
 
 export default {
@@ -13,16 +18,16 @@ export default {
   components: {Layout},
   setup() {
     provideI18n({
-      locale: 'en',
-      messages: {
+      locale: LANGS[0],
+      translations: {
         en: {
-          helloWorld: 'Hello world',
+          defaults: {...en},
         },
         ru: {
-          helloWorld: 'Привет мир',
+          defaults: {...ru},
         },
         ua: {
-          helloWorld: 'Привiт свiту',
+          defaults: {...ua},
         },
       },
     })
