@@ -9,8 +9,10 @@ class CreateOrdersTable extends Migration {
 	{
 		Schema::create('orders', function(Blueprint $table) {
 			$table->increments('id');
-			$table->bigInteger('user_id')->unsigned();
-			$table->integer('product_id')->unsigned();
+			$table->text('products');
+			$table->boolean('is_paid');
+//			$table->bigInteger('user_id')->unsigned();
+//			$table->integer('product_id')->unsigned();
 			$table->string('delivery');
 			$table->timestamps();
 		});

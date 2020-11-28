@@ -12,32 +12,39 @@ namespace App\Http\Controllers;
 use App\City;
 use App\Exceptions\ApiException;
 use App\Exceptions\UserFriendlyException;
-use App\Order;
+use App\Models\Order;
 use App\Page;
-use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Request;
+use WayForPay\SDK\Credential\AccountSecretCredential;
+use WayForPay\SDK\Domain\Client;
+use WayForPay\SDK\Domain\Product;
+use WayForPay\SDK\Collection\ProductCollection;
+use WayForPay\SDK\Credential\AccountSecretTestCredential;
+use WayForPay\SDK\Wizard\InvoiceWizard;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Mail;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class BasketController extends Controller
 {
 //    private const LIQPAY_PRIVATE_KEY = 'sandbox_8LFgWcW7saY2MYEyrPg7eUwMpqNcvOoexYO9hJOG';
 //    private const LIQPAY_PUBLIC_KEY = 'sandbox_i36441580441';
 
-//    private const LIQPAY_PRIVATE_KEY = 'ADTmPiGGHc3dlN7tyusvpwqmDWUknSCTnN3MA8Zd';
-//    private const LIQPAY_PUBLIC_KEY = 'i9771221124';
+    private const WAYFORPAY_LOGIN = 'blacksport_org';
+    private const WAYFORPAY_SECRET_KEY = '3f88d950a4ce39f85b27c2aa5e75592656b7c880';
 
     use Basket;
 
 //    public const CHECKOUT_FIELDS = ['name', 'surname', 'phone_num', 'email', 'city', 'address', 'delivery', 'payment'];
 //    public const REQUIRED_FIELDS = ['name', 'surname', 'phone_num', 'email', 'city', 'address', 'delivery', 'payment'];
 
-//    private $translateService;
-//
-//    public function __construct(TranslateService $translateService)
-//    {
-//        $this->translateService = $translateService;
-//    }
+    /**
+     * @var Request
+     */
+    private $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 //    public function __invoke ()
 //    {
 //        $this->setAppLocale();
@@ -187,41 +194,109 @@ class BasketController extends Controller
 //
 //
 //
-//    /** @noinspection PhpTooManyParametersInspection */
-//    public function liqPayRequest(
-//        string $currency, string $sum, string $locale, string $phoneNum, string $userName,
-//        $id, callable $uri
-//    ) {
-//        $data = array(
-//            'public_key' => self::LIQPAY_PUBLIC_KEY,
-//            'sandbox' => env('APP_DEBUG') ? 1 : 0,
-//            'version' => '3',
-//            'action' => 'pay',
-//            'amount' => $sum,
-//            'currency' => $currency,
-//
-//            'language' => $locale,
-//            'phone' => $phoneNum,
-//            'sender_first_name' => $userName,
-//            'description' => 'Покупка на сайті SanaTech',
-//            'order_id' => 'order'.$id,
-//
-//            'server_url' => $uri('/success-order'),
-//            'result_url' => $uri('/order-complete'),
-//            'dae' => base64_encode(serialize([
-//                'id' => 'order'.$id
-//            ]))
-//
-//        );
-//
-//        $encoded = base64_encode(json_encode($data));
-//
-//        $result[] = 'https://www.liqpay.ua/api/3/checkout';
-//        $result[] = $encoded;
-//        $result[] = base64_encode( sha1( self::LIQPAY_PRIVATE_KEY . $encoded . self::LIQPAY_PRIVATE_KEY, 1 ) );
-//
-//        return $result;
-//    }
+    public function checkResponse()
+    {
+        $order = null;
+        foreach ( $this->request->all() as $key => $value) {
+            $order = Order::where('id', json_decode($key. '"pr" }')->orderReference)->first();
+            $order->is_paid = true;
+            $order->save();
+        }
+        if ($order){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/wayforpay",
+     *     description="Getting url for payment",
+     *     tags={"payment"},
+     *     summary="Payment View",
+     *     @OA\RequestBody(
+     *      required=true,
+     *      description="Pass user credentials",
+     *      @OA\JsonContent(
+     *          required={"products","client"},
+     *          @OA\Property(property="products", type="array",
+     *              @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="price", type="integer"),
+     *                      @OA\Property(property="quantity", type="integer"),
+     *              ),
+     *          ),
+     *          @OA\Property(property="client", type="array",
+     *              @OA\Items(
+     *                   @OA\Property(property="delivery", type="string"),
+     *                   @OA\Property(property="name", type="string"),
+     *                   @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *                   @OA\Property(property="phone", type="string"),
+     *              ),
+     *          ),
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="success, url for payment",
+     *          @OA\Property(property="url", type="string"),
+     *     )
+     * )
+     */
+    public function wayForPayRequest() {
+
+        $products =  [['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]]; //json_decode($this->request['products']);
+        $client =   ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз']; //json_decode($this->request['client']);
+        $credential = new AccountSecretCredential(self::WAYFORPAY_LOGIN, self::WAYFORPAY_SECRET_KEY);
+        $clientEntity = new Client(
+            $client['name'],
+            null,
+            $client['email'],
+            $client['phone']
+        );
+
+
+        $array = [];
+        foreach ($products as $product) {
+            $array[] = new Product(
+                $product['name'],
+                $product['price'],
+                $product['quantity']
+            );
+        }
+
+        $order = Order::create([
+            'products' => json_encode($products),
+            'delivery' => $client['delivery']
+        ]);
+
+        $productsCollecion = new ProductCollection(array(
+            new Product('test', 1.00, 1),
+        ));
+
+        try {
+            $response = InvoiceWizard::get($credential)
+                                     ->setOrderReference($order->id)
+                                     ->setAmount(1)
+                                     ->setCurrency('UAH')
+                                     ->setOrderDate(new \DateTime())
+                                     ->setMerchantDomainName('https://blacksport.org')
+                                     ->setClient($clientEntity)
+                                     ->setProducts($productsCollecion)
+                                     ->setServiceUrl(route('check-response'))
+                                     ->getRequest()
+                                     ->send();
+
+            return $response->getInvoiceUrl();
+        } catch (ApiException $e) {
+            echo 'Exception: ' . $e->getMessage() . PHP_EOL;
+        }
+
+    }
 //
 //
 //

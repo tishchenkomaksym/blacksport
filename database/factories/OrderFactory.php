@@ -21,8 +21,8 @@ use App\Models\Product;
 $factory->define( Order::class, function () {
     $array = ['самовывоз', 'доставка почтой'];
     return [
-        'user_id' => User::inRandomOrder()->value('id'),
-        'product_id' => Product::inRandomOrder()->value('id'),
+//        'user_id' => User::inRandomOrder()->value('id')
+//        'product_id' => Product::inRandomOrder()->value('id'),
         'delivery' => $array[array_rand($array, 1)]
     ];
 });
