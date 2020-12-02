@@ -1,8 +1,8 @@
 <template>
   <div class="languages">
-    <button class="languages__item languages__item--active">
+    <div class="languages__item languages__item--active">
       {{currentLocale}}
-    </button>
+    </div>
     <div class="languages__list">
       <router-link
         :key="locale"
@@ -66,13 +66,11 @@ export default {
     border-width: 1px;
     border-style: solid;
     color: $text-color;
-    background-color: transparent;
     font-size: 12px;
     line-height: 22px;
     transition: color .3s ease, border-color .3s ease;
     will-change: color, border-color;
     box-sizing: border-box;
-    text-decoration: none;
 
     &:hover {
       color: $text-accent-color;
@@ -91,6 +89,7 @@ export default {
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s 0.3s;
     will-change: opacity, transform;
+    transform: translateY(-24px);
 
     .languages__item {
       margin-bottom: 16px;

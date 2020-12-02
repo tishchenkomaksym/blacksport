@@ -6,3 +6,36 @@ body {
   background-color: $bg-color;
   color: $text-color;
 }
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+
+  &.link {
+    text-transform: uppercase;
+    color: $text-color;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease-in-out;
+    will-change: color;
+
+    &:hover {
+      color: $text-accent-color;
+    }
+  }
+}
+
+button {
+  -webkit-appearance: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
