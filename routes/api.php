@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,7 @@ Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
 
 Route::get('/home/{locale?}', 'HomeController@index');
 Route::get('/about/{locale?}', 'AboutController@index');
+Route::get('/products/{locale?}', [ ProductController::class, 'index']);
 Route::get('/news/{locale?}', 'NewsController@index');
 Route::get('/services/{locale?}', 'ServiceController@index');
 Route::get('/programs/{locale?}', 'ProgramController@index');
