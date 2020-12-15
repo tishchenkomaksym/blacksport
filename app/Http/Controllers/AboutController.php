@@ -83,7 +83,7 @@ class AboutController extends Controller
         list($texts, $ambassadors, $partners) = $this->translateService->translateAbout($locale, $texts, $ambassadors, $partners);
 
         return json_encode([
-            'texts' => $texts->toArray(),
+            'texts' => $texts ? $texts->toArray() : [],
             'ambassadors' => $ambassadors,
             'partners' => $partners
             ]);
