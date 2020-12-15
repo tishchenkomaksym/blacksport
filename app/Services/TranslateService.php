@@ -12,15 +12,15 @@ class TranslateService
     public function translateAbout($locale, $texts, $ambassadors, $partners)
     {
 
-        $texts->name = $texts->getTranslatedAttribute('name', $locale, App::getLocale());
-        $texts->meta_description = $texts->getTranslatedAttribute('meta_description', $locale, App::getLocale());
+        $texts->name = $texts->getTranslatedAttribute('name', $locale ?? 'ua', App::getLocale());
+        $texts->meta_description = $texts->getTranslatedAttribute('meta_description', $locale ?? 'ua', App::getLocale());
 
         foreach ($ambassadors as $key => $ambassador) {
-            $ambassadors[$key]['description'] = $ambassador->getTranslatedAttribute('description', $locale, App::getLocale());
+            $ambassadors[$key]['description'] = $ambassador->getTranslatedAttribute('description', $locale ?? 'ua', App::getLocale());
         }
 
         foreach ($partners as $key => $partner) {
-            $partners[$key]['description'] = $partner->getTranslatedAttribute('description', $locale, App::getLocale());
+            $partners[$key]['description'] = $partner->getTranslatedAttribute('description', $locale ?? 'ua', App::getLocale());
         }
 
         return [$texts, $ambassadors,$partners];
