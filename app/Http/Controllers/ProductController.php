@@ -1,84 +1,66 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller 
+class ProductController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
-  public function index()
-  {
-    
-  }
+    /**
+     * @var TranslateService
+     */
+    private $translate_service;
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
-    
-  }
+    public function __construct(TranslateService $translate_service)
+    {
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-    
-  }
+        $this->translate_service = $translate_service;
+    }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show($id)
-  {
-    
-  }
+    /**
+     * @OA\Get(
+     *     path="/api/products/{locale?}",
+     *     description="Getting products",
+     *     tags={"products"},
+     *     summary="Products",
+     *      @OA\Parameter(
+     *        description="Language",
+     *        in="path",
+     *        name="Locale",
+     *        required=false,
+     *        example="ru, en, uk",
+     *        @OA\Schema(type="string")
+     *    ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="news", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="specifications", type="string"),
+     *                      @OA\Property(property="price", type="int"),
+     *                      @OA\Property(property="image", type="string"),
+     *                      @OA\Property(property="category_id", type="int"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              )
+     *       )
+     *     )
+     * )
+     */
+    public function index($locale = null)
+    {
+        $products = Product::orderByDesc('created_at')->get();
+        $products = $this->translate_service->translate($locale, $products, Product::class)->toArray();
+        return json_encode(compact('products'));
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-    
-  }
+    }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
-  {
-    
-  }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function destroy($id)
-  {
-    
-  }
-  
 }

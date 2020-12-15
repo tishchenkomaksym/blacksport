@@ -249,8 +249,8 @@ class BasketController extends Controller
      */
     public function wayForPayRequest() {
 
-        $products =  [['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]]; //json_decode($this->request['products']);
-        $client =   ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз']; //json_decode($this->request['client']);
+        $products =  json_decode($this->request['products']); //[['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]];
+        $client =  json_decode($this->request['client']); // ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз'];
         $credential = new AccountSecretCredential(self::WAYFORPAY_LOGIN, self::WAYFORPAY_SECRET_KEY);
         $clientEntity = new Client(
             $client['name'],
