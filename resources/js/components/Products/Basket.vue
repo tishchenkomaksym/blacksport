@@ -22,6 +22,8 @@ export default {
   }
 
   svg {
+    width: 20px;
+    height: 17px;
     fill: $text-color;
     transition: fill 0.3s ease-in-out;
   }

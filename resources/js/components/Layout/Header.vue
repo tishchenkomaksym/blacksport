@@ -1,7 +1,5 @@
 <template>
-  <header
-    :class="{'overlay': menuShown}"
-  >
+  <header>
     <div class="toolbar container">
       <router-link
         :to="`/${i18n.locale.value}`"
@@ -24,21 +22,25 @@
         />
       </div>
     </div>
-    <nav class="container" v-if="menuShown">
-      <router-link
-        :key="i"
-        :to="link.path"
-        class="link"
-        v-for="(link, i) in links"
-      >
-        {{i18n.$t(`defaults.${link.name}`)}}
-      </router-link>
-    </nav>
+    <transition name="nav-complete">
+      <nav class="container" v-if="menuShown">
+        <router-link
+          :data-link="link.name"
+          :key="i"
+          :to="link.path"
+          class="link"
+          v-for="(link, i) in links"
+        >
+          {{i18n.$t(`defaults.${link.name}`)}}
+        </router-link>
+      </nav>
+    </transition>
   </header>
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {computed} from 'vue'
+import {useStore} from 'vuex'
 import {ROUTE_CONF} from '../../router'
 import {useI18n} from '../../i18nPlugin'
 import Basket from '../Products/Basket'
@@ -48,8 +50,22 @@ export default {
   components: {Basket},
   setup() {
     const i18n = useI18n()
-    const menuShown = ref(false)
+    const store = useStore()
     const links = computed(() => [
+      {
+        path: {
+          name: ROUTE_CONF.HOME.name,
+          params: {locale: i18n.locale.value},
+        },
+        name: 'home',
+      },
+      {
+        path: {
+          name: ROUTE_CONF.NEWS.name,
+          params: {locale: i18n.locale.value},
+        },
+        name: 'news',
+      },
       {
         path: {
           name: ROUTE_CONF.ABOUT.name,
@@ -78,14 +94,19 @@ export default {
         },
         name: 'programs',
       },
+      {
+        path: {
+          name: ROUTE_CONF.CONTACTS.name,
+          params: {locale: i18n.locale.value},
+        },
+        name: 'contacts',
+      },
     ])
-
-    const toggleMenu = () => menuShown.value = !menuShown.value
 
     return {
       i18n,
-      menuShown,
-      toggleMenu,
+      menuShown: computed(() => store.state.common.menuShown),
+      toggleMenu: () => store.commit('common/toggleMenu'),
       links,
     }
   },
@@ -99,18 +120,11 @@ export default {
 header {
   width: 100vw;
   position: absolute;
-  transition: backdrop-filter 0.2s ease-in-out;
-
-  &.overlay {
-    height: 100vh;
-    backdrop-filter: blur(16px);
-  }
+  z-index: 1;
 }
 
 .toolbar {
-  // TODO Fix padding on big screens
-  padding: 24px 24px 0;
-  box-sizing: border-box;
+  padding: 20px 16px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -126,7 +140,7 @@ header {
       height: 24px;
 
       @include tablets() {
-        height: 36px;
+        height: 32px;
       }
     }
   }
@@ -135,7 +149,7 @@ header {
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;
-    column-gap: 18px;
+    column-gap: 10px;
 
     @include tablets() {
       grid-template-columns: repeat(3, auto);
@@ -215,21 +229,64 @@ header {
 
 nav {
   height: calc(100vh - 50px);
-  padding: 24px 24px 60px;
+  padding: 35px 24px 60px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   overflow-y: auto;
 
   @include tablets() {
-    height: calc(100vh - 85px);
+    align-items: flex-end;
+    height: calc(100vh - 90px);
     padding: 48px 48px 60px;
   }
 
   .link {
     display: inline-block;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
+
+    @include tablets() {
+      &[data-link="home"] {
+        display: none;
+      }
+    }
+  }
+}
+
+.nav-complete {
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.5s ease-in-out;
+
+    a {
+      transition: margin-bottom 0.5s ease-in-out;
+    }
+
+    @include tablets() {
+      transition: none;
+
+      a {
+        transition: none;
+      }
+    }
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(calc(-100% + 300px));
+
+    a {
+      margin-bottom: 0;
+    }
+
+    @include tablets() {
+      transform: none;
+
+      a {
+        margin-bottom: 28px;
+      }
+    }
   }
 }
 </style>
