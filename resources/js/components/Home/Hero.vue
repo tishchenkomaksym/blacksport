@@ -1,7 +1,9 @@
 <template>
-  <WinterHero v-if="isWinter" />
-  <SummerHero v-else />
-  <div class="gradient" />
+  <div class="hero">
+    <WinterHero v-if="isWinter" />
+    <SummerHero v-else />
+    <div class="gradient" />
+  </div>
 </template>
 
 <script>
@@ -26,6 +28,11 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/breakpoints";
+
+.hero {
+  position: relative;
+  height: 100vh;
+}
 
 .gradient {
   @include tablets() {

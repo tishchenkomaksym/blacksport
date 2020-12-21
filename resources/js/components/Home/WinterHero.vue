@@ -2,36 +2,16 @@
   <div class="winter-hero">
     <img src="/img/hero/winter/cloud-left.png" class="winter-hero__cloud-left" alt="Cloud">
     <img src="/img/hero/winter/cloud-right.png" class="winter-hero__cloud-right" alt="Cloud">
-
-    <template v-if="width < 768">
-      <!--  Mobile images  -->
-      <img src="/img/hero/winter/bg-mobile.png" class="winter-hero__bg-mobile" alt="">
-      <img src="/img/hero/winter/bg2-mobile.png" class="winter-hero__bg2-mobile" alt="">
-      <img src="/img/hero/winter/bg3-mobile.png" class="winter-hero__bg3-mobile" alt="">
-      <img src="/img/hero/winter/man-mobile.png" class="winter-hero__man-mobile" alt="Man">
-    </template>
-    <template v-else>
-      <!--  Desktop images  -->
-      <img src="/img/hero/winter/bg.png" class="winter-hero__bg" alt="">
-      <img src="/img/hero/winter/bg2.png" class="winter-hero__bg2" alt="">
-      <img src="/img/hero/winter/bg3.png" class="winter-hero__bg3" alt="">
-      <img src="/img/hero/winter/man.png" class="winter-hero__man" alt="Man">
-    </template>
+    <img src="/img/hero/winter/bg1.png" class="winter-hero__bg1" alt="">
+    <img src="/img/hero/winter/bg2.png" class="winter-hero__bg2" alt="">
+    <img src="/img/hero/winter/bg3.png" class="winter-hero__bg3" alt="">
+    <img src="/img/hero/winter/man.png" class="winter-hero__man" alt="Man">
   </div>
 </template>
 
 <script>
-import useWindowSize from '../../hooks/useWindowSize'
-
 export default {
   name: 'WinterHero',
-  setup() {
-    const {width} = useWindowSize()
-
-    return {
-      width,
-    }
-  }
 }
 </script>
 
@@ -47,29 +27,61 @@ export default {
     position: absolute;
   }
 
-  &__bg-mobile {
-    width: 100vw;
-    bottom: 20vh;
+  &__bg1 {
+    width: calc((736 * 100vw) / 320);
+    bottom: 22vh;
+    left: -64vw;
+
+    @include laptop() {
+      width: calc((1966 * 100vw) / 1440);
+      bottom: 3vh;
+      left: -18vw;
+    }
   }
 
-  &__bg2-mobile {
-    width: 100vw;
+  &__bg2 {
+    width: calc((792 * 100vw) / 320);
+    bottom: 5vh;
+    left: -80vw;
+
+    @include laptop() {
+      width: calc((1681 * 100vw) / 1440);
+      bottom: 1vh;
+      left: -8vw;
+    }
+  }
+
+  &__bg3 {
+    width: calc((524 * 100vw) / 320);
     bottom: 0;
+    left: -73vw;
+
+    @include laptop() {
+      width: calc((1158 * 100vw) / 1440);
+      bottom: -1vh;
+      left: -10vw;
+    }
   }
 
-  &__bg3-mobile {
-    width: 100vw;
-    bottom: 3vh;
-  }
+  &__man {
+    width: calc((822 * 100vw) / 320);
+    left: -116vw;
+    bottom: -15vh;
+    transform: rotate(-3deg);
 
-  &__man-mobile {
-    width: 100vw;
-    bottom: 0;
+    @include laptop() {
+      width: calc((2094 * 100vw) / 1440);
+      max-width: 2094px;
+      left: initial;
+      right: -3vw;
+      bottom: -49vh;
+      transform: initial;
+    }
   }
 
   &__cloud-left {
     width: calc((325 * 100vw) / 320);
-    top: 9vh;
+    top: 10vh;
 
     @include tablets() {
       width: calc((750 * 100vw) / 1440);
@@ -80,8 +92,8 @@ export default {
 
   &__cloud-right {
     width: calc((200 * 100vw) / 320);
-    right: -5vw;
-    top: 5vh;
+    right: -10vw;
+    top: 10vh;
 
     @include tablets() {
       width: calc((410 * 100vw) / 1440);
@@ -89,24 +101,6 @@ export default {
       right: 0;
       top: -10vh;
     }
-  }
-
-  &__bg,
-  &__bg2 {
-    width: 100vw;
-    bottom: 0;
-  }
-
-  &__bg3 {
-    width: calc((1158 * 100vw) / 1440);
-    max-width: 1158px;
-    bottom: 0;
-  }
-
-  &__man {
-    height: 100vh;
-    right: 0;
-    bottom: 0;
   }
 }
 </style>
