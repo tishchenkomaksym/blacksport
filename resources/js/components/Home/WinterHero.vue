@@ -19,7 +19,7 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .winter-hero {
-  height: 100vh;
+  height: 100%;
   position: relative;
   background: linear-gradient(0deg, rgba(36, 55, 70, 0.3), rgba(36, 55, 70, 0.3)), linear-gradient(164.83deg, #116296 8.41%, #FFFFFF 89.34%);
 

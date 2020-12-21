@@ -1,4 +1,5 @@
 @import "variables";
+@import "breakpoints";
 
 body {
   font-family: "Helvetica", Arial, sans-serif;
@@ -9,9 +10,14 @@ body {
 
 .container {
   width: 100%;
+  padding: 0 16px;
   max-width: 1440px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  @include large-desktop() {
+    padding: 0;
+  }
 }
 
 a {

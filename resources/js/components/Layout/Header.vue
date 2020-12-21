@@ -154,6 +154,10 @@ header {
     @include tablets() {
       grid-template-columns: repeat(3, auto);
     }
+
+    @include laptop() {
+      column-gap: 15px;
+    }
   }
 
   &__home-link {

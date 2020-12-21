@@ -1,9 +1,9 @@
 <template>
-  <div class="hero">
+  <section class="hero">
     <WinterHero v-if="isWinter" />
     <SummerHero v-else />
     <div class="gradient" />
-  </div>
+  </section>
 </template>
 
 <script>
@@ -31,7 +31,7 @@ export default {
 
 .hero {
   position: relative;
-  height: 100vh;
+  height: 100%;
 }
 
 .gradient {

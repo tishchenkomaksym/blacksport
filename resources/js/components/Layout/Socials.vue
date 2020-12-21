@@ -40,6 +40,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/variables";
+@import "../../assets/scss/breakpoints";
 
 .socials {
   display: grid;
@@ -50,6 +51,10 @@ export default {
     height: 22px;
     fill: $text-color;
     transition: fill 0.3s ease-in-out;
+
+    @include laptop() {
+      height: 26px;
+    }
   }
 
   a:hover svg {

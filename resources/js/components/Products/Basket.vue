@@ -15,6 +15,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/variables";
+@import "../../assets/scss/breakpoints";
 
 .basket {
   &:hover svg {
@@ -26,6 +27,11 @@ export default {
     height: 17px;
     fill: $text-color;
     transition: fill 0.3s ease-in-out;
+
+    @include laptop() {
+      width: 24px;
+      height: 22px;
+    }
   }
 }
 </style>
