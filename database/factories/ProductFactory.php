@@ -20,10 +20,12 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define( Product::class, function (Faker $faker) {
     return [
+        'title' => $faker->name,
         'description' => $faker->text(),
         'specifications' => $faker->text(300),
         'image' => $faker->imageUrl(),
         'price' => rand(1000, 2000),
-        'category_id' => Category::inRandomOrder()->value('id')
+        'category_id' => Category::inRandomOrder()->value('id'),
+        'order_count' => rand(1, 20)
     ];
 });

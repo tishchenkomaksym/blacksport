@@ -41,11 +41,11 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = ['description', 'specifications', 'image'];
+    protected $fillable = ['title', 'description', 'specifications', 'image', 'order_count'];
 
     public static function translatedFields(){
         return [
-            'description', 'specifications'
+            'title', 'description', 'specifications'
         ];
     }
 
