@@ -38,14 +38,15 @@ class ProductController extends Controller
      *          response="200",
      *          description="success",
      *          @OA\JsonContent(
-     *           @OA\Property(property="news", type="array",
+     *           @OA\Property(property="products", type="array",
      *                @OA\Items(
      *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="title", type="string"),
      *                      @OA\Property(property="description", type="string"),
      *                      @OA\Property(property="specifications", type="string"),
-     *                      @OA\Property(property="price", type="int"),
+     *                      @OA\Property(property="price", type="integer"),
      *                      @OA\Property(property="image", type="string"),
-     *                      @OA\Property(property="category_id", type="int"),
+     *                      @OA\Property(property="category_id", type="integer"),
      *                      @OA\Property(property="created_at", type="string"),
      *                      @OA\Property(property="updated_at", type="string")
      *                  )
