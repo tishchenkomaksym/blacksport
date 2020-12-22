@@ -1,16 +1,19 @@
 <template>
   <div class="home">
-    <transition-group
-      name="slide"
-    >
-      <Hero key="hero" v-if="currentSlide === 0"/>
-      <About key="about" v-else-if="currentSlide === 1" />
-    </transition-group>
+<!--    <transition-group-->
+<!--      name="slide"-->
+<!--    >-->
+      <Hero key="hero" v-show="currentSlide === 0"/>
+      <About key="about" v-show="currentSlide === 1" />
+      <News
+        @select-prev-section="switchSlide(false)"
+        key="news" v-show="currentSlide === 2"
+      />
+<!--    </transition-group>-->
     <transition name="arrow-slide">
       <button
         @click="switchSlide"
         class="home__arrow-down"
-        v-if="isArrowDownShown"
       >
         <svg width="6" height="88" viewBox="0 0 6 88" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M0 88L6 72H1L1 0L0 0L0 72L0 88Z" fill="white"/>
@@ -27,13 +30,14 @@ import {useI18n} from '../i18nPlugin'
 import useWindowSize from '../hooks/useWindowSize'
 import Hero from '../components/Home/Hero'
 import About from '../components/Home/About'
+import News from '../components/Home/News'
 
 export default {
   name: 'Home',
-  components: {About, Hero},
+  components: {News, About, Hero},
   setup() {
     const {dispatch} = useStore()
-    const currentSlide = ref(0)
+    const currentSlide = ref(2)
     const i18n = useI18n()
     const {width} = useWindowSize()
 
@@ -43,6 +47,7 @@ export default {
 
     const switchSlide = (forward = true) => {
       if (forward) currentSlide.value += 1
+      else currentSlide.value -= 1
     }
 
     const isArrowDownShown = computed(() => {

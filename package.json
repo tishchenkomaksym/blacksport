@@ -8,6 +8,7 @@
     "production": "mix --production"
   },
   "dependencies": {
+    "@glidejs/glide": "^3.4.1",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
     "normalize.css": "^8.0.1",
@@ -17,8 +18,7 @@
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.4",
-    "cross-env": "^7.0.3",
-    "laravel-mix": "^6.0.0",
+    "laravel-mix": "^6.0.2",
     "postcss": "^8.2.1",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",

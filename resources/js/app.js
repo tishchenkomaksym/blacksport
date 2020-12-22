@@ -6,6 +6,7 @@ import store from './store'
 
 import 'normalize.css'
 import './assets/scss/index.scss'
+import '@glidejs/glide/src/assets/sass/glide.core.scss'
 
 axios.defaults.baseURL = '/api'
 axios.interceptors.response.use(value => {

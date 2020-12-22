@@ -13,7 +13,7 @@
           <div class="about__footer">
             <router-link
               :to="aboutPath"
-              class="link"
+              class="link link--smaller"
             >
               {{i18n.$t('defaults.readMore')}}
             </router-link>
@@ -74,6 +74,7 @@ export default {
     column-gap: 16px;
 
     @include laptop() {
+      padding: 0;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 40px;
     }

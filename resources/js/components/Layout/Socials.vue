@@ -27,8 +27,8 @@ import useWindowSize from '../../hooks/useWindowSize'
 export default {
   name: 'Socials',
   setup() {
-    const store = useStore()
-    const menuShown = computed(() => store.state.common.menuShown)
+    const {state} = useStore()
+    const menuShown = computed(() => state.common.menuShown)
     const {width} = useWindowSize()
 
     return {

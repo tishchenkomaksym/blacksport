@@ -50,7 +50,7 @@ export default {
   components: {Basket},
   setup() {
     const i18n = useI18n()
-    const store = useStore()
+    const {state, commit} = useStore()
     const links = computed(() => [
       {
         path: {
@@ -105,8 +105,8 @@ export default {
 
     return {
       i18n,
-      menuShown: computed(() => store.state.common.menuShown),
-      toggleMenu: () => store.commit('common/toggleMenu'),
+      menuShown: computed(() => state.common.menuShown),
+      toggleMenu: () => commit('common/toggleMenu'),
       links,
     }
   },

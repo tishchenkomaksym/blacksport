@@ -11,8 +11,12 @@ h1 {
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: normal;
+
+  @include desktop() {
+    font-size: 24px;
+  }
 }
 
 h3 {
@@ -29,5 +33,15 @@ p {
   @include desktop() {
     font-size: 24px;
     line-height: 32px;
+  }
+
+  &.description {
+    font-size: 10px;
+    font-weight: 300;
+    margin: 0;
+
+    @include desktop() {
+      font-size: 12px;
+    }
   }
 }

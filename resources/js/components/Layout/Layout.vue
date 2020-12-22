@@ -21,12 +21,12 @@ export default {
   setup() {
     const i18n = useI18n()
     const route = useRoute()
-    const store = useStore()
+    const {state} = useStore()
 
     watch(() => route.params.locale, locale => i18n.setLanguage(locale))
 
     return {
-      menuShown: computed(() => store.state.common.menuShown),
+      menuShown: computed(() => state.common.menuShown),
     }
   }
 }

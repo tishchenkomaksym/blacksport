@@ -35,6 +35,19 @@ a {
     &:hover {
       color: $text-accent-color;
     }
+
+    &--smaller {
+      font-size: 15px;
+
+      @include tablets() {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &.subtitle {
+    font-size: 14px;
+    font-weight: 300;
   }
 }
 

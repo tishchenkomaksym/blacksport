@@ -30,7 +30,7 @@ export default {
   name: 'LanguageSwitch',
   setup() {
     const i18n = useI18n()
-    const store = useStore()
+    const {state} = useStore()
     const currentLocale = computed(() => i18n.locale.value)
     const locales = computed(() => LANGS.filter(locale => locale !== currentLocale.value))
     const currentRoute = computed(() => {
@@ -38,7 +38,7 @@ export default {
       return (currentRoute || ROUTE_CONF.HOME).path
     })
     const {width} = useWindowSize()
-    const menuShown = computed(() => store.state.common.menuShown)
+    const menuShown = computed(() => state.common.menuShown)
 
     return {
       currentLocale,
