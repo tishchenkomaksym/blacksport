@@ -13,6 +13,7 @@ use App\City;
 use App\Exceptions\ApiException;
 use App\Exceptions\UserFriendlyException;
 use App\Models\Order;
+use App\Models\Product as ProductModel;
 use App\Page;
 use Illuminate\Http\Request;
 use WayForPay\SDK\Credential\AccountSecretCredential;
@@ -262,6 +263,9 @@ class BasketController extends Controller
 
         $array = [];
         foreach ($products as $product) {
+            $productModel = ProductModel::findOrFail($product['id']);
+            $productModel->order_count = ++$productModel->order_count;
+            $productModel->save;
             $array[] = new Product(
                 $product['name'],
                 $product['price'],
