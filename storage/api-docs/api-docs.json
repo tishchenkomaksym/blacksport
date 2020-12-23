@@ -463,6 +463,76 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "specifications": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "order_count": {
+                                                        "type": "integer"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "page_key": {
+                                                        "type": "string"
+                                                    },
+                                                    "meta_description": {
+                                                        "type": "string"
+                                                    },
+                                                    "noindex": {
+                                                        "type": "integer"
+                                                    },
+                                                    "nofollow": {
+                                                        "type": "integer"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -565,12 +635,15 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "news": {
+                                        "products": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
                                                     },
                                                     "description": {
                                                         "type": "string"
@@ -579,13 +652,13 @@
                                                         "type": "string"
                                                     },
                                                     "price": {
-                                                        "type": "int"
+                                                        "type": "integer"
                                                     },
                                                     "image": {
                                                         "type": "string"
                                                     },
                                                     "category_id": {
-                                                        "type": "int"
+                                                        "type": "integer"
                                                     },
                                                     "created_at": {
                                                         "type": "string"
