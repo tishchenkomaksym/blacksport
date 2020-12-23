@@ -7,9 +7,9 @@ class CreateViewTextsImagesTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('view-texts-images', function(Blueprint $table) {
+		Schema::create('view_texts_images', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('view-texts_id')->unsigned();
+			$table->integer('view_texts_id')->unsigned();
 			$table->text('image');
             $table->timestamps();
             $table->softDeletes();
@@ -18,6 +18,6 @@ class CreateViewTextsImagesTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('view-texts-images');
+		Schema::drop('view_texts_images');
 	}
 }
