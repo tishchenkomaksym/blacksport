@@ -72,29 +72,12 @@ class AboutController extends Controller
      *                      @OA\Property(property="updated_at", type="string")
      *                  )
      *              ),
-     *           @OA\Property(property="products", type="array",
-     *                @OA\Items(
-     *                      @OA\Property(property="id", type="integer"),
-     *                      @OA\Property(property="title", type="string"),
-     *                      @OA\Property(property="description", type="string"),
-     *                      @OA\Property(property="specifications", type="string"),
-     *                      @OA\Property(property="price", type="integer"),
-     *                      @OA\Property(property="image", type="string"),
-     *                      @OA\Property(property="category_id", type="integer"),
-     *                      @OA\Property(property="order_count", type="integer"),
-     *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
-     *                  )
-     *              )
      *       )
      *     )
      *  )
      */
     public function index($locale = null)
     {
-        $popularProducts = Product::where('order_count', '!=', null)
-                                  ->orderByDesc('order_count')->limit(20)->get();
-
         $texts = Page::with('viewTexts')->where('page_key', 'about')->first();
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
@@ -103,8 +86,7 @@ class AboutController extends Controller
         return json_encode([
             'texts' => $texts ? $texts->toArray() : [],
             'ambassadors' => $ambassadors,
-            'partners' => $partners,
-            'popular_products' => $popularProducts
+            'partners' => $partners
             ]);
     }
 }

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Product;
 use App\Models\Program;
 use App\Models\Service;
+use App\Models\Page;
 use App\Services\TranslateService;
 use Carbon\Carbon;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -81,21 +82,51 @@ class HomeController extends Controller
      *                      @OA\Property(property="updated_at", type="string")
      *                  )
      *              ),
+     *           @OA\Property(property="products", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="title", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="specifications", type="string"),
+     *                      @OA\Property(property="price", type="integer"),
+     *                      @OA\Property(property="image", type="string"),
+     *                      @OA\Property(property="category_id", type="integer"),
+     *                      @OA\Property(property="order_count", type="integer"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              ),
+     *           @OA\Property(property="page", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="page_key", type="string"),
+     *                      @OA\Property(property="meta_description", type="string"),
+     *                      @OA\Property(property="noindex", type="integer"),
+     *                      @OA\Property(property="nofollow", type="integer"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              )
      *       )
      *     )
      * )
      */
     public function index($locale = null)
     {
+        $popularProducts = $this->translate_service->translate($locale, Product::where('order_count', '!=', null)
+                                  ->orderByDesc('order_count')->limit(20)->get(), Product::class);
         $news = $this->translate_service->translate($locale, News::whereBetween('created_at', [Carbon::now()->subDays(30)->toDateTime()->format('Y-m-d H:i:s'),now()->format('Y-m-d H:i:s')])
                     ->orderByDesc('created_at')->limit(5)->get(), News::class);
         $services = $this->translate_service->translate($locale, Service::all(), Service::class);
         $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class);
-
+        $texts = Page::with('viewTexts')->where('page_key', 'about')->first();
         return json_encode([
             'news' => $news,
             'services' => $services,
-            'programs' => $programs
+            'programs' => $programs,
+            'popular_products' => $popularProducts,
+            'texts' => $texts
         ]);
     }
 
