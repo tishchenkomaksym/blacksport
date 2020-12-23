@@ -7,7 +7,7 @@ class CreateViewTextsTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('view-texts', function(Blueprint $table) {
+		Schema::create('view_texts', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('page_id')->unsigned();
 			$table->text('description')->nullable();
@@ -18,6 +18,6 @@ class CreateViewTextsTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('view-texts');
+		Schema::drop('view_texts');
 	}
 }
