@@ -39,7 +39,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Page withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Page extends Model 
+class Page extends Model
 {
     use Translatable;
 
@@ -54,6 +54,12 @@ class Page extends Model
     public function viewTexts()
     {
         return $this->hasMany(ViewText::class);
+    }
+
+    public static function translatedFields(){
+        return [
+            'name', 'meta_description'
+        ];
     }
 
 }

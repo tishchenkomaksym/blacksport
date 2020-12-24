@@ -9,7 +9,7 @@ use TCG\Voyager\Traits\Translatable;
 class ViewText extends Model
 {
 
-    protected $table = 'view-texts';
+    protected $table = 'view_texts';
     public $timestamps = true;
 
     use SoftDeletes;
