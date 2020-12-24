@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ViewTextImage extends Model
 {
 
-    protected $table = 'view-texts-images';
+    protected $table = 'view_texts_images';
     public $timestamps = true;
 
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['view-texts_id'];
+    protected $fillable = ['view_texts_id'];
 
 
     public function text()
     {
-        return $this->belongsTo(ViewText::class, 'view-texts_id', 'id');
+        return $this->belongsTo(ViewText::class, 'view_texts_id', 'id');
     }
 }
