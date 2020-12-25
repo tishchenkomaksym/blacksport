@@ -359,6 +359,50 @@
                 }
             }
         },
+        "/api/contacts": {
+            "get": {
+                "tags": [
+                    "contacts"
+                ],
+                "summary": "Contacts",
+                "description": "Getting Contacts",
+                "operationId": "App\\Http\\Controllers\\ContactController::index",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "contacts": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string"
+                                                    },
+                                                    "social_links": {
+                                                        "type": "string"
+                                                    },
+                                                    "address": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/home/{locale?}": {
             "get": {
                 "tags": [
