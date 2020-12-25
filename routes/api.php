@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,7 @@ Route::get('/products/{locale?}', [ ProductController::class, 'index']);
 Route::get('/news/{locale?}', 'NewsController@index');
 Route::get('/services/{locale?}', 'ServiceController@index');
 Route::get('/programs/{locale?}', 'ProgramController@index');
+Route::get('contacts', [ ContactController::class, 'index']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

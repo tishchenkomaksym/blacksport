@@ -2,6 +2,7 @@
 
 use App\Models\Ambassador;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\News;
 use App\Models\Order;
 use App\Models\Page;
@@ -37,5 +38,6 @@ class DatabaseSeeder extends Seeder
         factory(Service::class, 20)->create();
         factory(ServiceInstance::class, 40)->create();
         factory(ServicesOrder::class, 20)->create();
+        factory( Contact::class, 1)->create();
     }
 }
