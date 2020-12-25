@@ -131,13 +131,12 @@ export default {
     @include laptop() {
       margin-top: 40px;
       height: 84vh;
-      padding: 40px;
     }
   }
 
   .container {
     @include laptop() {
-      padding: 0;
+      padding: 40px 48px;
     }
   }
 

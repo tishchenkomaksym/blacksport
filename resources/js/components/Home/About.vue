@@ -1,5 +1,11 @@
 <template>
   <section class="about">
+    <img
+      @click="$emit('select-prev-section')"
+      src="/img/blacksport_logo.svg"
+      class="about__logo"
+      alt="Blacksport"
+    />
     <div class="about__content">
       <div class="container">
         <img src="/img/about/about-1.png" alt="Snowboarding">
@@ -55,7 +61,15 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
 
+  &__logo {
+    width: calc(100vw - 32px);
+    max-width: 696px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
   &__content {
+    margin-top: 16px;
     height: 75vh;
     padding-top: 24px;
     padding-bottom: 40px;
@@ -64,7 +78,11 @@ export default {
 
     @include laptop() {
       height: 70vh;
-      padding: 40px;
+      padding: 0;
+    }
+
+    @include desktop() {
+      margin-top: 40px;
     }
   }
 
@@ -74,7 +92,7 @@ export default {
     column-gap: 16px;
 
     @include laptop() {
-      padding: 0;
+      padding: 40px 48px;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 40px;
     }
@@ -82,10 +100,10 @@ export default {
     @include large-desktop() {
       grid-template-columns: 440px 1fr 440px;
     }
-  }
 
-  img {
-    max-width: 100%;
+    img {
+      max-width: 100%;
+    }
   }
 
   &__img2 {

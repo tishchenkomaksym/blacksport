@@ -1,18 +1,22 @@
 <template>
   <div class="home">
-<!--    <transition-group-->
-<!--      name="slide"-->
-<!--    >-->
-      <Hero key="hero" v-show="currentSlide === 0"/>
-      <About key="about" v-show="currentSlide === 1" />
-      <News
-        @select-prev-section="switchSlide(false)"
-        key="news" v-show="currentSlide === 2"
-      />
-<!--    </transition-group>-->
+    <Hero v-show="currentSlide === 'hero'"/>
+    <About
+      @select-prev-section="switchSlide('hero')"
+      v-show="currentSlide === 'about'"
+    />
+    <News
+      @select-prev-section="switchSlide('about')"
+      :key="currentSlide"
+      v-show="currentSlide === 'news'"
+    />
+    <Services
+      @select-prev-section="switchSlide('news')"
+      v-show="currentSlide === 'services'"
+    />
     <transition name="arrow-slide">
       <button
-        @click="switchSlide"
+        @click="switchSlide(nextSlide)"
         class="home__arrow-down"
       >
         <svg width="6" height="88" viewBox="0 0 6 88" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,20 +28,28 @@
 </template>
 
 <script>
-import {computed, ref, watchEffect} from 'vue'
+import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import useWindowSize from '../hooks/useWindowSize'
 import Hero from '../components/Home/Hero'
 import About from '../components/Home/About'
 import News from '../components/Home/News'
+import Services from '../components/Home/Services'
+
+const SLIDE_ORDER = [
+  'hero',
+  'about',
+  'news',
+  'services',
+]
 
 export default {
   name: 'Home',
-  components: {News, About, Hero},
+  components: {Services, News, About, Hero},
   setup() {
     const {dispatch} = useStore()
-    const currentSlide = ref(2)
+    const currentSlide = ref('services')
     const i18n = useI18n()
     const {width} = useWindowSize()
 
@@ -45,19 +57,21 @@ export default {
       dispatch('home/getHomeData', i18n.locale.value)
     })
 
-    const switchSlide = (forward = true) => {
-      if (forward) currentSlide.value += 1
-      else currentSlide.value -= 1
-    }
+    const switchSlide = to => currentSlide.value = to
 
     const isArrowDownShown = computed(() => {
-      return width.value < 768 ? currentSlide.value === 0 : true
+      return width.value < 768 ? currentSlide.value === 'hero' : true
+    })
+
+    watch(() => currentSlide.value, (to, from) => {
+      console.log(`Going from ${from} slide to ${to} slide`)
     })
 
     return {
       currentSlide,
       switchSlide,
       isArrowDownShown,
+      nextSlide: computed(() => SLIDE_ORDER[SLIDE_ORDER.findIndex(slide => currentSlide.value === slide) + 1]),
     }
   },
 }
@@ -81,29 +95,6 @@ export default {
     @include tablets() {
       bottom: 40px;
     }
-  }
-}
-
-.slide {
-  &-enter-active,
-  &-leave-active {
-    transition: all 3s ease-in-out;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-
-  &-enter-to,
-  &-leave-from {
-    transform: translateY(0);
-  }
-
-  &-enter-from {
-    transform: translateY(100%);
-  }
-
-  &-leave-to {
-    transform: translateY(-100%);
   }
 }
 
