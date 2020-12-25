@@ -2,22 +2,28 @@
   <div class="home">
     <Hero v-show="currentSlide === 'hero'"/>
     <About
-      @select-prev-section="switchSlide('hero')"
+      @switch-slide="switchSlide"
       v-show="currentSlide === 'about'"
     />
     <News
-      @select-prev-section="switchSlide('about')"
-      :key="currentSlide"
+      @switch-slide="switchSlide"
+      :key="currentSlide === 'news'"
       v-show="currentSlide === 'news'"
     />
     <Services
-      @select-prev-section="switchSlide('news')"
+      @switch-slide="switchSlide"
       v-show="currentSlide === 'services'"
+    />
+    <Products
+      @switch-slide="switchSlide"
+      :key="currentSlide === 'products'"
+      v-show="currentSlide === 'products'"
     />
     <transition name="arrow-slide">
       <button
-        @click="switchSlide(nextSlide)"
+        @click="!!nextSlide ? switchSlide(nextSlide) : null"
         class="home__arrow-down"
+        v-if="!!nextSlide"
       >
         <svg width="6" height="88" viewBox="0 0 6 88" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M0 88L6 72H1L1 0L0 0L0 72L0 88Z" fill="white"/>
@@ -36,20 +42,22 @@ import Hero from '../components/Home/Hero'
 import About from '../components/Home/About'
 import News from '../components/Home/News'
 import Services from '../components/Home/Services'
+import Products from '../components/Home/Products'
 
 const SLIDE_ORDER = [
   'hero',
   'about',
   'news',
   'services',
+  'products',
 ]
 
 export default {
   name: 'Home',
-  components: {Services, News, About, Hero},
+  components: {Products, Services, News, About, Hero},
   setup() {
     const {dispatch} = useStore()
-    const currentSlide = ref('services')
+    const currentSlide = ref('products')
     const i18n = useI18n()
     const {width} = useWindowSize()
 

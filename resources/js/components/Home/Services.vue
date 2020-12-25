@@ -2,13 +2,13 @@
   <section class="services">
     <PrevSectionButton
       :title="i18n.$t('defaults.news')"
-      @click="$emit('select-prev-section')"
+      @click="$emit('switch-slide', 'news')"
     />
     <div class="services__content">
       <div class="services__heading container">
         <h2>{{i18n.$t('defaults.services')}}</h2>
         <router-link
-          to="/"
+          :to="servicesPath"
           class="link subtitle"
         >
           {{i18n.$t('defaults.allServices')}}
@@ -30,6 +30,7 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
+import {ROUTE_CONF} from '../../router'
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
 
@@ -44,6 +45,10 @@ export default {
     return {
       i18n,
       services,
+      servicesPath: computed(() => ({
+        name: ROUTE_CONF.SERVICES.name,
+        params: {locale: i18n.locale.value},
+      })),
     }
   }
 }

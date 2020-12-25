@@ -3,6 +3,7 @@ import axios from 'axios'
 /** @typedef {import('../../types').NewsItem} NewsItem */
 /** @typedef {import('../../types').ServiceExample} ServiceExample */
 /** @typedef {import('../../types').ServiceItem} ServiceItem */
+/** @typedef {import('../../types').ProductItem} ProductItem */
 
 export default {
   namespaced: true,
@@ -13,6 +14,7 @@ export default {
       programs: [],
       /** @type ServiceItem[] */
       services: [],
+      /** @type ProductItem[] */
       popular_products: [],
       texts: [],
     },
@@ -24,7 +26,7 @@ export default {
      * @param commit
      * @param locale {string}
      */
-    getHomeData: async ({ commit }, locale) => commit('setHomeData', await axios.get(`/home/${locale}`)),
+    getHomeData: async ({commit}, locale) => commit('setHomeData', await axios.get(`/home/${locale}`)),
   },
   mutations: {
     setHomeData: (state, data) => state.homeData = data,

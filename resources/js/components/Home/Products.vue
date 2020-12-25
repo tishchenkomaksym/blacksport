@@ -1,33 +1,37 @@
 <template>
-  <section class="news">
+  <section class="products">
     <PrevSectionButton
-      :title="i18n.$t('defaults.about')"
-      @click="$emit('switch-slide', 'about')"
+      :title="i18n.$t('defaults.services')"
+      @click="$emit('switch-slide', 'services')"
     />
-    <div class="news__content">
-      <div class="news__heading container">
-        <h2>{{i18n.$t('defaults.news')}}</h2>
+    <div class="products__content">
+      <div class="products__heading container">
+        <h2>{{i18n.$t('defaults.popularProducts')}}</h2>
         <router-link
-          :to="newsPath"
+          :to="productsPath"
           class="link subtitle"
         >
-          {{i18n.$t('defaults.allNews')}}
+          {{allProducts}}
         </router-link>
       </div>
-      <div class="glide news__list" ref="newsSlider">
+      <div class="glide products__list" ref="productsSlider">
         <div class="glide__track" data-glide-el="track">
           <ul class="glide__slides">
             <li
-              :key="newsItem.id"
+              :key="productItem.id"
+              :style="{maxWidth: '249px'}"
               class="glide__slide"
-              :style="{maxWidth: '306px'}"
-              v-for="newsItem in news"
+              v-for="productItem in products.slice(0, 5)"
             >
-              <NewsItem :data="newsItem" />
+              <ProductItem :data="productItem" />
             </li>
           </ul>
         </div>
       </div>
+      <PrevSectionButton
+        :title="i18n.$t('defaults.up')"
+        @click="$emit('switch-slide', 'hero')"
+      />
     </div>
   </section>
 </template>
@@ -37,24 +41,26 @@ import {computed, nextTick, onMounted, ref, watch} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
-import Glide from '@glidejs/glide'
-import NewsItem from '../News/NewsItem'
+import useWindowSize from '../../hooks/useWindowSize'
 import PrevSectionButton from './PrevSectionButton'
+import ProductItem from '../Products/ProductItem'
+import Glide from '@glidejs/glide'
 
 export default {
-  name: 'News',
-  components: {PrevSectionButton, NewsItem},
+  name: 'Products',
+  components: {ProductItem, PrevSectionButton},
   setup() {
     const {state} = useStore()
     const i18n = useI18n()
+    const {width} = useWindowSize()
+    const products = computed(() => state.home.homeData.popular_products)
     const glide = ref(null)
-    const newsSlider = ref(null)
-    const news = computed(() => state.home.homeData.news)
+    const productsSlider = ref(null)
 
     const mountGlide = () => {
-      glide.value = new Glide(newsSlider.value, {
-        perView: 4,
-        gap: 40,
+      glide.value = new Glide(productsSlider.value, {
+        perView: 5,
+        gap: 24,
         bound: true,
         breakpoints: {
           1439: {
@@ -71,7 +77,7 @@ export default {
           },
         },
       })
-      .on('resize', refreshGlide)
+        .on('resize', refreshGlide)
       glide.value.mount()
     }
 
@@ -92,20 +98,27 @@ export default {
       mountGlide()
     })
 
-    watch(() => news.value, () => {
-      if (newsSlider.value) {
+    watch(() => products.value, () => {
+      if (productsSlider.value) {
         refreshGlide()
       }
     })
 
     return {
-      news,
       i18n,
-      newsSlider,
-      newsPath: computed(() => ({
-        name: ROUTE_CONF.NEWS.name,
+      productsSlider,
+      products,
+      productsPath: computed(() => ({
+        name: ROUTE_CONF.PRODUCTS.name,
         params: {locale: i18n.locale.value},
       })),
+      allProducts: computed(() => {
+        return width.value < 768 ? (
+          i18n.$t('defaults.allProducts').split(' ')[0]
+        ) : (
+          i18n.$t('defaults.allProducts')
+        )
+      })
     }
   },
 }
@@ -115,17 +128,17 @@ export default {
 @import "../../assets/scss/variables";
 @import "../../assets/scss/breakpoints";
 
-.news {
+.products {
   height: 100%;
-  background-color: $park;
   display: flex;
+  background-color: $smoke;
   flex-direction: column;
   justify-content: flex-end;
 
   &__content {
     margin-top: 16px;
     height: 77vh;
-    background-color: $bg-color;
+    background-color: $sole;
     box-sizing: border-box;
 
     @include laptop() {
@@ -155,12 +168,17 @@ export default {
   }
 
   &__list {
+    margin-bottom: 12px;
     padding: 0 0 0 16px;
 
     @include laptop() {
       max-width: 1440px;
-      margin: 40px auto 0;
+      margin: 40px auto;
       padding: 0 48px;
+    }
+
+    @include desktop() {
+      margin: 40px auto 125px;
     }
   }
 }

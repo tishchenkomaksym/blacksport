@@ -16,6 +16,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/variables";
+@import "../../assets/scss/breakpoints";
 
 .prev-section-button {
   max-width: 200px;
@@ -42,6 +43,10 @@ export default {
       width: 1px;
       height: 23px;
       background-color: $text-accent-color;
+
+      @include laptop() {
+        height: 35px;
+      }
     }
 
     &::after {

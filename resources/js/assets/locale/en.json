@@ -12,5 +12,9 @@
   "allServices": "All services",
   "serviceExamples": "Service examples",
   "hide": "Hide",
-  "scroll": "Scroll"
+  "scroll": "Scroll",
+  "popularProducts": "Popular products",
+  "allProducts": "All products",
+  "up": "Up",
+  "buy": "Buy"
 }

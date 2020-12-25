@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import {useStore} from 'vuex'
 import {provideI18n} from './i18nPlugin'
 import {LANGS} from './router'
 import en from './assets/locale/en.json'
@@ -17,6 +18,9 @@ export default {
   name: 'App',
   components: {Layout},
   setup() {
+    const {dispatch} = useStore()
+
+    dispatch('products/getBasket')
     provideI18n({
       locale: LANGS[0],
       translations: {

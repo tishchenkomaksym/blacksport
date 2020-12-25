@@ -12,13 +12,11 @@
       <p class="description">{{dateCreated.day}} • {{dateCreated.time}}</p>
     </div>
 
-    <div class="news-item__image">
-      <!-- TODO change to dynamic image -->
-      <img
-        :alt="data.title"
-        :src="'https://picsum.photos/1024'"
-      />
-    </div>
+    <!-- TODO change to dynamic image -->
+    <div
+      :style="{backgroundImage: `url(${'https://picsum.photos/1024'})`}"
+      class="news-item__image"
+    />
 
     <h2>{{data.title}}</h2>
     <p class="news-item__description">{{data.description}}</p>
@@ -76,23 +74,11 @@ export default {
   }
 
   &__image {
-    width: calc((216 * 100vw) / 320);
-    height: calc((216 * 100vw) / 320);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-
-    @include tablets() {
-      width: 310px;
-      height: 310px;
-    }
-
-    img {
-      flex-shrink: 0;
-      min-width: 100%;
-      min-height: 100%;
-    }
+    width: 100%;
+    padding-bottom: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   &__description {

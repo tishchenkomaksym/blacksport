@@ -1,7 +1,7 @@
 <template>
   <section class="about">
     <img
-      @click="$emit('select-prev-section')"
+      @click="$emit('switch-slide', 'hero')"
       src="/img/blacksport_logo.svg"
       class="about__logo"
       alt="Blacksport"
