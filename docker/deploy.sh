@@ -16,6 +16,14 @@ service apache2 restart
   apt-get install -y zip
 } >> ./docker/logs/apt.log
 
+#apt-get update && apt-get install -y \
+#        libfreetype6-dev \
+#        libjpeg62-turbo-dev \
+#        libpng-dev \
+#    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+#    && docker-php-ext-install -j$(nproc) gd
+#docker-php-ext-install exif
+
 printf "Installing extensions. This may take some time...\n"
 #{
   docker-php-ext-install mysqli pdo_mysql bcmath gd xml openssl zip
