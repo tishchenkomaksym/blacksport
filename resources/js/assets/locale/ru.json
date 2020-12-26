@@ -5,5 +5,16 @@
   "services": "Услуги",
   "products": "Магазин",
   "programs": "Программы",
-  "contacts": "Контакты"
+  "contacts": "Контакты",
+  "readMore": "Читать больше",
+  "allNews": "Все новости",
+  "read": "Читать",
+  "allServices": "Все услуги",
+  "serviceExamples": "Примеры работ",
+  "hide": "Скрыть",
+  "scroll": "Скролл",
+  "popularProducts": "Популярные товары",
+  "allProducts": "Все товары",
+  "up": "Наверх",
+  "buy": "Купить"
 }

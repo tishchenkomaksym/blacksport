@@ -5,5 +5,16 @@
   "services": "Services",
   "products": "Products",
   "programs": "Programs",
-  "contacts": "Contacts"
+  "contacts": "Contacts",
+  "readMore": "Read more",
+  "allNews": "All news",
+  "read": "Read",
+  "allServices": "All services",
+  "serviceExamples": "Service examples",
+  "hide": "Hide",
+  "scroll": "Scroll",
+  "popularProducts": "Popular products",
+  "allProducts": "All products",
+  "up": "Up",
+  "buy": "Buy"
 }

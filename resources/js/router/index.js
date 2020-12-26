@@ -12,9 +12,9 @@ export const ROUTE_CONF = {
 }
 
 export const LANGS = [
+  'ua',
   'en',
   'ru',
-  'ua',
 ]
 
 export const DEFAULT_PATH = `/${LANGS[0]}${ROUTE_CONF.HOME.path}`

@@ -1,7 +1,9 @@
 <template>
   <footer>
-    <Socials/>
-    <LanguageSwitch/>
+    <div class="container">
+      <Socials/>
+      <LanguageSwitch/>
+    </div>
   </footer>
 </template>
 
@@ -19,12 +21,26 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 footer {
-  width: 100%;
-  bottom: 0;
-  padding: 0 48px 48px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
+  width: 100vw;
+  overflow: hidden;
   position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  z-index: 1;
+
+  @include tablets() {
+    overflow: initial;
+  }
+
+  .container {
+    padding: 0 24px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include tablets() {
+      padding: 0 48px 48px;
+    }
+  }
 }
 </style>

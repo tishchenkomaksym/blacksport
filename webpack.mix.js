@@ -14,7 +14,4 @@ const mix = require('laravel-mix')
 mix
   .js('resources/js/app.js', 'public/js')
   .vue()
-  .browserSync({
-    proxy: `${process.env.APP_URL}:${process.env.APP_PORT}`,
-    open: false,
-  })
+  .disableNotifications()

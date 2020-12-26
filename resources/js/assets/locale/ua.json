@@ -5,5 +5,16 @@
   "services": "Послуги",
   "products": "Магазин",
   "programs": "Програми",
-  "contacts": "Контакти"
+  "contacts": "Контакти",
+  "readMore": "Читати більше",
+  "allNews": "Всі новини",
+  "read": "Читати",
+  "allServices": "Всі послуги",
+  "serviceExamples": "Приклади послуг",
+  "hide": "Приховати",
+  "scroll": "Скрол",
+  "popularProducts": "Популярні товари",
+  "allProducts": "Всі товари",
+  "up": "Наверх",
+  "buy": "Купити"
 }
