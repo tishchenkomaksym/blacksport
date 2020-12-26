@@ -1,6 +1,9 @@
 <template>
   <Header/>
-  <main :class="{blurred: menuShown}">
+  <main
+    :class="{blurred: menuShown}"
+    :style="{backgroundColor}"
+  >
     <slot/>
   </main>
   <Footer/>
@@ -18,6 +21,9 @@ import Footer from './Footer'
 export default {
   name: 'Layout',
   components: {Header, Footer},
+  props: {
+    backgroundColor: String,
+  },
   setup() {
     const i18n = useI18n()
     const route = useRoute()
@@ -36,7 +42,7 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 main {
-  transition: all 0.3s ease-in-out;
+  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
   will-change: filter, opacity;
 
   &.blurred {

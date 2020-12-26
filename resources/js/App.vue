@@ -1,10 +1,11 @@
 <template>
-  <Layout>
+  <Layout :background-color="backgroundColor">
     <router-view/>
   </Layout>
 </template>
 
 <script>
+import {computed, onMounted} from 'vue'
 import {useStore} from 'vuex'
 import {provideI18n} from './i18nPlugin'
 import {LANGS} from './router'
@@ -18,9 +19,13 @@ export default {
   name: 'App',
   components: {Layout},
   setup() {
-    const {dispatch} = useStore()
+    const {state, dispatch} = useStore()
+    const backgroundColor = computed(() => state.common.backgroundColor)
 
-    dispatch('products/getBasket')
+    onMounted(() => {
+      dispatch('products/getBasket')
+    })
+
     provideI18n({
       locale: LANGS[0],
       translations: {
@@ -35,6 +40,10 @@ export default {
         },
       },
     })
+
+    return {
+      backgroundColor,
+    }
   },
 }
 </script>

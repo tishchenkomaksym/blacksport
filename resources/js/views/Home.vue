@@ -57,12 +57,13 @@ export default {
   components: {Products, Services, News, About, Hero},
   setup() {
     const {dispatch} = useStore()
-    const currentSlide = ref('products')
+    const currentSlide = ref('hero')
     const i18n = useI18n()
     const {width} = useWindowSize()
 
     watchEffect(() => {
       dispatch('home/getHomeData', i18n.locale.value)
+      dispatch('common/getContacts')
     })
 
     const switchSlide = to => currentSlide.value = to

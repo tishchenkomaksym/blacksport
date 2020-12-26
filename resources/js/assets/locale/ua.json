@@ -16,5 +16,8 @@
   "popularProducts": "Популярні товари",
   "allProducts": "Всі товари",
   "up": "Наверх",
-  "buy": "Купити"
+  "buy": "Купити",
+  "phoneNumber": "Номер",
+  "email": "Email",
+  "address": "Адреса"
 }

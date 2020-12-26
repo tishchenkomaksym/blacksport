@@ -16,5 +16,8 @@
   "popularProducts": "Популярные товары",
   "allProducts": "Все товары",
   "up": "Наверх",
-  "buy": "Купить"
+  "buy": "Купить",
+  "phoneNumber": "Номер",
+  "email": "Email",
+  "address": "Адрес"
 }

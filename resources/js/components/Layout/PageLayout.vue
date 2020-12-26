@@ -1,0 +1,70 @@
+<template>
+  <div class="page-layout container" :style="{backgroundColor: bgColor}">
+    <h1 class="page-heading">{{title}}</h1>
+    <slot />
+  </div>
+</template>
+
+<script>
+import {computed, onMounted, onBeforeUnmount} from 'vue'
+import {useStore} from 'vuex'
+
+export default {
+  name: 'PageLayout',
+  props: {
+    title: String,
+    backgroundColor: String,
+  },
+  setup({backgroundColor}) {
+    const {state, commit} = useStore()
+    const bgColor = computed(() => state.common.backgroundColor)
+
+    onMounted(() => {
+      commit('common/setBackgroundColor', backgroundColor)
+    })
+
+    onBeforeUnmount(() => {
+      commit('common/setBackgroundColor')
+    })
+
+    return {
+      bgColor,
+    }
+  },
+}
+</script>
+
+<style scoped lang="scss">
+@import "../../assets/scss/breakpoints";
+
+.page-layout {
+  height: 100%;
+  padding-top: 55px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 8px;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 24px;
+  }
+
+  @include tablets() {
+    padding: 140px 48px 0;
+    display: block;
+    grid-template-rows: initial;
+    row-gap: initial;
+
+    h1 {
+      position: fixed;
+      z-index: 1;
+      top: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+</style>
