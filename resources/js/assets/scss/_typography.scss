@@ -8,6 +8,12 @@ h1 {
   @include tablets() {
     font-size: 36px;
   }
+
+  &.page-heading {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
 }
 
 h2 {

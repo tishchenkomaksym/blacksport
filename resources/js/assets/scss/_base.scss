@@ -22,6 +22,8 @@ body {
 
 a {
   text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  will-change: color;
 
   &.link {
     text-transform: uppercase;
@@ -29,8 +31,6 @@ a {
     font-weight: 700;
     font-size: 18px;
     letter-spacing: 0.1em;
-    transition: color 0.3s ease-in-out;
-    will-change: color;
 
     &:hover {
       color: $text-accent-color;

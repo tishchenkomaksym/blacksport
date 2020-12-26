@@ -16,5 +16,8 @@
   "popularProducts": "Popular products",
   "allProducts": "All products",
   "up": "Up",
-  "buy": "Buy"
+  "buy": "Buy",
+  "phoneNumber": "Phone number",
+  "email": "Email",
+  "address": "Address"
 }

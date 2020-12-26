@@ -37,3 +37,14 @@
  * @property {string} title
  * @property {string} updated_at
  */
+
+/**
+ * @typedef {object} Contacts
+ * @property {string} address
+ * @property {string} created_at
+ * @property {string} email
+ * @property {number} id
+ * @property {string} phone
+ * @property {string[]} social_links
+ * @property {string} updated_at
+ */
