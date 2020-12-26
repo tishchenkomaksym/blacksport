@@ -56,5 +56,6 @@ export default {
 
 main {
   height: 100%;
+  overflow-y: auto;
 }
 </style>

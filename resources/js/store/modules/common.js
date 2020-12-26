@@ -18,6 +18,9 @@ export default {
     /** @type Contacts[] */
     contacts: [],
   }),
+  getters: {
+    socialLinks: state => state.contacts[0] ? state.contacts[0].social_links : [],
+  },
   actions: {
     getContacts: async ({commit}) => commit('setContacts', await axios.get('/contacts')),
   },

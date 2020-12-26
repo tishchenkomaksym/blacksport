@@ -278,7 +278,13 @@ nav {
 
   &-enter-from,
   &-leave-to {
-    transform: translateY(calc(-100% + 300px));
+    @media screen and (orientation: portrait) {
+      transform: translateY(calc(-100% + 300px));
+    }
+
+    @media screen and (orientation: landscape) {
+      transform: translateY(calc(-100% - 25px));
+    }
 
     a {
       margin-bottom: 0;

@@ -91,6 +91,10 @@ export default {
     grid-template-columns: 1fr 1fr;
     column-gap: 16px;
 
+    @include tablets() {
+      padding: 0 48px;
+    }
+
     @include laptop() {
       padding: 40px 48px;
       grid-template-columns: repeat(3, 1fr);
@@ -103,6 +107,11 @@ export default {
 
     img {
       max-width: 100%;
+      filter: drop-shadow(4px 4px 16px rgba(0, 0, 0, 0.08));
+
+      @include tablets() {
+        filter: drop-shadow(16px 16px 32px rgba(0, 0, 0, 0.08));
+      }
     }
   }
 
