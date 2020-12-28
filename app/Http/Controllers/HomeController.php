@@ -117,11 +117,11 @@ class HomeController extends Controller
         $popularProducts = $this->translate_service->translate($locale, Product::where('order_count', '!=', null)
                                   ->orderByDesc('order_count')->limit(20)->get(), Product::class);
         $news = $this->translate_service->translate($locale, News::whereBetween('created_at', [Carbon::now()->subDays(60)->toDateTime()->format('Y-m-d H:i:s'),now()->format('Y-m-d H:i:s')])
-                    ->orderByDesc('created_at')->limit(5)->get(), News::class);
+                    ->orderByDesc('created_at')->limit(10)->get(), News::class);
 
         $services = $this->translate_service->translate($locale, Service::all(), Service::class);
         $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class);
-        $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'about')->get(), Page::class);
+        $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'home')->get(), Page::class);
         return json_encode([
             'news' => $news,
             'services' => $services,

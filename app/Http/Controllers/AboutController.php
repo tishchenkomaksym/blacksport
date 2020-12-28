@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Achievement;
 use App\Models\Ambassador;
 use App\Models\Order;
 use App\Models\Page;
@@ -72,21 +73,32 @@ class AboutController extends Controller
      *                      @OA\Property(property="updated_at", type="string")
      *                  )
      *              ),
+     *              @OA\Property(property="achievements", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="title", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              ),
      *       )
      *     )
      *  )
      */
     public function index($locale = null)
     {
-        $texts = Page::with('viewTexts')->where('page_key', 'about')->first();
+        $texts = Page::with('viewTexts')->where('page_key', 'made')->first();
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
         list($texts, $ambassadors, $partners) = $this->translateService->translateAbout($locale, $texts, $ambassadors, $partners);
+        $achievements = $this->translateService->translate($locale, Achievement::orderByDesc('created_at')->get(), Achievement::class);
 
         return json_encode([
-            'texts' => $texts ? $texts->toArray() : [],
-            'ambassadors' => $ambassadors,
-            'partners' => $partners
+                'texts' => $texts ? $texts->toArray() : [],
+                'ambassadors' => $ambassadors,
+                'partners' => $partners,
+                'achievements' => $achievements
             ]);
     }
 }

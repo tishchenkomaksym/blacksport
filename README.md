@@ -9,6 +9,10 @@ php artisan db:seed
 - php artisan voyager:install
 - php artisan db:seed
 
+#Default user
+- login - tishmax@mail.ru
+- password - bcRp45z4AtMgNMYE
+
  Create admin for Voyager
 - php artisan voyager:admin your@mail.com --create
 - вводишь имя потом

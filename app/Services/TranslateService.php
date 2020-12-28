@@ -5,6 +5,8 @@ namespace App\Services;
 
 use App;
 use App\Models\Service;
+use App\Models\Product;
+use App\Models\Category;
 use App\Models\ServiceInstance;
 
 class TranslateService
@@ -37,7 +39,15 @@ class TranslateService
             if ($class === Service::class){
                 foreach ( $collection[$key]->examples as $k => $example ) {
                     foreach ( ServiceInstance::translatedFields() as $field ) {
-                        $collection[ $key ]->examples[ $k ]->field = $collection[ $key ]->examples[ $k ]->getTranslatedAttribute( $field, $locale, App::getLocale() );
+                        $collection[$key]->examples[ $k ]->field = $collection[ $key ]->examples[ $k ]->getTranslatedAttribute( $field, $locale, App::getLocale() );
+                    }
+                }
+            }
+
+            if ($class === Product::class){
+                foreach ( $collection[$key]->categories as $k => $category ) {
+                    foreach (Category::translatedFields() as $field ) {
+                        $collection[$key]->categories->field = $collection[ $key ]->categories->getTranslatedAttribute( $field, $locale, App::getLocale() );
                     }
                 }
             }

@@ -30,6 +30,6 @@ class ViewText extends Model
 
     public function images()
     {
-        return $this->hasMany(ViewTextImage::class, 'view-texts_id', 'id');
+        return $this->hasMany(ViewTextImage::class, 'view_texts_id', 'id');
     }
 }

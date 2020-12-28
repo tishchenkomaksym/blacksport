@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProgramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,10 +37,14 @@ Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
 Route::get('/home/{locale?}', 'HomeController@index');
 Route::get('/about/{locale?}', 'AboutController@index');
 Route::get('/products/{locale?}', [ ProductController::class, 'index']);
+Route::get('/product/{id}/{locale?}', [ ProductController::class, 'show']);
+Route::get('/product_category/{categoryId}/{locale?}', [ ProductController::class, 'productCategoryFilter']);
 Route::get('/news/{locale?}', 'NewsController@index');
+Route::get('/news/{id}/{locale?}', [ NewsController::class, 'show']);
 Route::get('/services/{locale?}', 'ServiceController@index');
 Route::get('/programs/{locale?}', 'ProgramController@index');
-Route::get('contacts', [ ContactController::class, 'index']);
+Route::post('/program/request', [ ProgramController::class, 'store']);
+Route::get('/contacts', [ ContactController::class, 'index']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
