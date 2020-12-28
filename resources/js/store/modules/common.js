@@ -2,6 +2,8 @@ import axios from 'axios'
 
 /** @typedef {import('../../types').Contacts} Contacts */
 
+const GOOGLE_MAPS_API_KEY = process.env.MIX_GOOGLE_MAPS_API_KEY
+
 const COLORS = {
   bgColor: '#000',
   sole: '#0D0D0D',
@@ -23,6 +25,8 @@ export default {
   },
   actions: {
     getContacts: async ({commit}) => commit('setContacts', await axios.get('/contacts')),
+    convertAddressToCoords: async (store, address = '') =>
+      await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`),
   },
   mutations: {
     toggleMenu: state => state.menuShown = !state.menuShown,

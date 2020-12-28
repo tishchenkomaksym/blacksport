@@ -32,6 +32,12 @@ export default {
     bottom: 22vh;
     left: -64vw;
 
+    @include landscape() {
+      width: 100vw;
+      left: 0;
+      bottom: 10vh;
+    }
+
     @include laptop() {
       width: calc((1966 * 100vw) / 1440);
       bottom: 3vh;
@@ -43,6 +49,12 @@ export default {
     width: calc((792 * 100vw) / 320);
     bottom: 5vh;
     left: -80vw;
+
+    @include landscape() {
+      width: 100vw;
+      left: 0;
+      bottom: 0;
+    }
 
     @include laptop() {
       width: calc((1681 * 100vw) / 1440);
@@ -56,6 +68,12 @@ export default {
     bottom: 0;
     left: -73vw;
 
+    @include landscape() {
+      width: 100vw;
+      left: 0;
+      bottom: -30vh;
+    }
+
     @include laptop() {
       width: calc((1158 * 100vw) / 1440);
       bottom: -1vh;
@@ -68,6 +86,12 @@ export default {
     left: -116vw;
     bottom: -15vh;
     transform: rotate(-3deg);
+
+    @include landscape() {
+      width: 100vw;
+      left: 2vw;
+      bottom: -30vh;
+    }
 
     @include laptop() {
       width: calc((2094 * 100vw) / 1440);

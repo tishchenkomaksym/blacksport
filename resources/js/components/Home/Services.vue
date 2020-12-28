@@ -82,8 +82,12 @@ export default {
     align-items: center;
     justify-content: space-between;
 
+    @include tablets() {
+      padding: 0 40px;
+    }
+
     @include laptop() {
-      padding: 40px 48px 0;
+      padding: 40px 40px 0;
     }
 
     @include desktop() {
@@ -133,6 +137,7 @@ export default {
     }
 
     @include tablets() {
+      padding: 0 40px;
       grid-template-columns: 412px;
       row-gap: 16px;
     }

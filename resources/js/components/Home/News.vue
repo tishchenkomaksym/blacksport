@@ -20,7 +20,7 @@
             <li
               :key="newsItem.id"
               class="glide__slide"
-              :style="{maxWidth: '306px'}"
+              :style="{maxWidth: '310px'}"
               v-for="newsItem in news"
             >
               <NewsItem :data="newsItem" />
@@ -56,6 +56,7 @@ export default {
         perView: 4,
         gap: 40,
         bound: true,
+        peek: {before: 40, after: 0},
         breakpoints: {
           1439: {
             perView: 3,
@@ -67,7 +68,12 @@ export default {
           768: {
             perView: 1,
             gap: 16,
-            peek: {before: 0, after: 104},
+            peek: {before: 40, after: 0},
+          },
+          450: {
+            perView: 1,
+            gap: 16,
+            peek: {before: 16, after: 104},
           },
         },
       })
@@ -135,8 +141,12 @@ export default {
   }
 
   .container {
+    @include tablets() {
+      padding: 0 40px;
+    }
+
     @include laptop() {
-      padding: 40px 48px 0;
+      padding: 40px 40px 0;
     }
   }
 
@@ -155,12 +165,9 @@ export default {
   }
 
   &__list {
-    padding: 0 0 0 16px;
-
     @include laptop() {
       max-width: 1440px;
       margin: 40px auto 0;
-      padding: 0 48px;
     }
   }
 }

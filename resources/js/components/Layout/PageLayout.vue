@@ -52,7 +52,7 @@ export default {
   }
 
   @include tablets() {
-    padding: 44px 48px 0;
+    padding: 44px 40px 0;
     row-gap: 0;
 
     h1 {

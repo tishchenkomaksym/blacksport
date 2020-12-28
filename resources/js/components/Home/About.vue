@@ -92,11 +92,11 @@ export default {
     column-gap: 16px;
 
     @include tablets() {
-      padding: 0 48px;
+      padding: 0 40px;
     }
 
     @include laptop() {
-      padding: 40px 48px;
+      padding: 40px;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 40px;
     }

@@ -19,7 +19,7 @@
           <ul class="glide__slides">
             <li
               :key="productItem.id"
-              :style="{maxWidth: '249px'}"
+              :style="{maxWidth: '253px'}"
               class="glide__slide"
               v-for="productItem in products.slice(0, 5)"
             >
@@ -31,6 +31,7 @@
       <PrevSectionButton
         :title="i18n.$t('defaults.up')"
         @click="$emit('switch-slide', 'hero')"
+        style="margin-bottom: 48px"
       />
     </div>
   </section>
@@ -62,6 +63,7 @@ export default {
         perView: 5,
         gap: 24,
         bound: true,
+        peek: {before: 40, after: 0},
         breakpoints: {
           1439: {
             perView: 3,
@@ -73,7 +75,11 @@ export default {
           768: {
             perView: 1,
             gap: 16,
-            peek: {before: 0, after: 104},
+            peek: {before: 40, after: 0},
+          },
+          450: {
+            perView: 1,
+            peek: {before: 16, after: 104},
           },
         },
       })
@@ -140,6 +146,8 @@ export default {
     height: 77vh;
     background-color: $sole;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 
     @include laptop() {
       margin-top: 40px;
@@ -148,8 +156,12 @@ export default {
   }
 
   .container {
+    @include tablets() {
+      padding: 0 40px;
+    }
+
     @include laptop() {
-      padding: 40px 48px 0;
+      padding: 40px 40px 0;
     }
   }
 
@@ -168,13 +180,13 @@ export default {
   }
 
   &__list {
-    margin-bottom: 12px;
-    padding: 0 0 0 16px;
+    margin-bottom: 16px;
+    flex-grow: 1;
 
     @include laptop() {
       max-width: 1440px;
       margin: 40px auto;
-      padding: 0 48px;
+      //padding: 0 48px;
     }
 
     @include desktop() {

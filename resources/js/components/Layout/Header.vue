@@ -28,6 +28,7 @@
           :data-link="link.name"
           :key="i"
           :to="link.path"
+          @click.prevent="goToPage(link.path)"
           class="link"
           v-for="(link, i) in links"
         >
@@ -40,6 +41,7 @@
 
 <script>
 import {computed} from 'vue'
+import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {ROUTE_CONF} from '../../router'
 import {useI18n} from '../../i18nPlugin'
@@ -51,6 +53,7 @@ export default {
   setup() {
     const i18n = useI18n()
     const {state, commit} = useStore()
+    const router = useRouter()
     const links = computed(() => [
       {
         path: {
@@ -103,11 +106,19 @@ export default {
       },
     ])
 
+    const toggleMenu = () => commit('common/toggleMenu')
+
+    const goToPage = path => {
+      toggleMenu()
+      router.push(path)
+    }
+
     return {
       i18n,
       menuShown: computed(() => state.common.menuShown),
-      toggleMenu: () => commit('common/toggleMenu'),
+      toggleMenu,
       links,
+      goToPage,
     }
   },
 }
@@ -130,7 +141,7 @@ header {
   align-items: center;
 
   @include tablets() {
-    padding: 48px 48px 0;
+    padding: 46px 40px 0;
   }
 
   &__logo {
@@ -243,7 +254,7 @@ nav {
   @include tablets() {
     align-items: flex-end;
     height: calc(100vh - 90px);
-    padding: 48px 48px 60px;
+    padding: 46px 40px 60px;
   }
 
   .link {
