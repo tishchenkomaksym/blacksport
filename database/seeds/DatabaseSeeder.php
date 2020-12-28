@@ -13,6 +13,8 @@ use App\Models\Program;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServicesOrder;
+use App\Models\ViewText;
+use App\Models\ViewTextImage;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -39,5 +41,7 @@ class DatabaseSeeder extends Seeder
         factory(ServiceInstance::class, 40)->create();
         factory(ServicesOrder::class, 20)->create();
         factory( Contact::class, 1)->create();
+        factory( ViewText::class, 10)->create();
+        factory( ViewTextImage::class, 20)->create();
     }
 }

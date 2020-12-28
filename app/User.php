@@ -47,7 +47,7 @@ class User extends \TCG\Voyager\Models\User
     public $timestamps = true;
 
     protected $fillable = [
-        'name', 'last_name', 'email', 'password'
+        'name', 'last_name', 'email', 'password', 'role_id'
     ];
 
     protected $hidden = [
