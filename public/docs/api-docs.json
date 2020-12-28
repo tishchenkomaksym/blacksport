@@ -109,6 +109,29 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "achievements": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1014,6 +1037,61 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/program/request": {
+            "post": {
+                "tags": [
+                    "program"
+                ],
+                "summary": "Program Page",
+                "description": "Create program request",
+                "operationId": "App\\Http\\Controllers\\ProgramController::store",
+                "requestBody": {
+                    "description": "Pass params",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "program_id",
+                                    "name",
+                                    "phone",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "program_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Arsen"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "380645564545"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "403": {
+                        "description": "error, User with this phone or email already exist"
                     }
                 }
             }

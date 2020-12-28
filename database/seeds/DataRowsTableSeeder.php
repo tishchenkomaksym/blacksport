@@ -702,7 +702,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($newsDataType, 'images');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'multiple_images',
                 'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,
@@ -1404,7 +1404,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($programDataType, 'images');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'multiple_images',
                 'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,
@@ -1521,7 +1521,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($serviceExampleDataType, 'images');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'multiple_images',
                 'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,
@@ -1664,7 +1664,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($viewTextDataType, 'images');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'multiple_images',
                 'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,

@@ -121,7 +121,7 @@ class HomeController extends Controller
 
         $services = $this->translate_service->translate($locale, Service::all(), Service::class);
         $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class);
-        $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'about')->get(), Page::class);
+        $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'home')->get(), Page::class);
         return json_encode([
             'news' => $news,
             'services' => $services,

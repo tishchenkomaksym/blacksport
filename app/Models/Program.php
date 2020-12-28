@@ -50,4 +50,8 @@ class Program extends Model
         ];
     }
 
+    public function requests()
+    {
+        return $this->hasMany(ProgramRequest::class);
+    }
 }

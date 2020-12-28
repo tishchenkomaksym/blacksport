@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Achievement;
 use App\Models\Ambassador;
 use App\Models\Category;
 use App\Models\Contact;
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(User::class, 10)->create();
-        factory(Page::class, 1)->create();
+//        factory(Page::class, 1)->create();
         factory(Category::class, 5)->create();
         factory(Program::class, 10)->create();
         factory(Ambassador::class, 10)->create();
@@ -41,7 +42,13 @@ class DatabaseSeeder extends Seeder
         factory(ServiceInstance::class, 40)->create();
         factory(ServicesOrder::class, 20)->create();
         factory( Contact::class, 1)->create();
-        factory( ViewText::class, 10)->create();
+//        factory( ViewText::class, 10)->create();
+        factory( Achievement::class, 10)->create();
+        $this->call([
+            PageTableSeeder::class,
+            ViewTextTableSeeder::class
+        ]);
+
         factory( ViewTextImage::class, 20)->create();
     }
 }
