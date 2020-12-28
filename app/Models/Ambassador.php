@@ -33,7 +33,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static Builder|Ambassador withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Ambassador extends Model 
+class Ambassador extends Model
 {
     use Translatable;
 
@@ -45,4 +45,9 @@ class Ambassador extends Model
         'description',
     ];
 
+    public static function translatedFields(){
+        return [
+            'description'
+        ];
+    }
 }

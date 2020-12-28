@@ -173,5 +173,227 @@ class MenuItemsTableSeeder extends Seeder
                 'order'      => 14,
             ])->save();
         }
+
+        $menuContent = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Контент',
+            'url'     => null
+        ]);
+        if (!$menuContent->exists) {
+            $menuContent->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-photos',
+                'color'      => '#000000',
+                'parent_id'  => null,
+                'order'      => 15,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Амбассадоры',
+            'url'     => '',
+            'route'   => 'voyager.ambassadors.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-people',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 16,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Категории',
+            'url'     => '',
+            'route'   => 'voyager.categories.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-list',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 17,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Контакты',
+            'url'     => '',
+            'route'   => 'voyager.contacts.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-person',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 18,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Новости',
+            'url'     => '',
+            'route'   => 'voyager.news.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-news',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 19,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Заказы',
+            'url'     => '',
+            'route'   => 'voyager.orders.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-harddrive',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 20,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Тексты страницы',
+            'url'     => '',
+            'route'   => 'voyager.pages.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-data',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 21,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Партнеры',
+            'url'     => '',
+            'route'   => 'voyager.partners.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-group',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 22,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Услуги',
+            'url'     => '',
+            'route'   => 'voyager.services.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-world',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 23,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Товары',
+            'url'     => '',
+            'route'   => 'voyager.products.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-photo',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 24,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Программы',
+            'url'     => '',
+            'route'   => 'voyager.programs.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-laptop',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 25,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Пример услуги',
+            'url'     => '',
+            'route'   => 'voyager.services-examples.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-certificate',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 26,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Тексты для страниц',
+            'url'     => '',
+            'route'   => 'voyager.view-texts.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-file-text',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 27,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Картинки текста страницы',
+            'url'     => '',
+            'route'   => 'voyager.view-texts-images.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-images',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 28,
+            ])->save();
+        }
+
     }
 }

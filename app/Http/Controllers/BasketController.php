@@ -245,6 +245,8 @@ class BasketController extends Controller
      *          response="200",
      *          description="success, url for payment",
      *          @OA\Property(property="url", type="string"),
+     *     ),
+     *
      *     )
      * )
      */
