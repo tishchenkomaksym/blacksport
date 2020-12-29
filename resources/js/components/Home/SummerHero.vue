@@ -29,6 +29,12 @@ img {
   left: -30vw;
   transform: matrix(-1, 0, 0, 1, 0, 0);
 
+  @include landscape() {
+    width: 40vw;
+    top: 30vh;
+    left: 25vh;
+  }
+
   @include laptop() {
     width: 563px;
     top: 22vh;
@@ -41,6 +47,12 @@ img {
   width: calc((275 * 100vw) / 320);
   top: 18vh;
   right: -28vw;
+
+  @include landscape() {
+    width: 30vw;
+    top: 15vh;
+    right: 3vw;
+  }
 
   @include laptop() {
     width: 658px;
@@ -55,6 +67,12 @@ img {
   left: 7vw;
   top: 12vh;
 
+  @include landscape() {
+    width: 30vw;
+    left: 5vw;
+    top: 13vh;
+  }
+
   @include laptop() {
     width: 375px;
     right: 74vw;
@@ -67,6 +85,11 @@ img {
   width: calc((872 * 100vw) / 320);
   left: -86vw;
   bottom: 3vh;
+
+  @include landscape() {
+    width: 100vw;
+    left: 0;
+  }
 
   @include tablets() {
     bottom: 0;
@@ -83,6 +106,12 @@ img {
   width: calc((477 * 100vw) / 320);
   bottom: -14vh;
   left: -50vw;
+
+  @include landscape() {
+    width: 60vw;
+    left: 0;
+    bottom: -25vh;
+  }
 
   @include tablets() {
     bottom: -30vh;
@@ -101,6 +130,12 @@ img {
   bottom: -24vh;
   left: -118vw;
 
+  @include landscape() {
+    width: 100vw;
+    left: 0;
+    bottom: -30vh;
+  }
+
   @include laptop() {
     width: calc((2048 * 100vw) / 1440);
     bottom: -64vh;
@@ -112,6 +147,12 @@ img {
   width: calc((410 * 100vw) / 320);
   bottom: 2vh;
   right: -27vw;
+
+  @include landscape() {
+    width: 50vw;
+    bottom: 2vh;
+    right: 0;
+  }
 
   @include laptop() {
     width: calc((1048 * 100vw) / 1440);
@@ -126,6 +167,12 @@ img {
   right: -8vw;
   top: 20vh;
   transform: rotate(-15deg);
+
+  @include landscape() {
+    width: 35vw;
+    top: 5vh;
+    right: 10vw;
+  }
 
   @include tablets() {
     top: 15vh;
@@ -145,6 +192,11 @@ img {
   top: 62vh;
   left: 12vw;
   transform: rotate(-15deg);
+
+  @include landscape() {
+    width: 10vw;
+    left: 50vw;
+  }
 
   @include laptop() {
     width: 170px;

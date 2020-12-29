@@ -20,6 +20,8 @@
         :zoom-control="false"
         :street-view-control="false"
         :fullscreen-control="false"
+        :map-type-control="false"
+        :scale-control="false"
         class="contacts__map"
       />
     </div>
@@ -27,7 +29,7 @@
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import PageLayout from '../components/Layout/PageLayout'
@@ -41,15 +43,17 @@ export default {
     const {state, dispatch} = useStore()
     const i18n = useI18n()
     const contacts = computed(() => state.common.contacts)
-    // TODO Change to correct coordinates
-    const center = { lat: 40.689247, lng: -74.044502 }
+    const center = ref({lat: 0, lng: 0})
     const apiKey = process.env.MIX_GOOGLE_MAPS_API_KEY
 
     onMounted(async () => {
-      await dispatch('common/getContacts')
-      // TODO convert address to coordinates
-//       fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
-// +Mountain+View,+CA&key=${apiKey}`).then(r => r.json()).then(r => console.log(r))
+      try {
+        await dispatch('common/getContacts')
+        const {results} = await dispatch('common/convertAddressToCoords', contacts.value[0].address)
+        center.value = results[0].geometry.location
+      } catch (err) {
+        console.error(err)
+      }
     })
 
     return {

@@ -48,3 +48,44 @@
  * @property {string[]} social_links
  * @property {string} updated_at
  */
+
+/**
+ * @typedef {object} Ambassador
+ * @property {string} created_at
+ * @property {string} description
+ * @property {number} id
+ * @property {string} image
+ * @property {Array<any>} translations
+ * @property {string} updated_at
+ */
+
+/**
+ * @typedef {object} Partner
+ * @property {string} created_at
+ * @property {string} description
+ * @property {number} id
+ * @property {string} image
+ * @property {Array<any>} translations
+ * @property {string} updated_at
+ */
+
+/**
+ * @typedef {object} AboutText
+ * @property {string} created_at
+ * @property {number} id
+ * @property {string} meta_description
+ * @property {string} name
+ * @property {number} nofollow
+ * @property {number} noindex
+ * @property {string} page_key
+ * @property {Array<any>} translations
+ * @property {string} updated_at
+ * @property {Array<any>} view_texts
+ */
+
+/**
+ * @typedef {object} About
+ * @property {Ambassador[]} ambassadors
+ * @property {Partner[]} partners
+ * @property {AboutText[]} texts
+ */

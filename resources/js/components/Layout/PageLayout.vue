@@ -43,7 +43,6 @@ export default {
   display: grid;
   grid-template-rows: auto 1fr;
   row-gap: 8px;
-  overflow-y: auto;
   box-sizing: border-box;
 
   &::after {
@@ -53,17 +52,12 @@ export default {
   }
 
   @include tablets() {
-    padding: 140px 48px 0;
-    display: block;
-    grid-template-rows: initial;
-    row-gap: initial;
+    padding: 44px 40px 0;
+    row-gap: 0;
 
     h1 {
-      position: fixed;
-      z-index: 1;
-      top: 44px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-bottom: 70px;
+      text-align: center;
     }
   }
 }

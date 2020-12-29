@@ -19,6 +19,9 @@ export default {
       texts: [],
     },
   }),
+  getters: {
+    about: ({homeData}) => homeData.texts.find(page => page.page_key === 'home'),
+  },
   actions: {
     /**
      * @desc Get home page data.

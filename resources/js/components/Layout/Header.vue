@@ -1,26 +1,30 @@
 <template>
   <header>
     <div class="toolbar container">
-      <router-link
-        :to="`/${i18n.locale.value}`"
-        class="toolbar__logo"
-      >
-        <img src="/img/blacksport_logo.svg" alt="Blacksport">
-      </router-link>
-      <div class="toolbar__right-panel">
-        <Basket />
+      <transition appear name="logo-transition">
         <router-link
           :to="`/${i18n.locale.value}`"
-          class="link toolbar__home-link"
+          class="toolbar__logo"
         >
-          {{i18n.$t('defaults.home')}}
+          <img src="/img/blacksport_logo.svg" alt="Blacksport">
         </router-link>
-        <button
-          :class="{'toolbar__burger--opened': menuShown}"
-          @click="toggleMenu"
-          class="toolbar__burger"
-        />
-      </div>
+      </transition>
+      <transition appear name="right-panel-transition">
+        <div class="toolbar__right-panel">
+          <Basket />
+          <router-link
+            :to="`/${i18n.locale.value}`"
+            class="link toolbar__home-link"
+          >
+            {{i18n.$t('defaults.home')}}
+          </router-link>
+          <button
+            :class="{'toolbar__burger--opened': menuShown}"
+            @click="toggleMenu"
+            class="toolbar__burger"
+          />
+        </div>
+      </transition>
     </div>
     <transition name="nav-complete">
       <nav class="container" v-if="menuShown">
@@ -28,6 +32,7 @@
           :data-link="link.name"
           :key="i"
           :to="link.path"
+          @click.prevent="goToPage(link.path)"
           class="link"
           v-for="(link, i) in links"
         >
@@ -40,6 +45,7 @@
 
 <script>
 import {computed} from 'vue'
+import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {ROUTE_CONF} from '../../router'
 import {useI18n} from '../../i18nPlugin'
@@ -51,6 +57,7 @@ export default {
   setup() {
     const i18n = useI18n()
     const {state, commit} = useStore()
+    const router = useRouter()
     const links = computed(() => [
       {
         path: {
@@ -103,11 +110,19 @@ export default {
       },
     ])
 
+    const toggleMenu = () => commit('common/toggleMenu')
+
+    const goToPage = path => {
+      toggleMenu()
+      router.push(path)
+    }
+
     return {
       i18n,
       menuShown: computed(() => state.common.menuShown),
-      toggleMenu: () => commit('common/toggleMenu'),
+      toggleMenu,
       links,
+      goToPage,
     }
   },
 }
@@ -130,7 +145,7 @@ header {
   align-items: center;
 
   @include tablets() {
-    padding: 48px 48px 0;
+    padding: 46px 40px 0;
   }
 
   &__logo {
@@ -243,7 +258,7 @@ nav {
   @include tablets() {
     align-items: flex-end;
     height: calc(100vh - 90px);
-    padding: 48px 48px 60px;
+    padding: 46px 40px 60px;
   }
 
   .link {
@@ -278,7 +293,13 @@ nav {
 
   &-enter-from,
   &-leave-to {
-    transform: translateY(calc(-100% + 300px));
+    @media screen and (orientation: portrait) {
+      transform: translateY(calc(-100% + 300px));
+    }
+
+    @media screen and (orientation: landscape) {
+      transform: translateY(calc(-100% - 25px));
+    }
 
     a {
       margin-bottom: 0;
@@ -291,6 +312,36 @@ nav {
         margin-bottom: 28px;
       }
     }
+  }
+}
+
+.logo-transition {
+  &-enter-active {
+    transition: transform 0.75s ease-in-out, opacity 0.75s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+  }
+
+  &-enter-from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.right-panel-transition {
+  &-enter-active {
+    transition: transform 0.75s ease-in-out, opacity 0.75s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+  }
+
+  &-enter-from {
+    opacity: 0;
+    transform: translateX(100%);
   }
 }
 </style>

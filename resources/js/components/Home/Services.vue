@@ -71,6 +71,12 @@ export default {
     box-sizing: border-box;
     position: relative;
 
+    @include landscape() {
+      margin-top: 8px;
+      height: 65vh;
+      overflow-y: auto;
+    }
+
     @include laptop() {
       margin-top: 40px;
       height: 84vh;
@@ -82,8 +88,12 @@ export default {
     align-items: center;
     justify-content: space-between;
 
+    @include tablets() {
+      padding: 0 40px;
+    }
+
     @include laptop() {
-      padding: 40px 48px 0;
+      padding: 40px 40px 0;
     }
 
     @include desktop() {
@@ -132,7 +142,12 @@ export default {
       width: 100%;
     }
 
+    @include landscape() {
+      overflow-y: initial;
+    }
+
     @include tablets() {
+      padding: 0 40px;
       grid-template-columns: 412px;
       row-gap: 16px;
     }
