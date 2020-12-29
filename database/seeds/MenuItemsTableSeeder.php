@@ -395,5 +395,37 @@ class MenuItemsTableSeeder extends Seeder
             ])->save();
         }
 
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Достижение',
+            'url'     => '',
+            'route'   => 'voyager.achievements.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-trophy',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 29,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Заявки программы',
+            'url'     => '',
+            'route'   => 'voyager.program-request.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-paper-plane',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 30,
+            ])->save();
+        }
+
     }
 }

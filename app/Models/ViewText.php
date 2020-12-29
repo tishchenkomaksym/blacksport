@@ -23,6 +23,12 @@ class ViewText extends Model
         'description'
     ];
 
+    public static function translatedFields(){
+        return [
+            'name', 'description'
+        ];
+    }
+
     public function page()
     {
         return $this->belongsTo(Page::class);

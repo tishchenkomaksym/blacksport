@@ -14,7 +14,6 @@ use App\Models\Program;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServicesOrder;
-use App\Models\ViewText;
 use App\Models\ViewTextImage;
 use App\User;
 use Illuminate\Database\Seeder;

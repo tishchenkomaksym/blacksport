@@ -1880,6 +1880,276 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+
+        $dataRow = $this->dataRow($viewTextDataType, 'view_text_belongsto_page_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Страница',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "model" => "\\App\\Models\\Page",
+                    "table" => "pages",
+                    "type"=>"belongsTo",
+                    "column" => "page_id",
+                    "key" => "id",
+                    "label" => "name",
+                    "pivot_table" =>"ambassadors",
+                    "pivot" => "0",
+                    "taggable" =>"0"
+                ],
+                'order'        => 7,
+            ])->save();
+        }
+
+        $achievementsDataType = DataType::where('slug', 'achievements')->firstOrFail();
+
+        /*
+ 17	id	text	Id	1	0	0	0	0	0	{}	1
+17	title	text	Заголовок	1	1	1	1	1	1	{}	2
+17	description	text_area	Описание	1	1	1	1	1	1	{}	3
+17	created_at	timestamp	Created At	0	0	0	0	0	0	{}	4
+17	updated_at	timestamp	Updated At	0	0	0	0	0	0	{}	5
+*/
+        $dataRow = $this->dataRow($achievementsDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Id',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 1,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($achievementsDataType, 'title');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Заголовок',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 2,
+            ])->save();
+        }
+
+
+        $dataRow = $this->dataRow($achievementsDataType, 'description');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Описание',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 3,
+            ])->save();
+        }
+
+
+
+        $dataRow = $this->dataRow($achievementsDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 4,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($achievementsDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 5,
+            ])->save();
+        }
+
+        $programRequestDataType = DataType::where('slug', 'program-request')->firstOrFail();
+
+        /*
+18	id	text	Id	1	0	0	0	0	0	{}	1
+18	program_id	text	Program Id	1	1	1	1	1	1	{}	2
+18	name	text	Имя	1	1	1	1	1	1	{}	3
+18	phone	text	Телефон	1	1	1	1	1	1	{}	4
+18	email	text	Email	0	1	1	1	1	1	{}	5
+18	created_at	timestamp	Created At	0	1	1	1	0	1	{}	6
+18	updated_at	timestamp	Updated At	0	0	0	0	0	0	{}	7
+18	program_request_belongsto_program_relationship	relationship	Название программы	0	1	1	1	1	1	{"model":"\\App\\Models\\Program","table":"programs","type":"belongsTo","column":"id","key":"id","label":"name","pivot_table":"achievements","pivot":"0","taggable":"0"}	8
+
+*/
+        $dataRow = $this->dataRow($programRequestDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Id',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 1,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($programRequestDataType, 'program_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Program Id',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 2,
+            ])->save();
+        }
+
+
+        $dataRow = $this->dataRow($programRequestDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Имя',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($programRequestDataType, 'phone');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Телефон',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 4,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($programRequestDataType, 'email');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Email',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 5,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($programRequestDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 6,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($programRequestDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 7,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($viewTextsImagesDataType, 'program_request_belongsto_program_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Название программы',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "model" =>"\\App\\Models\\Program",
+                    "table" => "view_texts",
+                    "type" => "belongsTo",
+                    "column" =>"program_id",
+                    "key" =>"id",
+                    "label" => "name",
+                    "pivot_table" => "ambassadors",
+                    "pivot" => "0",
+                    "taggable" =>"0"
+                ],
+                'order'        => 8,
+            ])->save();
+        }
     }
 
     /**
