@@ -149,6 +149,12 @@ export default {
     display: flex;
     flex-direction: column;
 
+    @include landscape() {
+      margin-top: 8px;
+      height: 65vh;
+      overflow-y: auto;
+    }
+
     @include laptop() {
       margin-top: 40px;
       height: 84vh;

@@ -16,7 +16,10 @@
 
       <div class="about__container">
         <div class="about__mission">
-          <img src="/img/mission-en.svg" alt="Mission" />
+          <img
+            :src="i18n.locale === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg'"
+            alt="Mission"
+          />
         </div>
       </div>
 
@@ -26,7 +29,10 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         </div>
 
-        <ul class="about__ambassadors-grid" :style="`--amount: ${about.ambassadors.length + 1}`">
+        <ul
+          class="about__ambassadors-grid"
+          :style="`--amount: ${about.ambassadors.length + 1}; --rows: ${ambassadorRows}`"
+        >
           <li class="about__ambassadors-grid__item"
               :key="ambassador.id"
               v-for="ambassador in about.ambassadors"
@@ -38,6 +44,13 @@
             />
           </li>
         </ul>
+      </section>
+
+      <section class="about__partners">
+        <div class="about__container">
+          <h1>Наши партнёры</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
       </section>
     </div>
   </PageLayout>
@@ -56,6 +69,16 @@ export default {
     const i18n = useI18n()
     const {state, dispatch} = useStore()
     const about = computed(() => state.pages.about)
+    const ambassadorRows = computed(() => {
+      let rows = 0
+      let ambassadorNumber = about.value.ambassadors.length
+      while (ambassadorNumber > 0) {
+        if (rows % 2 === 0) ambassadorNumber -= 4
+        else ambassadorNumber -= 3
+        rows += 1
+      }
+      return rows
+    })
 
     watchEffect(() => {
       dispatch('pages/getAbout', i18n.locale.value)
@@ -64,6 +87,7 @@ export default {
     return {
       i18n,
       about,
+      ambassadorRows,
     }
   },
 }
@@ -110,12 +134,18 @@ export default {
 
   &__ambassadors {
     text-align: center;
+    margin-bottom: 24px;
+
+    @include laptop() {
+      margin-bottom: 48px;
+    }
 
     &-grid {
       width: 100vw;
       overflow-x: auto;
       --amount: 1;
       --counter: 1;
+      --rows: 1;
       display: grid;
       grid-template-columns: repeat(var(--amount), 56px);
       grid-template-rows: repeat(2, 0.5fr 1fr) 0.5fr;
@@ -135,8 +165,7 @@ export default {
         column-gap: 32px;
         row-gap: 32px;
         grid-template-columns: repeat(#{$amount * 2}, 1fr);
-        // TODO calculate number of rows dynamically
-        grid-template-rows: repeat(3, 0.5fr 1fr) 0.5fr;
+        grid-template-rows: repeat(var(--rows), 0.5fr 1fr) 0.5fr;
         filter: drop-shadow(-16px 16px 32px rgba(0, 0, 0, 0.16));
         transform: initial;
       }
@@ -198,6 +227,9 @@ export default {
           &:nth-of-type(12) {
             --counter: 7;
           }
+          &:nth-of-type(19) {
+            --counter: 11;
+          }
 
           &:nth-of-type(6) {
             --counter: 3;
@@ -205,12 +237,18 @@ export default {
           &:nth-of-type(13) {
             --counter: 7;
           }
+          &:nth-of-type(20) {
+            --counter: 11;
+          }
 
           &:nth-of-type(7) {
             --counter: 3;
           }
           &:nth-of-type(14) {
             --counter: 7;
+          }
+          &:nth-of-type(21) {
+            --counter: 11;
           }
         }
       }
@@ -225,6 +263,10 @@ export default {
         clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
       }
     }
+  }
+
+  &__partners {
+    text-align: center;
   }
 }
 </style>

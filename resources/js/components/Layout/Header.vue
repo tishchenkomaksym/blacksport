@@ -1,26 +1,30 @@
 <template>
   <header>
     <div class="toolbar container">
-      <router-link
-        :to="`/${i18n.locale.value}`"
-        class="toolbar__logo"
-      >
-        <img src="/img/blacksport_logo.svg" alt="Blacksport">
-      </router-link>
-      <div class="toolbar__right-panel">
-        <Basket />
+      <transition appear name="logo-transition">
         <router-link
           :to="`/${i18n.locale.value}`"
-          class="link toolbar__home-link"
+          class="toolbar__logo"
         >
-          {{i18n.$t('defaults.home')}}
+          <img src="/img/blacksport_logo.svg" alt="Blacksport">
         </router-link>
-        <button
-          :class="{'toolbar__burger--opened': menuShown}"
-          @click="toggleMenu"
-          class="toolbar__burger"
-        />
-      </div>
+      </transition>
+      <transition appear name="right-panel-transition">
+        <div class="toolbar__right-panel">
+          <Basket />
+          <router-link
+            :to="`/${i18n.locale.value}`"
+            class="link toolbar__home-link"
+          >
+            {{i18n.$t('defaults.home')}}
+          </router-link>
+          <button
+            :class="{'toolbar__burger--opened': menuShown}"
+            @click="toggleMenu"
+            class="toolbar__burger"
+          />
+        </div>
+      </transition>
     </div>
     <transition name="nav-complete">
       <nav class="container" v-if="menuShown">
@@ -308,6 +312,36 @@ nav {
         margin-bottom: 28px;
       }
     }
+  }
+}
+
+.logo-transition {
+  &-enter-active {
+    transition: transform 0.75s ease-in-out, opacity 0.75s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+  }
+
+  &-enter-from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.right-panel-transition {
+  &-enter-active {
+    transition: transform 0.75s ease-in-out, opacity 0.75s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+  }
+
+  &-enter-from {
+    opacity: 0;
+    transform: translateX(100%);
   }
 }
 </style>

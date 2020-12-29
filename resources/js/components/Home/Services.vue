@@ -71,6 +71,12 @@ export default {
     box-sizing: border-box;
     position: relative;
 
+    @include landscape() {
+      margin-top: 8px;
+      height: 65vh;
+      overflow-y: auto;
+    }
+
     @include laptop() {
       margin-top: 40px;
       height: 84vh;
@@ -134,6 +140,10 @@ export default {
       display: block;
       height: 36px;
       width: 100%;
+    }
+
+    @include landscape() {
+      overflow-y: initial;
     }
 
     @include tablets() {

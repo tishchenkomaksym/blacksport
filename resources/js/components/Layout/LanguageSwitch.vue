@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <transition appear name="slide">
     <div class="languages" v-if="!isHidden">
       <div class="languages__item languages__item--active">
         {{currentLocale}}
@@ -140,6 +140,10 @@ export default {
   &-enter-active,
   &-leave-active {
     transition: transform 0.5s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out;
+    }
   }
 
   &-enter-from,

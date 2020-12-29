@@ -134,6 +134,12 @@ export default {
     background-color: $bg-color;
     box-sizing: border-box;
 
+    @include landscape() {
+      margin-top: 8px;
+      height: 65vh;
+      overflow-y: auto;
+    }
+
     @include laptop() {
       margin-top: 40px;
       height: 84vh;

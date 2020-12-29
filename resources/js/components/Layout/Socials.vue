@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <transition appear name="slide">
     <div class="socials" v-if="!isHidden">
       <a
         :href="socialLinks.find(link => link.includes('facebook') || link.includes('fb'))"
@@ -76,6 +76,10 @@ export default {
   &-enter-active,
   &-leave-active {
     transition: transform 0.5s ease-in-out;
+
+    @include laptop() {
+      transition: transform 1s ease-in-out;
+    }
   }
 
   &-enter-from,
