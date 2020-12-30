@@ -7,9 +7,10 @@ export default {
   state: () => ({
     /** @type About */
     about: {
+      achievements: [],
       ambassadors: [],
       partners: [],
-      texts: {},
+      texts: [],
     },
   }),
   actions: {
