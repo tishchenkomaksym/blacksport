@@ -39,19 +39,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/scss/breakpoints";
-
 main {
-  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  will-change: filter, opacity;
+  transition: filter 0.3s ease-in-out;
+  will-change: filter;
 
   &.blurred {
     filter: blur(16px);
-    opacity: 0.7;
-
-    @include tablets() {
-      opacity: initial;
-    }
   }
 }
 </style>

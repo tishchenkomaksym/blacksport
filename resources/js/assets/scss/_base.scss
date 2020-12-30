@@ -46,6 +46,14 @@ a {
     }
   }
 
+  &.basic {
+    color: $text-color;
+
+    &:hover {
+      color: $text-accent-color;
+    }
+  }
+
   &.subtitle {
     font-size: 14px;
     font-weight: 300;

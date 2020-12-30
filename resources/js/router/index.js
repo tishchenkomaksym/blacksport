@@ -9,6 +9,7 @@ export const ROUTE_CONF = {
   PRODUCTS: {name: 'Products', path: '/products'},
   PROGRAMS: {name: 'Programs', path: '/programs'},
   CONTACTS: {name: 'Contacts', path: '/contacts'},
+  PRODUCT: {name: 'Product', path: '/products/:id'},
 }
 
 export const LANGS = [
@@ -59,6 +60,11 @@ const routes = [
     path: `/:locale${ROUTE_CONF.CONTACTS.path}`,
     name: ROUTE_CONF.CONTACTS.name,
     component: () => import('../views/Contacts.vue'),
+  },
+  {
+    path: `/:locale${ROUTE_CONF.PRODUCT.path}`,
+    name: ROUTE_CONF.PRODUCT.name,
+    component: () => import('../views/Product.vue')
   },
 ]
 

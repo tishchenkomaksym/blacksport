@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{overlay: menuShown}">
     <div class="toolbar container">
       <transition appear name="logo-transition">
         <router-link
@@ -136,6 +136,10 @@ header {
   width: 100vw;
   position: absolute;
   z-index: 1;
+
+  &.overlay {
+    background-color: rgba(black, 0.5);
+  }
 }
 
 .toolbar {
@@ -257,7 +261,7 @@ nav {
 
   @include tablets() {
     align-items: flex-end;
-    height: calc(100vh - 90px);
+    height: calc(100vh - 83px);
     padding: 46px 40px 60px;
   }
 
