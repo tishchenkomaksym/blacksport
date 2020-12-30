@@ -46,6 +46,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('view_texts');
         Permission::generateFor('view_texts_images');
         Permission::generateFor('services_examples');
+        Permission::generateFor('achievements');
+        Permission::generateFor('program_request');
 
     }
 }

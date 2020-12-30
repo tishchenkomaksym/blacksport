@@ -5,19 +5,16 @@ namespace App\Services;
 
 use App;
 use App\Models\Service;
+use App\Models\Page;
 use App\Models\Product;
+use App\Models\ViewText;
 use App\Models\Category;
 use App\Models\ServiceInstance;
 
 class TranslateService
 {
-    public function translateAbout($locale, $texts, $ambassadors, $partners)
+    public function translateAbout($locale, $ambassadors, $partners)
     {
-        if (!empty($texts)){
-            $texts->name = $texts->getTranslatedAttribute('name', $locale , App::getLocale());
-            $texts->meta_description = $texts->getTranslatedAttribute('meta_description', $locale, App::getLocale());
-        }
-
         foreach ($ambassadors as $key => $ambassador) {
             $ambassadors[$key]['description'] = $ambassador->getTranslatedAttribute('description', $locale, App::getLocale());
         }
@@ -26,7 +23,7 @@ class TranslateService
             $partners[$key]['description'] = $partner->getTranslatedAttribute('description', $locale, App::getLocale());
         }
 
-        return [$texts, $ambassadors,$partners];
+        return [$ambassadors,$partners];
     }
 
     public function translate($locale, $collection, $class)
@@ -48,6 +45,14 @@ class TranslateService
                 foreach ( $collection[$key]->categories as $k => $category ) {
                     foreach (Category::translatedFields() as $field ) {
                         $collection[$key]->categories->field = $collection[ $key ]->categories->getTranslatedAttribute( $field, $locale, App::getLocale() );
+                    }
+                }
+            }
+
+            if ($class === Page::class ){
+                foreach ( $collection[$key]->viewTexts as $k => $category ) {
+                    foreach (ViewText::translatedFields() as $field ) {
+                        $collection[$key]->viewTexts[$k]->field = $collection[ $key ]->viewTexts[$k]->getTranslatedAttribute( $field, $locale, App::getLocale() );
                     }
                 }
             }
