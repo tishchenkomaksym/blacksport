@@ -70,22 +70,30 @@
  */
 
 /**
- * @typedef {object} AboutText
+ * @typedef {object} Achievement
+ * @property {string} created_at
+ * @property {string} description
+ * @property {number }id
+ * @property {string} title
+ * @property {string } updated_at
+ */
+
+/**
+ * @typedef {object} PageText
  * @property {string} created_at
  * @property {number} id
- * @property {string} meta_description
  * @property {string} name
  * @property {number} nofollow
  * @property {number} noindex
  * @property {string} page_key
- * @property {Array<any>} translations
  * @property {string} updated_at
- * @property {Array<any>} view_texts
+ * @property {any[]} view_texts
  */
 
 /**
  * @typedef {object} About
+ * @property {any[]} achievements
  * @property {Ambassador[]} ambassadors
  * @property {Partner[]} partners
- * @property {AboutText[]} texts
+ * @property {PageText[]} texts
  */
