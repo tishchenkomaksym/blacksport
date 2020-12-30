@@ -19,5 +19,8 @@
   "buy": "Buy",
   "phoneNumber": "Phone number",
   "email": "Email",
-  "address": "Address"
+  "address": "Address",
+  "openBasket": "Open basket",
+  "selectCategory": "Select category",
+  "productCategories": "Product categories"
 }

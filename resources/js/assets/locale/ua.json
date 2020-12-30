@@ -19,5 +19,8 @@
   "buy": "Купити",
   "phoneNumber": "Номер",
   "email": "Email",
-  "address": "Адреса"
+  "address": "Адреса",
+  "openBasket": "До кошика",
+  "selectCategory": "Обрати категорію",
+  "productCategories": "Категорії товарів"
 }

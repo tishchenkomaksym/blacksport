@@ -19,5 +19,8 @@
   "buy": "Купить",
   "phoneNumber": "Номер",
   "email": "Email",
-  "address": "Адрес"
+  "address": "Адрес",
+  "openBasket": "В корзину",
+  "selectCategory": "Выбрать категорию",
+  "productCategories": "Категории товаров"
 }

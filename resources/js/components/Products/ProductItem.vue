@@ -3,7 +3,7 @@
     <!-- TODO change to dynamic image -->
     <router-link
       :to="productLink"
-      :style="{backgroundImage: `url(${'https://picsum.photos/1024'})`}"
+      :style="{backgroundImage: `url(https://loremflickr.com/1024/1024/sport_equipment)`}"
       class="product-item__image"
     />
     <div class="product-item__info">
@@ -14,12 +14,25 @@
       </div>
       <div class="product-item__info-price">{{price}} <span>₴</span></div>
     </div>
-    <button
-      @click="addToBasket(data.id)"
-      class="product-item__order-button"
-    >
-      {{i18n.$t('defaults.buy')}}
-    </button>
+    <div class="product-item__button-wrapper">
+      <transition name="order-button-slide">
+        <button
+          @click="addToBasket(data.id)"
+          class="product-item__order-button"
+          v-if="!isInBasket"
+        >
+          {{i18n.$t('defaults.buy')}}
+        </button>
+      </transition>
+      <transition name="ordered-button-slide">
+        <button
+          class="product-item__order-button product-item__order-button--ordered"
+          v-if="isInBasket"
+        >
+          {{i18n.$t('defaults.openBasket')}}
+        </button>
+      </transition>
+    </div>
   </article>
 </template>
 
@@ -37,12 +50,15 @@ export default {
   },
   setup({data}) {
     const i18n = useI18n()
-    const {dispatch} = useStore()
+    const {dispatch, state} = useStore()
     const price = computed(() => {
       const locales = i18n.locale.value === 'ru' ? 'ru-RU' : i18n.locale.value === 'en' ? 'en-US' : 'uk-UA'
       return data.price.toLocaleString(locales)
     })
     const {width} = useWindowSize()
+    const isInBasket = computed(() => {
+      return !!Object.keys(state.products.basket).find(key => +key === data.id)
+    })
 
     const addToBasket = productId => {
       dispatch('products/addToBasket', {productId})
@@ -56,7 +72,8 @@ export default {
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
         params: {locale: i18n.locale.value, id: data.id},
-      }))
+      })),
+      isInBasket,
     }
   },
 }
@@ -68,6 +85,8 @@ export default {
 
 .product-item {
   background-color: $silt;
+  display: flex;
+  flex-direction: column;
 
   &__image {
     display: block;
@@ -86,6 +105,7 @@ export default {
 
   &__info {
     padding: 8px;
+    flex-grow: 1;
 
     @include laptop() {
       padding: 16px 8px;
@@ -95,11 +115,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 1;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
 
       @media (min-width: 375px) {
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 4;
       }
     }
 
@@ -116,6 +136,17 @@ export default {
         font-size: 14px;
         font-weight: 300;
       }
+    }
+  }
+
+  &__button-wrapper {
+    width: 100%;
+    height: 36px;
+    overflow: hidden;
+    position: relative;
+
+    @include laptop() {
+      height: 52px;
     }
   }
 
@@ -136,13 +167,42 @@ export default {
       background-color: $park;
     }
 
+    &--ordered {
+      background-color: $text-color;
+      color: $smoke;
+
+      &:hover {
+        background-color: $text-color;
+      }
+    }
+
     @include laptop() {
       padding: 16px 0;
     }
   }
 }
 
-.slide {
+.order-button-slide,
+.ordered-button-slide {
+  &-enter-active,
+  &-leave-active {
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+    position: absolute;
+  }
+}
 
+.order-button-slide {
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(-100%);
+  }
+}
+
+.ordered-button-slide {
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(100%);
+  }
 }
 </style>

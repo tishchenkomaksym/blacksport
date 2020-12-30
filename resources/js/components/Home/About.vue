@@ -71,6 +71,10 @@ export default {
     @include landscape() {
       width: 30vw;
     }
+
+    @include tablets() {
+      width: calc(100vw - 32px);
+    }
   }
 
   &__content {

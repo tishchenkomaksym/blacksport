@@ -39,7 +39,7 @@ export default {
 
 .page-layout {
   height: 100%;
-  padding-top: 55px;
+  padding-top: 70px;
   display: grid;
   grid-template-rows: auto 1fr;
   row-gap: 8px;
@@ -58,6 +58,14 @@ export default {
     h1 {
       margin-bottom: 70px;
       text-align: center;
+    }
+  }
+
+  .page-heading {
+    display: none;
+
+    @include tablets() {
+      display: block;
     }
   }
 }

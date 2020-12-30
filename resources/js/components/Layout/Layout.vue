@@ -41,7 +41,6 @@ export default {
 <style scoped lang="scss">
 main {
   transition: filter 0.3s ease-in-out;
-  will-change: filter;
 
   &.blurred {
     filter: blur(16px);
