@@ -235,6 +235,34 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
             ])->save();
         }
+
+        $dataType = $this->dataType('slug', 'achievements');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'achievements',
+                'display_name_singular' => 'Achievement',
+                'display_name_plural'   => 'Достижения',
+                'icon'                  => null,
+                'model_name'            => 'App\\Models\\Achievement',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'program-request');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'program_request',
+                'display_name_singular' => 'Program Request',
+                'display_name_plural'   => 'Заявки Программы',
+                'icon'                  => null,
+                'model_name'            => 'App\\Models\\ProgramRequest',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+            ])->save();
+        }
     }
 
     /**

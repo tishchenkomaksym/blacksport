@@ -88,14 +88,17 @@ class AboutController extends Controller
      */
     public function index($locale = null)
     {
-        $texts = Page::with('viewTexts')->where('page_key', 'made')->first();
+//        dd(Page::with('viewTexts')
+//               ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get());
+        $texts = $this->translateService->translate($locale, Page::with('viewTexts')
+                                         ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get(), Page::class);
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
-        list($texts, $ambassadors, $partners) = $this->translateService->translateAbout($locale, $texts, $ambassadors, $partners);
+        list($ambassadors, $partners) = $this->translateService->translateAbout($locale, $ambassadors, $partners);
         $achievements = $this->translateService->translate($locale, Achievement::orderByDesc('created_at')->get(), Achievement::class);
 
         return json_encode([
-                'texts' => $texts ? $texts->toArray() : [],
+                'texts' => $texts,
                 'ambassadors' => $ambassadors,
                 'partners' => $partners,
                 'achievements' => $achievements
