@@ -150,6 +150,7 @@ export default {
       padding: 0 40px;
       grid-template-columns: 412px;
       row-gap: 16px;
+      overflow-y: auto;
     }
 
     @include laptop() {

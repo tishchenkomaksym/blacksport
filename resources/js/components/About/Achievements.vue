@@ -61,6 +61,7 @@ export default {
       width: initial;
       margin: initial;
       display: grid;
+      transform: initial;
       grid-template-columns: repeat(2, 1fr);
       column-gap: 40px;
       row-gap: 24px;
