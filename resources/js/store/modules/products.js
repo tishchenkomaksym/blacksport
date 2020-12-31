@@ -76,7 +76,7 @@ export default {
      * @param locale {string}
      * @return {Promise<import('axios').AxiosResponse<any>>}
      */
-    getProduct: async ({commit}, {id, locale}) => await axios.get(`/product/${id}/${locale}`),
+    getProduct: async ({commit}, {id, locale}) => (await axios.get(`/product/${id}/${locale}`)).products[0],
     /**
      * @desc Get products by a category ID
      * @param commit

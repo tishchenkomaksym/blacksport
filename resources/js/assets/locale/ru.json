@@ -22,5 +22,9 @@
   "address": "Адрес",
   "openBasket": "В корзину",
   "selectCategory": "Выбрать категорию",
-  "productCategories": "Категории товаров"
+  "productCategories": "Категории товаров",
+  "emptyCategory": "В этой категории нет товаров",
+  "productDescription": "Описание товара",
+  "specifications": "Характеристики",
+  "toProducts": "К товарам"
 }

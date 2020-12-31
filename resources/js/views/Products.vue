@@ -60,11 +60,14 @@
       </div>
 
       <div class="products__list" v-if="width >= 1024 || !categoryDropdownShown">
-        <ProductItem
-          :key="product.id"
-          :data="product"
-          v-for="product in (route.query.category ? categoryProducts : products)"
-        />
+        <template v-if="(route.query.category ? categoryProducts : products).length">
+          <ProductItem
+            :key="product.id"
+            :data="product"
+            v-for="product in (route.query.category ? categoryProducts : products)"
+          />
+        </template>
+        <p v-else>{{i18n.$t('defaults.emptyCategory')}}</p>
       </div>
     </div>
   </PageLayout>
@@ -194,7 +197,7 @@ export default {
 
       @include laptop() {
         max-height: 70vh;
-        //overflow-y: auto;
+        overflow-y: auto;
 
         > div {
           margin: 0 0 18px;

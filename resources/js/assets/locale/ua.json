@@ -22,5 +22,9 @@
   "address": "Адреса",
   "openBasket": "До кошика",
   "selectCategory": "Обрати категорію",
-  "productCategories": "Категорії товарів"
+  "productCategories": "Категорії товарів",
+  "emptyCategory": "У цій категорії немає товарів",
+  "productDescription": "Опис товару",
+  "specifications": "Характеристики",
+  "toProducts": "До товарів"
 }
