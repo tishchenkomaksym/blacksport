@@ -1,5 +1,5 @@
 /**
- * @typedef {object} NewsItem
+ * @typedef {object} Article
  * @property {number} id
  * @property {string} description
  * @property {string} created_at
@@ -25,6 +25,17 @@
  */
 
 /**
+ * @typedef {object} Category
+ * @property {number} id
+ * @property {string} name
+ * @property {string} url
+ * @property {string} image
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {string} field
+ */
+
+/**
  * @typedef {object} ProductItem
  * @property {number} id
  * @property {number} category_id
@@ -36,6 +47,7 @@
  * @property {string} specifications
  * @property {string} title
  * @property {string} updated_at
+ * @property {Category} categories
  */
 
 /**

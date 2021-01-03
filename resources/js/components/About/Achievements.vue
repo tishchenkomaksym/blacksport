@@ -100,11 +100,6 @@ export default {
         margin: initial;
       }
     }
-
-    p {
-      font-size: 16px;
-      line-height: 22px;
-    }
   }
 }
 </style>

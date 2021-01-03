@@ -1,9 +1,8 @@
 <template>
   <article class="news-item">
     <div class="news-item__header">
-      <!-- TODO add route to article -->
       <router-link
-        to="/"
+        :to="articlePath"
         class="link link--smaller"
         style="transition-property: none"
       >
@@ -13,12 +12,13 @@
     </div>
 
     <!-- TODO change to dynamic image -->
-    <div
-      :style="{backgroundImage: `url(${'https://picsum.photos/1024'})`}"
+    <router-link
+      :style="{backgroundImage: `url(https://loremflickr.com/80${Math.trunc(Math.random() * 9)}/80${Math.trunc(Math.random() * 9)}/sport)`}"
+      :to="articlePath"
       class="news-item__image"
     />
 
-    <h2>{{data.title}}</h2>
+    <h2><router-link :to="articlePath">{{data.title}}</router-link></h2>
     <p class="news-item__description">{{data.description}}</p>
   </article>
 </template>
@@ -26,6 +26,7 @@
 <script>
 import {computed} from 'vue'
 import {useI18n} from '../../i18nPlugin'
+import {ROUTE_CONF} from '../../router'
 
 export default {
   name: 'NewsItem',
@@ -57,12 +58,17 @@ export default {
       i18n,
       image,
       dateCreated,
+      articlePath: computed(() => ({
+        name: ROUTE_CONF.ARTICLE.name,
+        params: {locale: i18n.locale.value, id: data.id},
+      })),
     }
   },
 }
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/scss/variables";
 @import "../../assets/scss/breakpoints";
 
 .news-item {
@@ -74,6 +80,7 @@ export default {
   }
 
   &__image {
+    display: block;
     width: 100%;
     padding-bottom: 100%;
     background-position: center;
@@ -87,10 +94,14 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
 
-    @include desktop() {
-      font-size: 16px;
-      line-height: 22px;
+  h2 a {
+    color: $text-color;
+    transition: none;
+
+    &:hover {
+      color: $text-accent-color;
     }
   }
 }

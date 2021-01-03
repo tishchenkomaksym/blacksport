@@ -11,17 +11,17 @@
     "@glidejs/glide": "^3.4.1",
     "axios": "^0.21.1",
     "normalize.css": "^8.0.1",
-    "vue": "^3.0.4",
+    "vue": "^3.0.5",
     "vue-router": "^4.0.2",
     "vue3-google-map": "^0.5.1",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.4",
+    "@vue/compiler-sfc": "^3.0.5",
     "dotenv": "^8.2.0",
-    "laravel-mix": "^6.0.5",
-    "postcss": "^8.2.1",
-    "sass": "^1.30.0",
+    "laravel-mix": "^6.0.6",
+    "postcss": "^8.2.2",
+    "sass": "^1.32.0",
     "sass-loader": "^10.1.0",
     "vue-loader": "^16.1.2"
   }

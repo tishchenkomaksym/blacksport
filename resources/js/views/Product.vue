@@ -1,6 +1,7 @@
 <template>
   <PageLayout
     :title="`${i18n.$t('defaults.products')} • ${productCategory || ''}`"
+    background-color="sole"
   >
     <div class="product">
       <router-link
@@ -107,13 +108,6 @@ export default {
 @import "../assets/scss/breakpoints";
 
 .product {
-  p {
-    @include desktop() {
-      font-size: 16px;
-      line-height: 22px;
-    }
-  }
-
   &__back-link {
     display: inline-block;
     margin-bottom: 10px;

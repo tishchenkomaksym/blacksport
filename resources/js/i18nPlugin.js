@@ -4,7 +4,7 @@ const createI18n = config => ({
   locale: ref(config.locale),
   translations: reactive(config.translations),
   /**
-   * @desc Method for changing a language.
+   * @description Method for changing a language.
    * @example setLanguage('en')
    * @param locale {string}
    */
@@ -12,7 +12,7 @@ const createI18n = config => ({
     this.locale.value = locale
   },
   /**
-   * @desc Method for getting translations inside components. Supports dot notation.
+   * @description Method for getting translations inside components. Supports dot notation.
    * @example t('defaults.home')
    * @param key {string}
    * @returns string

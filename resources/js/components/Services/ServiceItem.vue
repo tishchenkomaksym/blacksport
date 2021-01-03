@@ -63,11 +63,6 @@ export default {
       @include phones() {
         -webkit-line-clamp: 4;
       }
-
-      @include desktop() {
-        font-size: 16px;
-        line-height: 22px;
-      }
     }
 
     &-order {

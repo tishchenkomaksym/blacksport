@@ -143,10 +143,8 @@ export default {
 
     @include laptop() {
       width: 250px;
-      margin-right: 55px;
+      margin-right: 47px;
       margin-bottom: initial;
-      //position: sticky;
-      //top: 146px;
     }
 
     &__category {
@@ -181,9 +179,25 @@ export default {
         width: auto;
         display: inline-block;
         padding: 8px 16px 6px;
+        position: relative;
+
+        &::after {
+          top: 0;
+          left: 0;
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23D9D9D9FF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+        }
 
         &:hover, &--active {
-          background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23D9D9D9FF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+          &::after {
+            opacity: 1;
+          }
         }
       }
     }
@@ -225,17 +239,11 @@ export default {
       grid-template-columns: repeat(3, 1fr);
       column-gap: 24px;
       row-gap: 40px;
-
-      /* Hide scrollbar for IE, Edge and Firefox */
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      /* Hide scrollbar for Chrome, Safari and Opera */
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      padding-right: 8px;
 
       &::before, &::after {
-        width: 100%;
+        width: calc(100vw - 80px - 202px - 47px);
+        max-width: calc(1440px - 80px - 202px - 47px - 8px);
         height: 40px;
         content: '';
         display: block;

@@ -152,6 +152,11 @@ export default {
         display: -webkit-box;
         -webkit-line-clamp: 12;
         -webkit-box-orient: vertical;
+
+        @include desktop() {
+          font-size: 24px;
+          line-height: 32px;
+        }
       }
     }
   }

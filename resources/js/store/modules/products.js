@@ -1,10 +1,14 @@
 import axios from 'axios'
 
+/** @typedef {import('../../types').ProductItem} ProductItem */
+
 export default {
   namespaced: true,
   state: () => ({
     basket: {},
+    /** @type ProductItem[] */
     products: [],
+    /** @type ProductItem[] */
     categoryProducts: [],
   }),
   getters: {
@@ -23,7 +27,7 @@ export default {
   },
   actions: {
     /**
-     * @desc Get basket
+     * @description Get basket
      * @param commit
      * @return {Promise<void>}
      */
@@ -32,7 +36,7 @@ export default {
       commit('setBasket', Array.isArray(basket) ? {} : basket)
     },
     /**
-     * @desc Add product to the basket
+     * @description Add product to the basket
      * @param dispatch
      * @param productId {number}
      * @param count {number}
@@ -43,7 +47,7 @@ export default {
       dispatch('getBasket')
     },
     /**
-     * @desc Update product in the basket
+     * @description Update product in the basket
      * @param dispatch
      * @param productId {number}
      * @param count {number}
@@ -54,7 +58,7 @@ export default {
       dispatch('getBasket')
     },
     /**
-     * @desc Delete product from the basket
+     * @description Delete product from the basket
      * @param dispatch
      * @param productId {number}
      * @return {Promise<void>}
@@ -64,25 +68,25 @@ export default {
       dispatch('getBasket')
     },
     /**
-     * @desc Get all products
+     * @description Get all products
      * @param commit
      * @param locale {string}
      */
     getProducts: async ({commit}, locale) => commit('setProducts', (await axios.get(`/products/${locale}`)).products),
     /**
-     * @desc Get a specific product
+     * @description Get a specific product
      * @param commit
-     * @param id
+     * @param id {number | string}
      * @param locale {string}
-     * @return {Promise<import('axios').AxiosResponse<any>>}
+     * @return {Promise<import('axios').AxiosResponse<ProductItem>>}
      */
     getProduct: async ({commit}, {id, locale}) => (await axios.get(`/product/${id}/${locale}`)).products[0],
     /**
-     * @desc Get products by a category ID
+     * @description Get products by a category ID
      * @param commit
      * @param categoryId {number}
      * @param locale {string}
-     * @return {Promise<import('axios').AxiosResponse<any>>}
+     * @example store.dispatch('products/getProductCategory', {id: 1, locale: 'en'})
      */
     getProductCategory: async ({commit}, {categoryId, locale}) =>
       commit('setCategoryProducts', (await axios.get(`/product_category/${categoryId}/${locale}`)).products),

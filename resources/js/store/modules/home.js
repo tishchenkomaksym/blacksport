@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-/** @typedef {import('../../types').NewsItem} NewsItem */
+/** @typedef {import('../../types').Article} Article */
 /** @typedef {import('../../types').ServiceExample} ServiceExample */
 /** @typedef {import('../../types').ServiceItem} ServiceItem */
 /** @typedef {import('../../types').ProductItem} ProductItem */
@@ -9,7 +9,7 @@ export default {
   namespaced: true,
   state: () => ({
     homeData: {
-      /** @type NewsItem[] */
+      /** @type Article[] */
       news: [],
       programs: [],
       /** @type ServiceItem[] */
@@ -24,7 +24,7 @@ export default {
   },
   actions: {
     /**
-     * @desc Get home page data.
+     * @description Get home page data.
      * @name getHomeData
      * @param commit
      * @param locale {string}
