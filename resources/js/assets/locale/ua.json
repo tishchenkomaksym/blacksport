@@ -26,5 +26,10 @@
   "emptyCategory": "У цій категорії немає товарів",
   "productDescription": "Опис товару",
   "specifications": "Характеристики",
-  "toProducts": "До товарів"
+  "toProducts": "До товарів",
+  "programApplication": "Заявка на участь у програмі",
+  "takePart": "Взяти участь",
+  "name": "Ім'я",
+  "lastname": "Прізвище",
+  "requiredField": "Це поле є обов`язковим"
 }

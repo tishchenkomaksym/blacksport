@@ -26,5 +26,10 @@
   "emptyCategory": "В этой категории нет товаров",
   "productDescription": "Описание товара",
   "specifications": "Характеристики",
-  "toProducts": "К товарам"
+  "toProducts": "К товарам",
+  "programApplication": "Заявка на участие в программе",
+  "takePart": "Принять участие",
+  "name": "Имя",
+  "lastname": "Фамилия",
+  "requiredField": "Это поле обязательно"
 }

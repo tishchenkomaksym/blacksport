@@ -93,3 +93,18 @@ ul {
     }
   }
 }
+
+input {
+  padding: 8px 16px;
+  -webkit-appearance: none;
+  background-color: $smoke;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: $text-color;
+
+  &::placeholder {
+    color: $park;
+  }
+}

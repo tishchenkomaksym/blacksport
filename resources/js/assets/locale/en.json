@@ -26,5 +26,10 @@
   "emptyCategory": "There are no products in this category",
   "productDescription": "Product description",
   "specifications": "Specifications",
-  "toProducts": "To products"
+  "toProducts": "To products",
+  "programApplication": "Application form",
+  "takePart": "Take part",
+  "name": "Name",
+  "lastname": "Lastname",
+  "requiredField": "This field is required"
 }
