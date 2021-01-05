@@ -7,13 +7,27 @@
       @input="handleChange"
       @blur="handleBlur"
       as="input"
+      v-if="!mask"
     />
-    <ErrorMessage :name="name" class="form-input__error" />
+    <Field
+      :name="name"
+      :placeholder="placeholder"
+      :type="type"
+      @input="handleChange"
+      @blur="handleBlur"
+      as="input"
+      v-maska="mask"
+      v-else
+    />
+    <p class="form-error" v-if="errorMessage">
+      {{i18n.$t(errorMessage)}}
+    </p>
   </div>
 </template>
 
 <script>
 import {ErrorMessage, Field, useField} from 'vee-validate'
+import {useI18n} from '../../i18nPlugin'
 
 export default {
   name: 'FormInput',
@@ -25,11 +39,15 @@ export default {
     },
     name: String,
     placeholder: String,
+    mask: [Array, Object, String],
   },
   setup({name}) {
-    const {handleBlur, handleChange} = useField(name)
+    const i18n = useI18n()
+    const {errorMessage, handleBlur, handleChange} = useField(name)
 
     return {
+      i18n,
+      errorMessage,
       handleBlur,
       handleChange,
     }
@@ -47,11 +65,6 @@ export default {
     width: 100%;
     display: block;
     margin-bottom: 8px;
-  }
-
-  &__error {
-    color: $red;
-    font-size: 14px;
   }
 }
 </style>

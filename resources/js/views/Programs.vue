@@ -9,8 +9,8 @@
         class="programs__item"
         v-for="program in programs"
       >
-        <ProgramItem :data="program" />
-        <ProgramRequestForm />
+        <ProgramItem :data="program" style="min-width: 0" />
+        <ProgramRequestForm :program-id="program.id" />
       </div>
     </div>
   </PageLayout>
@@ -45,15 +45,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
 
 .programs {
+  @include laptop() {
+    max-height: calc((640 * 100vh) / 900);
+    overflow-y: auto;
+
+    &::before, &::after {
+      width: calc(100% - 88px);
+      max-width: calc(1440px - 88px);
+      height: 40px;
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 1;
+    }
+
+    &::before {
+      top: 146px;
+      background: linear-gradient(180deg, $sole 0%, rgba(13, 13, 13, 0) 100%);
+    }
+
+    &::after {
+      top: calc(106px + (640 * 100vh) / 900);
+      background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, $sole 100%);
+    }
+  }
+
   &__item {
+    margin-bottom: 24px;
+
     @include laptop() {
       display: grid;
-      grid-template-columns: 1fr 448px;
+      grid-template-columns: 1fr 300px;
       column-gap: 40px;
       margin-bottom: 40px;
+    }
+
+    @include large-desktop() {
+      grid-template-columns: 1fr 448px;
     }
   }
 }

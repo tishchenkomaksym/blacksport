@@ -26,6 +26,7 @@ button {
   background-color: $smoke;
   transition: background-color 0.3s ease-in-out;
   font-size: 15px;
+  letter-spacing: 0.05em;
 
   @include tablets() {
     padding: 16px 32px;
