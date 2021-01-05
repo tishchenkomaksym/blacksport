@@ -382,6 +382,68 @@
                 }
             }
         },
+        "/api/categories/{locale?}": {
+            "get": {
+                "tags": [
+                    "category"
+                ],
+                "summary": "List of category",
+                "description": "Getting categories",
+                "operationId": "App\\Http\\Controllers\\CategoryController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "url": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/contacts": {
             "get": {
                 "tags": [
@@ -725,6 +787,68 @@
                                                         "type": "string"
                                                     },
                                                     "published": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/partners/{locale?}": {
+            "get": {
+                "tags": [
+                    "partner"
+                ],
+                "summary": "List of partners",
+                "description": "Getting partners",
+                "operationId": "App\\Http\\Controllers\\PartnerController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "partners": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "logo_image": {
+                                                        "type": "string"
+                                                    },
+                                                    "avatar_image": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
                                                         "type": "string"
                                                     }
                                                 },

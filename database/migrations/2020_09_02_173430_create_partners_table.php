@@ -11,7 +11,8 @@ class CreatePartnersTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->text('description');
-			$table->text('image')->nullable();
+			$table->text('logo_image')->nullable();
+			$table->text('avatar_image')->nullable();
 		});
 	}
 

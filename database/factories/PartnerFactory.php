@@ -21,6 +21,7 @@ use Faker\Generator as Faker;
 $factory->define( Partner::class, function (Faker $faker) {
     return [
         'description' => $faker->text,
-        'image' => $faker->imageUrl()
+        'logo_image' => $faker->imageUrl(),
+        'avatar_image' => $faker->imageUrl()
     ];
 });

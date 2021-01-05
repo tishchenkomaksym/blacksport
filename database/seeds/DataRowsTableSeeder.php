@@ -1029,11 +1029,11 @@ class DataRowsTableSeeder extends Seeder
         }
 
 
-        $dataRow = $this->dataRow($partnerDataType, 'image');
+        $dataRow = $this->dataRow($partnerDataType, 'logo_image');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'image',
-                'display_name' => 'Картинка',
+                'display_name' => 'Логотип',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -1042,6 +1042,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($partnerDataType, 'avatar_image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Аватарка',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 4,
             ])->save();
         }
 
@@ -1057,7 +1073,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 4,
+                'order'        => 5,
             ])->save();
         }
 
@@ -1073,7 +1089,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 6,
             ])->save();
         }
 
