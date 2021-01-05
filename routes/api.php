@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgramController;
@@ -45,6 +47,9 @@ Route::get('/services/{locale?}', 'ServiceController@index');
 Route::get('/programs/{locale?}', 'ProgramController@index');
 Route::post('/program/request', [ ProgramController::class, 'store']);
 Route::get('/contacts', [ ContactController::class, 'index']);
+Route::get('/categories/{locale?}', [ CategoryController::class, 'index']);
+Route::get('/partners/{locale?}', [ PartnerController::class, 'index']);
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

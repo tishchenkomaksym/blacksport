@@ -1033,7 +1033,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'image',
-                'display_name' => 'Картинка',
+                'display_name' => 'Логотип',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -1042,6 +1042,29 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($partnerDataType, 'image_type');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'radio_btn',
+                'display_name' => 'Разрешение картинки',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    'default'       => 'radio1',
+                    'options'       => [
+                        "square" => "square",
+                        "rectangle" => "rectangle"
+                    ],
+
+                ],
+                'order'        => 4,
             ])->save();
         }
 
@@ -1057,7 +1080,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 4,
+                'order'        => 5,
             ])->save();
         }
 
@@ -1073,7 +1096,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 6,
             ])->save();
         }
 
