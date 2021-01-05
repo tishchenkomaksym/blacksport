@@ -3,6 +3,7 @@ import axios from 'axios'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import Maska from 'maska'
 
 import 'normalize.css'
 import './assets/scss/index.scss'
@@ -17,4 +18,5 @@ axios.interceptors.response.use(value => {
 createApp(App)
   .use(router)
   .use(store)
+  .use(Maska)
   .mount('#app')

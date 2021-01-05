@@ -109,3 +109,13 @@
  * @property {Partner[]} partners
  * @property {PageText[]} texts
  */
+
+/**
+ * @typedef {object} Program
+ * @property {string} created_at
+ * @property {string} description
+ * @property {number} id
+ * @property {string} images
+ * @property {string} name
+ * @property {string} updated_at
+ */

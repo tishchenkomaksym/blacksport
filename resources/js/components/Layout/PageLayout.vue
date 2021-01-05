@@ -40,9 +40,6 @@ export default {
 .page-layout {
   height: 100%;
   padding-top: 70px;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  row-gap: 8px;
   box-sizing: border-box;
 
   &::after {
@@ -53,7 +50,6 @@ export default {
 
   @include tablets() {
     padding: 44px 40px 0;
-    row-gap: 0;
 
     h1 {
       margin-bottom: 70px;
