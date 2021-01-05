@@ -1029,7 +1029,7 @@ class DataRowsTableSeeder extends Seeder
         }
 
 
-        $dataRow = $this->dataRow($partnerDataType, 'logo_image');
+        $dataRow = $this->dataRow($partnerDataType, 'image');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'image',
@@ -1045,18 +1045,25 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($partnerDataType, 'avatar_image');
+        $dataRow = $this->dataRow($partnerDataType, 'image_type');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'image',
-                'display_name' => 'Аватарка',
+                'type'         => 'radio_btn',
+                'display_name' => 'Разрешение картинки',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    'default'       => 'radio1',
+                    'options'       => [
+                        "square" => "square",
+                        "rectangle" => "rectangle"
+                    ],
+
+                ],
                 'order'        => 4,
             ])->save();
         }

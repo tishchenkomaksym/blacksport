@@ -839,10 +839,10 @@
                                                     "description": {
                                                         "type": "string"
                                                     },
-                                                    "logo_image": {
+                                                    "image": {
                                                         "type": "string"
                                                     },
-                                                    "avatar_image": {
+                                                    "image_type": {
                                                         "type": "string"
                                                     },
                                                     "created_at": {

@@ -39,7 +39,7 @@ class Partner extends Model
 
     protected $table = 'partners';
     public $timestamps = true;
-    protected $fillable = ['description', 'logo_image', 'avatar_image'];
+    protected $fillable = ['description', 'image'];
 
     public static function translatedFields(){
         return [

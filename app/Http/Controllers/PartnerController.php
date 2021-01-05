@@ -41,8 +41,8 @@ class PartnerController extends Controller
      *                @OA\Items(
      *                      @OA\Property(property="id", type="integer"),
      *                      @OA\Property(property="description", type="string"),
-     *                      @OA\Property(property="logo_image", type="string"),
-     *                      @OA\Property(property="avatar_image", type="string"),
+     *                      @OA\Property(property="image", type="string"),
+     *                      @OA\Property(property="image_type", type="string"),
      *                      @OA\Property(property="created_at", type="string"),
      *                      @OA\Property(property="updated_at", type="string")
      *                  )
