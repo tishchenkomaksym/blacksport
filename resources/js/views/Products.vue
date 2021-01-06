@@ -35,7 +35,7 @@
               :to="{...productCategoryPath, query: {category: category.id}}"
               replace
               class="products__categories__category"
-              v-for="category in (currentCategory.id ? productCategories.filter(({id}) => id !== currentCategory.id) : productCategories)"
+              v-for="category in (currentCategory.id ? categories.filter(({id}) => id !== currentCategory.id) : categories)"
             >
               {{category.name}}
             </router-link>
@@ -44,9 +44,9 @@
         <div
           v-else
         >
-          <h3 class="products__categories__title">{{i18n.$t('defaults.productCategories')}}</h3>
+          <h3 class="products__categories__title">{{i18n.$t('defaults.categories')}}</h3>
           <div class="products__categories__list">
-            <div :key="category.id" v-for="category in productCategories">
+            <div :key="category.id" v-for="category in categories">
               <router-link
                 :class="{'products__categories__category--active': +route.query.category === category.id}"
                 :to="{...productCategoryPath, query: {category: category.id}}"
@@ -87,20 +87,21 @@ export default {
   name: 'Products',
   components: {ProductItem, PageLayout},
   setup() {
-    const {dispatch, getters, state} = useStore()
+    const {dispatch, state} = useStore()
     const i18n = useI18n()
     const route = useRoute()
     const {width} = useWindowSize()
     const categoryDropdownShown = ref(false)
     const products = computed(() => state.products.products) // List of all products
-    const productCategories = computed(() => getters['products/productCategories']) // List of existing categories
+    const categories = computed(() => state.products.categories)
     const currentCategory = computed(() => { // Get active category object {id, name}
-      return productCategories.value.find(({id}) => id === +route.query.category) || {}
+      return categories.value.find(({id}) => id === +route.query.category) || {}
     })
     const categoryProducts = computed(() => state.products.categoryProducts) // Products of a specific category
 
     watchEffect(() => {
-      dispatch('products/getProducts', i18n.locale.value)
+      if (!route.query.category) dispatch('products/getProducts', i18n.locale.value)
+      dispatch('products/getCategories', i18n.locale.value)
     })
 
     watch(() => route.query.category, categoryId => {
@@ -113,7 +114,7 @@ export default {
     return {
       i18n,
       products,
-      productCategories,
+      categories,
       currentCategory,
       categoryDropdownShown,
       categoryProducts,
