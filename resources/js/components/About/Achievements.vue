@@ -9,7 +9,7 @@
       <article
         :key="achievement.id"
         class="achievements__list-item"
-        v-for="achievement in achievements.slice(0, 8)"
+        v-for="achievement in achievements"
       >
         <img src="/img/branch.svg" alt="Branch">
         <h2>{{achievement.title}}</h2>

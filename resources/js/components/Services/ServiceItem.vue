@@ -4,7 +4,7 @@
       <h2>{{data.name}}</h2>
       <p class="service-item__info-description">{{data.description}}</p>
       <div class="service-item__info-order">
-        <button>Заказать</button>
+        <Button link>{{i18n.$t('defaults.order')}}</Button>
       </div>
     </div>
     <p
@@ -19,9 +19,11 @@
 <script>
 import {ref} from 'vue'
 import {useI18n} from '../../i18nPlugin'
+import Button from '../Base/Button'
 
 export default {
   name: 'ServiceItem',
+  components: {Button},
   props: {
     data: Object,
   },
@@ -45,9 +47,13 @@ export default {
   background-color: $sole;
   position: relative;
   display: flex;
+  justify-content: space-between;
 
   &__info {
+    flex-grow: 1;
     padding: 16px 24px 16px 16px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 
     h2 {
       margin: 0;
@@ -67,25 +73,10 @@ export default {
 
     &-order {
       text-align: right;
-
-      button {
-        padding: 0;
-        color: $text-color;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 15px;
-        transition: color 0.3s ease-in-out;
-        will-change: color;
-
-        &:hover {
-          color: $text-accent-color;
-        }
-      }
     }
   }
 
   &__examples-button {
-    width: 32px;
     padding: 9px 12px;
     top: 0;
     right: 0;

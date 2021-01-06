@@ -35,5 +35,6 @@
   "phoneValidation": "Enter a correct phone number",
   "phoneExists": "User with this phone already exists",
   "invalidEmail": "Invalid email",
-  "applicationSubmitted": "The program application has been submitted! You will be contacted shortly"
+  "applicationSubmitted": "The program application has been submitted! You will be contacted shortly",
+  "order": "Order"
 }

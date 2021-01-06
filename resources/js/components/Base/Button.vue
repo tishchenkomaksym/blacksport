@@ -1,5 +1,7 @@
 <template>
-  <button>
+  <button
+    :class="{link: link}"
+  >
     <slot />
   </button>
 </template>
@@ -8,7 +10,7 @@
 export default {
   name: 'Button',
   props: {
-
+    link: Boolean,
   },
 }
 </script>
@@ -19,12 +21,11 @@ export default {
 
 button {
   padding: 16px;
-  display: block;
   color: $text-color;
   font-weight: 700;
   text-transform: uppercase;
   background-color: $smoke;
-  transition: background-color 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   font-size: 15px;
   letter-spacing: 0.05em;
 
@@ -35,6 +36,15 @@ button {
 
   &:hover {
     background-color: $park;
+  }
+
+  &.link {
+    padding: 0;
+    background-color: transparent;
+
+    &:hover {
+      color: $text-accent-color;
+    }
   }
 }
 </style>
