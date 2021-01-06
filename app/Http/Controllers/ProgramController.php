@@ -98,10 +98,10 @@ class ProgramController extends Controller
 
     public function store(Request $request)
     {
-        if (!empty(ProgramRequest::where('phone')->get())){
+        if (!empty(ProgramRequest::where('phone')->get()->toArray())){
             return response()->json(['error' => 'User with this phone already exist'], 401);
         }
-        if (!empty(ProgramRequest::where('email')->get())){
+        if (!empty(ProgramRequest::where('email')->get()->toArray())){
             return response()->json(['error' => 'User with this email already exist'], 401);
         }
         ProgramRequest::create([
