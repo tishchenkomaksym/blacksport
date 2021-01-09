@@ -3,7 +3,6 @@
     :validation-schema="validationSchema"
     @submit="submitApplication"
     class="request-form"
-    v-slot="{errors}"
   >
     <template v-if="!requestSent">
       <h3>{{i18n.$t('defaults.programApplication')}}</h3>

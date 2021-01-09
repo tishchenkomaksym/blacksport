@@ -36,5 +36,9 @@
   "phoneExists": "User with this phone already exists",
   "invalidEmail": "Invalid email",
   "applicationSubmitted": "The program application has been submitted! You will be contacted shortly",
-  "order": "Order"
+  "order": "Order",
+  "close": "Close",
+  "placingOrder": "Placing an order",
+  "thankYou": "Thank you!",
+  "operatorContact": "Our operator will contact you"
 }

@@ -4,6 +4,7 @@
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :class="{light}"
       @input="handleChange"
       @blur="handleBlur"
       as="input"
@@ -13,6 +14,7 @@
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :class="{light}"
       @input="handleChange"
       @blur="handleBlur"
       as="input"
@@ -40,6 +42,7 @@ export default {
     name: String,
     placeholder: String,
     mask: [Array, Object, String],
+    light: Boolean,
   },
   setup({name}) {
     const i18n = useI18n()

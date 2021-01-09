@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="{link: link}"
+    :class="{block, link}"
   >
     <slot />
   </button>
@@ -10,6 +10,7 @@
 export default {
   name: 'Button',
   props: {
+    block: Boolean,
     link: Boolean,
   },
 }
@@ -21,6 +22,8 @@ export default {
 
 button {
   padding: 16px;
+  display: flex;
+  align-items: center;
   color: $text-color;
   font-weight: 700;
   text-transform: uppercase;
@@ -36,6 +39,11 @@ button {
 
   &:hover {
     background-color: $park;
+  }
+
+  &.block {
+    width: 100%;
+    display: block;
   }
 
   &.link {

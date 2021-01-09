@@ -7,34 +7,54 @@
       <ServiceItem
         :data="service"
         :key="service.id"
+        @open-order-modal="openOrderModal"
         v-for="service in services"
       />
     </div>
+    <ServiceOrderModal
+      :service-id="selectedService.id"
+      :service-name="selectedService.name"
+      @close-modal="closeOrderModal"
+      v-if="!!selectedService"
+    />
   </PageLayout>
 </template>
 
 <script>
-import {computed, watchEffect} from 'vue'
+import {computed, ref, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import PageLayout from '../components/Layout/PageLayout'
 import ServiceItem from '../components/Services/ServiceItem'
+import ServiceOrderModal from '../components/Services/ServiceOrderModal'
 
 export default {
   name: 'Services',
-  components: {ServiceItem, PageLayout},
+  components: {ServiceOrderModal, ServiceItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
     const i18n = useI18n()
     const services = computed(() => state.pages.services)
+    const selectedService = ref(null)
 
     watchEffect(() => {
       dispatch('pages/getServices', i18n.locale.value)
     })
 
+    const openOrderModal = (serviceId, serviceName) => {
+      selectedService.value = {id: serviceId, name: serviceName}
+    }
+
+    const closeOrderModal = () => {
+      selectedService.value = null
+    }
+
     return {
       i18n,
       services,
+      selectedService,
+      openOrderModal,
+      closeOrderModal,
     }
   },
 }

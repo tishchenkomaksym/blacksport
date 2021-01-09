@@ -108,6 +108,10 @@ export default {
     width: 100%;
     height: 500px;
 
+    ::v-deep > div {
+      height: 100%;
+    }
+
     @include tablets() {
       height: 66.6vh;
     }

@@ -4,7 +4,12 @@
       <h2>{{data.name}}</h2>
       <p class="service-item__info-description">{{data.description}}</p>
       <div class="service-item__info-order">
-        <Button link>{{i18n.$t('defaults.order')}}</Button>
+        <Button
+          @click="$emit('open-order-modal', data.id, data.name)"
+          link
+        >
+          {{i18n.$t('defaults.order')}}
+        </Button>
       </div>
     </div>
     <p

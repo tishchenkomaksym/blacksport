@@ -19,28 +19,45 @@
         <ServiceItem
           :key="service.id"
           :data="service"
+          @open-order-modal="openOrderModal"
           v-for="service in services.slice(0, 5)"
         />
       </div>
     </div>
+    <ServiceOrderModal
+      :service-id="selectedService.id"
+      :service-name="selectedService.name"
+      @close-modal="closeOrderModal"
+      v-if="!!selectedService"
+    />
   </section>
 </template>
 
 <script>
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
+import ServiceOrderModal from '../Services/ServiceOrderModal'
 
 export default {
   name: 'Services',
-  components: {ServiceItem, PrevSectionButton},
+  components: {ServiceOrderModal, ServiceItem, PrevSectionButton},
   setup() {
     const {state} = useStore()
     const i18n = useI18n()
     const services = computed(() => state.home.homeData.services)
+    const selectedService = ref(null)
+
+    const openOrderModal = (serviceId, serviceName) => {
+      selectedService.value = {id: serviceId, name: serviceName}
+    }
+
+    const closeOrderModal = () => {
+      selectedService.value = null
+    }
 
     return {
       i18n,
@@ -49,6 +66,9 @@ export default {
         name: ROUTE_CONF.SERVICES.name,
         params: {locale: i18n.locale.value},
       })),
+      selectedService,
+      openOrderModal,
+      closeOrderModal,
     }
   }
 }
