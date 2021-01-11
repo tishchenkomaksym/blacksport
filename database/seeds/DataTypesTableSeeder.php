@@ -263,6 +263,20 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
             ])->save();
         }
+
+        $dataType = $this->dataType('slug', 'services-order');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'services_order',
+                'display_name_singular' => 'Services Order',
+                'display_name_plural'   => 'Заявки Услуги',
+                'icon'                  => null,
+                'model_name'            => 'App\\Models\\ServicesOrder',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+            ])->save();
+        }
     }
 
     /**

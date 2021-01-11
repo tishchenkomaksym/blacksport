@@ -48,6 +48,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('services_examples');
         Permission::generateFor('achievements');
         Permission::generateFor('program_request');
+        Permission::generateFor('services_order');
 
     }
 }

@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             ViewTextTableSeeder::class
         ]);
 
+
         factory( ViewTextImage::class, 20)->create();
     }
 }

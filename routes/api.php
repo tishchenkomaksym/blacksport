@@ -7,6 +7,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,7 @@ Route::get('/news/{id}/{locale?}', [ NewsController::class, 'show']);
 Route::get('/services/{locale?}', 'ServiceController@index');
 Route::get('/programs/{locale?}', 'ProgramController@index');
 Route::post('/program/request', [ ProgramController::class, 'store']);
+Route::post('/service/request', [ ServiceController::class, 'store']);
 Route::get('/contacts', [ ContactController::class, 'index']);
 Route::get('/categories/{locale?}', [ CategoryController::class, 'index']);
 Route::get('/partners/{locale?}', [ PartnerController::class, 'index']);
