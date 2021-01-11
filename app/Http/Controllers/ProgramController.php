@@ -85,25 +85,18 @@ class ProgramController extends Controller
      *     @OA\Response(
      *          response="200",
      *          description="success",
-     *     ),
-     *     @OA\Response(
-     *          response="403",
-     *          description="error, User with this phone or email already exist",
-     *          @OA\Property(property="phone", type="string"),
-     *          @OA\Property(property="email", type="string"),
-     *     ),
-     *
+     *     )
      * )
      */
 
     public function store(Request $request)
     {
-        if (!empty(ProgramRequest::where('phone')->get()->toArray())){
-            return response()->json(['error' => 'User with this phone already exist'], 401);
-        }
-        if (!empty(ProgramRequest::where('email')->get()->toArray())){
-            return response()->json(['error' => 'User with this email already exist'], 401);
-        }
+//        if (!empty(ProgramRequest::where('phone')->where('program_id')->get()->toArray())){
+//            return response()->json(['error' => 'User with this phone and program already exist'], 403);
+//        }
+//        if (!empty(ProgramRequest::where('email')->where('program_id')->get()->toArray())){
+//            return response()->json(['error' => 'User with this email and program already exist'], 403);
+//        }
         ProgramRequest::create([
             'program_id' => $request['program_id'],
             'name' => $request['name'],

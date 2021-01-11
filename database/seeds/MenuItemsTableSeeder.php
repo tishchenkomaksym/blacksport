@@ -427,5 +427,21 @@ class MenuItemsTableSeeder extends Seeder
             ])->save();
         }
 
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Заявки услуги',
+            'url'     => '',
+            'route'   => 'voyager.services-order.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-book',
+                'color'      => '#000000',
+                'parent_id'  => $menuContent->id,
+                'order'      => 31,
+            ])->save();
+        }
+
     }
 }

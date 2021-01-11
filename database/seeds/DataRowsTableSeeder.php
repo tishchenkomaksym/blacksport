@@ -781,6 +781,54 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($ordersDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Имя',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'phone');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Телефон',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 4,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'email');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Email',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 5,
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($ordersDataType, 'products');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -793,7 +841,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 2,
+                'order'        => 6,
             ])->save();
         }
 
@@ -809,7 +857,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 3,
+                'order'        => 7,
             ])->save();
         }
 
@@ -825,7 +873,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 4,
+                'order'        => 8,
             ])->save();
         }
 
@@ -841,7 +889,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 9,
             ])->save();
         }
 
@@ -857,7 +905,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 6,
+                'order'        => 10,
             ])->save();
         }
 
@@ -1118,6 +1166,23 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($serviceDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Название',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 2,
+            ])->save();
+        }
+
+
         $dataRow = $this->dataRow($serviceDataType, 'image');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1130,7 +1195,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 2,
+                'order'        => 3,
             ])->save();
         }
 
@@ -1146,7 +1211,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 3,
+                'order'        => 4,
             ])->save();
         }
 
@@ -1163,7 +1228,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 4,
+                'order'        => 5,
             ])->save();
         }
 
@@ -1179,7 +1244,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 6,
             ])->save();
         }
 
@@ -1397,11 +1462,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'text',
                 'display_name' => 'Название',
                 'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 2,
             ])->save();
@@ -1607,7 +1672,6 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        //{"model":"\\App\\Models\\Service","table":"services","type":"belongsTo","column":"id","key":"name","label":"name","pivot_table":"ambassadors","pivot":"0","taggable":"0"}
         $dataRow = $this->dataRow($serviceExampleDataType, 'services_example_belongsto_service_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill( [
@@ -1932,13 +1996,6 @@ class DataRowsTableSeeder extends Seeder
 
         $achievementsDataType = DataType::where('slug', 'achievements')->firstOrFail();
 
-        /*
- 17	id	text	Id	1	0	0	0	0	0	{}	1
-17	title	text	Заголовок	1	1	1	1	1	1	{}	2
-17	description	text_area	Описание	1	1	1	1	1	1	{}	3
-17	created_at	timestamp	Created At	0	0	0	0	0	0	{}	4
-17	updated_at	timestamp	Updated At	0	0	0	0	0	0	{}	5
-*/
         $dataRow = $this->dataRow($achievementsDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -2024,17 +2081,6 @@ class DataRowsTableSeeder extends Seeder
 
         $programRequestDataType = DataType::where('slug', 'program-request')->firstOrFail();
 
-        /*
-18	id	text	Id	1	0	0	0	0	0	{}	1
-18	program_id	text	Program Id	1	1	1	1	1	1	{}	2
-18	name	text	Имя	1	1	1	1	1	1	{}	3
-18	phone	text	Телефон	1	1	1	1	1	1	{}	4
-18	email	text	Email	0	1	1	1	1	1	{}	5
-18	created_at	timestamp	Created At	0	1	1	1	0	1	{}	6
-18	updated_at	timestamp	Updated At	0	0	0	0	0	0	{}	7
-18	program_request_belongsto_program_relationship	relationship	Название программы	0	1	1	1	1	1	{"model":"\\App\\Models\\Program","table":"programs","type":"belongsTo","column":"id","key":"id","label":"name","pivot_table":"achievements","pivot":"0","taggable":"0"}	8
-
-*/
         $dataRow = $this->dataRow($programRequestDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -2148,7 +2194,7 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($viewTextsImagesDataType, 'program_request_belongsto_program_relationship');
+        $dataRow = $this->dataRow($programRequestDataType, 'program_request_belongsto_program_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'relationship',
@@ -2161,7 +2207,7 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 1,
                 'details'      => [
                     "model" =>"\\App\\Models\\Program",
-                    "table" => "view_texts",
+                    "table" => "programs",
                     "type" => "belongsTo",
                     "column" =>"program_id",
                     "key" =>"id",
@@ -2173,7 +2219,153 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 8,
             ])->save();
         }
+
+
+
+        $servicesOrderDataType = DataType::where('slug', 'services-order')->firstOrFail();
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Id',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 1,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'program_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Service Id',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 2,
+            ])->save();
+        }
+
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Имя',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'phone');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Телефон',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 4,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'email');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Email',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 5,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 6,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Updated At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 7,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($servicesOrderDataType, 'service_request_belongsto_service_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Название услуги',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "model" =>"\\App\\Models\\Service",
+                    "table" => "services",
+                    "type" => "belongsTo",
+                    "column" =>"service_id",
+                    "key" =>"id",
+                    "label" => "name",
+                    "pivot_table" => "ambassadors",
+                    "pivot" => "0",
+                    "taggable" =>"0"
+                ],
+                'order'        => 8,
+            ])->save();
+        }
     }
+
+
+
 
     /**
      * [dataRow description].
