@@ -4,7 +4,6 @@
       <router-link
         :to="articlePath"
         class="link link--smaller"
-        style="transition-property: none"
       >
         {{i18n.$t('defaults.read')}}
       </router-link>
@@ -98,7 +97,6 @@ export default {
 
   h2 a {
     color: $text-color;
-    transition: none;
 
     &:hover {
       color: $text-accent-color;

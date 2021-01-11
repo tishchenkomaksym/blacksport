@@ -38,14 +38,14 @@
 </template>
 
 <script>
-import {computed, nextTick, onMounted, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
 import useWindowSize from '../../hooks/useWindowSize'
+import useGlide from '../../hooks/useGlide'
 import PrevSectionButton from './PrevSectionButton'
 import ProductItem from '../Products/ProductItem'
-import Glide from '@glidejs/glide'
 
 export default {
   name: 'Products',
@@ -58,56 +58,29 @@ export default {
     const glide = ref(null)
     const productsSlider = ref(null)
 
-    const mountGlide = () => {
-      glide.value = new Glide(productsSlider.value, {
-        perView: 5,
-        gap: 24,
-        bound: true,
-        peek: {before: 40, after: 0},
-        breakpoints: {
-          1439: {
-            perView: 3,
-            gap: 16,
-          },
-          968: {
-            perView: 2,
-          },
-          768: {
-            perView: 1,
-            gap: 16,
-            peek: {before: 40, after: 0},
-          },
-          450: {
-            perView: 1,
-            peek: {before: 16, after: 104},
-          },
+    useGlide(glide, productsSlider, {
+      perView: 5,
+      gap: 24,
+      bound: true,
+      peek: {before: 40, after: 0},
+      breakpoints: {
+        1439: {
+          perView: 3,
+          gap: 16,
         },
-      })
-        .on('resize', refreshGlide)
-      glide.value.mount()
-    }
-
-    const destroyGlide = () => {
-      if (glide.value) {
-        glide.value.destroy()
-        glide.value = null
-      }
-    }
-
-    const refreshGlide = async () => {
-      destroyGlide()
-      await nextTick()
-      mountGlide()
-    }
-
-    onMounted(() => {
-      mountGlide()
-    })
-
-    watch(() => products.value, () => {
-      if (productsSlider.value) {
-        refreshGlide()
-      }
+        968: {
+          perView: 2,
+        },
+        768: {
+          perView: 1,
+          gap: 16,
+          peek: {before: 40, after: 0},
+        },
+        450: {
+          perView: 1,
+          peek: {before: 16, after: 104},
+        },
+      },
     })
 
     return {

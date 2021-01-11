@@ -3,7 +3,6 @@ import axios from 'axios'
 /** @typedef {import('../../types').About} About */
 /** @typedef {import('../../types').Article} Article */
 /** @typedef {import('../../types').Program} Program */
-/** @typedef {import('../../types').ServiceItem} ServiceItem */
 
 export default {
   namespaced: true,
@@ -19,8 +18,6 @@ export default {
     news: [],
     /** @type Program[] */
     programs: [],
-    /** @type ServiceItem[] */
-    services: [],
   }),
   actions: {
     /**
@@ -31,13 +28,6 @@ export default {
      * @example store.dispatch('pages/getAbout', 'en')
      */
     getAbout: async ({commit}, locale) => commit('setAbout', await axios.get(`/about/${locale}`)),
-    /**
-     * @description Get list of services
-     * @name getServices
-     * @param commit {import('vuex').Commit}
-     * @param locale {string}
-     */
-    getServices: async ({commit}, locale) => commit('setServices', (await axios.get(`/services/${locale}`)).services),
     /**
      * @description Get all news
      * @name getNews
@@ -72,7 +62,6 @@ export default {
   },
   mutations: {
     setAbout: (state, data) => state.about = data,
-    setServices: (state, data) => state.services = data,
     setNews: (state, data) => state.news = data,
     setPrograms: (state, data) => state.programs = data,
   },

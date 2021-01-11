@@ -108,7 +108,7 @@ export default {
     width: 100%;
     height: 500px;
 
-    ::v-deep > div {
+    :deep(> div) {
       height: 100%;
     }
 

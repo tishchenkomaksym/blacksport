@@ -26,6 +26,7 @@
           type="text"
           light
         />
+        <p class="form-error" v-if="hasError">{{i18n.$t('defaults.phoneExists')}}</p>
         <Button type="submit" block link>{{i18n.$t('defaults.order')}}</Button>
       </template>
       <template v-else>
@@ -39,6 +40,7 @@
 
 <script>
 import {ref} from 'vue'
+import {useStore} from 'vuex'
 import {Form} from 'vee-validate'
 import * as Yup from 'yup'
 import {useI18n} from '../../i18nPlugin'
@@ -54,16 +56,21 @@ export default {
     serviceName: String,
   },
   setup({serviceId}) {
+    const {dispatch} = useStore()
     const i18n = useI18n()
+    const hasError = ref(false)
     const isOrdered = ref(false)
 
-    const orderService = async () => {
+    const orderService = async ({name, email, phone}) => {
       try {
-        // TODO Request to api
-        console.log('ordered', serviceId)
+        await dispatch('services/orderService', {
+          service_id: serviceId,
+          name, email, phone,
+        })
         isOrdered.value = true
       } catch (err) {
         console.error(err)
+        hasError.value = true
       }
     }
 
@@ -78,6 +85,7 @@ export default {
       isOrdered,
       orderService,
       validationSchema,
+      hasError,
     }
   },
 }

@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import {computed, nextTick, onMounted, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
-import Glide from '@glidejs/glide'
+import useGlide from '../../hooks/useGlide'
 import NewsItem from '../News/NewsItem'
 import PrevSectionButton from './PrevSectionButton'
 
@@ -51,57 +51,30 @@ export default {
     const newsSlider = ref(null)
     const news = computed(() => state.home.homeData.news)
 
-    const mountGlide = () => {
-      glide.value = new Glide(newsSlider.value, {
-        perView: 4,
-        gap: 40,
-        bound: true,
-        peek: {before: 40, after: 0},
-        breakpoints: {
-          1439: {
-            perView: 3,
-            gap: 16,
-          },
-          968: {
-            perView: 2,
-          },
-          768: {
-            perView: 1,
-            gap: 16,
-            peek: {before: 40, after: 0},
-          },
-          450: {
-            perView: 1,
-            gap: 16,
-            peek: {before: 16, after: 104},
-          },
+    useGlide(glide, newsSlider, {
+      perView: 4,
+      gap: 40,
+      bound: true,
+      peek: {before: 40, after: 0},
+      breakpoints: {
+        1439: {
+          perView: 3,
+          gap: 16,
         },
-      })
-      .on('resize', refreshGlide)
-      glide.value.mount()
-    }
-
-    const destroyGlide = () => {
-      if (glide.value) {
-        glide.value.destroy()
-        glide.value = null
-      }
-    }
-
-    const refreshGlide = async () => {
-      destroyGlide()
-      await nextTick()
-      mountGlide()
-    }
-
-    onMounted(() => {
-      mountGlide()
-    })
-
-    watch(() => news.value, () => {
-      if (newsSlider.value) {
-        refreshGlide()
-      }
+        968: {
+          perView: 2,
+        },
+        768: {
+          perView: 1,
+          gap: 16,
+          peek: {before: 40, after: 0},
+        },
+        450: {
+          perView: 1,
+          gap: 16,
+          peek: {before: 16, after: 104},
+        },
+      },
     })
 
     return {

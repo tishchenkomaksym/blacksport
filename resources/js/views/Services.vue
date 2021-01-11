@@ -34,11 +34,11 @@ export default {
   setup() {
     const {dispatch, state} = useStore()
     const i18n = useI18n()
-    const services = computed(() => state.pages.services)
+    const services = computed(() => state.services.services)
     const selectedService = ref(null)
 
     watchEffect(() => {
-      dispatch('pages/getServices', i18n.locale.value)
+      dispatch('services/getServices', i18n.locale.value)
     })
 
     const openOrderModal = (serviceId, serviceName) => {
@@ -75,6 +75,9 @@ export default {
   }
 
   @include laptop() {
+    margin-top: -40px;
+    padding-right: 8px;
+    padding-top: 40px;
     grid-template-columns: repeat(3, 1fr);
     max-height: calc((640 * 100vh) / 900);
     overflow-y: auto;
@@ -90,7 +93,7 @@ export default {
     }
 
     &::before {
-      top: 146px;
+      top: 106px;
       background: linear-gradient(180deg, $smoke 0%, rgba(38, 38, 38, 0) 100%);
     }
 

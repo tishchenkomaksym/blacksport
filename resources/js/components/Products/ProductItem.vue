@@ -8,7 +8,7 @@
     />
     <div class="product-item__info">
       <div class="product-item__info-title">
-        <router-link class="basic" style="transition: none" :to="productLink">
+        <router-link class="basic" :to="productLink">
           {{data.title}}
         </router-link>
       </div>
