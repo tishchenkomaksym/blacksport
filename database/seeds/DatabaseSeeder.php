@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Contact;
 use App\Models\News;
 use App\Models\Order;
-use App\Models\Page;
 use App\Models\ParticipationRequest;
 use App\Models\Partner;
 use App\Models\Product;
