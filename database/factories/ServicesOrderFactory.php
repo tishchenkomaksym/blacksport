@@ -3,11 +3,10 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 
-use App\Models\ParticipationRequest;
-use App\Models\Program;
+
 use App\Models\Service;
 use App\Models\ServicesOrder;
-use App\User;
+use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +19,11 @@ use App\User;
 |
 */
 
-$factory->define( ServicesOrder::class, function () {
+$factory->define( ServicesOrder::class, function (Faker $faker) {
     return [
-        'user_id' => User::inRandomOrder()->value('id'),
+        'name' => $faker->name,
+        'phone' => $faker->phoneNumber,
+        'email' => $faker->email,
         'service_id' => Service::inRandomOrder()->value('id')
     ];
 });

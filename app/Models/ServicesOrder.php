@@ -22,11 +22,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ServicesOrder whereUserId($value)
  * @mixin \Eloquent
  */
-class ServicesOrder extends Model 
+class ServicesOrder extends Model
 {
 
     protected $table = 'services_order';
     public $timestamps = true;
-    protected $fillable = ['user_id', 'services_id'];
+    protected $guarded = [];
 
 }

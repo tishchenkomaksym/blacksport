@@ -9,9 +9,11 @@ class CreateServicesOrderTable extends Migration {
 	{
 		Schema::create('services_order', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
-			$table->bigInteger('user_id')->unsigned();
-			$table->unsignedBigInteger('service_id')->unsigned();
+            $table->text('name');
+            $table->string('phone');
+            $table->string('email')->nullable();;
+			$table->unsignedBigInteger('service_id');
+            $table->timestamps();
 		});
 	}
 

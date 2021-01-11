@@ -276,6 +276,9 @@ class BasketController extends Controller
         }
 
         $order = Order::create([
+            'name' => $client['name'],
+            'phone' => $client['phone'],
+            'email' => $client['email'],
             'products' => json_encode($products),
             'delivery' => $client['delivery']
         ]);
