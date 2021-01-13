@@ -29,3 +29,15 @@ Artisan::command('storage:docs', function () {
     );
     $this->info('Symbolic link for docs created');
 })->describe('Create symbolic link for docs');
+
+Artisan::command('storage:test-report', function () {
+
+    if (file_exists(public_path('test-report'))) {
+        return $this->error('The "test-report" directory already exists.');
+    }
+
+    $this->laravel->make('files')->link(
+        storage_path('logs/report/'), public_path('test-report')
+    );
+    $this->info('Symbolic link for test created');
+})->describe('Create symbolic link for tests');

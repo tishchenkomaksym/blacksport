@@ -37,20 +37,20 @@ Route::group(['as' => 'api.'], function (){
     Route::post('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
     Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
 
-    Route::get('/home/{locale?}', 'HomeController@index');
-    Route::get('/about/{locale?}', 'AboutController@index');
-    Route::get('/products/{locale?}', [ ProductController::class, 'index']);
-    Route::get('/product/{id}/{locale?}', [ ProductController::class, 'show']);
-    Route::get('/product_category/{categoryId}/{locale?}', [ ProductController::class, 'productCategoryFilter']);
-    Route::get('/news/{locale?}', 'NewsController@index');
-    Route::get('/news/{id}/{locale?}', [ NewsController::class, 'show']);
+    Route::get('/home/{locale?}', 'HomeController@index')->name('home');
+    Route::get('/about/{locale?}', 'AboutController@index')->name('about');
+    Route::get('/products/{locale?}', [ ProductController::class, 'index'])->name('products');
+    Route::get('/product/{id}/{locale?}', [ ProductController::class, 'show'])->name('product');
+    Route::get('/product_category/{categoryId}/{locale?}', [ ProductController::class, 'productCategoryFilter'])->name('product.category');
+    Route::get('/news/{locale?}', 'NewsController@index')->name('news');
+    Route::get('/news/{id}/{locale?}', [ NewsController::class, 'show'])->name('news.model');
     Route::get('/services/{locale?}', 'ServiceController@index')->name('services');
     Route::get('/programs/{locale?}', 'ProgramController@index')->name('programs');
     Route::post('/program/request', [ ProgramController::class, 'store'])->name('program.request');
     Route::post('/service/request', [ ServiceController::class, 'store'])->name('service.request');
-    Route::get('/contacts', [ ContactController::class, 'index']);
-    Route::get('/categories/{locale?}', [ CategoryController::class, 'index']);
-    Route::get('/partners/{locale?}', [ PartnerController::class, 'index']);
+    Route::get('/contacts', [ ContactController::class, 'index'])->name('contacts');
+    Route::get('/categories/{locale?}', [ CategoryController::class, 'index'])->name('categories');
+    Route::get('/partners/{locale?}', [ PartnerController::class, 'index'])->name('partners');
 });
 
 

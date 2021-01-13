@@ -5,22 +5,25 @@ namespace Tests\Feature;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServicesOrder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ServiceTest extends TestCase
 {
-    use WithFaker;
-    use RefreshDatabase;
 
     public function testGetPrograms()
     {
 
-        $service = factory(Service::class)->create()->toArray();
+        $service = factory(Service::class)->create();
+        $service->examples()->save(new ServiceInstance(
+            [
+                'name' => $this->faker->name,
+                'description' => $this->faker->text
+            ]
+        ));
+
         $this->get(route('api.services'), ['Accept' => 'application/json'])
              ->assertStatus(200)
-             ->assertJsonFragment($service);
+             ->assertJsonFragment($service->toArray());
     }
 
     public function testCanCreateServiceRequest()

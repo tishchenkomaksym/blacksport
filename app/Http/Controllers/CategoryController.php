@@ -52,6 +52,8 @@ class CategoryController extends Controller
      */
     public function index($locale =null)
     {
-        return $this->translateService->translate($locale, Category::get(), Category::class);
+        $categories = $this->translateService->translate($locale, Category::get(), Category::class);
+
+        return response()->json($categories, 200);
     }
 }

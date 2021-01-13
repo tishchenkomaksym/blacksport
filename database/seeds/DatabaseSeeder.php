@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
         factory(ServicesOrder::class, 20)->create();
         factory( Contact::class, 1)->create();
 //        factory( ViewText::class, 10)->create();
+        factory( Page::class, 1)->create();
         factory( Achievement::class, 10)->create();
         $this->call([
             PageTableSeeder::class,

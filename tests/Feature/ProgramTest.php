@@ -3,16 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Program;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Carbon\Carbon;
 
 class ProgramTest extends TestCase
 {
-    use WithFaker;
-    use RefreshDatabase;
-
 
     public function testGetPrograms()
     {
@@ -20,6 +14,20 @@ class ProgramTest extends TestCase
 
         $this->get(route('api.programs'), ['Accept' => 'application/json'])
              ->assertStatus(200)->assertJsonFragment($program);
+    }
+
+    public function testProgramCanHaveProgramRequest()
+    {
+        $program = factory(Program::class)->create();
+
+        $program->requests()->create([
+            'name' => 'Crossing',
+            'phone' => $this->faker->phoneNumber,
+            'email' => $this->faker->email
+        ]);
+
+        $this->assertEquals('Crossing', $program->requests()->getResults()[0]->name);
+
     }
 
     public function testCanCreateProgramRequest()
