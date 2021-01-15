@@ -69,7 +69,8 @@ class ProductController extends Controller
     {
         $products = Product::with('categories')->orderByDesc('created_at')->get();
         $products = $this->translate_service->translate($locale, $products, Product::class)->toArray();
-        return json_encode(compact('products'));
+
+        return response()->json($products, 200);
 
     }
 
@@ -113,7 +114,7 @@ class ProductController extends Controller
         $products = Product::with('categories')->where('id', $id)->get();
         $products = $this->translate_service->translate($locale, $products, Product::class);
 
-        return json_encode(compact('products'));
+        return response()->json($products, 200);
     }
 
 
@@ -157,6 +158,6 @@ class ProductController extends Controller
         $products = Product::with('categories')->where('category_id', $categoryId)->get();
         $products = $this->translate_service->translate($locale, $products, Product::class);
 
-        return json_encode(compact('products'));
+        return response()->json($products, 200);
     }
 }

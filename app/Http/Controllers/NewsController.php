@@ -57,7 +57,7 @@ class NewsController extends Controller
     {
       $news = News::orderByDesc('created_at')->get();
       $news = $this->translate_service->translate($locale, $news, News::class)->toArray();
-      return json_encode(compact('news'));
+      return response()->json($news, 200);
 
     }
 
@@ -100,7 +100,7 @@ class NewsController extends Controller
         $news = News::where('id', $id)->get();
         $news = $this->translate_service->translate($locale, $news, News::class);
 
-        return json_encode(compact('news'));
+        return response()->json($news, 200);
     }
 }
 

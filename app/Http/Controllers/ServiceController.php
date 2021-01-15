@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServiceRequest;
 use App\Models\ServicesOrder;
 use App\Models\Service;
 use App\Services\TranslateService;
@@ -58,7 +59,7 @@ class ServiceController extends Controller
           $locale, Service::with('examples')->orderByDesc('created_at')->get(), Service::class
       );
 
-      return json_encode(compact('services'));
+      return response()->json(compact('services'), 200);
   }
 
     /**
@@ -81,13 +82,13 @@ class ServiceController extends Controller
      *      ),
      *
      *     @OA\Response(
-     *          response="200",
+     *          response="201",
      *          description="success",
      *     )
      * )
      */
 
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
         ServicesOrder::create([
             'service_id' => $request['service_id'],
@@ -96,7 +97,7 @@ class ServiceController extends Controller
             'email' => $request['email']
         ]);
 
-        return response()->json(['success' => 'success'], 200);
+        return response()->json(['success' => 'success'], 201);
     }
 
 

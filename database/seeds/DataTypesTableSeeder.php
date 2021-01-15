@@ -57,7 +57,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'ambassadors',
-                'display_name_singular' => 'Ambassador',
+                'display_name_singular' => 'Амбассадор',
                 'display_name_plural'   => 'Амбассадоры',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Ambassador',
@@ -71,7 +71,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'categories',
-                'display_name_singular' => 'Category',
+                'display_name_singular' => 'Категория',
                 'display_name_plural'   => 'Категории',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Category',
@@ -85,7 +85,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'contacts',
-                'display_name_singular' => 'Contact',
+                'display_name_singular' => 'Контакт',
                 'display_name_plural'   => 'Контакты',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Contact',
@@ -99,7 +99,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'news',
-                'display_name_singular' => 'News',
+                'display_name_singular' => 'Новость',
                 'display_name_plural'   => 'Новости',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\News',
@@ -113,7 +113,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'orders',
-                'display_name_singular' => 'Order',
+                'display_name_singular' => 'Заказ',
                 'display_name_plural'   => 'Заказы',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Order',
@@ -127,7 +127,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'pages',
-                'display_name_singular' => 'Page',
+                'display_name_singular' => 'Текст страницы',
                 'display_name_plural'   => 'Тексты страницы',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Page',
@@ -141,7 +141,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'partners',
-                'display_name_singular' => 'Partner',
+                'display_name_singular' => 'Партнер',
                 'display_name_plural'   => 'Партнеры',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Partner',
@@ -155,7 +155,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'services',
-                'display_name_singular' => 'Service',
+                'display_name_singular' => 'Услуга',
                 'display_name_plural'   => 'Услуги',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Service',
@@ -169,7 +169,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'products',
-                'display_name_singular' => 'Product',
+                'display_name_singular' => 'Товар',
                 'display_name_plural'   => 'Товары',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Product',
@@ -183,7 +183,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'programs',
-                'display_name_singular' => 'Program',
+                'display_name_singular' => 'Программа',
                 'display_name_plural'   => 'Программы',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Program',
@@ -197,7 +197,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'services_examples',
-                'display_name_singular' => 'Services Examples',
+                'display_name_singular' => 'Пример услуги',
                 'display_name_plural'   => 'Пример услуги',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\ServiceInstance',
@@ -207,18 +207,24 @@ class DataTypesTableSeeder extends Seeder
             ])->save();
         }
 
-
         $dataType = $this->dataType('slug', 'view-texts');
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'view_texts',
-                'display_name_singular' => 'View Text',
+                'display_name_singular' => 'Текст для страниц',
                 'display_name_plural'   => 'Тексты для страниц',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\ViewText',
                 'controller'            => null,
                 'generate_permissions'  => 1,
                 'description'           => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'details'               =>  [
+                    "order_column"       => null,
+                    "order_display_column" => null,
+                    "order_direction"        => "desc",
+                    "default_search_key"      => null,
+                    "scope"         => null
+                ],
             ])->save();
         }
 
@@ -226,7 +232,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'view_texts_images',
-                'display_name_singular' => 'View Texts Image',
+                'display_name_singular' => 'Картинка текста страницы',
                 'display_name_plural'   => 'Картинки текста страницы',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\ViewTextImage',
@@ -240,7 +246,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'achievements',
-                'display_name_singular' => 'Achievement',
+                'display_name_singular' => 'Достижение',
                 'display_name_plural'   => 'Достижения',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Achievement',
@@ -254,7 +260,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'program_request',
-                'display_name_singular' => 'Program Request',
+                'display_name_singular' => 'Заявка Программы',
                 'display_name_plural'   => 'Заявки Программы',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\ProgramRequest',
@@ -268,7 +274,7 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'services_order',
-                'display_name_singular' => 'Services Order',
+                'display_name_singular' => 'Заявка Услуги',
                 'display_name_plural'   => 'Заявки Услуги',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\ServicesOrder',

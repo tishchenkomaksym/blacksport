@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Program;
 use App\Models\ProgramRequest;
+use App\Http\Requests\ProgramRequest as ProgramRequestValidation;
 use App\Services\TranslateService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
@@ -55,10 +57,11 @@ class ProgramController extends Controller
      */
     public function index($locale = null)
     {
-    $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class)
-                                        ->toArray();
 
-    return json_encode(compact('programs'));
+        $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class)
+                                            ->toArray();
+
+        return response()->json(compact('programs'), 200);
 
     }
 
@@ -83,20 +86,14 @@ class ProgramController extends Controller
      *      ),
      *
      *     @OA\Response(
-     *          response="200",
+     *          response="201",
      *          description="success",
      *     )
      * )
      */
 
-    public function store(Request $request)
+    public function store(ProgramRequestValidation $request)
     {
-//        if (!empty(ProgramRequest::where('phone')->where('program_id')->get()->toArray())){
-//            return response()->json(['error' => 'User with this phone and program already exist'], 403);
-//        }
-//        if (!empty(ProgramRequest::where('email')->where('program_id')->get()->toArray())){
-//            return response()->json(['error' => 'User with this email and program already exist'], 403);
-//        }
         ProgramRequest::create([
             'program_id' => $request['program_id'],
             'name' => $request['name'],
@@ -104,7 +101,7 @@ class ProgramController extends Controller
             'email' => $request['email']
         ]);
 
-        return response()->json(['success' => 'success'], 200);
+        return response()->json(['success' => 'success'], 201);
     }
 
 
