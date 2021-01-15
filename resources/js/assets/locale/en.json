@@ -40,5 +40,7 @@
   "close": "Close",
   "placingOrder": "Placing an order",
   "thankYou": "Thank you!",
-  "operatorContact": "Our operator will contact you"
+  "operatorContact": "Our operator will contact you",
+  "noServices": "There are no services yet",
+  "noExamples": "There are no service examples yet"
 }

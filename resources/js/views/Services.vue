@@ -4,12 +4,16 @@
     background-color="smoke"
   >
     <div class="services">
-      <ServiceItem
-        :data="service"
-        :key="service.id"
-        @open-order-modal="openOrderModal"
-        v-for="service in services"
-      />
+      <div class="services__list" v-if="services.length">
+        <ServiceItem
+          :data="service"
+          :key="service.id"
+          @open-order-modal="openOrderModal"
+          v-for="service in services"
+        />
+      </div>
+      <p v-else>{{i18n.$t('defaults.noServices')}}</p>
+      <div class="services__end" />
     </div>
     <ServiceOrderModal
       :service-id="selectedService.id"
@@ -61,50 +65,43 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/page-helpers";
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
 
 .services {
-  display: grid;
-  row-gap: 8px;
+  @include laptop() {
+    margin-top: -$spacing-lg;
+    padding-right: $spacing-sm;
+    padding-top: $spacing-lg;
+    overflow-y: auto;
+    @include page-height;
+    @include container-gradients($smoke);
+  }
 
-  @include tablets() {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 16px;
-    column-gap: 24px;
+  &__list {
+    display: grid;
+    row-gap: $spacing-sm;
+
+    @include phones() {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: $spacing;
+      column-gap: $spacing-md;
+    }
+
+    @include laptop() {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include large-desktop() {
+      column-gap: 62px;
+    }
   }
 
   @include laptop() {
-    margin-top: -40px;
-    padding-right: 8px;
-    padding-top: 40px;
-    grid-template-columns: repeat(3, 1fr);
-    max-height: calc((640 * 100vh) / 900);
-    overflow-y: auto;
-
-    &::before, &::after {
-      width: calc(100% - 88px);
-      max-width: calc(1440px - 88px);
-      height: 40px;
-      content: '';
-      display: block;
-      position: absolute;
-      z-index: 1;
+    &__end {
+      height: $gradient-height;
     }
-
-    &::before {
-      top: 106px;
-      background: linear-gradient(180deg, $smoke 0%, rgba(38, 38, 38, 0) 100%);
-    }
-
-    &::after {
-      top: calc(106px + (640 * 100vh) / 900);
-      background: linear-gradient(180deg, rgba(38, 38, 38, 0) 0%, $smoke 100%);
-    }
-  }
-
-  @include large-desktop() {
-    column-gap: 62px;
   }
 }
 </style>

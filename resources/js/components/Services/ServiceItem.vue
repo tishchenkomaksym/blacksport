@@ -11,34 +11,52 @@
           {{i18n.$t('defaults.order')}}
         </Button>
       </div>
+
+      <transition name="mobile-examples">
+        <ServiceExamplesMobile
+          :examples="data.examples"
+          class="service-item__info-examples"
+          v-if="isMobile && examplesShown"
+        />
+      </transition>
     </div>
     <p
       @click="examplesShown = !examplesShown"
       class="service-item__examples-button description"
     >
-      {{i18n.$t(`defaults.${examplesShown ? 'hide' : 'serviceExamples'}`)}}
+      <transition name="toggle-fade" mode="out-in">
+        <span :key="examplesShown">
+          {{i18n.$t(`defaults.${examplesShown ? 'hide' : 'serviceExamples'}`)}}
+        </span>
+      </transition>
     </p>
   </article>
 </template>
 
 <script>
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import {useI18n} from '../../i18nPlugin'
+import useWindowSize from '../../hooks/useWindowSize'
 import Button from '../Base/Button'
+import ServiceExamples from './ServiceExamples'
+import ServiceExamplesMobile from './ServiceExamplesMobile'
 
 export default {
   name: 'ServiceItem',
-  components: {Button},
+  components: {ServiceExamplesMobile, ServiceExamples, Button},
   props: {
     data: Object,
   },
   setup() {
     const i18n = useI18n()
+    const {width} = useWindowSize()
     const examplesShown = ref(false)
+    const isMobile = computed(() => width.value <= 768)
 
     return {
       i18n,
       examplesShown,
+      isMobile,
     }
   }
 }
@@ -56,33 +74,43 @@ export default {
 
   &__info {
     flex-grow: 1;
-    padding: 16px 24px 16px 16px;
+    padding: 13px $spacing-md 13px $spacing;
     display: grid;
     grid-template-rows: auto 1fr auto;
+    position: relative;
+    overflow: hidden;
+
+    @include tablets() {
+      padding: $spacing $spacing-md $spacing $spacing;
+    }
 
     h2 {
       margin: 0;
     }
 
     &-description {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-
-      @include phones() {
-        -webkit-line-clamp: 4;
-      }
+      margin: $spacing-sm 0;
     }
 
     &-order {
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &-examples {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: $sole;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
   }
 
   &__examples-button {
-    padding: 9px 12px;
+    padding: $spacing 9px;
     top: 0;
     right: 0;
     cursor: pointer;
@@ -92,6 +120,31 @@ export default {
     text-transform: uppercase;
     line-height: 14px;
     text-align: center;
+  }
+}
+
+.mobile-examples {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.5s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateX(-100%);
+    background-color: transparent;
+  }
+}
+
+.toggle-fade {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.25s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
   }
 }
 </style>

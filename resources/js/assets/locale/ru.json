@@ -40,5 +40,7 @@
   "close": "Закрыть",
   "placingOrder": "Оформление заказа",
   "thankYou": "Благодарим!",
-  "operatorContact": "С вами свяжется наш оператор"
+  "operatorContact": "С вами свяжется наш оператор",
+  "noServices": "Пока нет услуг",
+  "noExamples": "Пока нет примеров работ"
 }

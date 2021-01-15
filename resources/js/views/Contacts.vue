@@ -68,6 +68,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/page-helpers";
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
 
@@ -75,17 +76,17 @@ export default {
   position: relative;
 
   &__categories {
-    margin-bottom: 16px;
+    margin-bottom: $spacing;
 
     @include tablets() {
       max-width: 500px;
-      top: 48px;
-      left: 48px;
+      top: calc(#{$spacing-lg} + #{$spacing-sm});
+      left: calc(#{$spacing-lg} + #{$spacing-sm});
       display: grid;
       grid-template-columns: auto 1fr;
-      column-gap: 24px;
+      column-gap: $spacing-md;
       align-items: center;
-      padding: 24px;
+      padding: $spacing-md;
       position: absolute;
       z-index: 1;
       background-color: $bg-color;
@@ -113,7 +114,8 @@ export default {
     }
 
     @include tablets() {
-      height: 66.6vh;
+      @include page-height;
+      min-height: 300px;
     }
   }
 }
