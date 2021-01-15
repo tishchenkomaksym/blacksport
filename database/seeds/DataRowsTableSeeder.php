@@ -1183,22 +1183,6 @@ class DataRowsTableSeeder extends Seeder
         }
 
 
-        $dataRow = $this->dataRow($serviceDataType, 'image');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'image',
-                'display_name' => 'Картинка',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{}',
-                'order'        => 3,
-            ])->save();
-        }
-
         $dataRow = $this->dataRow($serviceDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1605,23 +1589,6 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 3,
             ])->save();
         }
-
-        $dataRow = $this->dataRow($serviceExampleDataType, 'images');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'multiple_images',
-                'display_name' => 'Картинки',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => '{}',
-                'order'        => 4,
-            ])->save();
-        }
-
 
 
         $dataRow = $this->dataRow($serviceExampleDataType, 'created_at');

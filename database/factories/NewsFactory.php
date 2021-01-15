@@ -23,6 +23,6 @@ $factory->define( News::class, function (Faker $faker) {
         'title' => $faker->title,
         'description' => $faker->text,
         'images' => "[\"{$faker->imageUrl()}\"]",
-        'published' => now()
+        'published' => now()->toDateTime()->format('Y-m-d H:i:s')
     ];
 });

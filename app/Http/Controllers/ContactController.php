@@ -37,7 +37,7 @@ class ContactController extends Controller
           $exploded = explode(',', $contact->social_links);
           $contacts[$key]->social_links = $exploded;
       }
-      return $contacts->toJson();
+      return response()->json($contacts, 200);
   }
 
 
