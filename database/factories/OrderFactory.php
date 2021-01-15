@@ -4,8 +4,8 @@
 
 
 use App\Models\Order;
-use App\User;
-use App\Models\Product;
+use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +18,13 @@ use App\Models\Product;
 |
 */
 
-$factory->define( Order::class, function () {
+$factory->define( Order::class, function (Faker $faker) {
     $array = ['самовывоз', 'доставка почтой'];
     return [
-        'user_id' => User::inRandomOrder()->value('id'),
-        'product_id' => Product::inRandomOrder()->value('id'),
+        'name' => $faker->name,
+        'phone' => $faker->phoneNumber,
+        'email' => $faker->email,
+        'products' => $faker->text,
         'delivery' => $array[array_rand($array, 1)]
     ];
 });

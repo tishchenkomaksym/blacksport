@@ -52,4 +52,10 @@ class ServiceInstance extends Model
     {
         return $this->belongsTo(Service::class, 'service_id', 'id');
     }
+
+    public static function translatedFields(){
+        return [
+            'name', 'description'
+        ];
+    }
 }

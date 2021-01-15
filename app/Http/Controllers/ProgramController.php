@@ -1,88 +1,110 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Models\ProgramRequest;
+use App\Http\Requests\ProgramRequest as ProgramRequestValidation;
+use App\Services\TranslateService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ProgramController extends Controller 
+class ProgramController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
-  public function index()
-  {
-    $programs = Program::orderByDesc('created_at')->get();
+    /**
+     * @var TranslateService
+     */
+    private $translate_service;
 
-    return view('programs', compact('programs'));
-  }
+    public function __construct(TranslateService $translate_service)
+    {
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
-    
-  }
+        $this->translate_service = $translate_service;
+    }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-    
-  }
+    /**
+     * @OA\Get(
+     *     path="/api/programs/{locale?}",
+     *     description="Getting programs",
+     *     tags={"program"},
+     *     summary="Program Page",
+     *      @OA\Parameter(
+     *        description="Language",
+     *        in="path",
+     *        name="Locale",
+     *        required=false,
+     *        example="ru, en, uk",
+     *        @OA\Schema(type="string")
+     *    ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="success",
+     *          @OA\JsonContent(
+     *           @OA\Property(property="programs", type="array",
+     *                @OA\Items(
+     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="description", type="string"),
+     *                      @OA\Property(property="images", type="string"),
+     *                      @OA\Property(property="created_at", type="string"),
+     *                      @OA\Property(property="updated_at", type="string")
+     *                  )
+     *              )
+     *       )
+     *     )
+     * )
+     */
+    public function index($locale = null)
+    {
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show($id)
-  {
-    
-  }
+        $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class)
+                                            ->toArray();
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-    
-  }
+        return response()->json(compact('programs'), 200);
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
-  {
-    
-  }
+    }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function destroy($id)
-  {
-    
-  }
-  
+
+    /**
+     * @OA\Post(
+     *     path="/api/program/request",
+     *     description="Create program request",
+     *     tags={"program"},
+     *     summary="Program Page",
+     *
+     *      @OA\RequestBody(
+     *       required=true,
+     *       description="Pass params",
+     *       @OA\JsonContent(
+     *          required={"program_id", "name", "phone", "email"},
+     *          @OA\Property(property="program_id", type="string",  example="1"),
+     *          @OA\Property(property="name", type="string", format="string", example="Arsen"),
+     *          @OA\Property(property="phone", type="string", example="380645564545"),
+     *          @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *           ),
+     *      ),
+     *
+     *     @OA\Response(
+     *          response="201",
+     *          description="success",
+     *     )
+     * )
+     */
+
+    public function store(ProgramRequestValidation $request)
+    {
+        ProgramRequest::create([
+            'program_id' => $request['program_id'],
+            'name' => $request['name'],
+            'phone' => $request['phone'],
+            'email' => $request['email']
+        ]);
+
+        return response()->json(['success' => 'success'], 201);
+    }
+
+
+
 }
 

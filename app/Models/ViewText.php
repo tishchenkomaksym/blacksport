@@ -9,7 +9,7 @@ use TCG\Voyager\Traits\Translatable;
 class ViewText extends Model
 {
 
-    protected $table = 'view-texts';
+    protected $table = 'view_texts';
     public $timestamps = true;
 
     use SoftDeletes;
@@ -23,6 +23,12 @@ class ViewText extends Model
         'description'
     ];
 
+    public static function translatedFields(){
+        return [
+            'name', 'description'
+        ];
+    }
+
     public function page()
     {
         return $this->belongsTo(Page::class);
@@ -30,6 +36,6 @@ class ViewText extends Model
 
     public function images()
     {
-        return $this->hasMany(ViewTextImage::class, 'view-texts_id', 'id');
+        return $this->hasMany(ViewTextImage::class, 'view_texts_id', 'id');
     }
 }

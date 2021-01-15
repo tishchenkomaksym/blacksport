@@ -33,7 +33,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Category withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Category extends Model 
+class Category extends Model
 {
 
     use Translatable;
@@ -45,5 +45,16 @@ class Category extends Model
     protected $table = 'categories';
     public $timestamps = true;
     protected $fillable = ['name', 'url', 'image', 'parent_id'];
+
+    public function products()
+    {
+        return $this->hasMany(Category::class, 'category_id', 'id');
+    }
+
+    public static function translatedFields(){
+        return [
+            'name'
+        ];
+    }
 
 }

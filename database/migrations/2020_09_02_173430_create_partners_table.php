@@ -12,6 +12,7 @@ class CreatePartnersTable extends Migration {
 			$table->timestamps();
 			$table->text('description');
 			$table->text('image')->nullable();
+			$table->enum('image_type', ["square", "rectangle"])->nullable();
 		});
 	}
 

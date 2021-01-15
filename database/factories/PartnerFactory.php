@@ -19,8 +19,10 @@ use Faker\Generator as Faker;
 */
 
 $factory->define( Partner::class, function (Faker $faker) {
+    $array = ["square", "rectangle"];
     return [
         'description' => $faker->text,
-        'image' => $faker->imageUrl()
+        'image' => $faker->imageUrl(),
+        'image_type' => $array[array_rand($array,1)]
     ];
 });

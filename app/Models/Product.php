@@ -31,7 +31,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Product withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Product extends Model 
+class Product extends Model
 {
     use Translatable;
 
@@ -41,11 +41,18 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = ['description', 'specifications', 'image'];
+    protected $fillable = ['title', 'description', 'specifications', 'image', 'order_count'];
 
-    public function orders()
+    public static function translatedFields(){
+        return [
+            'title', 'description', 'specifications'
+        ];
+    }
+
+
+    public function categories()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
 }

@@ -1,0 +1,53 @@
+@import "breakpoints";
+@import "variables";
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+
+  @include tablets() {
+    font-size: 36px;
+  }
+
+  &.page-heading {
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: normal;
+
+  @include desktop() {
+    font-size: 24px;
+  }
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+p {
+  font-size: 14px;
+  color: $text-accent-color;
+  line-height: 19px;
+
+  @include laptop() {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  &.description {
+    font-size: 10px;
+    font-weight: 300;
+    margin: 0;
+
+    @include desktop() {
+      font-size: 12px;
+    }
+  }
+}

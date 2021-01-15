@@ -1,0 +1,125 @@
+@import "variables";
+@import "breakpoints";
+
+body {
+  font-family: "Helvetica", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: $bg-color;
+  color: $text-color;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  padding: 0 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @include large-desktop() {
+    padding: 0;
+  }
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  will-change: color;
+
+  &.link {
+    text-transform: uppercase;
+    color: $text-color;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+
+    &:hover {
+      color: $text-accent-color;
+    }
+
+    &--smaller {
+      font-size: 15px;
+
+      @include tablets() {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &.basic {
+    color: $text-color;
+
+    &:hover {
+      color: $text-accent-color;
+    }
+  }
+
+  &.subtitle {
+    font-size: 14px;
+    font-weight: 300;
+  }
+}
+
+button {
+  -webkit-appearance: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+}
+
+@include laptop() {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+
+    &-track {
+      background-color: rgba($smoke, 0.5);
+      border-radius: 8px;
+    }
+
+    &-thumb {
+      background-color: $park;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: darken($park, 10%);
+      }
+    }
+  }
+}
+
+input {
+  padding: 10px 16px;
+  -webkit-appearance: none;
+  background-color: $smoke;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: $text-color;
+
+  &::placeholder {
+    color: $park;
+  }
+
+  &.light {
+    color: $park;
+    background-color: $text-accent-color;
+  }
+}
+
+.form-error {
+  margin: 8px 0;
+  color: $red;
+  font-size: 14px;
+}
+
+.no-transition {
+  transition: none;
+}

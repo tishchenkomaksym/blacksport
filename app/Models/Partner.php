@@ -29,7 +29,7 @@ use TCG\Voyager\Traits\Translatable;
  * @method static \Illuminate\Database\Eloquent\Builder|Partner withTranslations($locales = null, $fallback = true)
  * @mixin \Eloquent
  */
-class Partner extends Model 
+class Partner extends Model
 {
     use Translatable;
 
@@ -41,4 +41,9 @@ class Partner extends Model
     public $timestamps = true;
     protected $fillable = ['description', 'image'];
 
+    public static function translatedFields(){
+        return [
+            'description'
+        ];
+    }
 }
