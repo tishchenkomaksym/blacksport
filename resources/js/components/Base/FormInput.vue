@@ -62,12 +62,12 @@ export default {
 @import "../../assets/scss/variables";
 
 .form-input {
-  margin-bottom: 16px;
+  margin-bottom: $spacing;
 
   input {
     width: 100%;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: $spacing-sm;
   }
 }
 </style>

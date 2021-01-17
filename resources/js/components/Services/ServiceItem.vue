@@ -15,8 +15,9 @@
       <transition name="mobile-examples">
         <ServiceExamplesMobile
           :examples="data.examples"
+          @show-service-example="showServiceExampleModal"
           class="service-item__info-examples"
-          v-if="isMobile && examplesShown"
+          v-if="examplesShown"
         />
       </transition>
     </div>
@@ -31,6 +32,12 @@
       </transition>
     </p>
   </article>
+  <ServiceExamplesModal
+    :current-example="selectedExample"
+    :examples="data.examples"
+    @close-modal="closeServiceExampleModal"
+    v-if="selectedExample !== null"
+  />
 </template>
 
 <script>
@@ -40,25 +47,41 @@ import useWindowSize from '../../hooks/useWindowSize'
 import Button from '../Base/Button'
 import ServiceExamples from './ServiceExamples'
 import ServiceExamplesMobile from './ServiceExamplesMobile'
+import ServiceExamplesModal from './ServiceExamplesModal'
 
 export default {
   name: 'ServiceItem',
-  components: {ServiceExamplesMobile, ServiceExamples, Button},
+  components: {ServiceExamplesModal, ServiceExamplesMobile, ServiceExamples, Button},
   props: {
     data: Object,
   },
+  emits: [
+    'open-order-modal',
+  ],
   setup() {
     const i18n = useI18n()
     const {width} = useWindowSize()
     const examplesShown = ref(false)
+    const selectedExample = ref(null)
     const isMobile = computed(() => width.value <= 768)
+
+    const showServiceExampleModal = serviceId => {
+      selectedExample.value = serviceId
+    }
+
+    const closeServiceExampleModal = () => {
+      selectedExample.value = null
+    }
 
     return {
       i18n,
       examplesShown,
       isMobile,
+      selectedExample,
+      showServiceExampleModal,
+      closeServiceExampleModal,
     }
-  }
+  },
 }
 </script>
 

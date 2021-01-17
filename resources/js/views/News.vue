@@ -3,17 +3,20 @@
     :title="i18n.$t('defaults.news')"
   >
     <div class="news">
-      <NewsItem
-        :key="article.id"
-        :data="article"
-        v-for="article in news"
-      />
+      <div class="news__list">
+        <NewsItem
+          :key="article.id"
+          :data="article"
+          v-for="article in news"
+        />
+      </div>
+      <div class="news__end" />
     </div>
   </PageLayout>
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import PageLayout from '../components/Layout/PageLayout'
@@ -25,10 +28,10 @@ export default {
   setup() {
     const {dispatch, state} = useStore()
     const i18n = useI18n()
-    const news = computed(() => state.pages.news)
+    const news = computed(() => state.news.news)
 
-    onMounted(() => {
-      dispatch('pages/getNews', i18n.locale.value)
+    watchEffect(() => {
+      dispatch('news/getNews', i18n.locale.value)
     })
 
     return {
@@ -40,50 +43,43 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .news {
-  display: grid;
-  row-gap: 16px;
-
-  @include tablets() {
-    column-gap: 16px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   @include laptop() {
-    max-height: calc((610 * 100vh) / 900);
-    margin-top: -40px;
-    padding-top: 40px;
+    margin-top: -$spacing-lg;
+    padding-right: $spacing-sm;
+    padding-top: $spacing-lg;
     overflow-y: auto;
-    row-gap: 40px;
-    column-gap: 24px;
-    grid-template-columns: repeat(3, 1fr);
-    padding-right: 8px;
+    @include page-height;
+    @include container-gradients($bg-color);
 
-    &::before, &::after {
-      width: calc(100% - 88px);
-      max-width: calc(1440px - 88px);
-      height: 40px;
-      content: '';
-      display: block;
-      position: absolute;
-    }
-
-    &::before {
-      top: 106px;
-      background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
-    }
-
-    &::after {
-      top: calc(106px + (610 * 100vh) / 900);
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+    &__end {
+      height: $gradient-height;
     }
   }
 
-  @include desktop() {
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 40px;
+  &__list {
+    display: grid;
+    row-gap: $spacing;
+
+    @include tablets() {
+      column-gap: $spacing;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include laptop() {
+      row-gap: $spacing-lg;
+      column-gap: $spacing-md;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include desktop() {
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: $spacing-lg;
+    }
   }
 }
 </style>

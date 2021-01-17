@@ -54,7 +54,7 @@ export default {
 
     const submitApplication = async ({name, phone, email}) => {
       try {
-        await dispatch('pages/submitApplication', {
+        await dispatch('programs/submitApplication', {
           program_id: programId,
           name, phone, email,
         })

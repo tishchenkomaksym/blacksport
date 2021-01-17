@@ -66,7 +66,7 @@ export default {
      * @param commit {import('vuex').Commit}
      * @param locale {string}
      */
-    getProducts: async ({commit}, locale) => commit('setProducts', (await axios.get(`/products/${locale}`)).products),
+    getProducts: async ({commit}, locale) => commit('setProducts', (await axios.get(`/products/${locale}`))),
     /**
      * @description Get a specific product
      * @param commit
@@ -74,7 +74,7 @@ export default {
      * @param locale {string}
      * @return {Promise<import('axios').AxiosResponse<ProductItem>>}
      */
-    getProduct: async ({commit}, {id, locale}) => (await axios.get(`/product/${id}/${locale}`)).products[0],
+    getProduct: async ({commit}, {id, locale}) => (await axios.get(`/product/${id}/${locale}`))[0],
     /**
      * @description Get products by a category ID
      * @param commit {import('vuex').Commit}
@@ -83,7 +83,7 @@ export default {
      * @example store.dispatch('products/getProductCategory', {id: 1, locale: 'en'})
      */
     getProductCategory: async ({commit}, {categoryId, locale}) =>
-      commit('setCategoryProducts', (await axios.get(`/product_category/${categoryId}/${locale}`)).products),
+      commit('setCategoryProducts', (await axios.get(`/product_category/${categoryId}/${locale}`))),
     /**
      * @description Get product categories
      * @param commit {import('vuex').Commit}

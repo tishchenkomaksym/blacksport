@@ -21,7 +21,7 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 button {
-  padding: 16px;
+  padding: $spacing;
   display: flex;
   align-items: center;
   color: $text-color;
@@ -33,7 +33,7 @@ button {
   letter-spacing: 0.05em;
 
   @include tablets() {
-    padding: 16px 32px;
+    padding: $spacing $spacing + $spacing-md;
     font-size: 18px;
   }
 

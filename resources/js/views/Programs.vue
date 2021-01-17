@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import PageLayout from '../components/Layout/PageLayout'
@@ -30,10 +30,10 @@ export default {
   setup() {
     const {dispatch, state} = useStore()
     const i18n = useI18n()
-    const programs = computed(() => state.pages.programs)
+    const programs = computed(() => state.programs.programs)
 
-    onMounted(() => {
-      dispatch('pages/getPrograms', i18n.locale.value)
+    watchEffect(() => {
+      dispatch('programs/getPrograms', i18n.locale.value)
     })
 
     return {

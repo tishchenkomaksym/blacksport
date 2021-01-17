@@ -7,6 +7,7 @@
       <ServiceExample
         :key="example.id"
         :data="example"
+        @click="$emit('show-service-example', example.id)"
         v-for="example in examples"
       />
     </template>

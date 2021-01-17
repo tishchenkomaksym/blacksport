@@ -132,6 +132,7 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .products {
   @include laptop() {
@@ -140,7 +141,7 @@ export default {
   }
 
   &__categories {
-    margin-bottom: 15px;
+    margin-bottom: $spacing;
 
     @include laptop() {
       width: 250px;
@@ -151,7 +152,7 @@ export default {
     &__category {
       width: 100%;
       display: block;
-      padding: 4px 0;
+      padding: $spacing-sm / 2 0;
       color: $text-color;
       text-transform: uppercase;
       font-weight: 700;
@@ -179,7 +180,7 @@ export default {
       @include laptop() {
         width: auto;
         display: inline-block;
-        padding: 8px 16px 6px;
+        padding: $spacing-sm $spacing 6px;
         position: relative;
 
         &::after {
@@ -222,7 +223,7 @@ export default {
 
     &__title {
       margin-top: 0;
-      margin-left: 16px;
+      margin-left: $spacing;
       color: $park;
     }
   }
@@ -231,35 +232,17 @@ export default {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 16px;
+    grid-gap: $spacing;
 
     @include laptop() {
-      max-height: calc((610 * 100vh) / 900);
+      max-height: calc(100vh - 294px);
       overflow-y: auto;
-      padding-top: 40px;
+      padding-top: $spacing-lg;
       grid-template-columns: repeat(3, 1fr);
-      column-gap: 24px;
-      row-gap: 40px;
-      padding-right: 8px;
-
-      &::before, &::after {
-        width: calc(100vw - 80px - 202px - 47px);
-        max-width: calc(1440px - 80px - 202px - 47px - 8px);
-        height: 40px;
-        content: '';
-        display: block;
-        position: absolute;
-      }
-
-      &::before {
-        top: 146px;
-        background: linear-gradient(180deg, #0D0D0D 0%, rgba(13, 13, 13, 0) 100%);
-      }
-
-      &::after {
-        top: calc(146px + (610 * 100vh) / 900);
-        background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, #0D0D0D 100%);
-      }
+      column-gap: $spacing-md;
+      row-gap: $spacing-lg;
+      padding-right: $spacing-sm;
+      @include container-gradients($sole, calc(100vh - 294px), 146px, calc(80px + 202px + 47px + 8px));
     }
 
     @include desktop() {

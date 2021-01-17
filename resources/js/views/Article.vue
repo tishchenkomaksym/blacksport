@@ -37,7 +37,7 @@ export default {
     const images = computed(() => article.value?.images ? JSON.parse(article.value.images) : [])
 
     onMounted(async () => {
-      const data = await dispatch('pages/getArticle', {id: route.params.id, locale: i18n.locale.value})
+      const data = await dispatch('news/getArticle', {id: route.params.id, locale: i18n.locale.value})
       if (!data) await router.replace({
         name: ROUTE_CONF.HOME.name,
         params: {locale: i18n.locale.value},

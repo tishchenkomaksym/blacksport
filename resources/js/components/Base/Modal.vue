@@ -52,7 +52,7 @@ export default {
   position: fixed;
   backdrop-filter: blur(16px);
   background-color: rgba(white, 0.01);
-  z-index: 1;
+  z-index: 2;
   overflow: auto;
 
   @include tablets() {
