@@ -23,6 +23,7 @@ $factory->define( Partner::class, function (Faker $faker) {
     return [
         'description' => $faker->text,
         'image' => $faker->imageUrl(),
-        'image_type' => $array[array_rand($array,1)]
+        'image_type' => $array[array_rand($array,1)],
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

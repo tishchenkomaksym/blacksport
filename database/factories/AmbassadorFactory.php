@@ -20,6 +20,7 @@ use Faker\Generator as Faker;
 $factory->define( Ambassador::class, function (Faker $faker) {
     return [
         'description' => $faker->text,
-        'image' => $faker->imageUrl()
+        'image' => $faker->imageUrl(),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

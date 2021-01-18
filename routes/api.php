@@ -48,7 +48,7 @@ Route::group(['as' => 'api.'], function (){
     Route::get('/programs/{locale?}', 'ProgramController@index')->name('programs');
     Route::post('/program/request', [ ProgramController::class, 'store'])->name('program.request');
     Route::post('/service/request', [ ServiceController::class, 'store'])->name('service.request');
-    Route::get('/contacts', [ ContactController::class, 'index'])->name('contacts');
+    Route::get('/contacts/{locale?}', [ ContactController::class, 'index'])->name('contacts');
     Route::get('/categories/{locale?}', [ CategoryController::class, 'index'])->name('categories');
     Route::get('/partners/{locale?}', [ PartnerController::class, 'index'])->name('partners');
 });

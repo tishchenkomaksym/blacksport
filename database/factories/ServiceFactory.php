@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define( Service::class, function (Faker $faker) {
     return [
         'name' => $faker->title,
-        'description' => $faker->text()
+        'description' => $faker->text(),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

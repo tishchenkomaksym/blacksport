@@ -237,6 +237,8 @@ class BasketController extends Controller
      *                   @OA\Property(property="name", type="string"),
      *                   @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
      *                   @OA\Property(property="phone", type="string"),
+     *                   @OA\Property(property="payment_metho", type="string"),
+     *                   @OA\Property(property="post_branch", type="string"),
      *              ),
      *          ),
      *        ),
@@ -280,10 +282,12 @@ class BasketController extends Controller
             'phone' => $client['phone'],
             'email' => $client['email'],
             'products' => json_encode($products),
-            'delivery' => $client['delivery']
+            'delivery' => $client['delivery'],
+            'payment_method' => $client['payment_method'] ?? null,
+            'post_branch' => $client['post_branch'] ?? null
         ]);
 
-        $productsCollecion = new ProductCollection(array(
+        $productsCollection = new ProductCollection(array(
             new Product('test', 1.00, 1),
         ));
 
@@ -295,7 +299,7 @@ class BasketController extends Controller
                                      ->setOrderDate(new \DateTime())
                                      ->setMerchantDomainName('https://blacksport.org')
                                      ->setClient($clientEntity)
-                                     ->setProducts($productsCollecion)
+                                     ->setProducts($productsCollection)
                                      ->setServiceUrl(route('check-response'))
                                      ->getRequest()
                                      ->send();

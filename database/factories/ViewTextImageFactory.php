@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define( ViewTextImage::class, function (Faker $faker) {
     return [
         'image' => $faker->imageUrl(),
-        'view_texts_id' => ViewText::inRandomOrder()->value('id')
+        'view_texts_id' => ViewText::inRandomOrder()->value('id'),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

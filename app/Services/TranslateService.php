@@ -13,6 +13,7 @@ use App\Models\ServiceInstance;
 
 class TranslateService
 {
+
     public function translateAbout($locale, $ambassadors, $partners)
     {
         foreach ($ambassadors as $key => $ambassador) {
