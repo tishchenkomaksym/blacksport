@@ -109,6 +109,29 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "achievements": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -341,6 +364,12 @@
                                                 },
                                                 "phone": {
                                                     "type": "string"
+                                                },
+                                                "payment_metho": {
+                                                    "type": "string"
+                                                },
+                                                "post_branch": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -355,6 +384,112 @@
                 "responses": {
                     "200": {
                         "description": "success, url for payment"
+                    }
+                }
+            }
+        },
+        "/api/categories/{locale?}": {
+            "get": {
+                "tags": [
+                    "category"
+                ],
+                "summary": "List of category",
+                "description": "Getting categories",
+                "operationId": "App\\Http\\Controllers\\CategoryController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "url": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts": {
+            "get": {
+                "tags": [
+                    "contacts"
+                ],
+                "summary": "Contacts",
+                "description": "Getting Contacts",
+                "operationId": "App\\Http\\Controllers\\ContactController::index",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "contacts": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string"
+                                                    },
+                                                    "social_links": {
+                                                        "type": "string"
+                                                    },
+                                                    "address": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -608,6 +743,133 @@
                 }
             }
         },
+        "/api/news/{id}/{locale?}": {
+            "get": {
+                "tags": [
+                    "news"
+                ],
+                "summary": "News Page",
+                "description": "Getting news",
+                "operationId": "App\\Http\\Controllers\\NewsController::show",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "news": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "images": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "published": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/partners/{locale?}": {
+            "get": {
+                "tags": [
+                    "partner"
+                ],
+                "summary": "List of partners",
+                "description": "Getting partners",
+                "operationId": "App\\Http\\Controllers\\PartnerController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "partners": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "image_type": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/products/{locale?}": {
             "get": {
                 "tags": [
@@ -616,6 +878,174 @@
                 "summary": "Products",
                 "description": "Getting products",
                 "operationId": "App\\Http\\Controllers\\ProductController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "specifications": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "categories": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "name": {
+                                                                    "type": "string"
+                                                                },
+                                                                "url": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image": {
+                                                                    "type": "string"
+                                                                },
+                                                                "created_at": {
+                                                                    "type": "string"
+                                                                },
+                                                                "updated_at": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/{id}/{locale?}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Products",
+                "description": "Getting product",
+                "operationId": "App\\Http\\Controllers\\ProductController::show",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "specifications": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "integer"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product_category/{categoryId}/{locale?}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Products",
+                "description": "Getting category product",
+                "operationId": "App\\Http\\Controllers\\ProductController::productCategoryFilter",
                 "parameters": [
                     {
                         "name": "Locale",
@@ -741,6 +1171,58 @@
                 }
             }
         },
+        "/api/program/request": {
+            "post": {
+                "tags": [
+                    "program"
+                ],
+                "summary": "Program Page",
+                "description": "Create program request",
+                "operationId": "App\\Http\\Controllers\\ProgramController::store",
+                "requestBody": {
+                    "description": "Pass params",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "program_id",
+                                    "name",
+                                    "phone",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "program_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Arsen"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "380645564545"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
         "/api/services/{locale?}": {
             "get": {
                 "tags": [
@@ -796,6 +1278,58 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/service/request": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Program Page",
+                "description": "Create service request",
+                "operationId": "App\\Http\\Controllers\\ServiceController::store",
+                "requestBody": {
+                    "description": "Pass params",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "service_id",
+                                    "name",
+                                    "phone",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "service_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Arsen"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "380645564545"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "success"
                     }
                 }
             }

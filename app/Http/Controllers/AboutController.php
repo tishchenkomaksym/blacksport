@@ -97,11 +97,11 @@ class AboutController extends Controller
         list($ambassadors, $partners) = $this->translateService->translateAbout($locale, $ambassadors, $partners);
         $achievements = $this->translateService->translate($locale, Achievement::orderByDesc('created_at')->get(), Achievement::class);
 
-        return json_encode([
-                'texts' => $texts,
-                'ambassadors' => $ambassadors,
-                'partners' => $partners,
-                'achievements' => $achievements
-            ]);
+        return response()->json([
+                'texts' => $texts->toArray() ?? [],
+                'ambassadors' => $ambassadors->toArray() ?? [],
+                'partners' => $partners->toArray() ?? [],
+                'achievements' => $achievements->toArray() ?? []
+            ], 200);
     }
 }

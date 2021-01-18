@@ -36,7 +36,7 @@ class Product extends Model
     use Translatable;
 
     protected $translatable = [
-        'description', 'specifications'
+        'title', 'description', 'specifications'
     ];
 
     protected $table = 'products';

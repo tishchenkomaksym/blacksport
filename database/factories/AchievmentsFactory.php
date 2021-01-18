@@ -22,6 +22,7 @@ use Faker\Generator as Faker;
 $factory->define( Achievement::class, function (Faker $faker) {
     return [
         'title' => $faker->title(),
-        'description' => $faker->text
+        'description' => $faker->text,
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

@@ -26,6 +26,7 @@ $factory->define( Product::class, function (Faker $faker) {
         'image' => $faker->imageUrl(),
         'price' => rand(1000, 2000),
         'category_id' => Category::inRandomOrder()->value('id'),
-        'order_count' => rand(1, 20)
+        'order_count' => rand(1, 20),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

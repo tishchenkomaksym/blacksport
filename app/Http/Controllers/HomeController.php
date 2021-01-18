@@ -124,11 +124,11 @@ class HomeController extends Controller
         $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'home')->get(), Page::class);
 
         return response()->json([
-            'news' => $news,
-            'services' => $services,
-            'programs' => $programs,
-            'popular_products' => $popularProducts,
-            'texts' => $texts
+            'news' => $news->toArray() ?? [],
+            'services' => $services->toArray() ?? [],
+            'programs' => $programs->toArray() ?? [],
+            'popular_products' => $popularProducts->toArray() ?? [],
+            'texts' => $texts->toArray() ?? []
         ], 200);
     }
 

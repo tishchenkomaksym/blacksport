@@ -22,6 +22,7 @@ $factory->define( Program::class, function (Faker $faker) {
     return [
         'name' => $faker->title,
         'description' => $faker->text(),
-        'images' => "[\"{$faker->imageUrl()}\"]"
+        'images' => "[\"{$faker->imageUrl()}\"]",
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });
