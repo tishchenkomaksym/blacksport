@@ -22,6 +22,7 @@ $factory->define( Category::class, function (Faker $faker) {
     return [
         'name' => $array[array_rand($array,1)],
         'url' => $faker->text(10),
-        'image' => $faker->imageUrl()
+        'image' => $faker->imageUrl(),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

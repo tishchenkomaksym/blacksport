@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define( ViewText::class, function (Faker $faker) {
     return [
         'description' => $faker->text,
-        'page_id' => Page::inRandomOrder()->value('id')
+        'page_id' => Page::inRandomOrder()->value('id'),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });
