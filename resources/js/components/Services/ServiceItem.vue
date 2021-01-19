@@ -13,12 +13,24 @@
       </div>
 
       <transition name="mobile-examples">
-        <ServiceExamplesMobile
-          :examples="data.examples"
-          @show-service-example="showServiceExampleModal"
+        <ScrollableContainer
+          :gap="16"
           class="service-item__info-examples"
+          ref="mobileSlider"
+          direction="rtl"
           v-if="isMobile && examplesShown"
-        />
+        >
+          <div
+            :key="example.id"
+            :style="{width: `${mobileExampleWidth}px`}"
+            v-for="example in data.examples"
+          >
+            <ServiceExample
+              :data="example"
+              @click="showServiceExampleModal(example.id)"
+            />
+          </div>
+        </ScrollableContainer>
       </transition>
     </div>
     <p
@@ -41,18 +53,19 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {computed, nextTick, ref, watch} from 'vue'
 import {useI18n} from '../../i18nPlugin'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
 import Button from '../Base/Button'
 import ServiceExamples from './ServiceExamples'
-import ServiceExamplesMobile from './ServiceExamplesMobile'
 import ServiceExamplesModal from './ServiceExamplesModal'
+import ScrollableContainer from '../Layout/ScrollableContainer'
+import ServiceExample from './ServiceExample'
 
 export default {
   name: 'ServiceItem',
-  components: {ServiceExamplesModal, ServiceExamplesMobile, ServiceExamples, Button},
+  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, ServiceExamples, Button},
   props: {
     data: {
       type: Object,
@@ -69,6 +82,8 @@ export default {
     const selectedExample = ref(null)
     const isMobile = computed(() => width.value < 768)
     const description = useTruncate(data.description, 150)
+    const mobileSlider = ref(null)
+    const mobileExampleWidth = ref(0)
 
     const showServiceExampleModal = serviceId => {
       selectedExample.value = serviceId
@@ -78,12 +93,26 @@ export default {
       selectedExample.value = null
     }
 
+    // Make width the same as height to keep examples square
+    watch(() => width.value, async () => {
+      if (width.value >= 768) return
+      await nextTick()
+      if (examplesShown.value && mobileSlider.value) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
+    })
+    watch(() => examplesShown.value, async examplesShown => {
+      if (width.value >= 768) return
+      await nextTick()
+      if (examplesShown) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
+    })
+
     return {
       i18n,
       examplesShown,
       isMobile,
       selectedExample,
       description,
+      mobileSlider,
+      mobileExampleWidth,
       showServiceExampleModal,
       closeServiceExampleModal,
     }
@@ -133,8 +162,6 @@ export default {
       height: 100%;
       position: absolute;
       background-color: $sole;
-      overflow-x: auto;
-      overflow-y: hidden;
     }
   }
 

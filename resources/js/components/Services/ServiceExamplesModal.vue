@@ -71,6 +71,7 @@ export default {
 
     useGlide(glide, examplesSlider, {
       startAt: currentSlide.value,
+      rewind: false,
     })
 
     onMounted(() => {
