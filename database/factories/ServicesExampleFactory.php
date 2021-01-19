@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define( ServiceInstance::class, function (Faker $faker) {
     return [
-        'name' => $faker->streetName,
         'description' => $faker->text,
         'media' => "[\"{$faker->imageUrl()}\"]",
         'service_id' => Service::inRandomOrder()->value('id'),

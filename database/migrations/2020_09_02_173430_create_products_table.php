@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration {
 			$table->integer('price');
 			$table->text('image');
 			$table->integer('category_id')->unsigned();
-			$table->integer('order_count');
+			$table->integer('order_count')->nullable();
 			$table->timestamps();
 		});
 	}

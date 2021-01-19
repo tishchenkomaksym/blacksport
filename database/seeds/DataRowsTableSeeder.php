@@ -982,10 +982,10 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'text',
                 'display_name' => 'Page Key',
                 'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 3,
@@ -1372,9 +1372,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                                "required"=> "Выберите пожалуйста категорию!"
+                        ]
+                     ]
+                ],
                 'order'        => 7,
             ])->save();
         }
@@ -1561,7 +1568,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => 'Service Id',
+                'display_name' => 'Id',
                 'required'     => 1,
                 'browse'       => 0,
                 'read'         => 0,
@@ -1577,34 +1584,24 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => 'Id',
+                'display_name' => 'Service Id',
                 'required'     => 1,
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
-                'order'        => 1,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($serviceExampleDataType, 'name');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Название',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста услугу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
-
 
         $dataRow = $this->dataRow($serviceExampleDataType, 'description');
         if (!$dataRow->exists) {
@@ -1635,7 +1632,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 4,
             ])->save();
         }
 
@@ -1651,7 +1648,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 6,
+                'order'        => 5,
             ])->save();
         }
 
@@ -1688,7 +1685,7 @@ class DataRowsTableSeeder extends Seeder
                         "y" => 0
                     ]
                 ],
-                'order'        => 7,
+                'order'        => 6,
             ])->save();
         }
 
@@ -1714,7 +1711,7 @@ class DataRowsTableSeeder extends Seeder
                     "pivot"       => "0",
                     "taggable"    => "0"
                 ],
-                'order'        => 8,
+                'order'        => 7,
             ] )->save();
         }
 
@@ -1745,9 +1742,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста страницу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1860,6 +1864,7 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+
         $viewTextsImagesDataType = DataType::where('slug', 'view-texts-images')->firstOrFail();
 
         $dataRow = $this->dataRow($viewTextsImagesDataType, 'id');
@@ -1887,9 +1892,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста текст страницы!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1951,11 +1963,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Deleted At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
             ])->save();
@@ -1987,32 +1999,6 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-
-        $dataRow = $this->dataRow($viewTextDataType, 'view_text_belongsto_page_relationship');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Страница',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => [
-                    "model" => "\\App\\Models\\Page",
-                    "table" => "pages",
-                    "type"=>"belongsTo",
-                    "column" => "page_id",
-                    "key" => "id",
-                    "label" => "name",
-                    "pivot_table" =>"ambassadors",
-                    "pivot" => "0",
-                    "taggable" =>"0"
-                ],
-                'order'        => 7,
-            ])->save();
-        }
 
         $achievementsDataType = DataType::where('slug', 'achievements')->firstOrFail();
 
@@ -2126,9 +2112,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -2269,9 +2262,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }

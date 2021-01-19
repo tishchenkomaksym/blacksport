@@ -10,7 +10,6 @@ class CreateServicesExampleTable extends Migration {
 		Schema::create('services_examples', function(Blueprint $table) {
 			$table->increments('id');
 			$table->unsignedBigInteger('service_id');
-			$table->string('name');
 			$table->text('description');
 			$table->timestamps();
 			$table->text('media')->nullable();
