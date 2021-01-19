@@ -2,7 +2,7 @@
   <article class="service-item">
     <div class="service-item__info">
       <h2>{{data.name}}</h2>
-      <p class="service-item__info-description">{{data.description}}</p>
+      <p class="service-item__info-description">{{description}}</p>
       <div class="service-item__info-order">
         <Button
           @click="$emit('open-order-modal', data.id, data.name)"
@@ -17,7 +17,7 @@
           :examples="data.examples"
           @show-service-example="showServiceExampleModal"
           class="service-item__info-examples"
-          v-if="examplesShown"
+          v-if="isMobile && examplesShown"
         />
       </transition>
     </div>
@@ -44,6 +44,7 @@
 import {computed, ref} from 'vue'
 import {useI18n} from '../../i18nPlugin'
 import useWindowSize from '../../hooks/useWindowSize'
+import useTruncate from '../../hooks/useTruncate'
 import Button from '../Base/Button'
 import ServiceExamples from './ServiceExamples'
 import ServiceExamplesMobile from './ServiceExamplesMobile'
@@ -53,17 +54,21 @@ export default {
   name: 'ServiceItem',
   components: {ServiceExamplesModal, ServiceExamplesMobile, ServiceExamples, Button},
   props: {
-    data: Object,
+    data: {
+      type: Object,
+      required: true,
+    },
   },
   emits: [
     'open-order-modal',
   ],
-  setup() {
+  setup({data}) {
     const i18n = useI18n()
     const {width} = useWindowSize()
     const examplesShown = ref(false)
     const selectedExample = ref(null)
-    const isMobile = computed(() => width.value <= 768)
+    const isMobile = computed(() => width.value < 768)
+    const description = useTruncate(data.description, 150)
 
     const showServiceExampleModal = serviceId => {
       selectedExample.value = serviceId
@@ -78,6 +83,7 @@ export default {
       examplesShown,
       isMobile,
       selectedExample,
+      description,
       showServiceExampleModal,
       closeServiceExampleModal,
     }

@@ -26,7 +26,8 @@ export default {
     examples: {
       type: Array,
       default: [],
-    }
+      required: true,
+    },
   },
   setup() {
     const glide = ref(null)
@@ -34,15 +35,6 @@ export default {
 
     useGlide(glide, examplesSlider, {
       bound: true,
-      breakpoints: {
-        768: {
-          // perView: 2,
-          // gap: 16,
-          direction: 'rtl',
-          rewind: false,
-          // peek: {before: 0, after: 6},
-        },
-      },
     })
 
     return {
