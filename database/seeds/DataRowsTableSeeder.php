@@ -1374,7 +1374,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                                "required"=> "Выберите пожалуйста категорию!"
+                        ]
+                     ]
+                ],
                 'order'        => 7,
             ])->save();
         }
@@ -1584,7 +1591,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста услугу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1730,7 +1744,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста страницу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1873,7 +1894,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста текст страницы!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -2086,7 +2114,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -2229,7 +2264,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
