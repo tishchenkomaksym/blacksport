@@ -61,7 +61,7 @@ class ProgramController extends Controller
         $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class)
                                             ->toArray();
 
-        return response()->json(compact('programs'), 200);
+        return response()->json($programs, 200);
 
     }
 
