@@ -14,7 +14,7 @@ export default {
      * @param commit {import('vuex').Commit}
      * @param locale {string}
      */
-    getPrograms: async ({commit}, locale) => commit('setPrograms', (await axios.get(`/programs/${locale}`)).programs),
+    getPrograms: async ({commit}, locale) => commit('setPrograms', await axios.get(`/programs/${locale}`)),
     /**
      * @description Submit a program application
      * @param commit {import('vuex').Commit}

@@ -1,5 +1,5 @@
 <template>
-  <article class="service-item">
+  <article class="service-item" :data-id="data.id">
     <div class="service-item__info">
       <h2>{{data.name}}</h2>
       <p class="service-item__info-description">{{description}}</p>
@@ -34,7 +34,7 @@
       </transition>
     </div>
     <p
-      @click="examplesShown = !examplesShown"
+      @click="toggleExamples"
       class="service-item__examples-button description"
     >
       <transition name="toggle-fade" mode="out-in">
@@ -54,6 +54,7 @@
 
 <script>
 import {computed, nextTick, ref, watch} from 'vue'
+import {useStore} from 'vuex'
 import {useI18n} from '../../i18nPlugin'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
@@ -78,7 +79,9 @@ export default {
   setup({data}) {
     const i18n = useI18n()
     const {width} = useWindowSize()
-    const examplesShown = ref(false)
+    const {state, commit} = useStore()
+    const serviceShownId = computed(() => state.services.examplesShown)
+    const examplesShown = computed(() => serviceShownId.value === data.id)
     const selectedExample = ref(null)
     const isMobile = computed(() => width.value < 768)
     const description = useTruncate(data.description, 150)
@@ -91,6 +94,10 @@ export default {
 
     const closeServiceExampleModal = () => {
       selectedExample.value = null
+    }
+
+    const toggleExamples = () => {
+      commit('services/setExamplesShown', serviceShownId.value === data.id ? null : data.id)
     }
 
     // Make width the same as height to keep examples square
@@ -113,6 +120,7 @@ export default {
       description,
       mobileSlider,
       mobileExampleWidth,
+      toggleExamples,
       showServiceExampleModal,
       closeServiceExampleModal,
     }
