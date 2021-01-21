@@ -57,9 +57,9 @@ class ServiceController extends Controller
   {
       $services = $this->translate_service->translate(
           $locale, Service::with('examples')->orderByDesc('created_at')->get(), Service::class
-      )->toArray();
+      );
 
-      return response()->json(compact('services'), 200);
+      return response()->json($services, 200);
   }
 
     /**

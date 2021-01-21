@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function index($locale = null)
     {
         $products = Product::with('categories')->orderByDesc('created_at')->get();
-        $products = $this->translate_service->translate($locale, $products, Product::class)->toArray();
+        $products = $this->translate_service->translate($locale, $products, Product::class);
 
         return response()->json($products, 200);
 
