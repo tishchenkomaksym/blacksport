@@ -11,7 +11,7 @@ import {provideI18n} from './i18nPlugin'
 import {LANGS} from './router'
 import en from './assets/locale/en.json'
 import ru from './assets/locale/ru.json'
-import ua from './assets/locale/ua.json'
+import uk from './assets/locale/uk.json'
 
 import Layout from './components/Layout/Layout'
 
@@ -35,8 +35,8 @@ export default {
         ru: {
           defaults: {...ru},
         },
-        ua: {
-          defaults: {...ua},
+        uk: {
+          defaults: {...uk},
         },
       },
     })

@@ -16,39 +16,114 @@
       </div>
       <div class="services__list">
         <div class="services__list-scroll">{{i18n.$t('defaults.scroll')}}</div>
-        <ServiceItem
+        <div
           :key="service.id"
-          :data="service"
+          class="services__list-item"
           v-for="service in services.slice(0, 5)"
-        />
+        >
+          <ServiceItem
+            :data="service"
+            @open-order-modal="openOrderModal"
+          />
+          <ScrollableContainer
+            class="services__list-examples"
+            v-if="!isMobile && examplesShown === service.id"
+          >
+            <template v-if="currentExamples.length">
+              <div :key="example.id" style="width: 192px" v-for="example in currentExamples">
+                <ServiceExample
+                  :data="example"
+                  @click="showServiceExampleModal(example.id)"
+                />
+              </div>
+            </template>
+            <p v-else>{{i18n.$t('defaults.noExamples')}}</p>
+          </ScrollableContainer>
+        </div>
       </div>
     </div>
+    <ServiceOrderModal
+      :service-id="selectedService.id"
+      :service-name="selectedService.name"
+      @close-modal="closeOrderModal"
+      v-if="!!selectedService"
+    />
+    <ServiceExamplesModal
+      :current-example="selectedExample"
+      :examples="currentExamples"
+      @close-modal="closeServiceExampleModal"
+      v-if="!isMobile && selectedExample !== null"
+    />
   </section>
 </template>
 
 <script>
-import {computed} from 'vue'
+import {computed, ref, onBeforeUnmount} from 'vue'
 import {useStore} from 'vuex'
+import useWindowSize from '../../hooks/useWindowSize'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
+import ServiceOrderModal from '../Services/ServiceOrderModal'
+import ServiceExamplesModal from '../Services/ServiceExamplesModal'
+import ScrollableContainer from '../Layout/ScrollableContainer'
+import ServiceExample from '../Services/ServiceExample'
 
 export default {
   name: 'Services',
-  components: {ServiceItem, PrevSectionButton},
+  components: {
+    ServiceExample,
+    ScrollableContainer, ServiceExamplesModal, ServiceOrderModal, ServiceItem, PrevSectionButton},
   setup() {
-    const {state} = useStore()
+    const {state, commit} = useStore()
     const i18n = useI18n()
+    const {width} = useWindowSize()
+    const isMobile = computed(() => width.value < 768)
     const services = computed(() => state.home.homeData.services)
+    const selectedService = ref(null)
+    const examplesShown = computed(() => state.services.examplesShown)
+    const selectedExample = ref(null)
+    const currentExamples = computed(() => {
+      return services.value.find(service => service.id === examplesShown.value).examples
+    })
+
+    onBeforeUnmount(() => {
+      commit('services/setExamplesShown', null)
+    })
+
+    const openOrderModal = (serviceId, serviceName) => {
+      selectedService.value = {id: serviceId, name: serviceName}
+    }
+
+    const closeOrderModal = () => {
+      selectedService.value = null
+    }
+
+    const showServiceExampleModal = serviceId => {
+      selectedExample.value = serviceId
+    }
+
+    const closeServiceExampleModal = () => {
+      selectedExample.value = null
+    }
 
     return {
       i18n,
+      isMobile,
       services,
       servicesPath: computed(() => ({
         name: ROUTE_CONF.SERVICES.name,
         params: {locale: i18n.locale.value},
       })),
+      selectedService,
+      openOrderModal,
+      closeOrderModal,
+      examplesShown,
+      selectedExample,
+      currentExamples,
+      showServiceExampleModal,
+      closeServiceExampleModal,
     }
   }
 }
@@ -148,7 +223,7 @@ export default {
 
     @include tablets() {
       padding: 0 40px;
-      grid-template-columns: 412px;
+      grid-auto-rows: 192px;
       row-gap: 16px;
       overflow-y: auto;
     }
@@ -163,6 +238,23 @@ export default {
     @include desktop() {
       height: 100%;
       padding: 40px 0 0 273px;
+    }
+
+    &-item {
+      @include tablets() {
+        display: grid;
+        grid-template-columns: 412px 1fr;
+      }
+    }
+
+    &-examples {
+      @include tablets() {
+        padding-left: $spacing-md;
+      }
+
+      @include desktop() {
+        padding-left: 86px;
+      }
     }
 
     &-scroll {

@@ -1,4 +1,4 @@
-import {onMounted, nextTick} from 'vue'
+import {onMounted, ref, nextTick} from 'vue'
 import Glide from '@glidejs/glide'
 
 /**
@@ -8,9 +8,20 @@ import Glide from '@glidejs/glide'
  * @param options
  */
 const useGlide = (glideRef, elementRef, options) => {
+  const transitionTimeout = ref(0)
+
   const mountGlide = () => {
     glideRef.value = new Glide(elementRef.value, options)
       .on('resize', refreshGlide)
+      // Fix blinking anchors after swipe end
+      .on('swipe.end', () => {
+        clearTimeout(transitionTimeout.value)
+        const links = elementRef.value.querySelectorAll('a')
+        for (const link of links) link.classList.add('no-transition')
+        transitionTimeout.value = setTimeout(() => {
+          for (const link of links) link.classList.remove('no-transition')
+        }, 1000)
+      })
     glideRef.value.mount()
   }
 

@@ -59,6 +59,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/variables";
 
 .about {
   &__container {
@@ -69,25 +70,25 @@ export default {
   &__images {
     display: flex;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: $spacing-md;
 
     img {
       width: 50%;
       max-width: 440px;
-      filter: drop-shadow(4px 4px 16px rgba(0, 0, 0, 0.08));
+      filter: drop-shadow(4px 4px $spacing rgba($bg-color, 0.08));
 
       @include tablets() {
-        filter: drop-shadow(16px 16px 32px rgba(0, 0, 0, 0.08));
+        filter: drop-shadow($spacing $spacing #{$spacing-sm + $spacing-md} rgba($bg-color, 0.08));
       }
     }
   }
 
   &__mission {
-    margin: 24px 0;
+    margin: $spacing-md 0;
     text-align: center;
 
     @include tablets() {
-      margin: 48px 0 65px;
+      margin: #{$spacing-sm + $spacing-lg} 0 65px;
     }
 
     img {

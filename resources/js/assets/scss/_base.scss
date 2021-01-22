@@ -95,7 +95,7 @@ ul {
 }
 
 input {
-  padding: 8px 16px;
+  padding: 10px 16px;
   -webkit-appearance: none;
   background-color: $smoke;
   border: none;
@@ -107,10 +107,19 @@ input {
   &::placeholder {
     color: $park;
   }
+
+  &.light {
+    color: $park;
+    background-color: $text-accent-color;
+  }
 }
 
 .form-error {
   margin: 8px 0;
   color: $red;
   font-size: 14px;
+}
+
+.no-transition {
+  transition: none;
 }

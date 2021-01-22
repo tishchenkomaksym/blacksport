@@ -4,6 +4,7 @@
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :class="{light}"
       @input="handleChange"
       @blur="handleBlur"
       as="input"
@@ -13,6 +14,7 @@
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :class="{light}"
       @input="handleChange"
       @blur="handleBlur"
       as="input"
@@ -40,6 +42,7 @@ export default {
     name: String,
     placeholder: String,
     mask: [Array, Object, String],
+    light: Boolean,
   },
   setup({name}) {
     const i18n = useI18n()
@@ -59,12 +62,12 @@ export default {
 @import "../../assets/scss/variables";
 
 .form-input {
-  margin-bottom: 16px;
+  margin-bottom: $spacing;
 
   input {
     width: 100%;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: $spacing-sm;
   }
 }
 </style>

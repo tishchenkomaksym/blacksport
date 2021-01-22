@@ -4,16 +4,14 @@
       <router-link
         :to="articlePath"
         class="link link--smaller"
-        style="transition-property: none"
       >
         {{i18n.$t('defaults.read')}}
       </router-link>
       <p class="description">{{dateCreated.day}} • {{dateCreated.time}}</p>
     </div>
 
-    <!-- TODO change to dynamic image -->
     <router-link
-      :style="{backgroundImage: `url(https://loremflickr.com/80${Math.trunc(Math.random() * 9)}/80${Math.trunc(Math.random() * 9)}/sport)`}"
+      :style="{backgroundImage: `url(${images[0]})`}"
       :to="articlePath"
       class="news-item__image"
     />
@@ -27,6 +25,7 @@
 import {computed} from 'vue'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
+import useImageStorage from '../../hooks/useImageStorage'
 
 export default {
   name: 'NewsItem',
@@ -52,11 +51,11 @@ export default {
         time,
       }
     })
-    const image = computed(() => JSON.parse(data.images)[0])
+    const images = useImageStorage(data.images)
 
     return {
       i18n,
-      image,
+      images,
       dateCreated,
       articlePath: computed(() => ({
         name: ROUTE_CONF.ARTICLE.name,
@@ -98,7 +97,6 @@ export default {
 
   h2 a {
     color: $text-color;
-    transition: none;
 
     &:hover {
       color: $text-accent-color;

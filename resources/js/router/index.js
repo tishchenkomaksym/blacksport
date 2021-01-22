@@ -14,7 +14,7 @@ export const ROUTE_CONF = {
 }
 
 export const LANGS = [
-  'ua',
+  'uk',
   'en',
   'ru',
 ]

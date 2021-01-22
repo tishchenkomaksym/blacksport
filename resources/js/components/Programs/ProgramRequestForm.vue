@@ -3,7 +3,6 @@
     :validation-schema="validationSchema"
     @submit="submitApplication"
     class="request-form"
-    v-slot="{errors}"
   >
     <template v-if="!requestSent">
       <h3>{{i18n.$t('defaults.programApplication')}}</h3>
@@ -55,7 +54,7 @@ export default {
 
     const submitApplication = async ({name, phone, email}) => {
       try {
-        await dispatch('pages/submitApplication', {
+        await dispatch('programs/submitApplication', {
           program_id: programId,
           name, phone, email,
         })
@@ -88,7 +87,7 @@ export default {
 
 .request-form {
   @include laptop() {
-    padding: 24px;
+    padding: $spacing-md;
     transition: background-color 0.3s ease-in-out;
 
     &:hover, &:focus-within {

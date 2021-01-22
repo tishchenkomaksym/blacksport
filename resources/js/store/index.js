@@ -4,6 +4,9 @@ import common from './modules/common'
 import home from './modules/home'
 import products from './modules/products'
 import pages from './modules/pages'
+import services from './modules/services'
+import programs from './modules/programs'
+import news from './modules/news'
 
 const store = createStore({
   modules: {
@@ -11,6 +14,9 @@ const store = createStore({
     home,
     products,
     pages,
+    services,
+    programs,
+    news,
   }
 })
 
