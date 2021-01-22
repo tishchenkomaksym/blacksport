@@ -71,11 +71,13 @@ export default {
 
     const handlerMouseUp = () => {
       isDragging.value = false
+      toggleClickEvents(false)
       beginMomentumTracking()
     }
 
     const handleMouseLeave = () => {
       isDragging.value = false
+      toggleClickEvents(false)
     }
 
     /**
@@ -85,11 +87,19 @@ export default {
     const handleMouseMove = event => {
       if (!isDragging.value) return
       event.preventDefault()
+      toggleClickEvents(true)
       const position = event[pageCoord.value] - slider.value[offsetPos.value]
       const walk = position - start.value
       const prevScroll = slider.value[scrollPos.value]
       slider.value[scrollPos.value] = scrollValue.value - walk
       velocity.value = slider.value[scrollPos.value] - prevScroll
+    }
+
+    const toggleClickEvents = disable => {
+      for (const child of slider.value.childNodes) {
+        if (child.nodeType === 3) continue
+        child.style.pointerEvents = disable ? 'none' : ''
+      }
     }
 
     onMounted(() => {
@@ -126,7 +136,7 @@ export default {
 @import "../../assets/scss/variables";
 
 .scrollable {
-  --gap: 8px;
+  --gap: $spacing-sm;
   white-space: nowrap;
   user-select: none;
 

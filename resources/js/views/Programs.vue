@@ -47,41 +47,27 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .programs {
   @include laptop() {
-    max-height: calc((640 * 100vh) / 900);
+    margin-top: -$spacing-lg;
+    padding-right: $spacing-sm;
+    padding-top: $spacing-lg;
     overflow-y: auto;
-
-    &::before, &::after {
-      width: calc(100% - 88px);
-      max-width: calc(1440px - 88px);
-      height: 40px;
-      content: '';
-      display: block;
-      position: absolute;
-      z-index: 1;
-    }
-
-    &::before {
-      top: 146px;
-      background: linear-gradient(180deg, $sole 0%, rgba(13, 13, 13, 0) 100%);
-    }
-
-    &::after {
-      top: calc(106px + (640 * 100vh) / 900);
-      background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, $sole 100%);
-    }
+    overflow-x: hidden;
+    @include page-height;
+    @include container-gradients($sole);
   }
 
   &__item {
-    margin-bottom: 24px;
+    margin-bottom: $spacing-md;
 
     @include laptop() {
       display: grid;
       grid-template-columns: 1fr 300px;
-      column-gap: 40px;
-      margin-bottom: 40px;
+      column-gap: $spacing-lg;
+      margin-bottom: $spacing-lg;
     }
 
     @include large-desktop() {

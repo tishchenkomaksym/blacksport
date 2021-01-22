@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="{block, link}"
+    :class="{block, link, light}"
   >
     <slot />
   </button>
@@ -12,6 +12,7 @@ export default {
   props: {
     block: Boolean,
     link: Boolean,
+    light: Boolean,
   },
 }
 </script>
@@ -53,6 +54,11 @@ button {
     &:hover {
       color: $text-accent-color;
     }
+  }
+
+  &.light {
+    background-color: $text-color;
+    color: $smoke;
   }
 }
 </style>

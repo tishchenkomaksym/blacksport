@@ -43,6 +43,7 @@ export default {
       perView: 4,
       gap: 16,
       bound: true,
+      rewind: false,
       breakpoints: {
         768: {
           peek: {before: 40, after: 40},
@@ -65,16 +66,17 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/breakpoints";
+@import "../../assets/scss/variables";
 
 .program-item {
   &__images {
     width: 100vw;
-    margin: 0 0 0 -32px;
-    transform: translateX(16px);
+    margin: 0 0 0 -($spacing-md + $spacing-sm);
+    transform: translateX($spacing);
 
     @include tablets() {
-      margin: 0 0 0 -80px;
-      transform: translateX(40px);
+      margin: 0 0 0 -$spacing-lg * 2;
+      transform: translateX($spacing-lg);
     }
 
     @include laptop() {

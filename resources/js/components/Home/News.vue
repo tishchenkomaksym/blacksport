@@ -55,6 +55,7 @@ export default {
       perView: 4,
       gap: 40,
       bound: true,
+      rewind: false,
       peek: {before: 40, after: 0},
       breakpoints: {
         1439: {

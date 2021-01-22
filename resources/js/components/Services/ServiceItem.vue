@@ -59,14 +59,13 @@ import {useI18n} from '../../i18nPlugin'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
 import Button from '../Base/Button'
-import ServiceExamples from './ServiceExamples'
 import ServiceExamplesModal from './ServiceExamplesModal'
 import ScrollableContainer from '../Layout/ScrollableContainer'
 import ServiceExample from './ServiceExample'
 
 export default {
   name: 'ServiceItem',
-  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, ServiceExamples, Button},
+  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, Button},
   props: {
     data: {
       type: Object,

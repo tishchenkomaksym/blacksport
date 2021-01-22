@@ -16,21 +16,22 @@
     </div>
     <div class="product-item__button-wrapper">
       <transition name="order-button-slide">
-        <button
+        <Button
+          block
           @click="addToBasket(data.id)"
-          class="product-item__order-button"
           v-if="!isInBasket"
         >
           {{i18n.$t('defaults.buy')}}
-        </button>
+        </Button>
       </transition>
       <transition name="ordered-button-slide">
-        <button
-          class="product-item__order-button product-item__order-button--ordered"
+        <Button
+          block
+          light
           v-if="isInBasket"
         >
           {{i18n.$t('defaults.openBasket')}}
-        </button>
+        </Button>
       </transition>
     </div>
   </article>
@@ -42,9 +43,11 @@ import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
 import {useI18n} from '../../i18nPlugin'
 import {ROUTE_CONF} from '../../router'
+import Button from '../Base/Button'
 
 export default {
   name: 'ProductItem',
+  components: {Button},
   props: {
     data: Object,
   },
@@ -94,7 +97,7 @@ export default {
     padding-bottom: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: calc(100% - 48px);
+    background-size: calc(100% - #{$spacing-lg + $spacing-sm});
     background-color: white;
     transition: background-size 0.3s ease-in-out;
 
@@ -104,11 +107,11 @@ export default {
   }
 
   &__info {
-    padding: 8px;
+    padding: $spacing-sm;
     flex-grow: 1;
 
     @include laptop() {
-      padding: 16px 8px;
+      padding: $spacing $spacing-sm;
     }
 
     &-title {
@@ -145,6 +148,13 @@ export default {
     overflow: hidden;
     position: relative;
 
+    @media screen and (max-width: 1023px) {
+      button {
+        padding-top: 10px;
+        padding-bottom: 9px;
+      }
+    }
+
     @include laptop() {
       height: 52px;
     }
@@ -152,7 +162,7 @@ export default {
 
   &__order-button {
     width: 100%;
-    padding: 8px 0;
+    padding: $spacing-sm 0;
     display: block;
     text-transform: uppercase;
     font-size: 18px;
@@ -167,17 +177,8 @@ export default {
       background-color: $park;
     }
 
-    &--ordered {
-      background-color: $text-color;
-      color: $smoke;
-
-      &:hover {
-        background-color: $text-color;
-      }
-    }
-
     @include laptop() {
-      padding: 16px 0;
+      padding: $spacing 0;
     }
   }
 }
