@@ -93,6 +93,7 @@
  * @property {string} image
  * @property {Array<any>} translations
  * @property {string} updated_at
+ * @property {string} image_type
  */
 
 /**

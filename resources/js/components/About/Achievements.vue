@@ -51,8 +51,8 @@ export default {
 
   &__list {
     width: 100vw;
-    margin: 0 0 0 -32px;
-    transform: translateX(16px);
+    margin: 0 0 0 -#{$spacing-md + $spacing-sm};
+    transform: translateX($spacing);
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -63,8 +63,8 @@ export default {
       display: grid;
       transform: initial;
       grid-template-columns: repeat(2, 1fr);
-      column-gap: 40px;
-      row-gap: 24px;
+      column-gap: $spacing-lg;
+      row-gap: $spacing-md;
       overflow-x: initial;
     }
 
@@ -78,21 +78,21 @@ export default {
   }
 
   &__list-item {
-    padding: 16px;
-    margin-right: 16px;
+    padding: $spacing;
+    margin-right: $spacing;
     background-color: $smoke;
     text-align: center;
 
     &:first-of-type {
-      margin-left: 16px;
+      margin-left: $spacing;
     }
 
     &:last-of-type {
-      margin-right: 16px;
+      margin-right: $spacing;
     }
 
     @include tablets() {
-      padding: 32px 16px;
+      padding: #{$spacing-md + $spacing-sm} $spacing;
       margin: initial;
 
       &:first-of-type,
