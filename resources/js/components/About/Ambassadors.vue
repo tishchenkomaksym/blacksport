@@ -2,7 +2,12 @@
   <section class="ambassadors">
     <div class="ambassadors__container">
       <h1>{{ambassadorsText.name}}</h1>
-      <p>{{ambassadorsText.meta_description}}</p>
+      <p
+        :key="i"
+        v-for="(paragraph, i) in ambassadorsDescription"
+      >
+        {{paragraph}}
+      </p>
     </div>
 
     <ul
@@ -26,6 +31,7 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import useImageStorage from '../../hooks/useImageStorage'
+import useParseText from '../../hooks/useParseText'
 
 export default {
   name: 'Ambassadors',
@@ -33,6 +39,7 @@ export default {
     const {state} = useStore()
     const ambassadors = computed(() => state.pages.about.ambassadors)
     const ambassadorsText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'ambassadors') || {})
+    const ambassadorsDescription = computed(() => useParseText(ambassadorsText.value.meta_description || '').value)
     const ambassadorRows = computed(() => {
       let rows = 0
       let ambassadorNumber = ambassadors.value.length
@@ -47,6 +54,7 @@ export default {
 
     return {
       ambassadorsText,
+      ambassadorsDescription,
       ambassadors,
       ambassadorRows,
       imageSrc,

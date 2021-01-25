@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import i18n, {DEFAULT_LANG} from '../i18n'
 import Home from '../views/Home.vue'
 
 export const ROUTE_CONF = {
@@ -13,13 +14,7 @@ export const ROUTE_CONF = {
   ARTICLE: {name: 'Article', path: '/news/:id'},
 }
 
-export const LANGS = [
-  'uk',
-  'en',
-  'ru',
-]
-
-export const DEFAULT_PATH = `/${LANGS[0]}${ROUTE_CONF.HOME.path}`
+const DEFAULT_PATH = `/${DEFAULT_LANG}${ROUTE_CONF.HOME.path}`
 
 const routes = [
   {
@@ -36,31 +31,37 @@ const routes = [
     name: ROUTE_CONF.NEWS.name,
     // Lazy loading
     component: () => import('../views/News.vue'),
+    meta: {title: 'news'},
   },
   {
     path: `/:locale${ROUTE_CONF.ABOUT.path}`,
     name: ROUTE_CONF.ABOUT.name,
     component: () => import('../views/About.vue'),
+    meta: {title: 'about'},
   },
   {
     path: `/:locale${ROUTE_CONF.SERVICES.path}`,
     name: ROUTE_CONF.SERVICES.name,
     component: () => import('../views/Services.vue'),
+    meta: {title: 'services'},
   },
   {
     path: `/:locale${ROUTE_CONF.PRODUCTS.path}`,
     name: ROUTE_CONF.PRODUCTS.name,
     component: () => import('../views/Products.vue'),
+    meta: {title: 'products'},
   },
   {
     path: `/:locale${ROUTE_CONF.PROGRAMS.path}`,
     name: ROUTE_CONF.PROGRAMS.name,
     component: () => import('../views/Programs.vue'),
+    meta: {title: 'programs'},
   },
   {
     path: `/:locale${ROUTE_CONF.CONTACTS.path}`,
     name: ROUTE_CONF.CONTACTS.name,
     component: () => import('../views/Contacts.vue'),
+    meta: {title: 'contacts'},
   },
   {
     path: `/:locale${ROUTE_CONF.PRODUCT.path}`,
@@ -81,7 +82,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const {locale} = to.params
-  if (LANGS.includes(locale)) next()
+  if (i18n.global.availableLocales.includes(locale)) next()
   else next(DEFAULT_PATH)
 })
 

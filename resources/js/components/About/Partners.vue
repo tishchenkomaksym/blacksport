@@ -2,7 +2,12 @@
   <section class="partners">
     <div class="partners__container">
       <h1>{{partnersText.name}}</h1>
-      <p>{{partnersText.meta_description}}</p>
+      <p
+        :key="i"
+        v-for="(paragraph, i) in partnersDescription"
+      >
+        {{paragraph}}
+      </p>
     </div>
 
     <div class="partners__list">
@@ -30,6 +35,7 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import useImageStorage from '../../hooks/useImageStorage'
+import useParseText from '../../hooks/useParseText'
 
 export default {
   name: 'Partners',
@@ -37,6 +43,7 @@ export default {
     const {state} = useStore()
     const partners = computed(() => state.pages.about.partners)
     const partnersText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'partners') || {})
+    const partnersDescription = computed(() => useParseText(partnersText.value?.meta_description || '').value)
     const rectangleImages = computed(() => {
       const imageSrc = partners.value.reduce((imageSrc, partner) => {
         if (partner.image_type === 'rectangle') imageSrc.push(partner.image)
@@ -54,6 +61,7 @@ export default {
 
     return {
       partnersText,
+      partnersDescription,
       partners,
       rectangleImages,
       squareImages,

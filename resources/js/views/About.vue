@@ -1,6 +1,6 @@
 <template>
   <PageLayout
-    :title="i18n.$t('defaults.about')"
+    :title="t('about')"
     background-color="park"
   >
     <div class="about">
@@ -9,7 +9,7 @@
           <img src="/img/about/about-1.png" alt="Snowboarding">
           <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         </div>
-        <h1>{{i18n.$t('defaults.about')}}</h1>
+        <h1>{{t('about')}}</h1>
 <!--        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>-->
 <!--        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>-->
       </div>
@@ -33,7 +33,7 @@
 <script>
 import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import PageLayout from '../components/Layout/PageLayout'
 import Achievements from '../components/About/Achievements'
 import Partners from '../components/About/Partners'
@@ -43,16 +43,16 @@ export default {
   name: 'About',
   components: {Ambassadors, Partners, Achievements, PageLayout},
   setup() {
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {dispatch} = useStore()
-    const missionImageSrc = computed(() => i18n.locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
+    const missionImageSrc = computed(() => locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
 
     watchEffect(() => {
-      dispatch('pages/getAbout', i18n.locale.value)
+      dispatch('pages/getAbout', locale.value)
     })
 
     return {
-      i18n,
+      t,
       missionImageSrc,
     }
   },

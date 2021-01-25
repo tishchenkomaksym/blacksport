@@ -1,21 +1,21 @@
 <template>
   <section class="services">
     <PrevSectionButton
-      :title="i18n.$t('defaults.news')"
+      :title="t('news')"
       @click="$emit('switch-slide', 'news')"
     />
     <div class="services__content">
       <div class="services__heading container">
-        <h2>{{i18n.$t('defaults.services')}}</h2>
+        <h2>{{t('services')}}</h2>
         <router-link
           :to="servicesPath"
           class="link subtitle"
         >
-          {{i18n.$t('defaults.allServices')}}
+          {{t('allServices')}}
         </router-link>
       </div>
       <div class="services__list">
-        <div class="services__list-scroll">{{i18n.$t('defaults.scroll')}}</div>
+        <div class="services__list-scroll">{{t('scroll')}}</div>
         <div
           :key="service.id"
           class="services__list-item"
@@ -37,7 +37,7 @@
                 />
               </div>
             </template>
-            <p v-else>{{i18n.$t('defaults.noExamples')}}</p>
+            <p v-else>{{t('noExamples')}}</p>
           </ScrollableContainer>
         </div>
       </div>
@@ -61,7 +61,7 @@
 import {computed, ref, onBeforeUnmount} from 'vue'
 import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
@@ -77,7 +77,7 @@ export default {
     ScrollableContainer, ServiceExamplesModal, ServiceOrderModal, ServiceItem, PrevSectionButton},
   setup() {
     const {state, commit} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {width} = useWindowSize()
     const isMobile = computed(() => width.value < 768)
     const services = computed(() => state.home.homeData.services)
@@ -109,12 +109,12 @@ export default {
     }
 
     return {
-      i18n,
+      t,
       isMobile,
       services,
       servicesPath: computed(() => ({
         name: ROUTE_CONF.SERVICES.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
       selectedService,
       openOrderModal,

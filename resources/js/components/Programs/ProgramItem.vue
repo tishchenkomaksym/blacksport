@@ -71,11 +71,11 @@ export default {
 .program-item {
   &__images {
     width: 100vw;
-    margin: 0 0 0 -($spacing-md + $spacing-sm);
+    margin: 0 0 0 #{-$spacing-md - $spacing-sm};
     transform: translateX($spacing);
 
     @include tablets() {
-      margin: 0 0 0 -$spacing-lg * 2;
+      margin: 0 0 0 #{-$spacing-lg * 2};
       transform: translateX($spacing-lg);
     }
 

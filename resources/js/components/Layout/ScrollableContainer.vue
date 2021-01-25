@@ -188,6 +188,7 @@ export default {
 
   &:not(&--vertical):deep(> *) {
     display: inline-block;
+    vertical-align: middle;
     margin: 0 var(--gap);
   }
 }

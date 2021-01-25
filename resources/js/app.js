@@ -1,9 +1,11 @@
 import {createApp} from 'vue'
 import axios from 'axios'
-import App from './App.vue'
 import router from './router'
 import store from './store'
 import Maska from 'maska'
+import i18n from './i18n'
+
+import App from './App.vue'
 
 import 'normalize.css'
 import './assets/scss/index.scss'
@@ -19,4 +21,5 @@ createApp(App)
   .use(router)
   .use(store)
   .use(Maska)
+  .use(i18n)
   .mount('#app')

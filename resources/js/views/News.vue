@@ -1,6 +1,6 @@
 <template>
   <PageLayout
-    :title="i18n.$t('defaults.news')"
+    :title="t('news')"
   >
     <div class="news">
       <div class="news__list">
@@ -18,7 +18,7 @@
 <script>
 import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import PageLayout from '../components/Layout/PageLayout'
 import NewsItem from '../components/News/NewsItem'
 
@@ -27,15 +27,15 @@ export default {
   components: {NewsItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const news = computed(() => state.news.news)
 
     watchEffect(() => {
-      dispatch('news/getNews', i18n.locale.value)
+      dispatch('news/getNews', locale.value)
     })
 
     return {
-      i18n,
+      t,
       news,
     }
   },

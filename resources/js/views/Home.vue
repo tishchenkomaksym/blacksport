@@ -36,7 +36,7 @@
 <script>
 import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../hooks/useWindowSize'
 import Hero from '../components/Home/Hero'
 import About from '../components/Home/About'
@@ -58,11 +58,11 @@ export default {
   setup() {
     const {dispatch} = useStore()
     const currentSlide = ref('hero')
-    const i18n = useI18n()
+    const {locale} = useI18n()
     const {width} = useWindowSize()
 
     watchEffect(() => {
-      dispatch('home/getHomeData', i18n.locale.value)
+      dispatch('home/getHomeData', locale.value)
       dispatch('common/getContacts')
     })
 

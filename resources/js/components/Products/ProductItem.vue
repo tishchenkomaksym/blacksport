@@ -1,9 +1,8 @@
 <template>
   <article class="product-item">
-    <!-- TODO change to dynamic image -->
     <router-link
       :to="productLink"
-      :style="{backgroundImage: `url(https://loremflickr.com/1024/1024/sport_equipment)`}"
+      :style="{backgroundImage: `url(${image})`}"
       class="product-item__image"
     />
     <div class="product-item__info">
@@ -21,7 +20,7 @@
           @click="addToBasket(data.id)"
           v-if="!isInBasket"
         >
-          {{i18n.$t('defaults.buy')}}
+          {{t('buy')}}
         </Button>
       </transition>
       <transition name="ordered-button-slide">
@@ -30,7 +29,7 @@
           light
           v-if="isInBasket"
         >
-          {{i18n.$t('defaults.openBasket')}}
+          {{t('openBasket')}}
         </Button>
       </transition>
     </div>
@@ -41,7 +40,8 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
+import useImageStorage from '../../hooks/useImageStorage'
 import {ROUTE_CONF} from '../../router'
 import Button from '../Base/Button'
 
@@ -52,31 +52,33 @@ export default {
     data: Object,
   },
   setup({data}) {
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {dispatch, state} = useStore()
     const price = computed(() => {
-      const locales = i18n.locale.value === 'ru' ? 'ru-RU' : i18n.locale.value === 'en' ? 'en-US' : 'uk-UA'
+      const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
       return data.price.toLocaleString(locales)
     })
     const {width} = useWindowSize()
     const isInBasket = computed(() => {
       return !!Object.keys(state.products.basket).find(key => +key === data.id)
     })
+    const image = useImageStorage(data.image, true)
 
     const addToBasket = productId => {
       dispatch('products/addToBasket', {productId})
     }
 
     return {
-      i18n,
+      t,
       price,
       width,
       addToBasket,
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
-        params: {locale: i18n.locale.value, id: data.id},
+        params: {locale: locale.value, id: data.id},
       })),
       isInBasket,
+      image,
     }
   },
 }

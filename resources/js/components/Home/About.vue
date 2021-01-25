@@ -11,14 +11,14 @@
         <img src="/img/about/about-1.png" alt="Snowboarding">
         <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         <div class="about__text">
-          <h1>{{i18n.$t('defaults.about')}}</h1>
+          <h1>{{t('about')}}</h1>
           <p v-if="about">{{about.meta_description}}</p>
           <div class="about__footer">
             <router-link
               :to="aboutPath"
               class="link link--smaller"
             >
-              {{i18n.$t('defaults.readMore')}}
+              {{t('readMore')}}
             </router-link>
           </div>
         </div>
@@ -30,22 +30,22 @@
 <script>
 import {computed} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
 
 export default {
   name: 'About',
   setup() {
     const {getters} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const about = computed(() => getters['home/about'])
 
     return {
-      i18n,
+      t,
       about,
       aboutPath: computed(() => ({
         name: ROUTE_CONF.ABOUT.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <PageLayout
-    :title="i18n.$t('defaults.programs')"
+    :title="t('programs')"
     background-color="sole"
   >
     <div class="programs">
@@ -19,7 +19,7 @@
 <script>
 import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import PageLayout from '../components/Layout/PageLayout'
 import ProgramItem from '../components/Programs/ProgramItem'
 import ProgramRequestForm from '../components/Programs/ProgramRequestForm'
@@ -29,15 +29,15 @@ export default {
   components: {ProgramRequestForm, ProgramItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const programs = computed(() => state.programs.programs)
 
     watchEffect(() => {
-      dispatch('programs/getPrograms', i18n.locale.value)
+      dispatch('programs/getPrograms', locale.value)
     })
 
     return {
-      i18n,
+      t,
       programs,
     }
   },

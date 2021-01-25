@@ -22,14 +22,14 @@
       v-else
     />
     <p class="form-error" v-if="errorMessage">
-      {{i18n.$t(errorMessage)}}
+      {{t(errorMessage)}}
     </p>
   </div>
 </template>
 
 <script>
 import {ErrorMessage, Field, useField} from 'vee-validate'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 
 export default {
   name: 'FormInput',
@@ -45,11 +45,11 @@ export default {
     light: Boolean,
   },
   setup({name}) {
-    const i18n = useI18n()
+    const {t} = useI18n()
     const {errorMessage, handleBlur, handleChange} = useField(name)
 
     return {
-      i18n,
+      t,
       errorMessage,
       handleBlur,
       handleChange,

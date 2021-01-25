@@ -2,17 +2,17 @@
   <transition appear name="slide">
     <div class="languages" v-if="!isHidden">
       <div class="languages__item languages__item--active">
-        {{currentLocale}}
+        {{locale}}
       </div>
       <div class="languages__list">
-        <router-link
+        <div
           :key="locale"
-          :to="`/${locale}${currentRoute}`"
+          @click="switchLocale(locale)"
           class="languages__item"
           v-for="locale in locales"
         >
           {{locale}}
-        </router-link>
+        </div>
       </div>
     </div>
   </transition>
@@ -22,17 +22,17 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import {useRoute} from 'vue-router'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
-import {LANGS, ROUTE_CONF} from '../../router'
+import {LANGS} from '../../i18n'
+import {ROUTE_CONF} from '../../router'
 
 export default {
   name: 'LanguageSwitch',
   setup() {
-    const i18n = useI18n()
+    const {locale} = useI18n()
     const {state} = useStore()
-    const currentLocale = computed(() => i18n.locale.value)
-    const locales = computed(() => LANGS.filter(locale => locale !== currentLocale.value))
+    const locales = computed(() => LANGS.filter(lang => lang !== locale.value))
     const currentRoute = computed(() => {
       const currentRoute = Object.values(ROUTE_CONF).find(({name}) => name === useRoute().matched[0]?.name)
       return (currentRoute || ROUTE_CONF.HOME).path
@@ -40,8 +40,11 @@ export default {
     const {width} = useWindowSize()
     const menuShown = computed(() => state.common.menuShown)
 
+    const switchLocale = newLocale => locale.value = newLocale
+
     return {
-      currentLocale,
+      locale,
+      switchLocale,
       currentRoute,
       locales,
       isHidden: computed(() => !menuShown.value && width.value < 768),
@@ -89,9 +92,10 @@ export default {
     will-change: color, border-color;
     box-sizing: border-box;
 
-    &:hover {
+    &:hover:not(&--active) {
       color: $text-accent-color;
       border-color: $text-accent-color;
+      cursor: pointer;
     }
 
     @include tablets() {

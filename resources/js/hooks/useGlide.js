@@ -7,7 +7,7 @@ import Glide from '@glidejs/glide'
  * @param elementRef {import('vue').Ref<HTMLElement | null>}
  * @param options
  */
-const useGlide = (glideRef, elementRef, options) => {
+const useGlide = (glideRef, elementRef, options = {}) => {
   const transitionTimeout = ref(0)
 
   const mountGlide = () => {
@@ -41,6 +41,10 @@ const useGlide = (glideRef, elementRef, options) => {
   onMounted(() => {
     mountGlide()
   })
+
+  return {
+    refreshGlide,
+  }
 }
 
 export default useGlide
