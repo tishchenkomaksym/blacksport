@@ -10,14 +10,14 @@
           <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         </div>
         <h1>{{i18n.$t('defaults.about')}}</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<!--        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>-->
+<!--        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>-->
       </div>
 
       <div class="about__container">
         <div class="about__mission">
           <img
-            :src="i18n.locale === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg'"
+            :src="missionImageSrc"
             alt="Mission"
           />
         </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {watchEffect} from 'vue'
+import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from '../i18nPlugin'
 import PageLayout from '../components/Layout/PageLayout'
@@ -45,6 +45,7 @@ export default {
   setup() {
     const i18n = useI18n()
     const {dispatch} = useStore()
+    const missionImageSrc = computed(() => i18n.locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
 
     watchEffect(() => {
       dispatch('pages/getAbout', i18n.locale.value)
@@ -52,6 +53,7 @@ export default {
 
     return {
       i18n,
+      missionImageSrc,
     }
   },
 }
@@ -75,7 +77,7 @@ export default {
     img {
       width: 50%;
       max-width: 440px;
-      filter: drop-shadow(4px 4px $spacing rgba($bg-color, 0.08));
+      filter: drop-shadow($spacing-sm / 2 $spacing-sm / 2 $spacing rgba($bg-color, 0.08));
 
       @include tablets() {
         filter: drop-shadow($spacing $spacing #{$spacing-sm + $spacing-md} rgba($bg-color, 0.08));

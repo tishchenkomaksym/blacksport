@@ -7,37 +7,29 @@
 
     <div class="partners__list">
       <div class="partners__list-row partners__list-row--rectangle">
-        <div class="partners__list-item" style="background-image: url('/img/partners/minmol.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/autogallery.png')" />
-      </div>
-      <div class="partners__list-row partners__list-row--rectangle">
-        <div class="partners__list-item" style="background-image: url('/img/partners/gallaprint.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/spacegravity.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/wedo.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/blagomay.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/kidev.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/knzs.png')" />
+        <div
+          :key="i"
+          :style="{backgroundImage: `url(${imageSrc})`}"
+          class="partners__list-item"
+          v-for="(imageSrc, i) in rectangleImages"
+        />
       </div>
       <div class="partners__list-row partners__list-row--square">
-        <div class="partners__list-item" style="background-image: url('/img/partners/mosquito.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/voronov.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/box.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/fbu.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/sportclub.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/statusgroup.png')" />
-      </div>
-      <div class="partners__list-row partners__list-row--square">
-        <div class="partners__list-item" style="background-image: url('/img/partners/cism.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/prestigebox.png')" />
-        <div class="partners__list-item" style="background-image: url('/img/partners/chopchop.png')" />
+        <div
+          :key="i"
+          :style="{backgroundImage: `url(${imageSrc})`}"
+          class="partners__list-item"
+          v-for="(imageSrc, i) in squareImages"
+        />
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import {useStore} from 'vuex'
 import {computed} from 'vue'
+import {useStore} from 'vuex'
+import useImageStorage from '../../hooks/useImageStorage'
 
 export default {
   name: 'Partners',
@@ -45,10 +37,26 @@ export default {
     const {state} = useStore()
     const partners = computed(() => state.pages.about.partners)
     const partnersText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'partners') || {})
+    const rectangleImages = computed(() => {
+      const imageSrc = partners.value.reduce((imageSrc, partner) => {
+        if (partner.image_type === 'rectangle') imageSrc.push(partner.image)
+        return imageSrc
+      }, [])
+      return useImageStorage(imageSrc).value
+    })
+    const squareImages = computed(() => {
+      const imageSrc = partners.value.reduce((imageSrc, partner) => {
+        if (partner.image_type === 'square') imageSrc.push(partner.image)
+        return imageSrc
+      }, [])
+      return useImageStorage(imageSrc).value
+    })
 
     return {
       partnersText,
       partners,
+      rectangleImages,
+      squareImages,
     }
   },
 }
@@ -59,7 +67,7 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .partners {
-  margin-bottom: 32px;
+  margin-bottom: $spacing-md + $spacing-sm;
 
   @include laptop() {
     margin-bottom: 70px;
@@ -79,24 +87,35 @@ export default {
       justify-content: center;
       align-items: center;
 
+      &:not(:last-of-type) {
+        margin-bottom: $spacing;
+      }
+
       &--rectangle {
-        div {
-          width: 130px;
-          height: 80px;
+        flex-wrap: wrap-reverse;
+
+        .partners__list-item {
+          margin: $spacing-sm / 2;
+          width: 164px;
+          height: 72px;
         }
       }
 
       &--square {
-        div {
+        .partners__list-item {
           width: 104px;
           height: 104px;
+          margin: $spacing-sm;
+
+          @include tablets() {
+            margin: 20px;
+          }
         }
       }
     }
 
     &-item {
-      margin: 20px;
-      background-size: contain;
+      background-size: auto;
       background-repeat: no-repeat;
       background-position: center;
       filter: grayscale(90%);
