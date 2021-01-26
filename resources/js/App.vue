@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, watch} from 'vue'
 import {useStore} from 'vuex'
-import {provideI18n} from './i18nPlugin'
-import {LANGS} from './router'
-import en from './assets/locale/en.json'
-import ru from './assets/locale/ru.json'
-import uk from './assets/locale/uk.json'
+import {useRoute, useRouter} from 'vue-router'
+import {useI18n} from 'vue-i18n'
 
 import Layout from './components/Layout/Layout'
 
@@ -20,25 +17,17 @@ export default {
   components: {Layout},
   setup() {
     const {state, dispatch} = useStore()
+    const router = useRouter()
+    const route = useRoute()
+    const {locale} = useI18n()
     const backgroundColor = computed(() => state.common.backgroundColor)
 
     onMounted(() => {
       dispatch('products/getBasket')
     })
 
-    provideI18n({
-      locale: LANGS[0],
-      translations: {
-        en: {
-          defaults: {...en},
-        },
-        ru: {
-          defaults: {...ru},
-        },
-        uk: {
-          defaults: {...uk},
-        },
-      },
+    watch(locale, locale => {
+      router.replace({name: route.name, params: {locale}, query: {...route.query}})
     })
 
     return {

@@ -1,27 +1,54 @@
 <template>
   <PageLayout
-    :title="`${i18n.$t('defaults.news')} • ${article.title || ''}`"
+    :title="`${t('news')} • ${article.title || ''}`"
   >
     <div class="article">
-      <!-- TODO Change to original image -->
+      <div class="glide article__images" ref="imageSlider" v-show="width < 1024">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            <li
+              :key="i"
+              class="glide__slide"
+              v-for="(image, i) in images"
+            >
+              <img
+                :src="image"
+                :alt="article.title"
+                class="article__image"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
       <img
         :alt="article.title"
+        :src="images[0]"
         class="article__image"
-        src="https://loremflickr.com/800/1024/sport"
+        v-show="width >= 1024"
       />
-      <div class="article__body">
+
+      <div class="article__body" ref="textContainer">
         <h2>{{article.title}}</h2>
-        <p>{{article.description}}</p>
+        <p
+          :key="i"
+          v-for="(paragraph, i) in articleText"
+        >
+          {{paragraph}}
+        </p>
       </div>
     </div>
   </PageLayout>
 </template>
 
 <script>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref, watch, watchEffect} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
+import useImageStorage from '../hooks/useImageStorage'
+import useParseText from '../hooks/useParseText'
+import useGlide from '../hooks/useGlide'
+import useWindowSize from '../hooks/useWindowSize'
 import PageLayout from '../components/Layout/PageLayout'
 import {ROUTE_CONF} from '../router'
 
@@ -32,23 +59,55 @@ export default {
     const {dispatch} = useStore()
     const route = useRoute()
     const router = useRouter()
-    const i18n = useI18n()
-    const article = ref({})
-    const images = computed(() => article.value?.images ? JSON.parse(article.value.images) : [])
+    const {t, locale} = useI18n()
+    const {width} = useWindowSize()
 
-    onMounted(async () => {
-      const data = await dispatch('news/getArticle', {id: route.params.id, locale: i18n.locale.value})
-      if (!data) await router.replace({
-        name: ROUTE_CONF.HOME.name,
-        params: {locale: i18n.locale.value},
-      })
-      article.value = data
+    const article = ref({})
+
+    const glide = ref(null)
+    const imageSlider = ref(null)
+    const glideRef = useGlide(glide, imageSlider, {
+      bound: true,
+      rewind: false,
+    })
+    const images = computed(() => useImageStorage(article.value?.images || '').value)
+
+    const description = computed(() => article.value?.description || '')
+    const articleText = computed(() => useParseText(description.value).value)
+    const textContainer = ref(null)
+
+    watch(images, () => glideRef.refreshGlide())
+
+    watchEffect(async () => {
+      try {
+        const data = await dispatch('news/getArticle', {id: route.params.id, locale: locale.value})
+        if (!data) await router.replace({
+          name: ROUTE_CONF.HOME.name,
+          params: {locale: locale.value},
+        })
+        article.value = data
+      } catch (err) {
+        console.error(err)
+      }
+    })
+
+    // TODO Image switch logic on scroll
+    onMounted(() => {
+
+    })
+
+    onBeforeUnmount(() => {
+
     })
 
     return {
-      i18n,
-      article,
+      t,
       images,
+      imageSlider,
+      article,
+      articleText,
+      textContainer,
+      width,
     }
   },
 }

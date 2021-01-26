@@ -5,7 +5,7 @@
         @click="$emit('close-modal')"
         link
       >
-        {{i18n.$t('defaults.close')}}
+        {{t('close')}}
 
         <svg class="modal__close-icon" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
 import Button from './Button'
 
@@ -29,11 +29,11 @@ export default {
   name: 'Modal',
   components: {Button},
   setup() {
-    const i18n = useI18n()
+    const {t} = useI18n()
     const {width} = useWindowSize()
 
     return {
-      i18n,
+      t,
       width,
     }
   },

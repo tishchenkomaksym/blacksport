@@ -1,6 +1,6 @@
 <template>
   <PageLayout
-    :title="i18n.$t('defaults.services')"
+    :title="t('services')"
     background-color="smoke"
   >
     <div class="services">
@@ -31,10 +31,10 @@
               />
             </div>
           </template>
-          <p v-else>{{i18n.$t('defaults.noExamples')}}</p>
+          <p v-else>{{t('noExamples')}}</p>
         </ScrollableContainer>
       </div>
-      <p v-else>{{i18n.$t('defaults.noServices')}}</p>
+      <p v-else>{{t('noServices')}}</p>
 
       <div class="services__end" />
     </div>
@@ -56,7 +56,7 @@
 <script>
 import {computed, onBeforeUnmount, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../hooks/useWindowSize'
 import PageLayout from '../components/Layout/PageLayout'
 import ServiceItem from '../components/Services/ServiceItem'
@@ -71,7 +71,7 @@ export default {
   setup() {
     const {commit, dispatch, state} = useStore()
     const {width} = useWindowSize()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const services = computed(() => state.services.services)
     const selectedService = ref(null)
 
@@ -96,7 +96,7 @@ export default {
     const examplesStyles = ref({})
 
     watchEffect(() => {
-      dispatch('services/getServices', i18n.locale.value)
+      dispatch('services/getServices', locale.value)
     })
 
     onBeforeUnmount(() => {
@@ -159,7 +159,7 @@ export default {
     watch(width, () => calculateExamplesStyles())
 
     return {
-      i18n,
+      t,
       isMobile,
       services,
       servicesListRef,

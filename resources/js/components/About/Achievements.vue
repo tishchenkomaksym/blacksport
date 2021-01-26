@@ -2,7 +2,12 @@
   <section class="achievements">
     <div class="achievements__container">
       <h1>{{achievementsText.name}}</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p
+        :key="i"
+        v-for="(paragraph, i) in achievementsDescription"
+      >
+        {{paragraph}}
+      </p>
     </div>
 
     <div class="achievements__list">
@@ -20,8 +25,9 @@
 </template>
 
 <script>
-import {useStore} from 'vuex'
 import {computed} from 'vue'
+import {useStore} from 'vuex'
+import useParseText from '../../hooks/useParseText'
 
 export default {
   name: 'Achievements',
@@ -29,10 +35,12 @@ export default {
     const {state} = useStore()
     const achievements = computed(() => state.pages.about.achievements)
     const achievementsText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'made') || {})
+    const achievementsDescription = computed(() => useParseText(achievementsText.value?.meta_description || '').value)
 
     return {
       achievements,
       achievementsText,
+      achievementsDescription,
     }
   },
 }

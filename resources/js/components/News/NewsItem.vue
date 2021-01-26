@@ -5,7 +5,7 @@
         :to="articlePath"
         class="link link--smaller"
       >
-        {{i18n.$t('defaults.read')}}
+        {{t('read')}}
       </router-link>
       <p class="description">{{dateCreated.day}} • {{dateCreated.time}}</p>
     </div>
@@ -23,7 +23,7 @@
 
 <script>
 import {computed} from 'vue'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
 import useImageStorage from '../../hooks/useImageStorage'
 
@@ -33,8 +33,7 @@ export default {
     data: Object,
   },
   setup({data}) {
-    const i18n = useI18n()
-    const locale = computed(() => i18n.locale.value)
+    const {t, locale} = useI18n()
     const dateCreated = computed(() => {
       const date = new Date(data.created_at)
       const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
@@ -54,12 +53,12 @@ export default {
     const images = useImageStorage(data.images)
 
     return {
-      i18n,
+      t,
       images,
       dateCreated,
       articlePath: computed(() => ({
         name: ROUTE_CONF.ARTICLE.name,
-        params: {locale: i18n.locale.value, id: data.id},
+        params: {locale: locale.value, id: data.id},
       })),
     }
   },

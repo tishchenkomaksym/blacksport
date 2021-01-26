@@ -8,7 +8,7 @@
           @click="$emit('open-order-modal', data.id, data.name)"
           link
         >
-          {{i18n.$t('defaults.order')}}
+          {{t('order')}}
         </Button>
       </div>
 
@@ -39,7 +39,7 @@
     >
       <transition name="toggle-fade" mode="out-in">
         <span :key="examplesShown">
-          {{i18n.$t(`defaults.${examplesShown ? 'hide' : 'serviceExamples'}`)}}
+          {{t(examplesShown ? 'hide' : 'serviceExamples')}}
         </span>
       </transition>
     </p>
@@ -55,7 +55,7 @@
 <script>
 import {computed, nextTick, ref, watch} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
 import Button from '../Base/Button'
@@ -76,7 +76,7 @@ export default {
     'open-order-modal',
   ],
   setup({data}) {
-    const i18n = useI18n()
+    const {t} = useI18n()
     const {width} = useWindowSize()
     const {state, commit} = useStore()
     const serviceShownId = computed(() => state.services.examplesShown)
@@ -112,7 +112,7 @@ export default {
     })
 
     return {
-      i18n,
+      t,
       examplesShown,
       isMobile,
       selectedExample,

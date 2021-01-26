@@ -1,6 +1,6 @@
 <template>
   <PageLayout
-    :title="i18n.$t('defaults.products')"
+    :title="t('products')"
     background-color="sole"
   >
     <div class="products">
@@ -10,7 +10,7 @@
             @click="categoryDropdownShown = !categoryDropdownShown"
             class="products__categories__category products__categories__category--active"
           >
-            <span>{{currentCategory.name || i18n.$t('defaults.selectCategory')}}</span>
+            <span>{{currentCategory.name || t('selectCategory')}}</span>
             <svg
               :class="{'products__categories__category-arrow--opened': categoryDropdownShown}"
               class="products__categories__category-arrow"
@@ -44,7 +44,7 @@
         <div
           v-else
         >
-          <h3 class="products__categories__title">{{i18n.$t('defaults.categories')}}</h3>
+          <h3 class="products__categories__title">{{t('productCategories')}}</h3>
           <div class="products__categories__list">
             <div :key="category.id" v-for="category in categories">
               <router-link
@@ -59,15 +59,18 @@
         </div>
       </div>
 
-      <div class="products__list" v-if="width >= 1024 || !categoryDropdownShown">
-        <template v-if="(route.query.category ? categoryProducts : products).length">
-          <ProductItem
-            :key="product.id"
-            :data="product"
-            v-for="product in (route.query.category ? categoryProducts : products)"
-          />
-        </template>
-        <p v-else>{{i18n.$t('defaults.emptyCategory')}}</p>
+      <div class="products__container" v-if="width >= 1024 || !categoryDropdownShown">
+        <div class="products__list">
+          <template v-if="(route.query.category ? categoryProducts : products).length">
+            <ProductItem
+              :key="product.id"
+              :data="product"
+              v-for="product in (route.query.category ? categoryProducts : products)"
+            />
+          </template>
+          <p v-else>{{t('emptyCategory')}}</p>
+        </div>
+        <div class="products__container-end" />
       </div>
     </div>
   </PageLayout>
@@ -77,7 +80,7 @@
 import {computed, ref, watch, watchEffect} from 'vue'
 import {useRoute} from 'vue-router'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../router'
 import useWindowSize from '../hooks/useWindowSize'
 import PageLayout from '../components/Layout/PageLayout'
@@ -88,7 +91,7 @@ export default {
   components: {ProductItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const route = useRoute()
     const {width} = useWindowSize()
     const categoryDropdownShown = ref(false)
@@ -100,19 +103,19 @@ export default {
     const categoryProducts = computed(() => state.products.categoryProducts) // Products of a specific category
 
     watchEffect(() => {
-      if (!route.query.category) dispatch('products/getProducts', i18n.locale.value)
-      dispatch('products/getCategories', i18n.locale.value)
+      if (!route.query.category) dispatch('products/getProducts', locale.value)
+      dispatch('products/getCategories', locale.value)
     })
 
     watch(() => route.query.category, categoryId => {
       if (categoryId) {
         categoryDropdownShown.value = false
-        dispatch('products/getProductCategory', {categoryId, locale: i18n.locale.value})
+        dispatch('products/getProductCategory', {categoryId, locale: locale.value})
       }
     }, {immediate: true})
 
     return {
-      i18n,
+      t,
       products,
       categories,
       currentCategory,
@@ -120,7 +123,7 @@ export default {
       categoryProducts,
       productCategoryPath: computed(() => ({
         name: ROUTE_CONF.PRODUCTS.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
       width,
       route,
@@ -205,7 +208,7 @@ export default {
     }
 
     &__list {
-      @media screen and (max-width: 767px) {
+      @media screen and (max-width: 1023px) {
         > a {
           margin: 18px 0;
         }
@@ -228,6 +231,21 @@ export default {
     }
   }
 
+  &__container {
+    @include laptop() {
+      width: 100%;
+      max-height: calc(100vh - 294px);
+      padding-top: $spacing-lg;
+      overflow-y: auto;
+      overflow-x: hidden;
+      @include container-gradients($sole, calc(100vh - 294px), 146px, calc(80px + 202px + 47px + 10px));
+    }
+
+    &-end {
+      height: 40px;
+    }
+  }
+
   &__list {
     width: 100%;
     display: grid;
@@ -235,14 +253,10 @@ export default {
     grid-gap: $spacing;
 
     @include laptop() {
-      max-height: calc(100vh - 294px);
-      overflow-y: auto;
-      padding-top: $spacing-lg;
       grid-template-columns: repeat(3, 1fr);
       column-gap: $spacing-md;
       row-gap: $spacing-lg;
       padding-right: $spacing-sm;
-      @include container-gradients($sole, calc(100vh - 294px), 146px, calc(80px + 202px + 47px + 8px));
     }
 
     @include desktop() {

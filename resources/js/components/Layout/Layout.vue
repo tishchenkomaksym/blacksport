@@ -10,9 +10,7 @@
 </template>
 
 <script>
-import {computed, watch} from 'vue'
-import {useRoute} from 'vue-router'
-import {useI18n} from '../../i18nPlugin'
+import {computed} from 'vue'
 import {useStore} from 'vuex'
 
 import Header from './Header'
@@ -25,11 +23,7 @@ export default {
     backgroundColor: String,
   },
   setup() {
-    const i18n = useI18n()
-    const route = useRoute()
     const {state} = useStore()
-
-    watch(() => route.params.locale, locale => i18n.setLanguage(locale))
 
     return {
       menuShown: computed(() => state.common.menuShown),

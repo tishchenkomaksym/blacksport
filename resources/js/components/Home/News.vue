@@ -1,17 +1,17 @@
 <template>
   <section class="news">
     <PrevSectionButton
-      :title="i18n.$t('defaults.about')"
+      :title="t('about')"
       @click="$emit('switch-slide', 'about')"
     />
     <div class="news__content">
       <div class="news__heading container">
-        <h2>{{i18n.$t('defaults.news')}}</h2>
+        <h2>{{t('news')}}</h2>
         <router-link
           :to="newsPath"
           class="link subtitle"
         >
-          {{i18n.$t('defaults.allNews')}}
+          {{t('allNews')}}
         </router-link>
       </div>
       <div class="glide news__list" ref="newsSlider">
@@ -35,7 +35,7 @@
 <script>
 import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
 import useGlide from '../../hooks/useGlide'
 import NewsItem from '../News/NewsItem'
@@ -46,7 +46,7 @@ export default {
   components: {PrevSectionButton, NewsItem},
   setup() {
     const {state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const glide = ref(null)
     const newsSlider = ref(null)
     const news = computed(() => state.home.homeData.news)
@@ -80,11 +80,11 @@ export default {
 
     return {
       news,
-      i18n,
+      t,
       newsSlider,
       newsPath: computed(() => ({
         name: ROUTE_CONF.NEWS.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
     }
   },

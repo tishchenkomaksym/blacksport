@@ -3,7 +3,7 @@
     <div class="toolbar container">
       <transition appear name="logo-transition">
         <router-link
-          :to="`/${i18n.locale.value}`"
+          :to="`/${locale}`"
           class="toolbar__logo"
         >
           <img src="/img/blacksport_logo.svg" alt="Blacksport">
@@ -13,10 +13,10 @@
         <div class="toolbar__right-panel">
           <Basket />
           <router-link
-            :to="`/${i18n.locale.value}`"
+            :to="`/${locale}`"
             class="link toolbar__home-link"
           >
-            {{i18n.$t('defaults.home')}}
+            {{t('home')}}
           </router-link>
           <button
             :class="{'toolbar__burger--opened': menuShown}"
@@ -36,7 +36,7 @@
           class="link"
           v-for="(link, i) in links"
         >
-          {{i18n.$t(`defaults.${link.name}`)}}
+          {{t(link.name)}}
         </router-link>
       </nav>
     </transition>
@@ -47,64 +47,64 @@
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
-import {useI18n} from '../../i18nPlugin'
 import Basket from '../Products/Basket'
 
 export default {
   name: 'Header',
   components: {Basket},
   setup() {
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {state, commit} = useStore()
     const router = useRouter()
     const links = computed(() => [
       {
         path: {
           name: ROUTE_CONF.HOME.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'home',
       },
       {
         path: {
           name: ROUTE_CONF.NEWS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'news',
       },
       {
         path: {
           name: ROUTE_CONF.ABOUT.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'about',
       },
       {
         path: {
           name: ROUTE_CONF.SERVICES.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'services',
       },
       {
         path: {
           name: ROUTE_CONF.PRODUCTS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'products',
       },
       {
         path: {
           name: ROUTE_CONF.PROGRAMS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'programs',
       },
       {
         path: {
           name: ROUTE_CONF.CONTACTS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'contacts',
       },
@@ -118,7 +118,8 @@ export default {
     }
 
     return {
-      i18n,
+      t,
+      locale,
       menuShown: computed(() => state.common.menuShown),
       toggleMenu,
       links,

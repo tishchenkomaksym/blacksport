@@ -1,6 +1,12 @@
 import axios from 'axios'
 
 /** @typedef {import('../../types').Contacts} Contacts */
+/**
+ * @typedef CommonState
+ * @property backgroundColor {string}
+ * @property menuShown {boolean}
+ * @property contacts {Contacts[]}
+ */
 
 const GOOGLE_MAPS_API_KEY = process.env.MIX_GOOGLE_MAPS_API_KEY
 
@@ -14,17 +20,24 @@ const COLORS = {
 
 export default {
   namespaced: true,
+  /**
+   * @return {CommonState}
+   */
   state: () => ({
     backgroundColor: COLORS.bgColor,
     menuShown: false,
-    /** @type Contacts[] */
     contacts: [],
   }),
   getters: {
     socialLinks: state => state.contacts[0] ? state.contacts[0].social_links : [],
   },
   actions: {
-    getContacts: async ({commit}) => commit('setContacts', await axios.get('/contacts')),
+    /**
+     * @param commit {import('vuex').Commit}
+     * @param locale {string}
+     */
+    getContacts: async ({commit}, locale) =>
+      commit('setContacts', await axios.get(`/contacts/${locale}`)),
     convertAddressToCoords: async (store, address = '') =>
       await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_MAPS_API_KEY}`),
   },
