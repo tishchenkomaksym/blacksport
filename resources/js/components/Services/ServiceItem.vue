@@ -100,12 +100,12 @@ export default {
     }
 
     // Make width the same as height to keep examples square
-    watch(() => width.value, async () => {
+    watch(width, async () => {
       if (width.value >= 768) return
       await nextTick()
       if (examplesShown.value && mobileSlider.value) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
     })
-    watch(() => examplesShown.value, async examplesShown => {
+    watch(examplesShown, async examplesShown => {
       if (width.value >= 768) return
       await nextTick()
       if (examplesShown) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight

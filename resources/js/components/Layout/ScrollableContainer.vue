@@ -3,6 +3,10 @@
     :class="{'scrollable--active': isDragging, 'scrollable--vertical': vertical}"
     :data-dir="direction"
     :style="sliderStyles"
+    @mousedown="handleMouseDown"
+    @mouseup="handlerMouseUp"
+    @mouseleave="handleMouseLeave"
+    @mousemove="handleMouseMove"
     class="scrollable"
     ref="slider"
   >
@@ -11,7 +15,7 @@
 </template>
 
 <script>
-import {computed, ref, onMounted, onBeforeUnmount} from 'vue'
+import {computed, ref} from 'vue'
 
 export default {
   name: 'ScrollableContainer',
@@ -102,21 +106,6 @@ export default {
       }
     }
 
-    onMounted(() => {
-      slider.value.addEventListener('mousedown', handleMouseDown)
-      slider.value.addEventListener('mouseleave', handleMouseLeave)
-      slider.value.addEventListener('mouseup', handlerMouseUp)
-      slider.value.addEventListener('mousemove', handleMouseMove)
-    })
-
-    onBeforeUnmount(() => {
-      cancelMomentumTracking()
-      slider.value.removeEventListener('mousedown', handleMouseDown)
-      slider.value.removeEventListener('mouseleave', handleMouseLeave)
-      slider.value.removeEventListener('mouseup', handlerMouseUp)
-      slider.value.removeEventListener('mousemove', handleMouseMove)
-    })
-
     const sliderStyles = computed(() => ({
       ...styles,
       '--gap': `${gap / 2}px`,
@@ -127,6 +116,10 @@ export default {
       slider,
       isDragging,
       sliderStyles,
+      handleMouseDown,
+      handleMouseLeave,
+      handlerMouseUp,
+      handleMouseMove,
     }
   },
 }

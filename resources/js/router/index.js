@@ -80,6 +80,14 @@ const router = createRouter({
   routes,
 })
 
+router.beforeResolve((to, from, next) => {
+  const {title} = to.meta
+  if (title) document.title = `Blacksport | ${i18n.global.t(title)}`
+  else document.title = 'Blacksport'
+
+  next()
+})
+
 router.beforeEach((to, from, next) => {
   const {locale} = to.params
   if (i18n.global.availableLocales.includes(locale)) next()

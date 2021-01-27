@@ -72,7 +72,7 @@ export default {
       return width.value < 768 ? currentSlide.value === 'hero' : true
     })
 
-    watch(() => currentSlide.value, (to, from) => {
+    watch(currentSlide, (to, from) => {
       console.log(`Going from ${from} slide to ${to} slide`)
     })
 
