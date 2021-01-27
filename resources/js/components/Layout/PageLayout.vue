@@ -36,6 +36,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/breakpoints";
+@import "../../assets/scss/variables";
 
 .page-layout {
   height: 100%;
@@ -45,11 +46,11 @@ export default {
   &::after {
     content: '';
     display: block;
-    height: 24px;
+    height: $spacing-md;
   }
 
   @include tablets() {
-    padding: 44px 40px 0;
+    padding: #{$spacing-lg + $spacing-sm / 2} $spacing-lg 0;
 
     h1 {
       margin-bottom: 70px;

@@ -1,10 +1,11 @@
 $gradient-height: 40px;
+$page-height: calc(100vh - 264px);
 
 @mixin page-height {
-  height: calc(100vh - 264px);
+  height: $page-height;
 }
 
-@mixin container-gradients($color, $height: calc(100vh - 264px), $top-position: 106px, $paddings: 88px) {
+@mixin container-gradients($color, $height: $page-height, $top-position: 106px, $paddings: 88px) {
 
   &::before, &::after {
     width: calc(100% - #{$paddings});

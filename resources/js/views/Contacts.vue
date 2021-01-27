@@ -45,10 +45,10 @@ export default {
     const contacts = computed(() => state.common.contacts)
     const center = ref({lat: 0, lng: 0})
     const apiKey = process.env.MIX_GOOGLE_MAPS_API_KEY
-    
-    watch(locale, async () => {
+
+    watch(locale, async (locale) => {
       try {
-        await dispatch('common/getContacts', locale.value)
+        await dispatch('common/getContacts', locale)
         const {results} = await dispatch('common/convertAddressToCoords', contacts.value[0].address)
         center.value = results[0].geometry.location
       } catch (err) {

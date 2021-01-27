@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import {computed, ref, watchEffect} from 'vue'
+import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useRoute} from 'vue-router'
 import {useI18n} from 'vue-i18n'
@@ -102,6 +102,10 @@ export default {
 
     watchEffect(async () => {
       product.value = await dispatch('products/getProduct', { id: route.params.id, locale: locale.value }) || {}
+    })
+
+    watch(product, product => {
+      if (product?.title) document.title = `Blacksport | ${product.title}`
     })
 
     const addToBasket = () => {

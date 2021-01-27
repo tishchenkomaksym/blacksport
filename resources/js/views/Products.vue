@@ -234,11 +234,11 @@ export default {
   &__container {
     @include laptop() {
       width: 100%;
-      max-height: calc(100vh - 294px);
+      max-height: calc(100vh - 304px);
       padding-top: $spacing-lg;
       overflow-y: auto;
       overflow-x: hidden;
-      @include container-gradients($sole, calc(100vh - 294px), 146px, calc(80px + 202px + 47px + 10px));
+      @include container-gradients($sole, calc(100vh - 304px), 146px, calc(80px + 202px + 47px));
     }
 
     &-end {
