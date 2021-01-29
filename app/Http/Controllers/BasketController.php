@@ -237,9 +237,10 @@ class BasketController extends Controller
      *                   @OA\Property(property="name", type="string"),
      *                   @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
      *                   @OA\Property(property="phone", type="string"),
-     *                   @OA\Property(property="payment_metho", type="string"),
-     *                   @OA\Property(property="post_branch", type="string"),
-     *                   @OA\Property(property="comment", type="string"),
+     *                   @OA\Property(property="payment_method", type="string"),
+     *                   @OA\Property(property="post_branch", type="string", example="some post_branch (not required)"),
+     *                   @OA\Property(property="comment", type="string", example="some comment (not required)"),
+     *                   @OA\Property(property="address", type="string", example="some address (not required)")
      *              ),
      *          ),
      *        ),
@@ -286,7 +287,8 @@ class BasketController extends Controller
             'delivery' => $client['delivery'],
             'payment_method' => $client['payment_method'] ?? null,
             'post_branch' => $client['post_branch'] ?? '',
-            'comment' => $client['comment'] ?? ''
+            'comment' => $client['comment'] ?? '',
+            'address' => $client['address'] ?? ''
         ]);
 
 
