@@ -239,6 +239,7 @@ class BasketController extends Controller
      *                   @OA\Property(property="phone", type="string"),
      *                   @OA\Property(property="payment_metho", type="string"),
      *                   @OA\Property(property="post_branch", type="string"),
+     *                   @OA\Property(property="comment", type="string"),
      *              ),
      *          ),
      *        ),
@@ -252,10 +253,10 @@ class BasketController extends Controller
      *     )
      * )
      */
-    public function wayForPayRequest() {
-
-        $products =  json_decode($this->request['products']); //[['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]];
-        $client =  json_decode($this->request['client']); // ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз'];
+    public function wayForPayRequest()
+    {
+        $products =  $this->request['products']; //[['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]];
+        $client = $this->request['client'][0]; // ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз'];
         $credential = new AccountSecretCredential(self::WAYFORPAY_LOGIN, self::WAYFORPAY_SECRET_KEY);
         $clientEntity = new Client(
             $client['name'],
@@ -284,8 +285,10 @@ class BasketController extends Controller
             'products' => json_encode($products),
             'delivery' => $client['delivery'],
             'payment_method' => $client['payment_method'] ?? null,
-            'post_branch' => $client['post_branch'] ?? null
+            'post_branch' => $client['post_branch'] ?? '',
+            'comment' => $client['comment'] ?? ''
         ]);
+
 
         $productsCollection = new ProductCollection(array(
             new Product('test', 1.00, 1),
@@ -300,7 +303,7 @@ class BasketController extends Controller
                                      ->setMerchantDomainName('https://blacksport.org')
                                      ->setClient($clientEntity)
                                      ->setProducts($productsCollection)
-                                     ->setServiceUrl(route('check-response'))
+                                     ->setServiceUrl(route('api.check-response'))
                                      ->getRequest()
                                      ->send();
 
@@ -310,11 +313,5 @@ class BasketController extends Controller
         }
 
     }
-//
-//
-//
-//
-//    public function finally () {
-//        return view('purchaseCompleted', $this -> getMetaData('finally'));
-//    }
+
 }

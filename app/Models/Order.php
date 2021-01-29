@@ -47,7 +47,7 @@ class Order extends Model
 
     protected $table = 'orders';
     public $timestamps = true;
-    protected $fillable = ['products', 'delivery', 'is_paid'];
-
+//    protected $fillable = ['name', 'phone', 'email', 'comment', 'products', 'delivery', 'is_paid'];
+    public $guarded = [];
 
 }
