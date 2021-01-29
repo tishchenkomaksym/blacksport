@@ -1,8 +1,10 @@
 <template>
   <PageLayout
-    :title="t('about')"
     background-color="park"
   >
+    <template v-slot:title>
+      {{t('about')}}
+    </template>
     <div class="about">
       <div class="about__container">
         <div class="about__images">

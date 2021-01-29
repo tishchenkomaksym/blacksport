@@ -13,7 +13,7 @@ import {computed} from 'vue'
 import {useStore} from 'vuex'
 
 export default {
-  name: 'Basket',
+  name: 'BasketIcon',
   setup() {
     const {getters} = useStore()
     const productNumber = computed(() => getters['products/productNumber'])

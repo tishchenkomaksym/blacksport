@@ -35,8 +35,6 @@
         </ScrollableContainer>
       </div>
       <p v-else>{{t('noServices')}}</p>
-
-      <div class="services__end" />
     </div>
     <ServiceOrderModal
       :service-id="selectedService.id"
@@ -185,11 +183,8 @@ export default {
 
 .services {
   @include laptop() {
-    margin-top: -$spacing-lg;
-    padding-right: $spacing-sm;
-    padding-top: $spacing-lg;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
+    position: relative;
     @include page-height;
     @include container-gradients($smoke);
   }
@@ -206,6 +201,10 @@ export default {
     }
 
     @include laptop() {
+      padding-top: $spacing-lg;
+      height: 100%;
+      box-sizing: border-box;
+      overflow-y: auto;
       grid-template-columns: repeat(3, 1fr);
     }
 
@@ -225,12 +224,6 @@ export default {
         grid-template-columns: repeat(2, 1fr);
         grid-gap: $spacing;
       }
-    }
-  }
-
-  @include laptop() {
-    &__end {
-      height: $gradient-height;
     }
   }
 }

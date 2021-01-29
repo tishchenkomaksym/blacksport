@@ -24,6 +24,7 @@ export default {
 
     onMounted(() => {
       dispatch('products/getBasket')
+      dispatch('common/getContacts')
     })
 
     watch(locale, locale => {

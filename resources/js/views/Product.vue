@@ -1,8 +1,15 @@
 <template>
   <PageLayout
-    :title="`${t('products')} • ${productCategory || ''}`"
     background-color="sole"
   >
+    <template v-slot:title>
+      <router-link
+        :to="allProductsPath"
+        class="basic"
+      >
+        {{t('products')}}
+      </router-link> <span v-if="productCategory">• {{productCategory}}</span>
+    </template>
     <div class="product">
       <router-link
         :to="allProductsPath"
@@ -83,7 +90,10 @@ export default {
     const route = useRoute()
     const {state, dispatch} = useStore()
     const product = ref({})
-    const productCategory = computed(() => product.value.categories?.name)
+    const productCategory = computed(() => {
+      if (locale.value === 'ru') return product.value.categories?.name
+      else return product.value.categories?.translations?.find(t => t.locale === locale.value)?.value
+    })
     const price = computed(() => {
       const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
       return (product.value.price || '').toLocaleString(locales)

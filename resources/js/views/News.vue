@@ -1,7 +1,8 @@
 <template>
-  <PageLayout
-    :title="t('news')"
-  >
+  <PageLayout>
+    <template v-slot:title>
+      {{t('news')}}
+    </template>
     <div class="news">
       <div class="news__list">
         <NewsItem
@@ -10,7 +11,6 @@
           v-for="article in news"
         />
       </div>
-      <div class="news__end" />
     </div>
   </PageLayout>
 </template>
@@ -49,16 +49,10 @@ export default {
 
 .news {
   @include laptop() {
-    margin-top: -$spacing-lg;
-    padding-right: $spacing-sm;
-    padding-top: $spacing-lg;
-    overflow-y: auto;
+    position: relative;
+    overflow: hidden;
     @include page-height;
     @include container-gradients($bg-color);
-
-    &__end {
-      height: $gradient-height;
-    }
   }
 
   &__list {
@@ -71,6 +65,9 @@ export default {
     }
 
     @include laptop() {
+      padding-top: $spacing-lg;
+      height: 100%;
+      overflow-y: auto;
       row-gap: $spacing-lg;
       column-gap: $spacing-md;
       grid-template-columns: repeat(3, 1fr);

@@ -1,6 +1,8 @@
 <template>
   <div class="page-layout container" :style="{backgroundColor: bgColor}">
-    <h1 class="page-heading">{{title}}</h1>
+    <h1 class="page-heading">
+      <slot name="title" />
+    </h1>
     <slot />
   </div>
 </template>
@@ -62,7 +64,41 @@ export default {
     display: none;
 
     @include tablets() {
+      max-width: 42.5%;
+      margin-left: auto;
+      margin-right: auto;
       display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @include laptop() {
+      max-width: 55%;
+    }
+
+    @include desktop() {
+      max-width: 60%;
+    }
+
+    @include large-desktop() {
+      max-width: 65%;
+    }
+
+    @media screen and (min-width: 1500px) {
+      max-width: 75%;
+    }
+
+    @media screen and (min-width: 1600px) {
+      max-width: 80%;
+    }
+
+    @media screen and (min-width: 1700px) {
+      max-width: 90%;
+    }
+
+    @media screen and (min-width: 1800px) {
+      max-width: 100%;
     }
   }
 }

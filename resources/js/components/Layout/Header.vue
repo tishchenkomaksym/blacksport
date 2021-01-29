@@ -1,46 +1,49 @@
 <template>
-  <header :class="{overlay: menuShown}">
-    <div class="toolbar container">
-      <transition appear name="logo-transition">
-        <router-link
-          :to="`/${locale}`"
-          class="toolbar__logo"
-        >
-          <img src="/img/blacksport_logo.svg" alt="Blacksport">
-        </router-link>
-      </transition>
-      <transition appear name="right-panel-transition">
-        <div class="toolbar__right-panel">
-          <Basket />
-          <router-link
-            :to="`/${locale}`"
-            class="link toolbar__home-link"
-          >
-            {{t('home')}}
-          </router-link>
-          <button
-            :class="{'toolbar__burger--opened': menuShown}"
-            @click="toggleMenu"
-            class="toolbar__burger"
-          />
-        </div>
-      </transition>
+  <transition name="overlay-transition">
+    <div
+      @click="toggleMenu"
+      class="overlay"
+      v-if="menuShown"
+    />
+  </transition>
+  <transition appear name="logo-transition">
+    <router-link
+      :to="`/${locale}`"
+      class="logo"
+    >
+      <img src="/img/blacksport_logo.svg" alt="Blacksport">
+    </router-link>
+  </transition>
+  <transition appear name="right-panel-transition">
+    <div class="right-panel">
+      <BasketIcon/>
+      <router-link
+        :to="`/${locale}`"
+        class="link right-panel__home-link"
+      >
+        {{t('home')}}
+      </router-link>
+      <button
+        :class="{'right-panel__burger--opened': menuShown}"
+        @click="toggleMenu"
+        class="right-panel__burger"
+      />
     </div>
-    <transition name="nav-complete">
-      <nav class="container" v-if="menuShown">
-        <router-link
-          :data-link="link.name"
-          :key="i"
-          :to="link.path"
-          @click.prevent="goToPage(link.path)"
-          class="link"
-          v-for="(link, i) in links"
-        >
-          {{t(link.name)}}
-        </router-link>
-      </nav>
-    </transition>
-  </header>
+  </transition>
+  <transition name="nav-transition">
+    <nav v-if="menuShown">
+      <router-link
+        :data-link="link.name"
+        :key="i"
+        :to="link.path"
+        @click.prevent="goToPage(link.path)"
+        class="link"
+        v-for="(link, i) in links"
+      >
+        {{t(link.name)}}
+      </router-link>
+    </nav>
+  </transition>
 </template>
 
 <script>
@@ -49,11 +52,11 @@ import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
-import Basket from '../Products/Basket'
+import BasketIcon from '../Products/BasketIcon'
 
 export default {
   name: 'Header',
-  components: {Basket},
+  components: {BasketIcon},
   setup() {
     const {t, locale} = useI18n()
     const {state, commit} = useStore()
@@ -133,51 +136,58 @@ export default {
 @import "../../assets/scss/breakpoints";
 @import "../../assets/scss/variables";
 
-header {
+.overlay {
   width: 100vw;
+  height: 100vh;
   position: absolute;
   z-index: 1;
+  background-color: rgba($bg-color, 0.25);
+}
 
-  &.overlay {
-    background-color: rgba(black, 0.5);
+.logo {
+  top: $spacing-md - $spacing-sm / 2;
+  left: $spacing;
+  opacity: 0.2;
+  position: absolute;
+  z-index: 1;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include tablets() {
+    top: 46px;
+    left: $spacing-lg;
+  }
+
+  img {
+    height: $spacing-md;
+
+    @include tablets() {
+      height: $spacing-md + $spacing-sm;
+    }
   }
 }
 
-.toolbar {
-  padding: 20px 16px 0;
-  display: flex;
-  justify-content: space-between;
+.right-panel {
+  position: absolute;
+  z-index: 1;
+  top: $spacing-md - $spacing-sm / 4;
+  right: $spacing;
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
+  column-gap: 10px;
 
   @include tablets() {
-    padding: 46px 40px 0;
+    top: $spacing-lg + $spacing-sm / 2;
+    right: $spacing-lg;
+    grid-template-columns: repeat(3, auto);
   }
 
-  &__logo {
-    opacity: 0.2;
-
-    img {
-      height: 24px;
-
-      @include tablets() {
-        height: 32px;
-      }
-    }
-  }
-
-  &__right-panel {
-    display: grid;
-    grid-template-columns: auto auto;
-    align-items: center;
-    column-gap: 10px;
-
-    @include tablets() {
-      grid-template-columns: repeat(3, auto);
-    }
-
-    @include laptop() {
-      column-gap: 15px;
-    }
+  @include laptop() {
+    column-gap: $spacing;
   }
 
   &__home-link {
@@ -252,18 +262,26 @@ header {
 }
 
 nav {
-  height: calc(100vh - 50px);
-  padding: 35px 24px 60px;
+  top: 50px;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  padding: 35px $spacing;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  position: absolute;
+  z-index: 1;
 
   @include tablets() {
+    top: 70px;
+    width: initial;
+    height: initial;
+    max-height: calc(100vh - 130px);
+    right: 0;
     align-items: flex-end;
-    height: calc(100vh - 83px);
-    padding: 46px 40px 60px;
+    padding: 46px $spacing-lg #{$spacing-lg + $spacing-md - $spacing-sm / 2};
   }
 
   .link {
@@ -278,7 +296,19 @@ nav {
   }
 }
 
-.nav-complete {
+.overlay-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+
+.nav-transition {
   &-enter-active,
   &-leave-active {
     transition: transform 0.5s ease-in-out;
@@ -288,7 +318,7 @@ nav {
     }
 
     @include tablets() {
-      transition: none;
+      transition: opacity 0.3s ease-in-out;
 
       a {
         transition: none;
@@ -299,7 +329,7 @@ nav {
   &-enter-from,
   &-leave-to {
     @media screen and (orientation: portrait) {
-      transform: translateY(calc(-100% + 300px));
+      transform: translateY(calc(-100% + 250px));
     }
 
     @media screen and (orientation: landscape) {
@@ -312,6 +342,7 @@ nav {
 
     @include tablets() {
       transform: none;
+      opacity: 0;
 
       a {
         margin-bottom: 28px;

@@ -58,12 +58,17 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .languages {
-  position: relative;
   display: flex;
   flex-flow: row-reverse;
+  position: absolute;
+  z-index: 1;
+  right: $spacing-md;
+  bottom: $spacing-md;
 
   @include tablets() {
     display: initial;
+    right: $spacing-lg + $spacing-sm;
+    bottom: $spacing-lg + $spacing-sm;
 
     &:hover {
       .languages__list {
@@ -77,7 +82,7 @@ export default {
   }
 
   &__item {
-    width: 24px;
+    width: $spacing-md;
     display: block;
     padding: 0 2px;
     text-transform: uppercase;
@@ -88,7 +93,7 @@ export default {
     color: $text-color;
     font-size: 12px;
     line-height: 22px;
-    transition: color .3s ease, border-color .3s ease;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     will-change: color, border-color;
     box-sizing: border-box;
 
@@ -103,10 +108,10 @@ export default {
     }
 
     &--active {
-      color: $park;
-      border-color: $park;
+      opacity: 0.5;
 
       @include tablets() {
+        opacity: 1;
         color: $text-color;
         border-color: $text-color;
       }
@@ -115,7 +120,7 @@ export default {
 
   &__list {
     display: flex;
-    right: 24px;
+    right: $spacing-md;
     top: 0;
 
     @include tablets() {
@@ -126,15 +131,15 @@ export default {
       position: absolute;
       transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s 0.3s;
       will-change: opacity, transform;
-      transform: translateY(-24px);
+      transform: translateY(#{-$spacing-md});
     }
 
     .languages__item {
-      margin-right: 16px;
+      margin-right: $spacing;
 
       @include tablets() {
         margin-right: 0;
-        margin-bottom: 16px;
+        margin-bottom: $spacing;
       }
     }
   }
@@ -152,7 +157,7 @@ export default {
 
   &-enter-from,
   &-leave-to {
-    transform: translateX(calc(100% + 24px));
+    transform: translateX(calc(100% + #{$spacing-md}));
   }
 }
 </style>

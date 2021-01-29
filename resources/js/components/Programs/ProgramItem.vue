@@ -9,11 +9,10 @@
             :key="i"
             style="max-width: 192px"
             class="glide__slide"
-            v-for="(image, i) in 4"
+            v-for="(image, i) in images"
           >
-            <!-- TODO Change to dynamic image -->
             <div
-              :style="{backgroundImage: `url(https://loremflickr.com/80${i}/80${i}/sport)`}"
+              :style="{backgroundImage: `url(${image})`}"
               class="program-item__images-item"
             />
           </li>
@@ -24,9 +23,10 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {ref} from 'vue'
 import useGlide from '../../hooks/useGlide'
 import useParseText from '../../hooks/useParseText'
+import useImageStorage from '../../hooks/useImageStorage'
 
 export default {
   name: 'ProgramItem',
@@ -34,7 +34,7 @@ export default {
     data: Object,
   },
   setup({data}) {
-    const images = computed(() => JSON.parse(data.images))
+    const images = useImageStorage(data.images)
     const imagesSlider = ref(null)
     const glide = ref(null)
     const description = useParseText(data.description)

@@ -16,7 +16,14 @@
       class="news-item__image"
     />
 
-    <h2><router-link :to="articlePath">{{data.title}}</router-link></h2>
+    <h2 class="news-item__title">
+      <router-link
+        :to="articlePath"
+        class="basic"
+      >
+        {{data.title}}
+      </router-link>
+    </h2>
     <p class="news-item__description">{{data.description}}</p>
   </article>
 </template>
@@ -86,20 +93,19 @@ export default {
     background-size: cover;
   }
 
-  &__description {
+  &__title, &__description {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 
-  h2 a {
-    color: $text-color;
+  &__title {
+    -webkit-line-clamp: 2;
+  }
 
-    &:hover {
-      color: $text-accent-color;
-    }
+  &__description {
+    -webkit-line-clamp: 3;
   }
 }
 </style>
