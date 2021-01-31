@@ -227,8 +227,8 @@ class BasketController extends Controller
      *              @OA\Items(
      *                      @OA\Property(property="id", type="integer"),
      *                      @OA\Property(property="name", type="string"),
-     *                      @OA\Property(property="price", type="integer"),
-     *                      @OA\Property(property="quantity", type="integer"),
+     *                      @OA\Property(property="price", type="integer, example="1"),
+     *                      @OA\Property(property="quantity", type="integer", example="1"),
      *              ),
      *          ),
      *          @OA\Property(property="client", type="array",
@@ -292,9 +292,7 @@ class BasketController extends Controller
         ]);
 
 
-        $productsCollection = new ProductCollection(array(
-            new Product('test', 1.00, 1),
-        ));
+        $productsCollection = new ProductCollection($array);
 
         try {
             $response = InvoiceWizard::get($credential)
