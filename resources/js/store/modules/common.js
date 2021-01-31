@@ -3,9 +3,10 @@ import axios from 'axios'
 /** @typedef {import('../../types').Contacts} Contacts */
 /**
  * @typedef CommonState
- * @property backgroundColor {string}
- * @property menuShown {boolean}
- * @property contacts {Contacts[]}
+ * @property {string} backgroundColor
+ * @property {boolean} menuShown
+ * @property {boolean} basketOpen
+ * @property {Contacts[]} contacts
  */
 
 const GOOGLE_MAPS_API_KEY = process.env.MIX_GOOGLE_MAPS_API_KEY
@@ -26,6 +27,7 @@ export default {
   state: () => ({
     backgroundColor: COLORS.bgColor,
     menuShown: false,
+    basketOpen: false,
     contacts: [],
   }),
   getters: {
@@ -45,5 +47,9 @@ export default {
     toggleMenu: state => state.menuShown = !state.menuShown,
     setBackgroundColor: (state, backgroundColor = 'bgColor') => state.backgroundColor = COLORS[backgroundColor],
     setContacts: (state, contacts) => state.contacts = contacts,
+    setBasketOpen: (state, isOpen) => {
+      state.menuShown = false
+      state.basketOpen = isOpen
+    },
   },
 }

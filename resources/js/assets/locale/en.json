@@ -15,12 +15,14 @@
   "scroll": "Scroll",
   "popularProducts": "Popular products",
   "allProducts": "All products",
+  "productList": "Product list",
   "up": "Up",
   "buy": "Buy",
   "phoneNumber": "Phone number",
   "email": "Email",
   "address": "Address",
   "openBasket": "Open basket",
+  "basket": "Basket",
   "selectCategory": "Select category",
   "productCategories": "Product categories",
   "emptyCategory": "There are no products in this category",
@@ -42,5 +44,10 @@
   "thankYou": "Thank you!",
   "operatorContact": "Our operator will contact you",
   "noServices": "There are no services yet",
-  "noExamples": "There are no service examples yet"
+  "noExamples": "There are no service examples yet",
+  "emptyBasket": "The basket is empty. Add products to place your order.",
+  "checkout": "Checkout",
+  "quantity": "Quantity",
+  "price": "Price",
+  "toPay": "To pay"
 }

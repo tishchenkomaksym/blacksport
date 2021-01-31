@@ -15,12 +15,14 @@
   "scroll": "Скрол",
   "popularProducts": "Популярні товари",
   "allProducts": "Всі товари",
+  "productList": "Список товарів",
   "up": "Наверх",
   "buy": "Купити",
   "phoneNumber": "Номер",
   "email": "Email",
   "address": "Адреса",
   "openBasket": "До кошика",
+  "basket": "Кошик",
   "selectCategory": "Обрати категорію",
   "productCategories": "Категорії товарів",
   "emptyCategory": "У цій категорії немає товарів",
@@ -42,5 +44,10 @@
   "thankYou": "Дякуємо!",
   "operatorContact": "З вами зв'яжеться наш оператор",
   "noServices": "Поки що немає послуг",
-  "noExamples": "Поки немає прикладів робіт"
+  "noExamples": "Поки немає прикладів робіт",
+  "emptyBasket": "Кошик порожній. Додайте товари для оформлення замовлення.",
+  "checkout": "Замовити",
+  "quantity": "Кількість",
+  "price": "Ціна",
+  "toPay": "До оплати"
 }

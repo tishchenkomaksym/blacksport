@@ -1,14 +1,8 @@
 <template>
-  <transition name="overlay-transition">
-    <div
-      @click="toggleMenu"
-      class="overlay"
-      v-if="menuShown"
-    />
-  </transition>
   <transition appear name="logo-transition">
     <router-link
       :to="`/${locale}`"
+      @click.prevent="goToPage(`/${locale}`)"
       class="logo"
     >
       <img src="/img/blacksport_logo.svg" alt="Blacksport">
@@ -21,11 +15,11 @@
         :to="`/${locale}`"
         class="link right-panel__home-link"
       >
-        {{t('home')}}
+        {{t(basketOpen ? 'basket' : 'home')}}
       </router-link>
       <button
-        :class="{'right-panel__burger--opened': menuShown}"
-        @click="toggleMenu"
+        :class="{'right-panel__burger--opened': menuShown || basketOpen}"
+        @click="basketOpen ? closeBasket() : toggleMenu()"
         class="right-panel__burger"
       />
     </div>
@@ -61,6 +55,8 @@ export default {
     const {t, locale} = useI18n()
     const {state, commit} = useStore()
     const router = useRouter()
+    const menuShown = computed(() => state.common.menuShown)
+    const basketOpen = computed(() => state.common.basketOpen)
     const links = computed(() => [
       {
         path: {
@@ -115,18 +111,23 @@ export default {
 
     const toggleMenu = () => commit('common/toggleMenu')
 
+    const closeBasket = () => commit('common/setBasketOpen', false)
+
     const goToPage = path => {
-      toggleMenu()
+      if (menuShown.value) toggleMenu()
+      if (basketOpen.value) closeBasket()
       router.push(path)
     }
 
     return {
       t,
       locale,
-      menuShown: computed(() => state.common.menuShown),
+      menuShown,
       toggleMenu,
       links,
       goToPage,
+      basketOpen,
+      closeBasket,
     }
   },
 }
@@ -135,14 +136,6 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/breakpoints";
 @import "../../assets/scss/variables";
-
-.overlay {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  z-index: 1;
-  background-color: rgba($bg-color, 0.25);
-}
 
 .logo {
   top: $spacing-md - $spacing-sm / 2;
@@ -293,18 +286,6 @@ nav {
         display: none;
       }
     }
-  }
-}
-
-.overlay-transition {
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
   }
 }
 

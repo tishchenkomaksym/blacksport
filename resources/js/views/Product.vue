@@ -37,10 +37,15 @@
           class="product__image"
         />
         <div class="product__ordering">
-          <div class="product__ordering-price">{{price}} <span>₴</span></div>
+          <div
+            class="product__ordering-price"
+            v-if="product.price"
+          >
+            {{n(product.price, 'price', localeType)}} <span>₴</span>
+          </div>
           <button
             :class="{'product__ordering-buy--ordered': isInBasket}"
-            @click="!isInBasket ? addToBasket() : null"
+            @click="!isInBasket ? addToBasket() : openBasket()"
             class="product__ordering-buy"
           >
             {{t(isInBasket ? 'openBasket' : 'buy')}}
@@ -86,18 +91,15 @@ export default {
   name: 'Product',
   components: {PageLayout},
   setup() {
-    const {t, locale} = useI18n()
+    const {t, locale, n} = useI18n()
     const route = useRoute()
-    const {state, dispatch} = useStore()
+    const {commit, dispatch, state} = useStore()
     const product = ref({})
     const productCategory = computed(() => {
       if (locale.value === 'ru') return product.value.categories?.name
       else return product.value.categories?.translations?.find(t => t.locale === locale.value)?.value
     })
-    const price = computed(() => {
-      const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
-      return (product.value.price || '').toLocaleString(locales)
-    })
+    const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const isInBasket = computed(() => {
       return !!Object.keys(state.products.basket).find(key => +key === product.value.id)
     })
@@ -111,7 +113,7 @@ export default {
     const specificationParagraphs = computed(() => useParseText(specifications.value).value)
 
     watchEffect(async () => {
-      product.value = await dispatch('products/getProduct', { id: route.params.id, locale: locale.value }) || {}
+      product.value = await dispatch('products/getProduct', {productId: route.params.id, locale: locale.value}) || {}
     })
 
     watch(product, product => {
@@ -122,15 +124,21 @@ export default {
       dispatch('products/addToBasket', {productId: product.value.id})
     }
 
+    const openBasket = () => {
+      commit('common/setBasketOpen', true)
+    }
+
     return {
       t,
+      n,
       product,
       productCategory,
       image,
       descriptionParagraphs,
       specificationParagraphs,
-      price,
+      localeType,
       addToBasket,
+      openBasket,
       isInBasket,
       allProductsPath: computed(() => ({
         name: ROUTE_CONF.PRODUCTS.name,

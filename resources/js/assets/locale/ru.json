@@ -15,12 +15,14 @@
   "scroll": "Скролл",
   "popularProducts": "Популярные товары",
   "allProducts": "Все товары",
+  "productList": "Список товаров",
   "up": "Наверх",
   "buy": "Купить",
   "phoneNumber": "Номер",
   "email": "Email",
   "address": "Адрес",
   "openBasket": "В корзину",
+  "basket": "Корзина",
   "selectCategory": "Выбрать категорию",
   "productCategories": "Категории товаров",
   "emptyCategory": "В этой категории нет товаров",
@@ -42,5 +44,10 @@
   "thankYou": "Благодарим!",
   "operatorContact": "С вами свяжется наш оператор",
   "noServices": "Пока нет услуг",
-  "noExamples": "Пока нет примеров работ"
+  "noExamples": "Пока нет примеров работ",
+  "emptyBasket": "Корзина пуста. Добавьте товары для оформления заказа.",
+  "checkout": "Оформить заказ",
+  "quantity": "Количество",
+  "price": "Цена",
+  "toPay": "К оплате"
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <div class="modal__close container">
+    <div class="modal__close">
       <Button
         @click="$emit('close-modal')"
         link
@@ -61,16 +61,13 @@ export default {
   }
 
   &__close {
-    padding: 20px 16px;
+    padding: 20px $spacing;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 
     @include tablets() {
-      width: 100%;
-      padding: 48px 40px;
-      margin: 0 auto;
-      left: 0;
+      padding: $spacing-lg + $spacing-sm $spacing-lg;
       right: 0;
       position: absolute;
       box-sizing: border-box;
@@ -92,10 +89,10 @@ export default {
   }
 
   &__container {
-    padding: 0 16px;
+    padding: 0 $spacing;
 
     @include tablets() {
-      padding: 116px 40px 90px;
+      padding: 116px $spacing-lg 90px;
       flex-grow: 1;
     }
   }

@@ -12,6 +12,22 @@ export const LANGS = [
 export const DEFAULT_LANG = LANGS[0]
 
 const locale = window.location.pathname.replace(/^\/([^\/]+).*/i,'$1')
+const localeTypes = ['uk-UA', 'ru-RU', 'en-US']
+
+const datetimeFormats = localeTypes.reduce((datetimeFormats, locale) => ({
+  ...datetimeFormats,
+  [locale]: {
+    date: {dateStyle: 'long'},
+    time: {timeStyle: 'short'},
+  },
+}), {})
+
+const numberFormats = localeTypes.reduce((numberFormats, locale) => ({
+  ...numberFormats,
+  [locale]: {
+    price: {style: 'decimal'},
+  },
+}), {})
 
 const i18n = createI18n({
   legacy: false,
@@ -22,6 +38,8 @@ const i18n = createI18n({
     ru,
     en,
   },
+  datetimeFormats,
+  numberFormats,
 })
 
 export default i18n

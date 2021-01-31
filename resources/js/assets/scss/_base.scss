@@ -73,7 +73,7 @@ ul {
   margin: 0;
 }
 
-@include laptop() {
+@include tablets() {
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
