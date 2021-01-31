@@ -227,7 +227,7 @@ class BasketController extends Controller
      *              @OA\Items(
      *                      @OA\Property(property="id", type="integer"),
      *                      @OA\Property(property="name", type="string"),
-     *                      @OA\Property(property="price", type="integer, example="1"),
+     *                      @OA\Property(property="price", type="integer", example="1"),
      *                      @OA\Property(property="quantity", type="integer", example="1"),
      *              ),
      *          ),
