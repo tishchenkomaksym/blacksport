@@ -35,7 +35,7 @@ Route::group(['as' => 'api.'], function (){
     Route::delete('basket/{id}', 'BasketController@delete') -> where('id', '[0-9]+');
 
     Route::post('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
-    Route::post('wayforpay', [ BasketController::class, 'wayForPayRequest']);
+    Route::post('payment', [ BasketController::class, 'payment']);
 
     Route::get('/home/{locale?}', 'HomeController@index')->name('home');
     Route::get('/about/{locale?}', 'AboutController@index')->name('about');
