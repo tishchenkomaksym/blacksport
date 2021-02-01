@@ -1,7 +1,13 @@
 <template>
-  <PageLayout
-    :title="`${t('news')} • ${article.title || ''}`"
-  >
+  <PageLayout>
+    <template v-slot:title>
+      <router-link
+        :to="newsLink"
+        class="basic"
+      >
+        {{t('news')}}
+      </router-link> <span v-if="article.title">• {{article.title}}</span>
+    </template>
     <div class="article">
       <div
         :class="{'article__images--disabled': width >= 1024}"
@@ -24,19 +30,21 @@
         </div>
       </div>
 
-      <div
-        @wheel="onTextWheel"
-        @scroll="onTextScroll"
-        class="article__body"
-        ref="textContainer"
-      >
-        <h2>{{article.title}}</h2>
-        <p
-          :key="i"
-          v-for="(paragraph, i) in articleText"
+      <div class="article__main">
+        <div
+          @wheel="onTextWheel"
+          @scroll="onTextScroll"
+          class="article__main__content"
+          ref="textContainer"
         >
-          {{paragraph}}
-        </p>
+          <h2>{{article.title}}</h2>
+          <p
+            :key="i"
+            v-for="(paragraph, i) in articleText"
+          >
+            {{paragraph}}
+          </p>
+        </div>
       </div>
     </div>
   </PageLayout>
@@ -149,6 +157,10 @@ export default {
       onTextWheel,
       onTextScroll,
       width,
+      newsLink: computed(() => ({
+        name: ROUTE_CONF.NEWS.name,
+        params: {locale: locale.value},
+      })),
     }
   },
 }
@@ -185,12 +197,16 @@ export default {
     }
   }
 
-  &__body {
+  &__main {
+    overflow: hidden;
+    position: relative;
+    @include container-gradients($bg-color);
+
     @include laptop() {
-      margin-top: -$spacing-lg;
-      padding-top: $spacing-lg;
-      overflow-y: auto;
-      @include container-gradients($bg-color, $page-height, 106px, 688px);
+      &__content {
+        height: 100%;
+        overflow-y: auto;
+      }
     }
   }
 }

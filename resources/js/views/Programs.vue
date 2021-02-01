@@ -1,16 +1,20 @@
 <template>
   <PageLayout
-    :title="t('programs')"
     background-color="sole"
   >
+    <template v-slot:title>
+      {{t('programs')}}
+    </template>
     <div class="programs">
-      <div
-        :key="program.id"
-        class="programs__item"
-        v-for="program in programs"
-      >
-        <ProgramItem :data="program" style="min-width: 0" />
-        <ProgramRequestForm :program-id="program.id" />
+      <div class="programs__content">
+        <div
+          :key="program.id"
+          class="programs__item"
+          v-for="program in programs"
+        >
+          <ProgramItem :data="program" style="min-width: 0" />
+          <ProgramRequestForm :program-id="program.id" />
+        </div>
       </div>
     </div>
   </PageLayout>
@@ -51,13 +55,17 @@ export default {
 
 .programs {
   @include laptop() {
-    margin-top: -$spacing-lg;
-    padding-right: $spacing-sm;
-    padding-top: $spacing-lg;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
+    position: relative;
     @include page-height;
     @include container-gradients($sole);
+  }
+
+  &__content {
+    @include laptop() {
+      height: 100%;
+      overflow-y: auto;
+    }
   }
 
   &__item {
@@ -71,7 +79,7 @@ export default {
     }
 
     @include large-desktop() {
-      grid-template-columns: 1fr 448px;
+      grid-template-columns: 1fr #{400px + $spacing-lg + $spacing-sm};
     }
   }
 }

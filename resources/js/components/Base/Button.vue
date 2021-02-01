@@ -1,18 +1,55 @@
 <template>
   <button
-    :class="{block, link, light}"
+    :class="buttonClassNames"
+    :style="buttonStyles"
   >
     <slot />
   </button>
 </template>
 
 <script>
+import {computed} from 'vue'
+
 export default {
   name: 'Button',
   props: {
-    block: Boolean,
-    link: Boolean,
-    light: Boolean,
+    block: {
+      type: Boolean,
+      default: false,
+    },
+    link: {
+      type: Boolean,
+      default: false,
+    },
+    light: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    color: {
+      type: String,
+      default: null,
+    },
+  },
+  setup({block, link, light, small, color}) {
+    const buttonClassNames = computed(() => ({
+      block,
+      link,
+      light,
+      small,
+    }))
+
+    const buttonStyles = computed(() => ({
+      backgroundColor: color,
+    }))
+
+    return {
+      buttonClassNames,
+      buttonStyles,
+    }
   },
 }
 </script>
@@ -38,7 +75,11 @@ button {
     font-size: 18px;
   }
 
-  &:hover {
+  &:disabled {
+    opacity: 0.75;
+  }
+
+  &:hover:not(:disabled) {
     background-color: $park;
   }
 
@@ -51,7 +92,7 @@ button {
     padding: 0;
     background-color: transparent;
 
-    &:hover {
+    &:hover:not(:disabled) {
       color: $text-accent-color;
     }
   }
@@ -59,6 +100,10 @@ button {
   &.light {
     background-color: $text-color;
     color: $smoke;
+  }
+
+  &.small {
+    padding: $spacing-sm;
   }
 }
 </style>

@@ -11,7 +11,7 @@
           {{data.title}}
         </router-link>
       </div>
-      <div class="product-item__info-price">{{price}} <span>₴</span></div>
+      <div class="product-item__info-price">{{n(data.price, 'price', localeType)}} <span>₴</span></div>
     </div>
     <div class="product-item__button-wrapper">
       <transition name="order-button-slide">
@@ -25,6 +25,7 @@
       </transition>
       <transition name="ordered-button-slide">
         <Button
+          @click="openBasket"
           block
           light
           v-if="isInBasket"
@@ -52,12 +53,9 @@ export default {
     data: Object,
   },
   setup({data}) {
-    const {t, locale} = useI18n()
-    const {dispatch, state} = useStore()
-    const price = computed(() => {
-      const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
-      return data.price.toLocaleString(locales)
-    })
+    const {t, locale, n} = useI18n()
+    const {commit, dispatch, state} = useStore()
+    const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const {width} = useWindowSize()
     const isInBasket = computed(() => {
       return !!Object.keys(state.products.basket).find(key => +key === data.id)
@@ -68,11 +66,15 @@ export default {
       dispatch('products/addToBasket', {productId})
     }
 
+    const openBasket = () => commit('common/setBasketOpen', true)
+
     return {
       t,
-      price,
+      n,
+      localeType,
       width,
       addToBasket,
+      openBasket,
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
         params: {locale: locale.value, id: data.id},

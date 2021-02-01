@@ -1,17 +1,26 @@
-import axios from 'axios'
+import basket from '../../api/basket'
+import products from '../../api/products'
 
+/** @typedef {import('axios').AxiosResponse} AxiosResponse */
 /** @typedef {import('../../types').Category} Category */
 /** @typedef {import('../../types').ProductItem} ProductItem */
+/** @typedef {import('vuex').Dispatch} Dispatch */
+/** @typedef {import('vuex').Commit} Commit */
+/**
+ * @typedef ProductsState
+ * @property {Record<string, number>} basket
+ * @property {Category[]} categories
+ * @property {ProductItem[]} products
+ * @property {ProductItem[]} categoryProducts
+ */
 
 export default {
   namespaced: true,
+  /** @return ProductsState */
   state: () => ({
     basket: {},
-    /** @type Category[] */
     categories: [],
-    /** @type ProductItem[] */
     products: [],
-    /** @type ProductItem[] */
     categoryProducts: [],
   }),
   getters: {
@@ -21,75 +30,80 @@ export default {
   },
   actions: {
     /**
-     * @description Get basket
-     * @param commit {import('vuex').Commit}
+     * @description Get basket.
+     * @param {Commit} commit
      * @return {Promise<void>}
      */
-    getBasket: async ({commit}) => {
-      const basket = await axios.get('/basket')
-      commit('setBasket', Array.isArray(basket) ? {} : basket)
-    },
+    getBasket: async ({commit}) =>
+      commit('setBasket', await basket.getBasket()),
     /**
-     * @description Add product to the basket
-     * @param dispatch {import('vuex').Dispatch}
-     * @param productId {number}
-     * @param count {number}
+     * @description Add product item(-s) to basket.
+     * @param {Commit} commit
+     * @param {number} productId - Product ID.
+     * @param {number} [count=1] - Number of products to be added.
      * @return {Promise<void>}
      */
-    addToBasket: async ({dispatch}, {productId, count = 1}) => {
-      await axios.post(`/basket/${productId}/${count}`)
-      await dispatch('getBasket')
-    },
+    addToBasket: async ({commit}, {productId, count = 1}) =>
+      commit('setBasket', await basket.addToBasket(productId, count)),
     /**
      * @description Update product in the basket
-     * @param dispatch {import('vuex').Dispatch}
-     * @param productId {number}
-     * @param count {number}
+     * @param {Commit} commit
+     * @param {number} productId - Product ID.
+     * @param {number} count - Number of products to be added.
      * @return {Promise<void>}
      */
-    updateBasket: async ({dispatch}, {productId, count}) => {
-      await axios.patch(`/basket/${productId}/${count}`)
+    updateBasket: async ({commit}, {productId, count}) =>
+      commit('setBasket', await basket.updateBasket(productId, count)),
+    /**
+     * @description Delete a product from the basket.
+     * @param {Commit} commit
+     * @param {number} productId - Product ID.
+     * @return {Promise<void>}
+     */
+    deleteFromBasket: async ({commit}, productId) =>
+      commit('setBasket', await basket.deleteFromBasket(productId)),
+    /**
+     * @description Delete all products from basket.
+     * @param {Dispatch} dispatch
+     * @param {number[]} productIds - List of product IDs.
+     * @return {Promise<void>}
+     */
+    deleteBasket: async ({dispatch}, productIds) => {
+      for (const productId of productIds) await basket.deleteFromBasket(productId)
       await dispatch('getBasket')
     },
     /**
-     * @description Delete product from the basket
-     * @param dispatch {import('vuex').Dispatch}
-     * @param productId {number}
-     * @return {Promise<void>}
+     * @description Get all products in a specific locale.
+     * @param {Commit} commit
+     * @param {string} locale
      */
-    deleteFromBasket: async ({dispatch}, {productId}) => {
-      await axios.delete(`/basket/${productId}`)
-      await dispatch('getBasket')
-    },
+    getProducts: async ({commit}, locale) =>
+      commit('setProducts', await products.getProducts(locale)),
     /**
-     * @description Get all products
-     * @param commit {import('vuex').Commit}
-     * @param locale {string}
+     * @description Get a specific product by ID.
+     * @param {Commit} commit
+     * @param {number | string} productId - Product ID.
+     * @param {string} locale
+     * @return {Promise<AxiosResponse<ProductItem | undefined>>}
      */
-    getProducts: async ({commit}, locale) => commit('setProducts', (await axios.get(`/products/${locale}`))),
+    getProduct: async ({commit}, {productId, locale}) =>
+      await products.getProduct(productId, locale),
     /**
-     * @description Get a specific product
-     * @param commit
-     * @param id {number | string}
-     * @param locale {string}
-     * @return {Promise<import('axios').AxiosResponse<ProductItem>>}
-     */
-    getProduct: async ({commit}, {id, locale}) => (await axios.get(`/product/${id}/${locale}`))[0],
-    /**
-     * @description Get products by a category ID
-     * @param commit {import('vuex').Commit}
-     * @param categoryId {number}
-     * @param locale {string}
-     * @example store.dispatch('products/getProductCategory', {id: 1, locale: 'en'})
+     * @description Get products by a category ID.
+     * @param {Commit} commit
+     * @param {number} categoryId
+     * @param {string} locale
      */
     getProductCategory: async ({commit}, {categoryId, locale}) =>
-      commit('setCategoryProducts', (await axios.get(`/product_category/${categoryId}/${locale}`))),
+      commit('setCategoryProducts', await products.getProductCategory(categoryId, locale)),
     /**
-     * @description Get product categories
-     * @param commit {import('vuex').Commit}
-     * @param locale {string}
+     * @description Get product categories.
+     * @param {Commit} commit
+     * @param {string} locale
+     * @return Promise<void>
      */
-    getCategories: async ({commit}, locale) => commit('setCategories', await axios.get(`/categories/${locale}`)),
+    getCategories: async ({commit}, locale) =>
+      commit('setCategories', await products.getCategories(locale)),
   },
   mutations: {
     setBasket: (state, data) => state.basket = data,

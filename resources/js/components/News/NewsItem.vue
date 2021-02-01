@@ -7,7 +7,9 @@
       >
         {{t('read')}}
       </router-link>
-      <p class="description">{{dateCreated.day}} • {{dateCreated.time}}</p>
+      <p class="description">
+        {{d(new Date(data.created_at), 'date', localeType)}} • {{d(new Date(data.created_at), 'time', localeType)}}
+      </p>
     </div>
 
     <router-link
@@ -16,7 +18,14 @@
       class="news-item__image"
     />
 
-    <h2><router-link :to="articlePath">{{data.title}}</router-link></h2>
+    <h2 class="news-item__title">
+      <router-link
+        :to="articlePath"
+        class="basic"
+      >
+        {{data.title}}
+      </router-link>
+    </h2>
     <p class="news-item__description">{{data.description}}</p>
   </article>
 </template>
@@ -33,29 +42,15 @@ export default {
     data: Object,
   },
   setup({data}) {
-    const {t, locale} = useI18n()
-    const dateCreated = computed(() => {
-      const date = new Date(data.created_at)
-      const locales = locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA'
-      const day = new Intl.DateTimeFormat(
-        locales,
-        {dateStyle: 'long'},
-      ).format(date)
-      const time = new Intl.DateTimeFormat(
-        locales,
-        {timeStyle: 'short'},
-      ).format(date)
-      return {
-        day,
-        time,
-      }
-    })
+    const {t, locale, d} = useI18n()
+    const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const images = useImageStorage(data.images)
 
     return {
       t,
+      d,
+      localeType,
       images,
-      dateCreated,
       articlePath: computed(() => ({
         name: ROUTE_CONF.ARTICLE.name,
         params: {locale: locale.value, id: data.id},
@@ -86,20 +81,19 @@ export default {
     background-size: cover;
   }
 
-  &__description {
+  &__title, &__description {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 
-  h2 a {
-    color: $text-color;
+  &__title {
+    -webkit-line-clamp: 2;
+  }
 
-    &:hover {
-      color: $text-accent-color;
-    }
+  &__description {
+    -webkit-line-clamp: 3;
   }
 }
 </style>

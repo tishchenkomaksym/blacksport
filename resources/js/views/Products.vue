@@ -1,8 +1,10 @@
 <template>
   <PageLayout
-    :title="t('products')"
     background-color="sole"
   >
+    <template v-slot:title>
+      {{t('products')}}
+    </template>
     <div class="products">
       <div class="products__categories">
         <div v-if="width < 1024">
@@ -70,7 +72,6 @@
           </template>
           <p v-else>{{t('emptyCategory')}}</p>
         </div>
-        <div class="products__container-end" />
       </div>
     </div>
   </PageLayout>
@@ -234,15 +235,10 @@ export default {
   &__container {
     @include laptop() {
       width: 100%;
-      max-height: calc(100vh - 304px);
-      padding-top: $spacing-lg;
-      overflow-y: auto;
-      overflow-x: hidden;
-      @include container-gradients($sole, calc(100vh - 304px), 146px, calc(80px + 202px + 47px));
-    }
-
-    &-end {
-      height: 40px;
+      overflow: hidden;
+      position: relative;
+      @include page-height;
+      @include container-gradients($sole);
     }
   }
 
@@ -253,10 +249,13 @@ export default {
     grid-gap: $spacing;
 
     @include laptop() {
+      height: 100%;
+      padding-top: $spacing-lg;
+      overflow-y: auto;
       grid-template-columns: repeat(3, 1fr);
       column-gap: $spacing-md;
       row-gap: $spacing-lg;
-      padding-right: $spacing-sm;
+      box-sizing: border-box;
     }
 
     @include desktop() {

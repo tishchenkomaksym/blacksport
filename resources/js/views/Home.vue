@@ -63,7 +63,6 @@ export default {
 
     watchEffect(() => {
       dispatch('home/getHomeData', locale.value)
-      dispatch('common/getContacts')
     })
 
     const switchSlide = to => currentSlide.value = to

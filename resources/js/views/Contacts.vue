@@ -1,8 +1,10 @@
 <template>
   <PageLayout
-    :title="t('contacts')"
     background-color="sole"
   >
+    <template v-slot:title>
+      {{t('contacts')}}
+    </template>
     <div class="contacts">
       <div class="contacts__categories" v-if="contacts[0]">
         <h3>{{t('phoneNumber')}}</h3>

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import Maska from 'maska'
 import i18n from './i18n'
+import VueClickAway from 'vue3-click-away'
 
 import App from './App.vue'
 
@@ -22,4 +23,5 @@ createApp(App)
   .use(store)
   .use(Maska)
   .use(i18n)
+  .use(VueClickAway)
   .mount('#app')
