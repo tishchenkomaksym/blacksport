@@ -1,13 +1,14 @@
 <template>
   <div class="form-input">
     <Field
+      :as="asTextarea ? 'textarea' : 'input'"
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :rows="asTextarea ? 4 : null"
       :class="{light}"
       @input="handleChange"
       @blur="handleBlur"
-      as="input"
       v-if="!mask"
     />
     <Field
@@ -43,6 +44,10 @@ export default {
     placeholder: String,
     mask: [Array, Object, String],
     light: Boolean,
+    asTextarea: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup({name}) {
     const {t} = useI18n()
@@ -64,7 +69,7 @@ export default {
 .form-input {
   margin-bottom: $spacing;
 
-  input {
+  input, textarea {
     width: 100%;
     display: block;
     margin-bottom: $spacing-sm;

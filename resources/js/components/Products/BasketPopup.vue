@@ -6,6 +6,10 @@
         @on-proceed-checkout="isCheckout = true"
         v-if="!isCheckout"
       />
+      <BasketCheckout
+        :total-price="totalPrice"
+        v-else
+      />
     </div>
   </transition>
 </template>
@@ -16,15 +20,16 @@ import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 
 import BasketList from './BasketList'
+import BasketCheckout from './BasketCheckout'
 
 export default {
   name: 'BasketPopup',
-  components: {BasketList},
+  components: {BasketCheckout, BasketList},
   setup() {
     const {dispatch, state} = useStore()
     const {locale} = useI18n()
     const basket = computed(() => state.products.basket)
-    const isCheckout = ref(false)
+    const isCheckout = ref(true)
     const totalPrice = ref(0)
 
     const getBasketProducts = async () => {

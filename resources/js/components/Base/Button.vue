@@ -75,7 +75,11 @@ button {
     font-size: 18px;
   }
 
-  &:hover {
+  &:disabled {
+    opacity: 0.75;
+  }
+
+  &:hover:not(:disabled) {
     background-color: $park;
   }
 
@@ -88,7 +92,7 @@ button {
     padding: 0;
     background-color: transparent;
 
-    &:hover {
+    &:hover:not(:disabled) {
       color: $text-accent-color;
     }
   }

@@ -66,7 +66,10 @@ button {
   outline: none;
   border: none;
   background-color: transparent;
-  cursor: pointer;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 ul {
@@ -94,24 +97,30 @@ ul {
   }
 }
 
-input {
-  padding: 10px 16px;
+input, textarea {
+  padding: 10px $spacing;
   -webkit-appearance: none;
-  background-color: $smoke;
   border: none;
   outline: none;
   box-sizing: border-box;
-  font-size: 16px;
   color: $text-color;
+  background-color: $smoke;
+  font-size: 16px;
 
   &::placeholder {
     color: $park;
   }
+}
 
+input {
   &.light {
     color: $park;
     background-color: $text-accent-color;
   }
+}
+
+textarea {
+  resize: none;
 }
 
 .form-error {
