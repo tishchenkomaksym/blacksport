@@ -114,19 +114,30 @@ export default {
 @import "../../assets/scss/variables";
 
 .select {
+  margin: 0 #{-$spacing-sm};
   position: relative;
+  transition: background-color 0.3s linear 0.3s;
+
+  @include tablets() {
+    margin: 0 #{-$spacing};
+  }
 
   &--opened {
     background-color: $bg-color;
+    transition: none;
   }
 
   &__label {
-    padding: $spacing-sm 0;
+    padding: $spacing-sm;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: $text-color;
     cursor: pointer;
+
+    @include tablets() {
+      padding: $spacing $spacing $spacing-sm;
+    }
 
     > span {
       max-width: 90%;
@@ -169,12 +180,22 @@ export default {
   &__dropdown {
     width: 100%;
     position: absolute;
+    padding: 0 $spacing-sm;
     background-color: $bg-color;
     z-index: 1;
+    box-sizing: border-box;
+
+    @include tablets() {
+      padding: 0 $spacing;
+    }
 
     &-search {
       width: 100%;
       margin: 0 0 $spacing-sm;
+
+      @include tablets() {
+        margin: 0 0 $spacing;
+      }
     }
 
     &__list {

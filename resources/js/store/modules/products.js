@@ -4,6 +4,7 @@ import products from '../../api/products'
 /** @typedef {import('axios').AxiosResponse} AxiosResponse */
 /** @typedef {import('../../types').Category} Category */
 /** @typedef {import('../../types').ProductItem} ProductItem */
+/** @typedef {import('vuex').Dispatch} Dispatch */
 /** @typedef {import('vuex').Commit} Commit */
 /**
  * @typedef ProductsState
@@ -61,6 +62,16 @@ export default {
      */
     deleteFromBasket: async ({commit}, productId) =>
       commit('setBasket', await basket.deleteFromBasket(productId)),
+    /**
+     * @description Delete all products from basket.
+     * @param {Dispatch} dispatch
+     * @param {number[]} productIds - List of product IDs.
+     * @return {Promise<void>}
+     */
+    deleteBasket: async ({dispatch}, productIds) => {
+      for (const productId of productIds) await basket.deleteFromBasket(productId)
+      await dispatch('getBasket')
+    },
     /**
      * @description Get all products in a specific locale.
      * @param {Commit} commit

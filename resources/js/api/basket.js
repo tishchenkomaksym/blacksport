@@ -32,4 +32,12 @@ export default {
    * @return {Promise<AxiosResponse<Basket>>}
    */
   deleteFromBasket: async (productId) => await axios.delete(`/basket/${productId}`),
+  /**
+   * @description Proceed payment.
+   * @param {any[]} products
+   * @param {any} client
+   * @return {Promise<any>}
+   */
+  proceedPayment: async (products, client) =>
+    await axios.post('/payment', {products, client: [client]}),
 }

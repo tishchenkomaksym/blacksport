@@ -7,7 +7,7 @@
       :type="type"
       :rows="asTextarea ? 4 : null"
       :class="{light}"
-      @input="handleChange"
+      @input="onChange"
       @blur="handleBlur"
       v-if="!mask"
     />
@@ -16,7 +16,7 @@
       :placeholder="placeholder"
       :type="type"
       :class="{light}"
-      @input="handleChange"
+      @input="onChange"
       @blur="handleBlur"
       as="input"
       v-maska="mask"
@@ -49,15 +49,23 @@ export default {
       default: false,
     },
   },
-  setup({name}) {
+  emits: [
+    'on-change',
+  ],
+  setup({name}, {emit}) {
     const {t} = useI18n()
     const {errorMessage, handleBlur, handleChange} = useField(name)
+
+    const onChange = e => {
+      handleChange(e)
+      emit('on-change', e.target.value)
+    }
 
     return {
       t,
       errorMessage,
       handleBlur,
-      handleChange,
+      onChange,
     }
   },
 }

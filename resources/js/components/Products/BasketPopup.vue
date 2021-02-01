@@ -3,12 +3,17 @@
     <div class="basket">
       <BasketList
         :total-price="totalPrice"
-        @on-proceed-checkout="isCheckout = true"
-        v-if="!isCheckout"
+        @on-next-step="onNextStep"
+        v-if="step === 0"
       />
       <BasketCheckout
+        :products="products"
         :total-price="totalPrice"
-        v-else
+        @on-next-step="onNextStep"
+        v-else-if="step === 1"
+      />
+      <BasketCheckoutDone
+        v-else-if="step === 2"
       />
     </div>
   </transition>
@@ -21,30 +26,43 @@ import {useI18n} from 'vue-i18n'
 
 import BasketList from './BasketList'
 import BasketCheckout from './BasketCheckout'
+import BasketCheckoutDone from './BasketCheckoutDone'
 
 export default {
   name: 'BasketPopup',
-  components: {BasketCheckout, BasketList},
+  components: {BasketCheckoutDone, BasketCheckout, BasketList},
   setup() {
     const {dispatch, state} = useStore()
     const {locale} = useI18n()
     const basket = computed(() => state.products.basket)
-    const isCheckout = ref(true)
+    const step = ref(0)
     const totalPrice = ref(0)
+    const products = ref([])
 
     const getBasketProducts = async () => {
       let total = 0
       for (const productId of Object.keys(basket.value)) {
-        total += basket.value[productId] * (await dispatch('products/getProduct', {productId, locale: locale.value})).price
+        const product = await dispatch('products/getProduct', {productId, locale: locale.value})
+        products.value.push({
+          id: product.id,
+          name: product.title,
+          price: product.price,
+          quantity: basket.value[productId],
+        })
+        total += basket.value[productId] * product.price
       }
       totalPrice.value = total
     }
 
+    const onNextStep = () => step.value += 1
+
     watch(basket, getBasketProducts, {immediate: true})
 
     return {
-      isCheckout,
+      step,
+      onNextStep,
       totalPrice,
+      products,
     }
   },
 }

@@ -72,7 +72,7 @@ main {
   background-color: rgba($bg-color, 0.5);
 
   &--dark {
-    background-color: rgba($bg-color, 1);
+    background-color: rgba($bg-color, 0.95);
   }
 }
 

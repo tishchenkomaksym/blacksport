@@ -53,7 +53,7 @@ export default {
     },
   },
   emits: [
-    'on-proceed-checkout',
+    'on-next-step',
   ],
   setup(props, {emit}) {
     const {t, locale, n} = useI18n()
@@ -64,7 +64,7 @@ export default {
     const productNumber = computed(() => getters['products/productNumber'])
     const {width} = useWindowSize()
 
-    const proceedCheckout = () => emit('on-proceed-checkout')
+    const proceedCheckout = () => emit('on-next-step')
 
     return {
       t,
