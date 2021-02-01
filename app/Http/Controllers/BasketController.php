@@ -13,24 +13,15 @@ use App\City;
 use App\Exceptions\ApiException;
 use App\Exceptions\UserFriendlyException;
 use App\Models\Order;
-use App\Models\Product as ProductModel;
 use App\Page;
+use App\Services\PaymentService;
 use Illuminate\Http\Request;
-use WayForPay\SDK\Credential\AccountSecretCredential;
-use WayForPay\SDK\Domain\Client;
-use WayForPay\SDK\Domain\Product;
-use WayForPay\SDK\Collection\ProductCollection;
-use WayForPay\SDK\Credential\AccountSecretTestCredential;
-use WayForPay\SDK\Wizard\InvoiceWizard;
 use Illuminate\Support\Facades\Input;
 
 class BasketController extends Controller
 {
 //    private const LIQPAY_PRIVATE_KEY = 'sandbox_8LFgWcW7saY2MYEyrPg7eUwMpqNcvOoexYO9hJOG';
 //    private const LIQPAY_PUBLIC_KEY = 'sandbox_i36441580441';
-
-    private const WAYFORPAY_LOGIN = 'blacksport_org';
-    private const WAYFORPAY_SECRET_KEY = '3f88d950a4ce39f85b27c2aa5e75592656b7c880';
 
     use Basket;
 
@@ -41,10 +32,15 @@ class BasketController extends Controller
      * @var Request
      */
     private $request;
+    /**
+     * @var PaymentService
+     */
+    private $paymentService;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, PaymentService $paymentService)
     {
         $this->request = $request;
+        $this->paymentService = $paymentService;
     }
 //    public function __invoke ()
 //    {
@@ -214,7 +210,7 @@ class BasketController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/wayforpay",
+     *     path="/api/payment",
      *     description="Getting url for payment",
      *     tags={"payment"},
      *     summary="Payment View",
@@ -227,7 +223,7 @@ class BasketController extends Controller
      *              @OA\Items(
      *                      @OA\Property(property="id", type="integer"),
      *                      @OA\Property(property="name", type="string"),
-     *                      @OA\Property(property="price", type="integer, example="1"),
+     *                      @OA\Property(property="price", type="integer", example="1"),
      *                      @OA\Property(property="quantity", type="integer", example="1"),
      *              ),
      *          ),
@@ -240,77 +236,35 @@ class BasketController extends Controller
      *                   @OA\Property(property="payment_method", type="string"),
      *                   @OA\Property(property="post_branch", type="string", example="some post_branch (not required)"),
      *                   @OA\Property(property="comment", type="string", example="some comment (not required)"),
-     *                   @OA\Property(property="address", type="string", example="some address (not required)")
+     *                   @OA\Property(property="address", type="string", example="some address (not required)"),
+     *                   @OA\Property(property="online_payment", type="boolean")
      *              ),
      *          ),
      *        ),
      *     ),
      *     @OA\Response(
      *          response="200",
-     *          description="success, url for payment",
+     *          description="order created and return url for payment",
      *          @OA\Property(property="url", type="string"),
+     *     ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="order created"
+     *     ),
+     *      @OA\Response(
+     *          response="400",
+     *          description="Error from wayforpay"
      *     ),
      *
      *     )
      * )
      */
-    public function wayForPayRequest()
+    public function payment()
     {
         $products =  $this->request['products']; //[['id' => 1, 'name' => 'test', 'price' => 1, 'quantity' => 1]];
         $client = $this->request['client'][0]; // ['name' => 'Maks', 'email' => 'grigorianez@gmail.com', 'phone' => '+380634012857', 'delivery' => 'Самовывоз'];
-        $credential = new AccountSecretCredential(self::WAYFORPAY_LOGIN, self::WAYFORPAY_SECRET_KEY);
-        $clientEntity = new Client(
-            $client['name'],
-            null,
-            $client['email'],
-            $client['phone']
-        );
 
-
-        $array = [];
-        foreach ($products as $product) {
-            $productModel = ProductModel::findOrFail($product['id']);
-            $productModel->order_count = ++$productModel->order_count;
-            $productModel->save;
-            $array[] = new Product(
-                $product['name'],
-                $product['price'],
-                $product['quantity']
-            );
-        }
-
-        $order = Order::create([
-            'name' => $client['name'],
-            'phone' => $client['phone'],
-            'email' => $client['email'],
-            'products' => json_encode($products),
-            'delivery' => $client['delivery'],
-            'payment_method' => $client['payment_method'] ?? null,
-            'post_branch' => $client['post_branch'] ?? '',
-            'comment' => $client['comment'] ?? '',
-            'address' => $client['address'] ?? ''
-        ]);
-
-
-        $productsCollection = new ProductCollection($array);
-
-        try {
-            $response = InvoiceWizard::get($credential)
-                                     ->setOrderReference($order->id)
-                                     ->setAmount(1)
-                                     ->setCurrency('UAH')
-                                     ->setOrderDate(new \DateTime())
-                                     ->setMerchantDomainName('https://blacksport.org')
-                                     ->setClient($clientEntity)
-                                     ->setProducts($productsCollection)
-                                     ->setServiceUrl(route('api.check-response'))
-                                     ->getRequest()
-                                     ->send();
-
-            return $response->getInvoiceUrl();
-        } catch (ApiException $e) {
-            echo 'Exception: ' . $e->getMessage() . PHP_EOL;
-        }
+        return $this->paymentService->handlePayment($client, $products);
 
     }
 
