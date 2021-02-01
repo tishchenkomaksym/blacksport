@@ -244,8 +244,16 @@ class BasketController extends Controller
      *     ),
      *     @OA\Response(
      *          response="200",
-     *          description="success, url for payment",
+     *          description="order created and return url for payment",
      *          @OA\Property(property="url", type="string"),
+     *     ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="order created"
+     *     ),
+     *      @OA\Response(
+     *          response="400",
+     *          description="Error from wayforpay"
      *     ),
      *
      *     )

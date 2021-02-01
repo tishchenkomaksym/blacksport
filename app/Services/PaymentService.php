@@ -42,19 +42,19 @@ class PaymentService
                                      ->getRequest()
                                      ->send();
 
-            return $response->getInvoiceUrl();
+            return response()->json(['url' => $response->getInvoiceUrl()], 200);
         } catch (ApiException $e) {
-            return 'Exception: ' . $e->getMessage() . PHP_EOL;
+            return response()->json(['error' => 'Exception: ' . $e->getMessage() . PHP_EOL]);
         }
     }
 
     public function handlePayment($client, $products)
     {
-        $products = $this->parseProducts($products, $client);
+        $wayForPayProducts = $this->parseProducts($products, $client);
         $order = $this->createOrder($client, $products);
 
         if ($client['online_payment']){
-            $this->wayForPayRequest($client, $products, $order);
+            return $this->wayForPayRequest($client, $wayForPayProducts, $order);
         }else{
             return response()->json(['success' => 'order created'], 201);
         }
