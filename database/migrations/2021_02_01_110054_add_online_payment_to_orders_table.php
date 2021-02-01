@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCommentToOrdersTable extends Migration
+class AddOnlinePaymentToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddCommentToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('comment');
+            $table->boolean('online_payment')->default(false);
         });
     }
 
@@ -26,7 +26,7 @@ class AddCommentToOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn(['comment']);
+            $table->dropColumn(['online_payment']);
         });
     }
 }
