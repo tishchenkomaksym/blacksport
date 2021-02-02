@@ -27,6 +27,9 @@ $factory->define( Order::class, function (Faker $faker) {
         'email' => $faker->email,
         'products' => $faker->text,
         'delivery' => $array[array_rand($array, 1)],
-        'payment_method' =>$payment_method[array_rand($payment_method, 1)]
+        'payment_method' =>$payment_method[array_rand($payment_method, 1)],
+        'comment' => $faker->text,
+        'address' => $faker->address,
+        'online_payment' => $faker->boolean
     ];
 });
