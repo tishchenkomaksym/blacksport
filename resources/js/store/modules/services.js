@@ -1,11 +1,11 @@
-import axios from 'axios'
+import servicesApi from '../../api/services'
 
 /** @typedef {import('../../types').ServiceItem} ServiceItem */
 /** @typedef {import('../../types').OrderServiceData} OrderServiceData */
+/** @typedef {import('vuex').Commit} Commit */
 /**
  * @typedef ServiceState
  * @property services {ServiceItem[]}
- * @property examplesShown {number}
  */
 
 /** @type import('vuex').Module<ServiceState, any> */
@@ -13,26 +13,25 @@ const services = {
   namespaced: true,
   state: () => ({
     services: [],
-    examplesShown: null,
   }),
   actions: {
     /**
-     * @description Get list of services
-     * @name getServices
-     * @param commit {import('vuex').Commit}
-     * @param locale {string}
+     * @description Get list of services.
+     * @param {Commit} commit
+     * @param {string} locale
      */
-    getServices: async ({commit}, locale) => commit('setServices', await axios.get(`/services/${locale}`)),
+    getServices: async ({commit}, locale) =>
+      commit('setServices', await servicesApi.getServices(locale)),
     /**
-     * @param commit {import('vuex').Commit}
-     * @param data {OrderServiceData}
-     * @return {Promise<import('axios').AxiosResponse<any>>}
+     * @description Order a service.
+     * @param {Commit} commit
+     * @param {OrderServiceData} data - Order service data.
+     * @return {Promise<any>}
      */
-    orderService: async ({commit}, data) => await axios.post('/service/request', data),
+    orderService: async ({commit}, data) => await servicesApi.orderService(data),
   },
   mutations: {
     setServices: (state, data) => state.services = data,
-    setExamplesShown: (state, serviceId) => state.examplesShown = serviceId,
   },
 }
 

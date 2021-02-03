@@ -4,10 +4,7 @@
       <h2>{{data.name}}</h2>
       <p class="service-item__info-description">{{description}}</p>
       <div class="service-item__info-order">
-        <Button
-          @click="$emit('open-order-modal', data.id, data.name)"
-          link
-        >
+        <Button @click="openOrderModal" link>
           {{t('order')}}
         </Button>
       </div>
@@ -54,10 +51,10 @@
 
 <script>
 import {computed, nextTick, ref, watch} from 'vue'
-import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
+
 import Button from '../Base/Button'
 import ServiceExamplesModal from './ServiceExamplesModal'
 import ScrollableContainer from '../Layout/ScrollableContainer'
@@ -71,41 +68,38 @@ export default {
       type: Object,
       required: true,
     },
+    examplesShown: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
-    'open-order-modal',
+    'on-toggle-examples',
+    'on-open-order-modal',
   ],
-  setup({data}) {
+  setup(props, {emit}) {
     const {t} = useI18n()
     const {width} = useWindowSize()
-    const {state, commit} = useStore()
-    const serviceShownId = computed(() => state.services.examplesShown)
-    const examplesShown = computed(() => serviceShownId.value === data.id)
-    const selectedExample = ref(null)
     const isMobile = computed(() => width.value < 768)
-    const description = useTruncate(data.description, 150)
+
+    const description = useTruncate(props.data.description, 150)
+    const selectedExample = ref(null)
+
     const mobileSlider = ref(null)
     const mobileExampleWidth = ref(0)
 
-    const showServiceExampleModal = serviceId => {
-      selectedExample.value = serviceId
-    }
-
-    const closeServiceExampleModal = () => {
-      selectedExample.value = null
-    }
-
-    const toggleExamples = () => {
-      commit('services/setExamplesShown', serviceShownId.value === data.id ? null : data.id)
-    }
+    const toggleExamples = () => emit('on-toggle-examples', props.data.id, !props.examplesShown)
+    const showServiceExampleModal = serviceId => selectedExample.value = serviceId
+    const closeServiceExampleModal = () => selectedExample.value = null
+    const openOrderModal = () => emit('on-open-order-modal', props.data.id, props.data.name)
 
     // Make width the same as height to keep examples square
     watch(width, async () => {
       if (width.value >= 768) return
       await nextTick()
-      if (examplesShown.value && mobileSlider.value) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
+      if (props.examplesShown.value && mobileSlider.value) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
     })
-    watch(examplesShown, async examplesShown => {
+    watch(() => props.examplesShown, async examplesShown => {
       if (width.value >= 768) return
       await nextTick()
       if (examplesShown) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
@@ -113,7 +107,6 @@ export default {
 
     return {
       t,
-      examplesShown,
       isMobile,
       selectedExample,
       description,
@@ -122,6 +115,7 @@ export default {
       toggleExamples,
       showServiceExampleModal,
       closeServiceExampleModal,
+      openOrderModal,
     }
   },
 }

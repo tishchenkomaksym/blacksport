@@ -7,32 +7,40 @@
       <div class="services__list" ref="servicesListRef" v-if="services.length">
         <ServiceItem
           :data="service"
+          :examples-shown="examplesShownId === service.id"
           :key="service.id"
-          @open-order-modal="openOrderModal"
+          @on-toggle-examples="onToggleExamples"
+          @on-open-order-modal="onOpenOrderModal"
           v-for="service in services"
         />
-        <ScrollableContainer
-          :key="JSON.stringify(examplesStyles)"
-          :styles="examplesStyles"
-          :class="{'services__examples-vertical': examplesPosition === 'vertical'}"
-          :vertical="examplesPosition === 'vertical'"
-          class="services__examples"
-          v-if="examplesShown && !isMobile"
-        >
-          <template v-if="currentExamples.length">
-            <div
-              :key="example.id"
-              :style="examplesPosition !== 'vertical' && `width: ${examplesStyles.height}`"
-              v-for="example in currentExamples"
+        <transition name="service-examples-transition">
+          <div
+            :key="JSON.stringify(examplesStyles)"
+            :style="examplesStyles"
+            class="services__examples-container"
+            v-if="examplesShownId !== null && !isMobile"
+          >
+            <ScrollableContainer
+              :class="{'services__examples-vertical': examplesPosition === 'vertical', 'services__examples--left': examplesPosition === 'left'}"
+              :vertical="examplesPosition === 'vertical'"
+              class="services__examples"
             >
-              <ServiceExample
-                :data="example"
-                @click="showServiceExampleModal(example.id)"
-              />
-            </div>
-          </template>
-          <p v-else>{{t('noExamples')}}</p>
-        </ScrollableContainer>
+              <template v-if="currentExamples.length">
+                <div
+                  :key="example.id"
+                  :style="examplesPosition !== 'vertical' && `width: ${examplesStyles.height}`"
+                  v-for="example in currentExamples"
+                >
+                  <ServiceExample
+                    :data="example"
+                    @click="showServiceExampleModal(example.id)"
+                  />
+                </div>
+              </template>
+              <p v-else>{{t('noExamples')}}</p>
+            </ScrollableContainer>
+          </div>
+        </transition>
       </div>
       <p v-else>{{t('noServices')}}</p>
     </div>
@@ -52,7 +60,7 @@
 </template>
 
 <script>
-import {computed, onBeforeUnmount, ref, watch, watchEffect} from 'vue'
+import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import useWindowSize from '../hooks/useWindowSize'
@@ -67,7 +75,7 @@ export default {
   name: 'Services',
   components: {ServiceExamplesModal, ServiceExample, ScrollableContainer, ServiceOrderModal, ServiceItem, PageLayout},
   setup() {
-    const {commit, dispatch, state} = useStore()
+    const {dispatch, state} = useStore()
     const {width} = useWindowSize()
     const {t, locale} = useI18n()
     const services = computed(() => state.services.services)
@@ -79,12 +87,12 @@ export default {
     const isLarge = computed(() => width.value >= 1440)
     const servicesListRef = ref(null)
     const selectedExample = ref(null)
-    const examplesShown = computed(() => state.services.examplesShown)
+    const examplesShownId = ref(null)
     const currentExamples = computed(() => {
-      return services.value.find(service => service.id === examplesShown.value).examples
+      return services.value.find(service => service.id === examplesShownId.value).examples
     })
     const examplesPosition = computed(() => {
-      const serviceIndex = services.value.findIndex(service => service.id === examplesShown.value)
+      const serviceIndex = services.value.findIndex(service => service.id === examplesShownId.value)
       if (isLaptop.value) {
         return serviceIndex % 2 === 0 ? 'right' : 'left'
       } else if (isDesktop.value || isLarge.value) {
@@ -97,11 +105,11 @@ export default {
       dispatch('services/getServices', locale.value)
     })
 
-    onBeforeUnmount(() => {
-      commit('services/setExamplesShown', null)
-    })
+    const onToggleExamples = (id, examplesShown) => {
+      examplesShownId.value = examplesShown ? id : null
+    }
 
-    const openOrderModal = (serviceId, serviceName) => {
+    const onOpenOrderModal = (serviceId, serviceName) => {
       selectedService.value = {id: serviceId, name: serviceName}
     }
 
@@ -118,9 +126,9 @@ export default {
     }
 
     const calculateExamplesStyles = () => {
-      if (isMobile.value || !examplesShown.value) return
+      if (isMobile.value || examplesShownId.value === null) return
 
-      const element = servicesListRef.value.querySelector(`[data-id="${examplesShown.value}"]`)
+      const element = servicesListRef.value.querySelector(`[data-id="${examplesShownId.value}"]`)
       const elemWidth = element.offsetWidth
       const elemHeight = element.offsetHeight
 
@@ -139,7 +147,7 @@ export default {
           top: `${element.offsetTop}px`,
         }
       } else if (examplesPosition.value === 'vertical') {
-        const serviceIndex = services.value.findIndex(service => service.id === examplesShown.value)
+        const serviceIndex = services.value.findIndex(service => service.id === examplesShownId.value)
         const rowBelowExists = !!services.value[serviceIndex + 2]
         const nextRowHeight = rowBelowExists ? servicesListRef.value.querySelector(`[data-id="${services.value[serviceIndex + 2].id}"]`).offsetHeight : 0
         examplesStyles.value = {
@@ -153,7 +161,7 @@ export default {
       }
     }
 
-    watch(examplesShown, () => calculateExamplesStyles())
+    watch(examplesShownId, () => calculateExamplesStyles())
     watch(width, () => calculateExamplesStyles())
 
     return {
@@ -162,12 +170,13 @@ export default {
       services,
       servicesListRef,
       selectedService,
-      openOrderModal,
+      onOpenOrderModal,
       closeOrderModal,
       selectedExample,
       examplesPosition,
       currentExamples,
-      examplesShown,
+      onToggleExamples,
+      examplesShownId,
       examplesStyles,
       showServiceExampleModal,
       closeServiceExampleModal,
@@ -200,6 +209,10 @@ export default {
       column-gap: $spacing-md;
     }
 
+    @include tablets() {
+      overflow-x: hidden;
+    }
+
     @include laptop() {
       padding-top: $spacing-lg;
       height: 100%;
@@ -215,15 +228,41 @@ export default {
 
   &__examples {
     @include tablets() {
-      position: absolute;
-      z-index: 1;
-      background-color: $smoke;
+      &-container {
+        position: absolute;
+        z-index: 1;
+        background-color: $smoke;
+      }
 
       &-vertical {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: $spacing;
       }
+    }
+  }
+}
+
+.service-examples-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: background-color 0.75s ease-in-out;
+
+    .services__examples {
+      transition: transform 0.75s ease-in-out;
+    }
+  }
+
+  &-enter-from,
+  &-leave-to {
+    background-color: transparent;
+
+    .services__examples:not(.services__examples--left) {
+      transform: translateX(100%);
+    }
+
+    .services__examples--left {
+      transform: translateX(-100%);
     }
   }
 }
