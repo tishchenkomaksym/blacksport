@@ -249,7 +249,7 @@ export default {
     grid-gap: $spacing;
 
     @include laptop() {
-      height: 100%;
+      max-height: 100%;
       padding-top: $spacing-lg;
       overflow-y: auto;
       grid-template-columns: repeat(3, 1fr);

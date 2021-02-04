@@ -73,15 +73,20 @@ export default {
 
   &__images {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: $spacing-md;
 
+    @include tablets() {
+      justify-content: center;
+    }
+
     img {
-      width: 50%;
+      width: calc((136 * 100%) / 288);
       max-width: 440px;
       filter: drop-shadow($spacing-sm / 2 $spacing-sm / 2 $spacing rgba($bg-color, 0.08));
 
       @include tablets() {
+        width: 50%;
         filter: drop-shadow($spacing $spacing #{$spacing-sm + $spacing-md} rgba($bg-color, 0.08));
       }
     }

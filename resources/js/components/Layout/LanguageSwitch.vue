@@ -83,6 +83,7 @@ export default {
 
   &__item {
     width: $spacing-md;
+    height: $spacing-md;
     display: block;
     padding: 0 2px;
     text-transform: uppercase;
@@ -92,7 +93,7 @@ export default {
     border-style: solid;
     color: $text-color;
     font-size: 12px;
-    line-height: 22px;
+    line-height: $spacing-md;
     transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     will-change: color, border-color;
     box-sizing: border-box;

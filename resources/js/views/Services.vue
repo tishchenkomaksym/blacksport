@@ -136,14 +136,14 @@ export default {
         examplesStyles.value = {
           width: `${isLaptop.value ? elemWidth : isDesktop.value ? elemWidth * 2 + 24 : elemWidth * 2 + 62}px`,
           left: `${isLaptop.value || isDesktop.value ? elemWidth + 24 : elemWidth + 62}px`,
-          height: `${elemHeight}px`,
+          height: `${elemHeight + 1}px`,
           top: `${element.offsetTop}px`,
         }
       } else if (examplesPosition.value === 'left') {
         examplesStyles.value = {
           width: `${(isLaptop.value ? elemWidth : isDesktop.value ? elemWidth * 2 + 24 : elemWidth * 2 + 62) + 1}px`,
           left: 0,
-          height: `${elemHeight}px`,
+          height: `${elemHeight + 1}px`,
           top: `${element.offsetTop}px`,
         }
       } else if (examplesPosition.value === 'vertical') {
@@ -153,7 +153,7 @@ export default {
         examplesStyles.value = {
           width: `${elemWidth + 1}px`,
           right: 0,
-          height: `${rowBelowExists ? elemHeight + nextRowHeight + 16 : elemHeight}px`,
+          height: `${rowBelowExists && currentExamples.value.length > 2 ? elemHeight + nextRowHeight + 17 : elemHeight + 1}px`,
           top: `${element.offsetTop}px`,
         }
       } else {

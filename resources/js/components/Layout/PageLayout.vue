@@ -1,14 +1,14 @@
 <template>
-  <div class="page-layout container" :style="{backgroundColor: bgColor}">
+  <div class="page-layout container">
     <h1 class="page-heading">
-      <slot name="title" />
+      <slot name="title"/>
     </h1>
-    <slot />
+    <slot/>
   </div>
 </template>
 
 <script>
-import {computed, onMounted, onBeforeUnmount} from 'vue'
+import {onBeforeUnmount, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 
 export default {
@@ -17,21 +17,16 @@ export default {
     title: String,
     backgroundColor: String,
   },
-  setup({backgroundColor}) {
-    const {state, commit} = useStore()
-    const bgColor = computed(() => state.common.backgroundColor)
+  setup(props) {
+    const {commit} = useStore()
 
-    onMounted(() => {
-      commit('common/setBackgroundColor', backgroundColor)
+    watchEffect(() => {
+      commit('common/setBackgroundColor', props.backgroundColor)
     })
 
     onBeforeUnmount(() => {
       commit('common/setBackgroundColor')
     })
-
-    return {
-      bgColor,
-    }
   },
 }
 </script>
@@ -55,8 +50,9 @@ export default {
     padding: #{$spacing-lg + $spacing-sm / 2} $spacing-lg 0;
 
     h1 {
-      margin-bottom: 70px;
+      margin: 5px 0 70px;
       text-align: center;
+      line-height: 135%;
     }
   }
 
