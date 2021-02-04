@@ -789,7 +789,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -805,7 +805,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -821,7 +821,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -837,7 +837,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -869,7 +869,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -885,7 +885,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -901,7 +901,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -916,7 +916,7 @@ class DataRowsTableSeeder extends Seeder
                 'display_name' => 'Комментарий',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
@@ -932,8 +932,8 @@ class DataRowsTableSeeder extends Seeder
                 'display_name' => 'Адрес',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 1,
+                'read'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -948,8 +948,8 @@ class DataRowsTableSeeder extends Seeder
                 'display_name' => 'Оплата онлайн',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 1,
+                'read'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -961,10 +961,10 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
-                'display_name' => 'Created At',
+                'display_name' => 'Время заказа',
                 'required'     => 0,
                 'browse'       => 0,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -1274,7 +1274,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required|max:150",
+                        "messages" => [
+                            "max" => "Вы ввели более 150 символов"
+                        ]
+                    ]
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -1374,7 +1381,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    'description' => 'Характеристики должны быть записаны через двуеточия от их значения, каждую новую характеристику нужно писать с новой строки'
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -1703,36 +1712,15 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($serviceExampleDataType, 'media');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'media_picker',
-                'display_name' => 'Медиа',
+                'type'         => 'multiple_images',
+                'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => [
-                    "max" => 10,
-                    "min" => 0,
-                    "expanded" => true,
-                    "show_folders" => true,
-                    "show_toolbar" => true,
-                    "allow_upload" => true,
-                    "allow_move" => true,
-                    "allow_delete" => true,
-                    "allow_create_folder" => true,
-                    "allow_rename" => true,
-                    "allow_crop" => true,
-                    "allowed" => [],
-                    "hide_thumbnails" => false,
-                    "quality" => 90,
-                    "watermark" => [
-                        "source" => "...",
-                        "position" => "top-left",
-                        "x" => 0,
-                        "y" => 0
-                    ]
-                ],
+                'details'      => '{}',
                 'order'        => 6,
             ])->save();
         }
