@@ -79,7 +79,7 @@ button {
     opacity: 0.75;
   }
 
-  &:hover:not(:disabled) {
+  &:hover:not(:disabled):not(.link) {
     background-color: $park;
   }
 

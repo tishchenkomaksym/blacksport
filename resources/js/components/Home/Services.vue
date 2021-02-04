@@ -23,22 +23,26 @@
         >
           <ServiceItem
             :data="service"
-            @open-order-modal="openOrderModal"
+            :examples-shown="examplesShownId === service.id"
+            @on-open-order-modal="openOrderModal"
+            @on-toggle-examples="onToggleExamples"
           />
-          <ScrollableContainer
-            class="services__list-examples"
-            v-if="!isMobile && examplesShown === service.id"
-          >
-            <template v-if="currentExamples.length">
-              <div :key="example.id" style="width: 192px" v-for="example in currentExamples">
-                <ServiceExample
-                  :data="example"
-                  @click="showServiceExampleModal(example.id)"
-                />
-              </div>
-            </template>
-            <p v-else>{{t('noExamples')}}</p>
-          </ScrollableContainer>
+          <transition name="service-examples-transition">
+            <ScrollableContainer
+              class="services__list-examples"
+              v-if="!isMobile && examplesShownId === service.id"
+            >
+              <template v-if="currentExamples.length">
+                <div :key="example.id" style="width: 192px" v-for="example in currentExamples">
+                  <ServiceExample
+                    :data="example"
+                    @click="showServiceExampleModal(example.id)"
+                  />
+                </div>
+              </template>
+              <p v-else>{{t('noExamples')}}</p>
+            </ScrollableContainer>
+          </transition>
         </div>
       </div>
     </div>
@@ -58,11 +62,12 @@
 </template>
 
 <script>
-import {computed, ref, onBeforeUnmount} from 'vue'
+import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
 import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
+
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
 import ServiceOrderModal from '../Services/ServiceOrderModal'
@@ -76,21 +81,19 @@ export default {
     ServiceExample,
     ScrollableContainer, ServiceExamplesModal, ServiceOrderModal, ServiceItem, PrevSectionButton},
   setup() {
-    const {state, commit} = useStore()
+    const {state} = useStore()
     const {t, locale} = useI18n()
     const {width} = useWindowSize()
     const isMobile = computed(() => width.value < 768)
     const services = computed(() => state.home.homeData.services)
     const selectedService = ref(null)
-    const examplesShown = computed(() => state.services.examplesShown)
+    const examplesShownId = ref(null)
     const selectedExample = ref(null)
-    const currentExamples = computed(() => {
-      return services.value.find(service => service.id === examplesShown.value).examples
-    })
+    const currentExamples = computed(() => services.value.find(({id}) => id === examplesShownId.value).examples)
 
-    onBeforeUnmount(() => {
-      commit('services/setExamplesShown', null)
-    })
+    const onToggleExamples = (id, examplesShown) => {
+      examplesShownId.value = examplesShown ? id : null
+    }
 
     const openOrderModal = (serviceId, serviceName) => {
       selectedService.value = {id: serviceId, name: serviceName}
@@ -117,9 +120,10 @@ export default {
         params: {locale: locale.value},
       })),
       selectedService,
+      onToggleExamples,
       openOrderModal,
       closeOrderModal,
-      examplesShown,
+      examplesShownId,
       selectedExample,
       currentExamples,
       showServiceExampleModal,
@@ -149,7 +153,7 @@ export default {
     @include landscape() {
       margin-top: 8px;
       height: 65vh;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     @include laptop() {
@@ -272,6 +276,18 @@ export default {
         text-transform: uppercase;
       }
     }
+  }
+}
+
+.service-examples-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.75s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateX(100%);
   }
 }
 </style>

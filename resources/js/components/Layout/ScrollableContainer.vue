@@ -32,12 +32,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    styles: {
-      type: Object,
-      default: {},
-    },
   },
-  setup({direction, gap, styles, vertical}) {
+  setup({direction, gap, vertical}) {
     /** @type import('vue').Ref<HTMLDivElement> */
     const slider = ref(null)
     const start = ref(0)
@@ -107,7 +103,6 @@ export default {
     }
 
     const sliderStyles = computed(() => ({
-      ...styles,
       '--gap': `${gap / 2}px`,
       direction,
     }))
