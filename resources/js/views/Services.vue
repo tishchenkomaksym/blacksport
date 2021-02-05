@@ -1,49 +1,54 @@
 <template>
   <PageLayout
-    :title="t('services')"
     background-color="smoke"
   >
-    <div class="services">
-      <div class="services__list" ref="servicesListRef" v-if="services.length">
-        <ServiceItem
-          :data="service"
-          :examples-shown="examplesShownId === service.id"
-          :key="service.id"
-          @on-toggle-examples="onToggleExamples"
-          @on-open-order-modal="onOpenOrderModal"
-          v-for="service in services"
-        />
-        <transition name="service-examples-transition">
-          <div
-            :key="JSON.stringify(examplesStyles)"
-            :style="examplesStyles"
-            class="services__examples-container"
-            v-if="examplesShownId !== null && !isMobile"
+    <template v-slot:title>
+      {{t('services')}}
+    </template>
+    <GradientContainer
+      class="services"
+      color="smoke"
+      ref="servicesListRef"
+      v-if="services.length"
+    >
+      <ServiceItem
+        :data="service"
+        :examples-shown="examplesShownId === service.id"
+        :key="service.id"
+        @on-toggle-examples="onToggleExamples"
+        @on-open-order-modal="onOpenOrderModal"
+        v-for="service in services"
+      />
+      <transition name="service-examples-transition">
+        <div
+          :key="JSON.stringify(examplesStyles)"
+          :style="examplesStyles"
+          class="services__examples-container"
+          v-if="examplesShownId !== null && !isMobile"
+        >
+          <ScrollableContainer
+            :class="{'services__examples--vertical': examplesPosition === 'vertical', 'services__examples--left': examplesPosition === 'left'}"
+            :vertical="examplesPosition === 'vertical'"
+            class="services__examples"
           >
-            <ScrollableContainer
-              :class="{'services__examples-vertical': examplesPosition === 'vertical', 'services__examples--left': examplesPosition === 'left'}"
-              :vertical="examplesPosition === 'vertical'"
-              class="services__examples"
-            >
-              <template v-if="currentExamples.length">
-                <div
-                  :key="example.id"
-                  :style="examplesPosition !== 'vertical' && `width: ${examplesStyles.height}`"
-                  v-for="example in currentExamples"
-                >
-                  <ServiceExample
-                    :data="example"
-                    @click="showServiceExampleModal(example.id)"
-                  />
-                </div>
-              </template>
-              <p v-else>{{t('noExamples')}}</p>
-            </ScrollableContainer>
-          </div>
-        </transition>
-      </div>
-      <p v-else>{{t('noServices')}}</p>
-    </div>
+            <template v-if="currentExamples.length">
+              <div
+                :key="example.id"
+                :style="examplesPosition !== 'vertical' && `width: ${examplesStyles.height}`"
+                v-for="example in currentExamples"
+              >
+                <ServiceExample
+                  :data="example"
+                  @click="showServiceExampleModal(example.id)"
+                />
+              </div>
+            </template>
+            <p v-else>{{t('noExamples')}}</p>
+          </ScrollableContainer>
+        </div>
+      </transition>
+    </GradientContainer>
+    <p v-else>{{t('noServices')}}</p>
     <ServiceOrderModal
       :service-id="selectedService.id"
       :service-name="selectedService.name"
@@ -70,10 +75,14 @@ import ServiceOrderModal from '../components/Services/ServiceOrderModal'
 import ScrollableContainer from '../components/Layout/ScrollableContainer'
 import ServiceExample from '../components/Services/ServiceExample'
 import ServiceExamplesModal from '../components/Services/ServiceExamplesModal'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Services',
-  components: {ServiceExamplesModal, ServiceExample, ScrollableContainer, ServiceOrderModal, ServiceItem, PageLayout},
+  components: {
+    GradientContainer,
+    ServiceExamplesModal, ServiceExample, ScrollableContainer, ServiceOrderModal, ServiceItem, PageLayout,
+  },
   setup() {
     const {dispatch, state} = useStore()
     const {width} = useWindowSize()
@@ -128,7 +137,7 @@ export default {
     const calculateExamplesStyles = () => {
       if (isMobile.value || examplesShownId.value === null) return
 
-      const element = servicesListRef.value.querySelector(`[data-id="${examplesShownId.value}"]`)
+      const element = servicesListRef.value.$el.querySelector(`[data-id="${examplesShownId.value}"]`)
       const elemWidth = element.offsetWidth
       const elemHeight = element.offsetHeight
 
@@ -149,7 +158,7 @@ export default {
       } else if (examplesPosition.value === 'vertical') {
         const serviceIndex = services.value.findIndex(service => service.id === examplesShownId.value)
         const rowBelowExists = !!services.value[serviceIndex + 2]
-        const nextRowHeight = rowBelowExists ? servicesListRef.value.querySelector(`[data-id="${services.value[serviceIndex + 2].id}"]`).offsetHeight : 0
+        const nextRowHeight = rowBelowExists ? servicesListRef.value.$el.querySelector(`[data-id="${services.value[serviceIndex + 2].id}"]`).offsetHeight : 0
         examplesStyles.value = {
           width: `${elemWidth + 1}px`,
           right: 0,
@@ -191,39 +200,41 @@ export default {
 @import "../assets/scss/breakpoints";
 
 .services {
-  @include laptop() {
+  @include tablets() {
     overflow: hidden;
     position: relative;
-    @include page-height;
-    @include container-gradients($smoke);
   }
 
-  &__list {
-    display: grid;
-    row-gap: $spacing-sm;
-    position: relative;
+  @include mobile-landscape() {
+    height: calc(#{$page-height} - 49px);
+  }
 
-    @include phones() {
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: $spacing;
-      column-gap: $spacing-md;
-    }
+  @media screen and (min-width: 768px) and (min-height: 768px) {
+    @include page-height;
+  }
 
-    @include tablets() {
-      overflow-x: hidden;
-    }
+  display: grid;
+  row-gap: $spacing-sm;
+  position: relative;
 
-    @include laptop() {
-      padding-top: $spacing-lg;
-      height: 100%;
-      box-sizing: border-box;
-      overflow-y: auto;
-      grid-template-columns: repeat(3, 1fr);
-    }
+  @include phones() {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: $spacing;
+    column-gap: $spacing-md;
+  }
 
-    @include large-desktop() {
-      column-gap: 62px;
-    }
+  @include tablets() {
+    overflow-x: hidden;
+  }
+
+  @include laptop() {
+    box-sizing: border-box;
+    overflow-y: auto;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include large-desktop() {
+    column-gap: 62px;
   }
 
   &__examples {
@@ -234,7 +245,7 @@ export default {
         background-color: $smoke;
       }
 
-      &-vertical {
+      &--vertical {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: $spacing;

@@ -48,25 +48,27 @@ export default {
 
   @include tablets() {
     padding: #{$spacing-lg + $spacing-sm / 2} $spacing-lg 0;
-
-    h1 {
-      margin: 5px 0 70px;
-      text-align: center;
-      line-height: 135%;
-    }
   }
 
   .page-heading {
     display: none;
 
     @include tablets() {
+      text-align: center;
+      line-height: 135%;
       max-width: 42.5%;
-      margin-left: auto;
-      margin-right: auto;
       display: block;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    @include mobile-landscape() {
+      margin: 5px auto 40px;
+    }
+
+    @media screen and (min-width: 768px) and (min-height: 768px) {
+      margin: 5px auto 70px;
     }
 
     @include laptop() {

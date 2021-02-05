@@ -11,6 +11,7 @@ const useGlide = (glideRef, elementRef, options = {}) => {
   const transitionTimeout = ref(0)
 
   const mountGlide = () => {
+    if (!elementRef.value) return
     glideRef.value = new Glide(elementRef.value, options)
       .on('resize', refreshGlide)
       // Fix blinking anchors after swipe end

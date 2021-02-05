@@ -97,7 +97,6 @@ export default {
 .service-order {
   max-width: 367px;
   margin: 0 auto;
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,6 +109,7 @@ export default {
 
   h2 {
     margin-bottom: 40px;
+    text-align: center;
   }
 
   .form-input {

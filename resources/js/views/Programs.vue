@@ -6,7 +6,7 @@
       {{t('programs')}}
     </template>
     <div class="programs">
-      <div class="programs__content">
+      <GradientContainer color="sole" class="programs__content">
         <div
           :key="program.id"
           class="programs__item"
@@ -15,7 +15,7 @@
           <ProgramItem :data="program" style="min-width: 0" />
           <ProgramRequestForm :program-id="program.id" />
         </div>
-      </div>
+      </GradientContainer>
     </div>
   </PageLayout>
 </template>
@@ -27,10 +27,11 @@ import {useI18n} from 'vue-i18n'
 import PageLayout from '../components/Layout/PageLayout'
 import ProgramItem from '../components/Programs/ProgramItem'
 import ProgramRequestForm from '../components/Programs/ProgramRequestForm'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Programs',
-  components: {ProgramRequestForm, ProgramItem, PageLayout},
+  components: {GradientContainer, ProgramRequestForm, ProgramItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
     const {t, locale} = useI18n()
@@ -54,15 +55,22 @@ export default {
 @import "../assets/scss/page-helpers";
 
 .programs {
-  @include laptop() {
+  @include tablets() {
     overflow: hidden;
     position: relative;
     @include page-height;
-    @include container-gradients($sole);
+  }
+
+  @include mobile-landscape() {
+    height: calc(#{$page-height} + #{$spacing-lg});
+  }
+
+  @media screen and (min-width: 768px) and (min-height: 768px) {
+    @include page-height;
   }
 
   &__content {
-    @include laptop() {
+    @include tablets() {
       height: 100%;
       overflow-y: auto;
     }

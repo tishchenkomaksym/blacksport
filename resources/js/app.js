@@ -13,10 +13,7 @@ import './assets/scss/index.scss'
 import '@glidejs/glide/src/assets/sass/glide.core.scss'
 
 axios.defaults.baseURL = process.env.MIX_API_URL
-axios.interceptors.response.use(value => {
-  console.log('response', value.data)
-  return value.data
-})
+axios.interceptors.response.use(value => value.data)
 
 createApp(App)
   .use(router)

@@ -123,7 +123,7 @@ export default {
     }
 
     &-item {
-      background-size: auto;
+      background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       filter: grayscale(90%);

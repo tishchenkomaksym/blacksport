@@ -7,7 +7,19 @@
  * @return {number}
  */
 export const scaleValue = (value, from, to) => {
-  const scale = (to[1] - to[0]) / (from[1] - from[0])
-  const capped = Math.min(from[1], Math.max(from[0], value)) - from[0]
-  return ~~(capped * scale + to[0])
+  return (value - from[0]) * (to[1] - to[0]) / (from[1] - from[0]) + to[0]
+}
+
+/**
+ * @description Convert HEX color to RGB
+ * @param {string} hex - Color HEX.
+ * @return {{r: number, b: number, g: number} | null}
+ */
+export const hexToRgb = hex => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16),
+  } : null
 }

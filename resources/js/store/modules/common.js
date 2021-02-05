@@ -11,8 +11,8 @@ import axios from 'axios'
 
 const GOOGLE_MAPS_API_KEY = process.env.MIX_GOOGLE_MAPS_API_KEY
 
-const COLORS = {
-  bgColor: '#000',
+export const COLORS = {
+  bgColor: '#000000',
   sole: '#0D0D0D',
   silt: '#1A1A1A',
   smoke: '#262626',

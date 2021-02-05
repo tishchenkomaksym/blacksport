@@ -31,11 +31,12 @@
         <span>{{t('toProducts')}}</span>
       </router-link>
 
-      <div class="product__grid">
+      <GradientContainer color="sole" class="product__grid">
         <div
-          :style="{backgroundImage: `url(${image})`}"
           class="product__image"
-        />
+        >
+          <img :src="image" :alt="product.title" :title="product.title">
+        </div>
         <div class="product__ordering">
           <div
             class="product__ordering-price"
@@ -72,7 +73,7 @@
             <span>{{paragraph.split(':')[1]}}</span>
           </p>
         </div>
-      </div>
+      </GradientContainer>
     </div>
   </PageLayout>
 </template>
@@ -86,10 +87,11 @@ import useImageStorage from '../hooks/useImageStorage'
 import useParseText from '../hooks/useParseText'
 import PageLayout from '../components/Layout/PageLayout'
 import {ROUTE_CONF} from '../router'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Product',
-  components: {PageLayout},
+  components: {GradientContainer, PageLayout},
   setup() {
     const {t, locale, n} = useI18n()
     const route = useRoute()
@@ -152,6 +154,7 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .product {
   &__back-link {
@@ -170,18 +173,40 @@ export default {
   }
 
   &__image {
+    height: 0;
     width: 100%;
     padding-bottom: 100%;
+    position: relative;
     margin-bottom: $spacing;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: calc(100% - 48px);
     background-color: white;
 
+    img {
+      width: calc((100vw * 224) / 320);
+      height: calc((100vw * 224) / 320);
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      @include tablets() {
+        width: 240px;
+        height: 240px;
+      }
+
+      @include desktop() {
+        width: 320px;
+        height: 320px;
+      }
+    }
+
     @include tablets() {
-      margin-bottom: initial;
       grid-row: 1 / span 2;
       align-self: start;
+    }
+
+    @include desktop() {
+      margin-bottom: initial;
     }
   }
 
@@ -247,7 +272,7 @@ export default {
     }
 
     @include desktop() {
-      grid-row: 1 / span 2;
+      grid-row: 1 / span 3;
       grid-column: 3;
     }
 
@@ -270,13 +295,17 @@ export default {
     @include tablets() {
       display: grid;
       grid-template-columns: 330px 1fr;
-      grid-template-rows: 1fr 50px 1fr;
+      grid-template-rows: auto 50px auto;
       column-gap: $spacing-md;
+      max-height: calc(#{$page-height} - 57px);
+      overflow-y: auto;
     }
 
     @include desktop() {
+      max-height: initial;
+      overflow-y: initial;
       grid-template-columns: 440px 1fr 1fr;
-      grid-template-rows: minmax(390px, 1fr) 50px;
+      grid-template-rows: auto 50px auto;
     }
 
     @include large-desktop() {

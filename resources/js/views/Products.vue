@@ -61,18 +61,16 @@
         </div>
       </div>
 
-      <div class="products__container" v-if="width >= 1024 || !categoryDropdownShown">
-        <div class="products__list">
-          <template v-if="(route.query.category ? categoryProducts : products).length">
-            <ProductItem
-              :key="product.id"
-              :data="product"
-              v-for="product in (route.query.category ? categoryProducts : products)"
-            />
-          </template>
-          <p v-else>{{t('emptyCategory')}}</p>
-        </div>
-      </div>
+      <GradientContainer color="sole" class="products__list" v-if="width >= 1024 || !categoryDropdownShown">
+        <template v-if="(route.query.category ? categoryProducts : products).length">
+          <ProductItem
+            :key="product.id"
+            :data="product"
+            v-for="product in (route.query.category ? categoryProducts : products)"
+          />
+        </template>
+        <p v-else>{{t('emptyCategory')}}</p>
+      </GradientContainer>
     </div>
   </PageLayout>
 </template>
@@ -84,12 +82,14 @@ import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../router'
 import useWindowSize from '../hooks/useWindowSize'
+
 import PageLayout from '../components/Layout/PageLayout'
 import ProductItem from '../components/Products/ProductItem'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Products',
-  components: {ProductItem, PageLayout},
+  components: {GradientContainer, ProductItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
     const {t, locale} = useI18n()
@@ -140,6 +140,7 @@ export default {
 
 .products {
   @include laptop() {
+    margin-top: #{-$spacing-lg};
     display: flex;
     align-items: flex-start;
   }
@@ -232,26 +233,27 @@ export default {
     }
   }
 
-  &__container {
-    @include laptop() {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      @include page-height;
-      @include container-gradients($sole);
-    }
-  }
-
   &__list {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: $spacing;
 
-    @include laptop() {
-      max-height: 100%;
-      padding-top: $spacing-lg;
+    @include tablets() {
       overflow-y: auto;
+    }
+
+    @include mobile-landscape() {
+      max-height: $page-height;
+    }
+
+    @media screen and (min-width: 768px) and (min-height: 768px) {
+      max-height: calc(#{$page-height} - #{$spacing-lg});
+    }
+
+    @include laptop() {
+      max-height: calc(#{$page-height} + #{$spacing-lg});
+      padding-top: $spacing-lg;
       grid-template-columns: repeat(3, 1fr);
       column-gap: $spacing-md;
       row-gap: $spacing-lg;
