@@ -91,7 +91,7 @@ class AboutController extends Controller
 //        dd(Page::with('viewTexts')
 //               ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get());
         $texts = $this->translateService->translate($locale, Page::with('viewTexts')
-                                         ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get(), Page::class);
+                                         ->whereIn('page_key', ['made', 'partners', 'ambassadors', 'about'])->get(), Page::class);
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
         list($ambassadors, $partners) = $this->translateService->translateAbout($locale, $ambassadors, $partners);
