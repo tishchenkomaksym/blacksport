@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function __construct(TranslateService $translate_service)
     {
-
         $this->translate_service = $translate_service;
     }
 

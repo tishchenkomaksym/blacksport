@@ -41,7 +41,7 @@ class Service extends Model
 
     protected $table = 'services';
     public $timestamps = true;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'show_on_main'];
 
     public function examples()
     {
