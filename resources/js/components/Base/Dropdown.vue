@@ -5,7 +5,8 @@
     v-click-away="onClickAway"
   >
     <div
-      @click="isOpen = !isOpen"
+      :class="{'select__label--disabled': disabled}"
+      @click="() => disabled ? null : isOpen = !isOpen"
       class="select__label"
     >
       <span>{{modelValue ? modelValue.value : placeholder}}</span>
@@ -19,6 +20,7 @@
           class="select__label__arrow"
           viewBox="0 0 16 9"
           xmlns="http://www.w3.org/2000/svg"
+          v-if="!disabled"
         >
           <path
             fill-rule="evenodd"
@@ -42,7 +44,7 @@
             :key="option.id"
             @click="selectOption(option)"
             class="select__dropdown__list-item"
-            v-for="option in options.filter(item => modelValue ? item.id !== modelValue.id : true)"
+            v-for="option in availableOptions"
           >
             <span>{{option.value}}</span>
             <span
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import {ref, watch} from 'vue'
+import {computed, ref, watch} from 'vue'
 import {useI18n} from 'vue-i18n'
 
 import TransitionExpand from './TransitionExpand'
@@ -80,15 +82,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'update:modelValue',
     'search-change',
   ],
-  setup({options, modelValue}, {emit}) {
+  setup(props, {emit}) {
     const {t} = useI18n()
     const isOpen = ref(false)
     const searchValue = ref('')
+    const availableOptions = computed(() => {
+      return props.options.filter(item => props.modelValue ? item.id !== props.modelValue.id : true)
+    })
+
     const selectOption = option => {
       emit('update:modelValue', option)
       isOpen.value = false
@@ -102,6 +112,7 @@ export default {
       t,
       isOpen,
       searchValue,
+      availableOptions,
       selectOption,
       onClickAway,
     }
@@ -137,6 +148,10 @@ export default {
 
     @include tablets() {
       padding: $spacing $spacing $spacing-sm;
+    }
+
+    &--disabled {
+      cursor: initial;
     }
 
     > span {

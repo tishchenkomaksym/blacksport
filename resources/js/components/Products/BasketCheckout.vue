@@ -8,6 +8,7 @@
         <h3>{{t('deliveryMethod')}}</h3>
         <Dropdown
           :options="deliveryMethods"
+          disabled
           v-model="selectedDeliveryMethod"
         />
 

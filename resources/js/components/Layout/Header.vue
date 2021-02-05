@@ -142,7 +142,7 @@ export default {
   left: $spacing;
   opacity: 0.2;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   transition: opacity 0.3s ease-in-out;
 
   &:hover {
@@ -165,7 +165,7 @@ export default {
 
 .right-panel {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: $spacing-md - $spacing-sm / 4;
   right: $spacing;
   display: grid;
@@ -174,7 +174,7 @@ export default {
   column-gap: 10px;
 
   @include tablets() {
-    top: $spacing-lg + $spacing-sm / 2;
+    top: $spacing-lg + $spacing-sm / 2 + 2px;
     right: $spacing-lg;
     grid-template-columns: repeat(3, auto);
   }

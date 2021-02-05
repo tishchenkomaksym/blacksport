@@ -53,7 +53,7 @@ export default {
     fill: $text-color;
     transition: fill 0.3s ease-in-out;
 
-    @include laptop() {
+    @include tablets() {
       width: $spacing-md;
       height: 22px;
     }
