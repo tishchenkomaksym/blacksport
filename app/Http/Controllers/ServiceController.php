@@ -46,7 +46,8 @@ class ServiceController extends Controller
      *                      @OA\Property(property="name", type="string"),
      *                      @OA\Property(property="description", type="string"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="show_on_main", type="boolean"),
      *                  )
      *              )
      *       )

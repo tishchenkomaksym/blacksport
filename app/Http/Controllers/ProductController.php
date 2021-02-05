@@ -56,7 +56,8 @@ class ProductController extends Controller
      *                             @OA\Property(property="url", type="string"),
      *                             @OA\Property(property="image", type="string"),
      *                             @OA\Property(property="created_at", type="string"),
-     *                             @OA\Property(property="updated_at", type="string")
+     *                             @OA\Property(property="updated_at", type="string"),
+     *                             @OA\Property(property="show_on_main", type="boolean"),
      *                            )
      *                      )
      *                  )
@@ -102,7 +103,8 @@ class ProductController extends Controller
      *                      @OA\Property(property="image", type="string"),
      *                      @OA\Property(property="category_id", type="integer"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="show_on_main", type="boolean"),
      *                  )
      *              )
      *       )
@@ -146,7 +148,8 @@ class ProductController extends Controller
      *                      @OA\Property(property="image", type="string"),
      *                      @OA\Property(property="category_id", type="integer"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="show_on_main", type="boolean"),
      *                  )
      *              )
      *       )
