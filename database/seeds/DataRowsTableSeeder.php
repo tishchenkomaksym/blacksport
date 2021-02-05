@@ -1319,6 +1319,22 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($serviceDataType, 'show_on_main');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Отобразить на главной',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 7,
+            ])->save();
+        }
+
         $productDataType = DataType::where('slug', 'products')->firstOrFail();
 
 
@@ -1374,7 +1390,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text_area',
-                'display_name' => 'Спецификации',
+                'display_name' => 'Характеристики',
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
@@ -1514,6 +1530,22 @@ class DataRowsTableSeeder extends Seeder
                     "taggable" => "0"
                 ],
                 'order'        => 11,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($productDataType, 'show_on_main');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Отобразить на главной',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 12,
             ])->save();
         }
 
