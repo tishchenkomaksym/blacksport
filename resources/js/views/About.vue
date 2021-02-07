@@ -1,7 +1,5 @@
 <template>
-  <PageLayout
-    background-color="park"
-  >
+  <PageLayout background-color="park">
     <template v-slot:title>
       {{t('about')}}
     </template>
@@ -12,8 +10,7 @@
           <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         </div>
         <h1>{{t('about')}}</h1>
-<!--        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>-->
-<!--        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>-->
+        <p :key="i" v-for="(paragraph, i) in aboutParagraphs">{{paragraph}}</p>
       </div>
 
       <div class="about__container">
@@ -36,6 +33,8 @@
 import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
+import useParseText from '../hooks/useParseText'
+
 import PageLayout from '../components/Layout/PageLayout'
 import Achievements from '../components/About/Achievements'
 import Partners from '../components/About/Partners'
@@ -46,8 +45,10 @@ export default {
   components: {Ambassadors, Partners, Achievements, PageLayout},
   setup() {
     const {t, locale} = useI18n()
-    const {dispatch} = useStore()
+    const {dispatch, state} = useStore()
     const missionImageSrc = computed(() => locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
+    const aboutText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'about') || {})
+    const aboutParagraphs = computed(() => useParseText(aboutText.value.meta_description || '').value)
 
     watchEffect(() => {
       dispatch('pages/getAbout', locale.value)
@@ -56,6 +57,7 @@ export default {
     return {
       t,
       missionImageSrc,
+      aboutParagraphs,
     }
   },
 }
@@ -74,6 +76,7 @@ export default {
   &__images {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: $spacing-md;
 
     @include tablets() {

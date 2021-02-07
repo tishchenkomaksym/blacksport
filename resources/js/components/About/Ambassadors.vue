@@ -16,6 +16,7 @@
     >
       <li class="ambassadors__grid__item"
           :key="ambassador.id"
+          :title="ambassador.description"
           v-for="(ambassador, i) in ambassadors"
       >
         <div

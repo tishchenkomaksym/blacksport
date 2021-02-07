@@ -24,7 +24,6 @@
           <ServiceItem
             :data="service"
             :examples-shown="examplesShownId === service.id"
-            @on-open-order-modal="openOrderModal"
             @on-toggle-examples="onToggleExamples"
           />
           <transition name="service-examples-transition">
@@ -46,18 +45,6 @@
         </div>
       </div>
     </div>
-    <ServiceOrderModal
-      :service-id="selectedService.id"
-      :service-name="selectedService.name"
-      @close-modal="closeOrderModal"
-      v-if="!!selectedService"
-    />
-    <ServiceExamplesModal
-      :current-example="selectedExample"
-      :examples="currentExamples"
-      @close-modal="closeServiceExampleModal"
-      v-if="!isMobile && selectedExample !== null"
-    />
   </section>
 </template>
 
@@ -70,45 +57,31 @@ import {ROUTE_CONF} from '../../router'
 
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
-import ServiceOrderModal from '../Services/ServiceOrderModal'
 import ServiceExamplesModal from '../Services/ServiceExamplesModal'
 import ScrollableContainer from '../Layout/ScrollableContainer'
 import ServiceExample from '../Services/ServiceExample'
 
 export default {
   name: 'Services',
-  components: {
-    ServiceExample,
-    ScrollableContainer, ServiceExamplesModal, ServiceOrderModal, ServiceItem, PrevSectionButton},
+  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, ServiceItem, PrevSectionButton},
   setup() {
-    const {state} = useStore()
+    const {commit, state} = useStore()
     const {t, locale} = useI18n()
     const {width} = useWindowSize()
     const isMobile = computed(() => width.value < 768)
     const services = computed(() => state.home.homeData.services)
-    const selectedService = ref(null)
     const examplesShownId = ref(null)
-    const selectedExample = ref(null)
     const currentExamples = computed(() => services.value.find(({id}) => id === examplesShownId.value).examples)
 
     const onToggleExamples = (id, examplesShown) => {
       examplesShownId.value = examplesShown ? id : null
     }
 
-    const openOrderModal = (serviceId, serviceName) => {
-      selectedService.value = {id: serviceId, name: serviceName}
-    }
-
-    const closeOrderModal = () => {
-      selectedService.value = null
-    }
-
     const showServiceExampleModal = serviceId => {
-      selectedExample.value = serviceId
-    }
-
-    const closeServiceExampleModal = () => {
-      selectedExample.value = null
+      commit('common/setShownServiceExample', {
+        example: serviceId,
+        examples: services.value.find(service => service.id === examplesShownId.value).examples,
+      })
     }
 
     return {
@@ -119,15 +92,10 @@ export default {
         name: ROUTE_CONF.SERVICES.name,
         params: {locale: locale.value},
       })),
-      selectedService,
       onToggleExamples,
-      openOrderModal,
-      closeOrderModal,
       examplesShownId,
-      selectedExample,
       currentExamples,
       showServiceExampleModal,
-      closeServiceExampleModal,
     }
   }
 }

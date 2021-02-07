@@ -1,5 +1,5 @@
 <template>
-  <PageLayout>
+  <PageLayout background-color="bgColor">
     <template v-slot:title>
       <router-link
         :to="newsLink"
@@ -8,7 +8,7 @@
         {{t('news')}}
       </router-link> <span v-if="article.title">• {{article.title}}</span>
     </template>
-    <div class="article">
+    <GradientContainer color="bgColor" class="article">
       <div
         :class="{'article__images--disabled': width >= 1024}"
         class="glide article__images"
@@ -28,30 +28,37 @@
             </li>
           </ul>
         </div>
-      </div>
-
-      <div class="article__main">
-        <div
-          @wheel="onTextWheel"
-          @scroll="onTextScroll"
-          class="article__main__content"
-          ref="textContainer"
-        >
-          <h2>{{article.title}}</h2>
-          <p
+        <div class="article__images-navigation" data-glide-el="controls[nav]">
+          <button
             :key="i"
-            v-for="(paragraph, i) in articleText"
-          >
-            {{paragraph}}
-          </p>
+            :class="{active: currentSlide === i}"
+            :data-glide-dir="`=${i}`"
+            v-for="(image, i) in images"
+          ></button>
         </div>
       </div>
-    </div>
+
+      <GradientContainer
+        @wheel="onTextWheel"
+        @scroll="onTextScroll"
+        class="article__main"
+        color="bgColor"
+        ref="textContainer"
+      >
+        <h2>{{article.title}}</h2>
+        <p
+          :key="i"
+          v-for="(paragraph, i) in articleText"
+        >
+          {{paragraph}}
+        </p>
+      </GradientContainer>
+    </GradientContainer>
   </PageLayout>
 </template>
 
 <script>
-import {computed, ref, watch} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
@@ -59,13 +66,15 @@ import useImageStorage from '../hooks/useImageStorage'
 import useParseText from '../hooks/useParseText'
 import useGlide from '../hooks/useGlide'
 import useWindowSize from '../hooks/useWindowSize'
-import PageLayout from '../components/Layout/PageLayout'
 import {ROUTE_CONF} from '../router'
 import {scaleValue} from '../helpers'
 
+import PageLayout from '../components/Layout/PageLayout'
+import GradientContainer from '../components/Layout/GradientContainer'
+
 export default {
   name: 'Article',
-  components: {PageLayout},
+  components: {GradientContainer, PageLayout},
   setup() {
     const {dispatch} = useStore()
     const route = useRoute()
@@ -90,10 +99,11 @@ export default {
       },
     })
     const images = computed(() => useImageStorage(article.value?.images || '').value)
+    const currentSlide = ref(0)
+    const intervalRef = ref(0)
 
     const description = computed(() => article.value?.description || '')
     const articleText = computed(() => useParseText(description.value).value)
-    /** @type import('vue').Ref<HTMLDivElement> */
     const textContainer = ref(null)
     const wheelAccum = ref(0) // Used for Wheel event when the text container isn't scrollable
     const isScrolling = ref(0) // Used for tracking Scroll event. Wheel event isn't fired in this case
@@ -122,7 +132,7 @@ export default {
      * @param event {WheelEvent}
     */
     const onTextWheel = event => {
-      const isScrollable = textContainer.value.scrollHeight > textContainer.value.offsetHeight
+      const isScrollable = textContainer.value.$el.scrollHeight > textContainer.value.$el.offsetHeight
       if (width.value < 1024 || wheelAccum.value + Math.sign(event.deltaY) < 0 || isScrollable) return
 
       wheelAccum.value += Math.sign(event.deltaY)
@@ -136,15 +146,25 @@ export default {
       // Fire scroll event only when scroll is finished
       clearTimeout(isScrolling.value)
       isScrolling.value = setTimeout(() => {
-        const scrollHeight = textContainer.value.scrollHeight - textContainer.value.offsetHeight
-        const currentScroll = textContainer.value.scrollTop
-        const imageIndex = scaleValue(currentScroll, [0, scrollHeight], [0, images.value.length - 1])
+        const scrollHeight = textContainer.value.$el.scrollHeight - textContainer.value.$el.offsetHeight
+        const currentScroll = textContainer.value.$el.scrollTop
+        const imageIndex = Math.round(scaleValue(currentScroll, [0, scrollHeight], [0, images.value.length - 1]))
         glide.value.go(`=${imageIndex}`)
       }, 66)
     }
 
     watch(wheelAccum, (scrollAccum, prevScrollAccum) => {
       if (scrollAccum % 4 === 0) glide.value.go(scrollAccum > prevScrollAccum ? '>' : '<')
+    })
+
+    onMounted(() => {
+      intervalRef.value = setInterval(() => {
+        currentSlide.value = glide.value.index
+      }, 250)
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(intervalRef.value)
     })
 
     return {
@@ -157,6 +177,7 @@ export default {
       onTextWheel,
       onTextScroll,
       width,
+      currentSlide,
       newsLink: computed(() => ({
         name: ROUTE_CONF.NEWS.name,
         params: {locale: locale.value},
@@ -172,10 +193,23 @@ export default {
 @import "../assets/scss/page-helpers";
 
 .article {
+  @include tablets() {
+    overflow-y: auto;
+  }
+
+  @include mobile-landscape() {
+    height: calc(#{$page-height} + #{$spacing-lg});
+  }
+
+  @media screen and (min-width: 768px) and (min-height: 768px) {
+    @include page-height;
+  }
+
   @include laptop() {
     display: grid;
     grid-template-columns: 560px 1fr;
     column-gap: $spacing-lg;
+    overflow-y: initial;
     @include page-height;
   }
 
@@ -195,18 +229,43 @@ export default {
         padding-bottom: $page-height;
       }
     }
+
+    &-navigation {
+      padding: $spacing $spacing-lg 0;
+      display: flex;
+      justify-content: center;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      bottom: $spacing-lg;
+
+      button {
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border-radius: 8px;
+        border: 1px solid $text-color;
+        transition: background-color 0.3s ease-in-out;
+
+        &:not(:last-child) {
+          margin-right: $spacing;
+        }
+
+        &.active {
+          background-color: $text-color;
+        }
+      }
+
+      @include laptop() {
+        display: none;
+      }
+    }
   }
 
   &__main {
-    overflow: hidden;
-    position: relative;
-    @include container-gradients($bg-color);
-
     @include laptop() {
-      &__content {
-        height: 100%;
-        overflow-y: auto;
-      }
+      overflow-y: auto;
+      @include page-height;
     }
   }
 }

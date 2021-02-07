@@ -1,6 +1,10 @@
 <template>
   <transition appear name="slide">
-    <div class="languages" v-if="!isHidden">
+    <div
+      :class="{'languages--blurred': shownServiceExample || shownServiceOrder}"
+      class="languages"
+      v-if="!isHidden"
+    >
       <div class="languages__item languages__item--active">
         {{locale}}
       </div>
@@ -37,12 +41,16 @@ export default {
       const currentRoute = Object.values(ROUTE_CONF).find(({name}) => name === useRoute().matched[0]?.name)
       return (currentRoute || ROUTE_CONF.HOME).path
     })
+    const shownServiceExample = computed(() => state.common.shownServiceExample)
+    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
     const {width} = useWindowSize()
     const menuShown = computed(() => state.common.menuShown)
 
     const switchLocale = newLocale => locale.value = newLocale
 
     return {
+      shownServiceExample,
+      shownServiceOrder,
       locale,
       switchLocale,
       currentRoute,
@@ -60,10 +68,11 @@ export default {
 .languages {
   display: flex;
   flex-flow: row-reverse;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   right: $spacing-md;
   bottom: $spacing-md;
+  transition: filter 0.3s ease-in-out;
 
   @include tablets() {
     display: initial;
@@ -79,6 +88,10 @@ export default {
         will-change: opacity, transform;
       }
     }
+  }
+
+  &--blurred {
+    filter: blur(16px);
   }
 
   &__item {

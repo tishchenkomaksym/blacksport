@@ -1,7 +1,5 @@
 <template>
-  <PageLayout
-    background-color="sole"
-  >
+  <PageLayout background-color="sole" class="contacts-wrapper">
     <template v-slot:title>
       {{t('contacts')}}
     </template>
@@ -76,6 +74,10 @@ export default {
 
 .contacts {
   position: relative;
+
+  &-wrapper {
+    max-width: initial;
+  }
 
   &__categories {
     margin-bottom: $spacing;

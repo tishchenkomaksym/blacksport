@@ -2,9 +2,11 @@
   <article class="product-item">
     <router-link
       :to="productLink"
-      :style="{backgroundImage: `url(${image})`}"
+      :title="data.title"
       class="product-item__image"
-    />
+    >
+      <img :src="image" :alt="data.title" />
+    </router-link>
     <div class="product-item__info">
       <div class="product-item__info-title">
         <router-link class="basic" :to="productLink">
@@ -52,15 +54,15 @@ export default {
   props: {
     data: Object,
   },
-  setup({data}) {
+  setup(props) {
     const {t, locale, n} = useI18n()
     const {commit, dispatch, state} = useStore()
     const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const {width} = useWindowSize()
     const isInBasket = computed(() => {
-      return !!Object.keys(state.products.basket).find(key => +key === data.id)
+      return !!Object.keys(state.products.basket).find(key => +key === props.data.id)
     })
-    const image = useImageStorage(data.image, true)
+    const image = useImageStorage(props.data.image, true)
 
     const addToBasket = productId => {
       dispatch('products/addToBasket', {productId})
@@ -77,7 +79,7 @@ export default {
       openBasket,
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
-        params: {locale: locale.value, id: data.id},
+        params: {locale: locale.value, id: props.data.id},
       })),
       isInBasket,
       image,
@@ -97,16 +99,41 @@ export default {
 
   &__image {
     display: block;
+    height: 0;
     width: 100%;
     padding-bottom: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: calc(100% - #{$spacing-lg + $spacing-sm});
+    position: relative;
     background-color: white;
     transition: background-size 0.3s ease-in-out;
 
     &:hover {
-      background-size: calc(100% - 36px);
+      img {
+        width: calc((100vw * 118) / 320);
+        height: calc((100vw * 118) / 320);
+      }
+
+      @include laptop() {
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+    }
+
+    img {
+      width: calc((100vw * 112) / 320);
+      height: calc((100vw * 112) / 320);
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease-in-out;
+
+      @include laptop() {
+        width: 184px;
+        height: 184px;
+      }
     }
   }
 

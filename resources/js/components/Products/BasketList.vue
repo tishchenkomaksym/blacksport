@@ -7,7 +7,11 @@
     </div>
     <div class="basket-list__body">
       <template v-if="productNumber > 0">
-        <div class="basket-list__body-main">
+        <div
+          :class="{'basket-list__body-main--padded': isPadded}"
+          class="basket-list__body-main"
+          ref="productList"
+        >
           <BasketProduct
             :key="productId"
             :product-id="productId"
@@ -35,7 +39,7 @@
 </template>
 
 <script>
-import {computed} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
@@ -63,8 +67,24 @@ export default {
     const productIds = computed(() => Object.keys(basket.value))
     const productNumber = computed(() => getters['products/productNumber'])
     const {width} = useWindowSize()
+    const productList = ref(null)
+    const resizeObserver = ref(null)
+    const isPadded = ref(false)
 
     const proceedCheckout = () => emit('on-next-step')
+
+    const checkPaddings = () => {
+      isPadded.value = productList.value.offsetHeight < productList.value.scrollHeight
+    }
+
+    onMounted(() => {
+      resizeObserver.value = new ResizeObserver(checkPaddings)
+      resizeObserver.value.observe(productList.value)
+    })
+
+    onBeforeUnmount(() => {
+      resizeObserver.value.disconnect()
+    })
 
     return {
       t,
@@ -74,6 +94,8 @@ export default {
       productIds,
       productNumber,
       proceedCheckout,
+      isPadded,
+      productList,
     }
   },
 }
@@ -85,9 +107,43 @@ export default {
 @import "../../assets/scss/page-helpers";
 
 .basket-list {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  height: calc(100% - 80px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow-y: auto;
+  position: relative;
+
+  @include tablets() {
+    height: 100%;
+    overflow-y: initial;
+
+    &::before, &::after {
+      width: 100vw;
+      height: 50vh;
+      left: #{-$spacing-lg};
+      display: block;
+      content: "";
+      position: absolute;
+      background-color: $bg-color;
+      pointer-events: none;
+      z-index: -1;
+
+      @include large-desktop() {
+        width: 150vw;
+        left: -50vw;
+      }
+    }
+
+    &::before {
+      top: 0;
+      transform: translateY(calc(-100% + 44px));
+    }
+
+    &::after {
+      bottom: 0;
+      transform: translateY(calc(100% - 53px));
+    }
+  }
 
   &__header {
     padding: 0 $spacing;
@@ -116,9 +172,7 @@ export default {
   }
 
   &__body {
-    padding: $spacing-sm $spacing 0;
-    flex-grow: 1;
-    overflow-y: auto;
+    padding: $spacing-sm $spacing $spacing-lg;
 
     @include tablets() {
       padding: initial;
@@ -128,6 +182,10 @@ export default {
     }
 
     &-main {
+      &--padded {
+        padding-right: $spacing;
+      }
+
       > article {
         margin-bottom: $spacing;
 
@@ -151,8 +209,14 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    position: fixed;
+    width: 100vw;
+    box-sizing: border-box;
+    bottom: 0;
 
     @include tablets() {
+      width: initial;
+      position: initial;
       padding: initial;
       background-color: initial;
       flex-direction: row-reverse;

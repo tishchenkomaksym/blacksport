@@ -2,10 +2,12 @@
   <article class="basket-product">
     <router-link
       :to="productLink"
+      :title="product.title"
       @click.prevent="openProduct"
-      :style="{backgroundImage: `url(${image})`}"
       class="basket-product__image"
-    />
+    >
+      <img :src="image" :alt="product.title" />
+    </router-link>
     <router-link
       :to="productLink"
       @click.prevent="openProduct"
@@ -76,7 +78,7 @@ export default {
       required: true,
     },
   },
-  setup({productId}) {
+  setup(props) {
     const {commit, dispatch, state} = useStore()
     const {locale, n} = useI18n()
     const router = useRouter()
@@ -84,16 +86,16 @@ export default {
     const product = ref({})
     const basket = computed(() => state.products.basket)
     const isLoading = ref(false)
-    const productCount = computed(() => basket.value[productId])
+    const productCount = computed(() => basket.value[props.productId])
     const totalPrice = computed(() => (product.value?.price || 0) * productCount.value)
     const image = computed(() => useImageStorage(product.value?.image, true).value)
     const productLink = computed(() => ({
       name: ROUTE_CONF.PRODUCT.name,
-      params: {locale: locale.value, id: productId},
+      params: {locale: locale.value, id: props.productId},
     }))
 
     watch(locale, async (locale) => {
-      product.value = await dispatch('products/getProduct', {productId, locale})
+      product.value = await dispatch('products/getProduct', {productId: props.productId, locale})
     }, {immediate: true})
 
     const openProduct = () => {
@@ -112,11 +114,11 @@ export default {
     }
 
     const changeQuantity = count => {
-      updateProduct(() => dispatch('products/updateBasket', {productId, count: productCount.value + count}))
+      updateProduct(() => dispatch('products/updateBasket', {productId: props.productId, count: productCount.value + count}))
     }
 
     const deleteProduct = () => {
-      updateProduct(() => dispatch('products/deleteFromBasket', productId))
+      updateProduct(() => dispatch('products/deleteFromBasket', props.productId))
     }
 
     return {
@@ -160,15 +162,39 @@ export default {
   &__image {
     display: block;
     width: 100%;
+    height: 0;
     padding-bottom: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: calc(100% - #{$spacing - $spacing-sm / 2});
+    position: relative;
     background-color: white;
-    transition: background-size 0.3s ease-in-out;
 
     &:hover {
-      background-size: calc(100% - #{$spacing-sm});
+      img {
+        width: calc((100vw * 70) / 320);
+        height: calc((100vw * 70) / 320);
+      }
+
+      @include tablets() {
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    img {
+      width: calc((100vw * 60) / 320);
+      height: calc((100vw * 60) / 320);
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease-in-out;
+
+      @include tablets() {
+        width: 87px;
+        height: 87px;
+      }
     }
   }
 

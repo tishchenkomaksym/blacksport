@@ -16,8 +16,8 @@ export default {
       required: true,
     },
   },
-  setup({data}) {
-    const image = useImageStorage(JSON.parse(data.media)[0], true)
+  setup(props) {
+    const image = useImageStorage(JSON.parse(props.data.media)[0], true)
 
     return {
       image,

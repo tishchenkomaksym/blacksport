@@ -33,11 +33,11 @@ export default {
   props: {
     data: Object,
   },
-  setup({data}) {
-    const images = useImageStorage(data.images)
+  setup(props) {
+    const images = useImageStorage(props.data.images)
     const imagesSlider = ref(null)
     const glide = ref(null)
-    const description = useParseText(data.description)
+    const description = useParseText(props.data.description)
 
     useGlide(glide, imagesSlider, {
       perView: 4,
@@ -45,9 +45,6 @@ export default {
       bound: true,
       rewind: false,
       breakpoints: {
-        768: {
-          peek: {before: 40, after: 40},
-        },
         450: {
           perView: 1,
           peek: {before: 16, after: 104},
@@ -75,11 +72,6 @@ export default {
     transform: translateX($spacing);
 
     @include tablets() {
-      margin: 0 0 0 #{-$spacing-lg * 2};
-      transform: translateX($spacing-lg);
-    }
-
-    @include laptop() {
       width: 100%;
       margin: 0;
       transform: none;

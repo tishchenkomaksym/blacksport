@@ -160,7 +160,7 @@ export default {
   emits: [
     'on-next-step',
   ],
-  setup({products}, {emit}) {
+  setup(props, {emit}) {
     const {width} = useWindowSize()
     const {t, locale, n} = useI18n()
     const {dispatch} = useStore()
@@ -185,6 +185,7 @@ export default {
       },
     })
     const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
+    const isLoading = ref(false)
 
     // General delivery methods
     const deliveryMethods = computed(() => [
@@ -278,13 +279,15 @@ export default {
     watch(selectedNpDeliveryMethod, () => selectedPaymentMethod.value = {...paymentMethods.value[0]}) // Set default payment method on NP delivery method change
 
     const canConfirm = computed(() => {
-      if (selectedNpDeliveryMethod.value.id === 1) {
+      if (isLoading.value) return false
+      else if (selectedNpDeliveryMethod.value.id === 1) {
         return !!selectedCity.value && !!selectedPostOffice.value
       } else if (selectedNpDeliveryMethod.value.id === 2) {
         return !!selectedCity.value
       }
     })
     const confirmOrder = handleSubmit(async ({address, name, lastname, patronymic, phone, email, comment}) => {
+      isLoading.value = true
       const client = {
         delivery: selectedDeliveryMethod.value.value,
         payment_method: selectedPaymentMethod.value.value,
@@ -297,14 +300,15 @@ export default {
         comment,
       }
       try {
-        const response = await basketApi.proceedPayment(products, client)
+        const response = await basketApi.proceedPayment(props.products, client)
         if (response.url) window.open(response.url, '_blank')
-        await dispatch('products/deleteBasket', products.map(({id}) => id)) // Clear basket
+        await dispatch('products/deleteBasket', props.products.map(({id}) => id)) // Clear basket
         sessionStorage.removeItem('checkoutInfo')
         emit('on-next-step')
       } catch (err) {
         console.error(err)
       }
+      isLoading.value = false
     })
 
     const onInputChanged = (field, value) => {
@@ -361,9 +365,12 @@ export default {
 
 .basket-checkout {
   height: calc(100vh - 50px);
+  /* iOS Safari mobile viewport bug fix */
+  height: -webkit-fill-available;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 $spacing;
+  padding: 0 $spacing $spacing-md + $spacing-sm;
+  box-sizing: border-box;
 
   @include tablets() {
     height: calc(100vh - 200px);

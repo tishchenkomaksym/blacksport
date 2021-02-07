@@ -33,7 +33,7 @@ export default {
       default: false,
     },
   },
-  setup({direction, gap, vertical}) {
+  setup(props) {
     /** @type import('vue').Ref<HTMLDivElement> */
     const slider = ref(null)
     const start = ref(0)
@@ -42,9 +42,9 @@ export default {
     const velocity = ref(0)
     const momentumId = ref(null)
 
-    const pageCoord = computed(() => vertical ? 'pageY' : 'pageX')
-    const offsetPos = computed(() => vertical ? 'offsetTop' : 'offsetLeft')
-    const scrollPos = computed(() => vertical ? 'scrollTop' : 'scrollLeft')
+    const pageCoord = computed(() => props.vertical ? 'pageY' : 'pageX')
+    const offsetPos = computed(() => props.vertical ? 'offsetTop' : 'offsetLeft')
+    const scrollPos = computed(() => props.vertical ? 'scrollTop' : 'scrollLeft')
 
     const cancelMomentumTracking = () => {
       cancelAnimationFrame(momentumId.value)
@@ -103,8 +103,8 @@ export default {
     }
 
     const sliderStyles = computed(() => ({
-      '--gap': `${gap / 2}px`,
-      direction,
+      '--gap': `${props.gap / 2}px`,
+      direction: props.direction,
     }))
 
     return {
