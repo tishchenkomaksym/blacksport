@@ -34,16 +34,16 @@ export default {
       default: null,
     },
   },
-  setup({block, link, light, small, color}) {
+  setup(props) {
     const buttonClassNames = computed(() => ({
-      block,
-      link,
-      light,
-      small,
+      block: props.block,
+      link: props.link,
+      light: props.light,
+      small: props.small,
     }))
 
     const buttonStyles = computed(() => ({
-      backgroundColor: color,
+      backgroundColor: props.color,
     }))
 
     return {

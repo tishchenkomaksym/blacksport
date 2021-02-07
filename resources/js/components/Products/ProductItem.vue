@@ -54,15 +54,15 @@ export default {
   props: {
     data: Object,
   },
-  setup({data}) {
+  setup(props) {
     const {t, locale, n} = useI18n()
     const {commit, dispatch, state} = useStore()
     const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const {width} = useWindowSize()
     const isInBasket = computed(() => {
-      return !!Object.keys(state.products.basket).find(key => +key === data.id)
+      return !!Object.keys(state.products.basket).find(key => +key === props.data.id)
     })
-    const image = useImageStorage(data.image, true)
+    const image = useImageStorage(props.data.image, true)
 
     const addToBasket = productId => {
       dispatch('products/addToBasket', {productId})
@@ -79,7 +79,7 @@ export default {
       openBasket,
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
-        params: {locale: locale.value, id: data.id},
+        params: {locale: locale.value, id: props.data.id},
       })),
       isInBasket,
       image,

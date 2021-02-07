@@ -1,6 +1,6 @@
 <template>
   <Modal>
-    <div class="service-examples-modal">
+    <div class="service-examples-modal" v-click-away="closeModal">
       <div class="glide service-examples-modal__slider" ref="examplesSlider">
         <div class="service-examples-modal__slider-controls" data-glide-el="controls" v-show="!isMobile">
           <button data-glide-dir="<">
@@ -61,13 +61,15 @@ export default {
       default: [],
     },
   },
-  setup({currentExample, examples}) {
+  setup(props, {emit}) {
     const {width} = useWindowSize()
     const isMobile = computed(() => width.value < 768)
     const glide = ref(null)
     const examplesSlider = ref(null)
-    const currentSlide = ref(examples.findIndex(example => currentExample === example.id))
+    const currentSlide = ref(props.examples.findIndex(example => props.currentExample === example.id))
     const intervalRef = ref(0)
+
+    const closeModal = () => emit('close-modal')
 
     useGlide(glide, examplesSlider, {
       startAt: currentSlide.value,
@@ -88,6 +90,7 @@ export default {
       isMobile,
       currentSlide,
       examplesSlider,
+      closeModal,
     }
   },
 }

@@ -25,7 +25,7 @@
 <script>
 import {computed, onMounted, onBeforeUnmount, nextTick, ref} from 'vue'
 import { COLORS } from '../../store/modules/common'
-import { hexToRgb } from '../../helpers'
+import { hexToRgb, isFirefox } from '../../helpers'
 
 export default {
   name: 'GradientContainer',
@@ -54,14 +54,15 @@ export default {
       const {offsetHeight, scrollTop, scrollHeight} = gradientContainer.value
       const {top, height, width} = gradientContainer.value.getBoundingClientRect()
       const isScrollable = scrollHeight - offsetHeight > 0
+      const gradientWidth = isScrollable ? width - (isFirefox() ? 6 : 8) : width
       topGradientStyles.value = {
         ...topGradientStyles.value,
-        width: `${isScrollable ? width - 8 : width}px`,
+        width: `${gradientWidth}px`,
         top: `${top}px`,
       }
       bottomGradientStyles.value = {
         ...bottomGradientStyles.value,
-        width: `${isScrollable ? width - 8 : width}px`,
+        width: `${gradientWidth}px`,
         top: `${top + height - 40}px`,
       }
       await nextTick() // Wait for HTML redraw
@@ -99,7 +100,6 @@ export default {
 
   &__top-gradient,
   &__bottom-gradient {
-    width: 100%;
     height: 40px;
     position: fixed;
     z-index: 1;

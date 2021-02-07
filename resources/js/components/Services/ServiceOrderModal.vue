@@ -5,35 +5,37 @@
       @submit="orderService"
       class="service-order"
     >
-      <template v-if="!isOrdered">
-        <h2>{{t('placingOrder')}} "{{serviceName}}"</h2>
-        <FormInput
-          :placeholder="t('name')"
-          name="name"
-          type="text"
-          light
-        />
-        <FormInput
-          :placeholder="t('email')"
-          name="email"
-          type="email"
-          light
-        />
-        <FormInput
-          mask="+38 (0##) ###-##-##"
-          :placeholder="t('phoneNumber')"
-          name="phone"
-          type="text"
-          light
-        />
-        <p class="form-error" v-if="hasError">{{t('phoneExists')}}</p>
-        <Button type="submit" block link>{{t('order')}}</Button>
-      </template>
-      <template v-else>
-        <h1>{{t('thankYou')}}</h1>
-        <h2>{{t('operatorContact')}}</h2>
-        <Button type="reset" @click="$emit('close-modal')" block link>{{t('close')}}</Button>
-      </template>
+      <div class="service-order__form" v-click-away="closeModal">
+        <template v-if="!isOrdered">
+          <h2>{{t('placingOrder')}} "{{serviceName}}"</h2>
+          <FormInput
+            :placeholder="t('name')"
+            name="name"
+            type="text"
+            light
+          />
+          <FormInput
+            :placeholder="t('email')"
+            name="email"
+            type="email"
+            light
+          />
+          <FormInput
+            mask="+38 (0##) ###-##-##"
+            :placeholder="t('phoneNumber')"
+            name="phone"
+            type="text"
+            light
+          />
+          <p class="form-error" v-if="hasError">{{t('phoneExists')}}</p>
+          <Button type="submit" block link>{{t('order')}}</Button>
+        </template>
+        <template v-else>
+          <h1>{{t('thankYou')}}</h1>
+          <h2>{{t('operatorContact')}}</h2>
+          <Button type="reset" @click="$emit('close-modal')" block link>{{t('close')}}</Button>
+        </template>
+      </div>
     </Form>
   </Modal>
 </template>
@@ -55,7 +57,7 @@ export default {
     serviceId: Number,
     serviceName: String,
   },
-  setup({serviceId}) {
+  setup(props, {emit}) {
     const {dispatch} = useStore()
     const {t} = useI18n()
     const hasError = ref(false)
@@ -64,7 +66,7 @@ export default {
     const orderService = async ({name, email, phone}) => {
       try {
         await dispatch('services/orderService', {
-          service_id: serviceId,
+          service_id: props.serviceId,
           name, email, phone,
         })
         isOrdered.value = true
@@ -73,6 +75,8 @@ export default {
         hasError.value = true
       }
     }
+
+    const closeModal = () => emit('close-modal')
 
     const validationSchema = Yup.object().shape({
       name: Yup.string().required('requiredField'),
@@ -86,6 +90,7 @@ export default {
       orderService,
       validationSchema,
       hasError,
+      closeModal,
     }
   },
 }
@@ -95,11 +100,13 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .service-order {
-  max-width: 367px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  &__form {
+    max-width: 367px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   &::after {
     height: 40px;

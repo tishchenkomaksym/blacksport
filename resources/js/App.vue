@@ -37,15 +37,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-#app {
-  height: 100vh;
-  overflow: hidden;
-}
-
-main {
-  height: 100%;
-  overflow-y: auto;
-}
-</style>

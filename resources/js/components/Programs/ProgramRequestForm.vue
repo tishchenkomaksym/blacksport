@@ -46,7 +46,7 @@ export default {
   props: {
     programId: Number,
   },
-  setup({programId}) {
+  setup(props) {
     const {dispatch} = useStore()
     const {t} = useI18n()
     const hasError = ref(false)
@@ -55,7 +55,7 @@ export default {
     const submitApplication = async ({name, phone, email}) => {
       try {
         await dispatch('programs/submitApplication', {
-          program_id: programId,
+          program_id: props.programId,
           name, phone, email,
         })
         requestSent.value = true

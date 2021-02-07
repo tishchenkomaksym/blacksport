@@ -15,7 +15,10 @@ export default {
   name: 'PageLayout',
   props: {
     title: String,
-    backgroundColor: String,
+    backgroundColor: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
     const {commit} = useStore()
@@ -36,7 +39,7 @@ export default {
 @import "../../assets/scss/variables";
 
 .page-layout {
-  height: 100%;
+  min-height: 100vh;
   padding-top: 70px;
   box-sizing: border-box;
 

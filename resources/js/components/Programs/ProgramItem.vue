@@ -33,11 +33,11 @@ export default {
   props: {
     data: Object,
   },
-  setup({data}) {
-    const images = useImageStorage(data.images)
+  setup(props) {
+    const images = useImageStorage(props.data.images)
     const imagesSlider = ref(null)
     const glide = ref(null)
-    const description = useParseText(data.description)
+    const description = useParseText(props.data.description)
 
     useGlide(glide, imagesSlider, {
       perView: 4,

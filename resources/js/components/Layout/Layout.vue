@@ -2,13 +2,29 @@
   <transition name="overlay-transition">
     <div
       :class="{'overlay--dark': basketOpen}"
-      @click="basketOpen ? closeBasket() : toggleMenu()"
+      @click="closeEverything"
       class="overlay"
       v-if="isBlurred"
     />
   </transition>
   <Header/>
   <BasketPopup v-if="basketOpen" />
+  <transition name="modal-transition">
+    <ServiceExamplesModal
+      :current-example="shownServiceExample.example"
+      :examples="shownServiceExample.examples"
+      @close-modal="closeEverything"
+      v-if="shownServiceExample"
+    />
+  </transition>
+  <transition name="modal-transition">
+    <ServiceOrderModal
+      :service-id="shownServiceOrder.id"
+      :service-name="shownServiceOrder.name"
+      @close-modal="closeEverything"
+      v-if="shownServiceOrder"
+    />
+  </transition>
   <main
     :class="{blurred: isBlurred}"
     :style="{backgroundColor}"
@@ -19,34 +35,38 @@
 </template>
 
 <script>
-import {computed} from 'vue'
+import {computed, watch} from 'vue'
 import {useStore} from 'vuex'
 
 import Header from './Header'
 import Footer from './Footer'
 import BasketPopup from '../Products/BasketPopup'
+import ServiceExamplesModal from '../Services/ServiceExamplesModal'
+import ServiceOrderModal from '../Services/ServiceOrderModal'
 
 export default {
   name: 'Layout',
-  components: {BasketPopup, Header, Footer},
+  components: {ServiceOrderModal, ServiceExamplesModal, BasketPopup, Header, Footer},
   props: {
     backgroundColor: String,
   },
   setup() {
-    const {commit, state} = useStore()
-    const menuShown = computed(() => state.common.menuShown)
+    const {dispatch, getters, state} = useStore()
     const basketOpen = computed(() => state.common.basketOpen)
-    const isBlurred = computed(() => menuShown.value || basketOpen.value)
+    const shownServiceExample = computed(() => state.common.shownServiceExample)
+    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
+    const isBlurred = computed(() => getters['common/isBlurred'])
 
-    const toggleMenu = () => commit('common/toggleMenu')
+    const closeEverything = () => dispatch('common/closeEverything')
 
-    const closeBasket = () => commit('common/setBasketOpen', false)
+    watch(isBlurred, () => document.body.classList.toggle('fixed'))
 
     return {
       basketOpen,
+      shownServiceExample,
+      shownServiceOrder,
       isBlurred,
-      toggleMenu,
-      closeBasket,
+      closeEverything,
     }
   }
 }
@@ -66,7 +86,7 @@ main {
 .overlay {
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   transition: background-color 0.3s ease-in-out;
   background-color: rgba($bg-color, 0.5);
@@ -77,6 +97,18 @@ main {
 }
 
 .overlay-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+
+.modal-transition {
   &-enter-active,
   &-leave-active {
     transition: opacity 0.3s ease-in-out;

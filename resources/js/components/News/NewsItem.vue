@@ -41,10 +41,10 @@ export default {
   props: {
     data: Object,
   },
-  setup({data}) {
+  setup(props) {
     const {t, locale, d} = useI18n()
     const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
-    const images = useImageStorage(data.images)
+    const images = useImageStorage(props.data.images)
 
     return {
       t,
@@ -53,7 +53,7 @@ export default {
       images,
       articlePath: computed(() => ({
         name: ROUTE_CONF.ARTICLE.name,
-        params: {locale: locale.value, id: data.id},
+        params: {locale: locale.value, id: props.data.id},
       })),
     }
   },

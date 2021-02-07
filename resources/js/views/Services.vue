@@ -1,7 +1,5 @@
 <template>
-  <PageLayout
-    background-color="smoke"
-  >
+  <PageLayout background-color="smoke">
     <template v-slot:title>
       {{t('services')}}
     </template>
@@ -16,7 +14,6 @@
         :examples-shown="examplesShownId === service.id"
         :key="service.id"
         @on-toggle-examples="onToggleExamples"
-        @on-open-order-modal="onOpenOrderModal"
         v-for="service in services"
       />
       <transition name="service-examples-transition">
@@ -49,18 +46,6 @@
       </transition>
     </GradientContainer>
     <p v-else>{{t('noServices')}}</p>
-    <ServiceOrderModal
-      :service-id="selectedService.id"
-      :service-name="selectedService.name"
-      @close-modal="closeOrderModal"
-      v-if="!!selectedService"
-    />
-    <ServiceExamplesModal
-      :current-example="selectedExample"
-      :examples="currentExamples"
-      @close-modal="closeServiceExampleModal"
-      v-if="!isMobile && selectedExample !== null"
-    />
   </PageLayout>
 </template>
 
@@ -69,22 +54,18 @@ import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import useWindowSize from '../hooks/useWindowSize'
+
 import PageLayout from '../components/Layout/PageLayout'
 import ServiceItem from '../components/Services/ServiceItem'
-import ServiceOrderModal from '../components/Services/ServiceOrderModal'
 import ScrollableContainer from '../components/Layout/ScrollableContainer'
 import ServiceExample from '../components/Services/ServiceExample'
-import ServiceExamplesModal from '../components/Services/ServiceExamplesModal'
 import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Services',
-  components: {
-    GradientContainer,
-    ServiceExamplesModal, ServiceExample, ScrollableContainer, ServiceOrderModal, ServiceItem, PageLayout,
-  },
+  components: {GradientContainer, ServiceExample, ScrollableContainer, ServiceItem, PageLayout},
   setup() {
-    const {dispatch, state} = useStore()
+    const {commit, dispatch, state} = useStore()
     const {width} = useWindowSize()
     const {t, locale} = useI18n()
     const services = computed(() => state.services.services)
@@ -118,20 +99,11 @@ export default {
       examplesShownId.value = examplesShown ? id : null
     }
 
-    const onOpenOrderModal = (serviceId, serviceName) => {
-      selectedService.value = {id: serviceId, name: serviceName}
-    }
-
-    const closeOrderModal = () => {
-      selectedService.value = null
-    }
-
     const showServiceExampleModal = serviceId => {
-      selectedExample.value = serviceId
-    }
-
-    const closeServiceExampleModal = () => {
-      selectedExample.value = null
+      commit('common/setShownServiceExample', {
+        example: serviceId,
+        examples: services.value.find(service => service.id === examplesShownId.value).examples,
+      })
     }
 
     const calculateExamplesStyles = () => {
@@ -179,8 +151,6 @@ export default {
       services,
       servicesListRef,
       selectedService,
-      onOpenOrderModal,
-      closeOrderModal,
       selectedExample,
       examplesPosition,
       currentExamples,
@@ -188,7 +158,6 @@ export default {
       examplesShownId,
       examplesStyles,
       showServiceExampleModal,
-      closeServiceExampleModal,
     }
   },
 }

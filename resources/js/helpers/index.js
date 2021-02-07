@@ -23,3 +23,9 @@ export const hexToRgb = hex => {
     b: parseInt(result[3], 16),
   } : null
 }
+
+/**
+ * @description Gives info whether the browser is Firefox. Firefox 1.0+
+ * @return {boolean}
+ */
+export const isFirefox = () => typeof InstallTrigger !== 'undefined'

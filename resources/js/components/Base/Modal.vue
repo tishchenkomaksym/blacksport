@@ -23,6 +23,7 @@
 <script>
 import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
+
 import Button from './Button'
 
 export default {
@@ -50,9 +51,7 @@ export default {
   top: 0;
   left: 0;
   position: fixed;
-  backdrop-filter: blur(16px);
-  background-color: rgba(white, 0.01);
-  z-index: 2;
+  z-index: 999;
   overflow: auto;
 
   @include tablets() {
@@ -73,11 +72,18 @@ export default {
       box-sizing: border-box;
     }
 
+    button {
+      &:hover .modal__close-icon {
+        fill: $text-accent-color;
+      }
+    }
+
     &-icon {
       width: 11px;
       height: 11px;
       margin-left: 15px;
       fill: $text-color;
+      transition: fill 0.3s ease-in-out;
 
       @include tablets() {
         width: 17px;

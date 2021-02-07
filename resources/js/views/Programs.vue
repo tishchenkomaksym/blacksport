@@ -1,7 +1,5 @@
 <template>
-  <PageLayout
-    background-color="sole"
-  >
+  <PageLayout background-color="sole">
     <template v-slot:title>
       {{t('programs')}}
     </template>

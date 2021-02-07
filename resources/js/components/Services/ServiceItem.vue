@@ -41,17 +41,12 @@
       </transition>
     </p>
   </article>
-  <ServiceExamplesModal
-    :current-example="selectedExample"
-    :examples="data.examples"
-    @close-modal="closeServiceExampleModal"
-    v-if="selectedExample !== null"
-  />
 </template>
 
 <script>
 import {computed, nextTick, ref, watch} from 'vue'
 import {useI18n} from 'vue-i18n'
+import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
 import useTruncate from '../../hooks/useTruncate'
 
@@ -75,10 +70,10 @@ export default {
   },
   emits: [
     'on-toggle-examples',
-    'on-open-order-modal',
   ],
   setup(props, {emit}) {
     const {t} = useI18n()
+    const {commit} = useStore()
     const {width} = useWindowSize()
     const isMobile = computed(() => width.value < 768)
 
@@ -89,9 +84,15 @@ export default {
     const mobileExampleWidth = ref(0)
 
     const toggleExamples = () => emit('on-toggle-examples', props.data.id, !props.examplesShown)
-    const showServiceExampleModal = serviceId => selectedExample.value = serviceId
-    const closeServiceExampleModal = () => selectedExample.value = null
-    const openOrderModal = () => emit('on-open-order-modal', props.data.id, props.data.name)
+    const showServiceExampleModal = serviceId => {
+      commit('common/setShownServiceExample', {
+        example: serviceId,
+        examples: props.data.examples,
+      })
+    }
+    const openOrderModal = () => {
+      commit('common/setShownServiceOrder', {id: props.data.id, name: props.data.name})
+    }
 
     // Make width the same as height to keep examples square
     watch(width, async () => {
@@ -114,7 +115,6 @@ export default {
       mobileExampleWidth,
       toggleExamples,
       showServiceExampleModal,
-      closeServiceExampleModal,
       openOrderModal,
     }
   },

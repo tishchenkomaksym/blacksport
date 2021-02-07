@@ -1,5 +1,5 @@
 <template>
-  <PageLayout>
+  <PageLayout background-color="bgColor">
     <template v-slot:title>
       {{t('news')}}
     </template>

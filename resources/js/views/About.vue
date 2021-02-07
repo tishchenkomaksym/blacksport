@@ -1,7 +1,5 @@
 <template>
-  <PageLayout
-    background-color="park"
-  >
+  <PageLayout background-color="park">
     <template v-slot:title>
       {{t('about')}}
     </template>

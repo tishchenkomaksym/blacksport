@@ -43,12 +43,18 @@ export default {
       let total = 0
       for (const productId of Object.keys(basket.value)) {
         const product = await dispatch('products/getProduct', {productId, locale: locale.value})
-        products.value.push({
+        const productIndex = products.value.findIndex(({id}) => id === product.id)
+        const productInfo = {
           id: product.id,
           name: product.title,
           price: product.price,
           quantity: basket.value[productId],
-        })
+        }
+        if (productIndex === -1) {
+          products.value.push(productInfo)
+        } else {
+          products.value[productIndex] = productInfo
+        }
         total += basket.value[productId] * product.price
       }
       totalPrice.value = total
@@ -75,6 +81,8 @@ export default {
 .basket {
   width: 100vw;
   height: calc(100vh - 50px);
+  /* iOS Safari mobile viewport bug fix */
+  height: -webkit-fill-available;
   top: 50px;
   position: absolute;
   z-index: 1;

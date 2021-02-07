@@ -2,6 +2,7 @@
   <transition appear name="logo-transition">
     <router-link
       :to="`/${locale}`"
+      :class="{blurred: shownServiceExample || shownServiceOrder}"
       @click.prevent="goToPage(`/${locale}`)"
       class="logo"
     >
@@ -9,7 +10,7 @@
     </router-link>
   </transition>
   <transition appear name="right-panel-transition">
-    <div class="right-panel">
+    <div class="right-panel" :class="{blurred: shownServiceExample || shownServiceOrder}">
       <BasketIcon/>
       <router-link
         :to="`/${locale}`"
@@ -19,7 +20,7 @@
       </router-link>
       <button
         :class="{'right-panel__burger--opened': menuShown || basketOpen}"
-        @click="basketOpen ? closeBasket() : toggleMenu()"
+        @click="basketOpen ? toggleBasket(false) : toggleMenu(!menuShown)"
         class="right-panel__burger"
       />
     </div>
@@ -46,6 +47,7 @@ import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
+
 import BasketIcon from '../Products/BasketIcon'
 
 export default {
@@ -57,6 +59,8 @@ export default {
     const router = useRouter()
     const menuShown = computed(() => state.common.menuShown)
     const basketOpen = computed(() => state.common.basketOpen)
+    const shownServiceExample = computed(() => state.common.shownServiceExample)
+    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
     const links = computed(() => [
       {
         path: {
@@ -109,13 +113,12 @@ export default {
       },
     ])
 
-    const toggleMenu = () => commit('common/toggleMenu')
-
-    const closeBasket = () => commit('common/setBasketOpen', false)
+    const toggleMenu = menuShown => commit('common/setMenuShown', menuShown)
+    const toggleBasket = basketShown => commit('common/setBasketOpen', basketShown)
 
     const goToPage = path => {
-      if (menuShown.value) toggleMenu()
-      if (basketOpen.value) closeBasket()
+      toggleMenu(false)
+      toggleBasket(false)
       router.push(path)
     }
 
@@ -124,10 +127,12 @@ export default {
       locale,
       menuShown,
       toggleMenu,
+      toggleBasket,
       links,
       goToPage,
       basketOpen,
-      closeBasket,
+      shownServiceExample,
+      shownServiceOrder,
     }
   },
 }
@@ -137,13 +142,17 @@ export default {
 @import "../../assets/scss/breakpoints";
 @import "../../assets/scss/variables";
 
+.blurred {
+  filter: blur(16px);
+}
+
 .logo {
   top: $spacing-md - $spacing-sm / 2;
   left: $spacing;
   opacity: 0.2;
-  position: absolute;
+  position: fixed;
   z-index: 2;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out;
 
   &:hover {
     opacity: 1;
@@ -164,7 +173,7 @@ export default {
 }
 
 .right-panel {
-  position: absolute;
+  position: fixed;
   z-index: 2;
   top: $spacing-md - $spacing-sm / 4;
   right: $spacing;
@@ -172,6 +181,7 @@ export default {
   grid-template-columns: auto auto;
   align-items: center;
   column-gap: 10px;
+  transition: filter 0.3s ease-in-out;
 
   @include tablets() {
     top: $spacing-lg + $spacing-sm / 2 + 2px;
@@ -264,7 +274,7 @@ nav {
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  position: absolute;
+  position: fixed;
   z-index: 1;
 
   @include tablets() {

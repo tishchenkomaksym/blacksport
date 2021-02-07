@@ -1,5 +1,5 @@
 <template>
-  <PageLayout>
+  <PageLayout background-color="bgColor">
     <template v-slot:title>
       <router-link
         :to="newsLink"
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import {computed, onMounted, ref, watch} from 'vue'
+import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 import {useI18n} from 'vue-i18n'
@@ -161,6 +161,10 @@ export default {
       intervalRef.value = setInterval(() => {
         currentSlide.value = glide.value.index
       }, 250)
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(intervalRef.value)
     })
 
     return {
