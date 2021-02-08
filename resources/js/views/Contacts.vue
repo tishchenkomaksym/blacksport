@@ -5,12 +5,18 @@
     </template>
     <div class="contacts">
       <div class="contacts__categories" v-if="contacts[0]">
+        <h3>{{t('companyName')}}</h3>
+        <div>{{contacts[0].name}}</div>
+        <h3>{{t('taxNumber')}}</h3>
+        <div>{{contacts[0].ipn}}</div>
         <h3>{{t('phoneNumber')}}</h3>
         <div><a :href="`tel:${contacts[0].phone}`">{{contacts[0].phone}}</a></div>
         <h3>{{t('email')}}</h3>
         <div><a :href="`mailto:${contacts[0].email}`">{{contacts[0].email}}</a></div>
         <h3>{{t('address')}}</h3>
         <div>{{contacts[0].address}}</div>
+        <h3>{{t('legalAddress')}}</h3>
+        <div>{{contacts[0].law_address}}</div>
       </div>
       <GoogleMap
         :api-key="apiKey"
@@ -83,7 +89,7 @@ export default {
     margin-bottom: $spacing;
 
     @include tablets() {
-      max-width: 500px;
+      max-width: 600px;
       top: calc(#{$spacing-lg} + #{$spacing-sm});
       left: calc(#{$spacing-lg} + #{$spacing-sm});
       display: grid;
@@ -94,6 +100,7 @@ export default {
       position: absolute;
       z-index: 1;
       background-color: $bg-color;
+      box-sizing: border-box;
     }
 
     h3 {

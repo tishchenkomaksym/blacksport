@@ -39,6 +39,24 @@
       </router-link>
     </nav>
   </transition>
+  <transition name="terms-transition">
+    <div class="navigation-terms" v-if="menuShown">
+      <router-link
+        :to="termsLink"
+        @click.prevent="goToPage(termsLink)"
+        class="basic"
+      >
+        {{t('termsAndConditions')}}
+      </router-link>
+      <router-link
+        :to="termsLink"
+        @click.prevent="goToPage(refundLink)"
+        class="basic"
+      >
+        {{t('refundPolicy')}}
+      </router-link>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -133,6 +151,8 @@ export default {
       basketOpen,
       shownServiceExample,
       shownServiceOrder,
+      termsLink: computed(() => `/${locale.value}${ROUTE_CONF.TERMS.path}`),
+      refundLink: computed(() => `/${locale.value}${ROUTE_CONF.REFUND.path}`),
     }
   },
 }
@@ -267,7 +287,7 @@ export default {
 nav {
   top: 50px;
   width: 100vw;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 170px);
   padding: 35px $spacing;
   box-sizing: border-box;
   display: flex;
@@ -276,6 +296,10 @@ nav {
   overflow-y: auto;
   position: fixed;
   z-index: 1;
+
+  @include landscape() {
+    height: calc(100vh - 100px);
+  }
 
   @include tablets() {
     top: 70px;
@@ -289,12 +313,48 @@ nav {
 
   .link {
     display: inline-block;
-    margin-bottom: 28px;
+
+    &:not(:last-of-type) {
+      margin-bottom: 28px;
+    }
 
     @include tablets() {
       &[data-link="home"] {
         display: none;
       }
+    }
+  }
+}
+
+.navigation-terms {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: $spacing-lg * 2;
+
+  @include landscape() {
+    display: none;
+  }
+
+  @include tablets() {
+    display: flex;
+    padding: $spacing $spacing-lg;
+    bottom: 100px;
+    left: initial;
+    margin: initial;
+    align-items: flex-end;
+  }
+
+  a:first-of-type {
+    margin-bottom: $spacing-sm;
+
+    @include tablets() {
+      margin-bottom: $spacing-md;
     }
   }
 }
@@ -320,14 +380,14 @@ nav {
   &-enter-from,
   &-leave-to {
     @media screen and (orientation: portrait) {
-      transform: translateY(calc(-100% + 250px));
+      transform: translateY(calc(-100% + 175px));
     }
 
     @media screen and (orientation: landscape) {
       transform: translateY(calc(-100% - 25px));
     }
 
-    a {
+    a:not(:last-of-type) {
       margin-bottom: 0;
     }
 
@@ -335,7 +395,7 @@ nav {
       transform: none;
       opacity: 0;
 
-      a {
+      a:not(:last-of-type) {
         margin-bottom: 28px;
       }
     }
@@ -369,6 +429,18 @@ nav {
   &-enter-from {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+.terms-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
   }
 }
 </style>
