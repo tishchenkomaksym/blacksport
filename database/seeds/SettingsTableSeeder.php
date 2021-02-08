@@ -129,6 +129,18 @@ class SettingsTableSeeder extends Seeder
                 'group'        => 'Admin',
             ])->save();
         }
+
+        $setting = $this->findSetting('admin.post_delivery_price');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Цена доставки Новой Почты',
+                'value'        => '35',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Admin',
+            ])->save();
+        }
     }
 
     /**

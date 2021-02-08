@@ -72,7 +72,8 @@ class PaymentService
             'post_branch' => $client['post_branch'] ?? '',
             'comment' => $client['comment'] ?? '',
             'address' => $client['address'] ?? '',
-            'online_payment' => $client['online_payment']
+            'online_payment' => $client['online_payment'],
+            'post_delivery_price' => $client['post_delivery_price'] ?? null
         ]);
 
     }

@@ -221,7 +221,7 @@ class BasketController extends Controller
      *          required={"products","client"},
      *          @OA\Property(property="products", type="array",
      *              @OA\Items(
-     *                      @OA\Property(property="id", type="integer"),
+     *                      @OA\Property(property="id", type="integer", example="2"),
      *                      @OA\Property(property="name", type="string"),
      *                      @OA\Property(property="price", type="integer", example="1"),
      *                      @OA\Property(property="quantity", type="integer", example="1"),
@@ -237,6 +237,7 @@ class BasketController extends Controller
      *                   @OA\Property(property="post_branch", type="string", example="some post_branch (not required)"),
      *                   @OA\Property(property="comment", type="string", example="some comment (not required)"),
      *                   @OA\Property(property="address", type="string", example="some address (not required)"),
+     *                   @OA\Property(property="post_delivery_price", type="integer", example="1 (not required)"),
      *                   @OA\Property(property="online_payment", type="boolean")
      *              ),
      *          ),

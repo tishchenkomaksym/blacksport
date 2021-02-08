@@ -8,6 +8,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,7 @@ Route::group(['as' => 'api.'], function (){
     Route::delete('basket/{id}', 'BasketController@delete') -> where('id', '[0-9]+');
 
     Route::post('return-wayforpay', [ BasketController::class, 'checkResponse'])-> name('check-response');
-    Route::post('payment', [ BasketController::class, 'payment']);
+    Route::post('/payment', [ BasketController::class, 'payment'])->name('payment');
 
     Route::get('/home/{locale?}', 'HomeController@index')->name('home');
     Route::get('/about/{locale?}', 'AboutController@index')->name('about');
@@ -51,6 +52,7 @@ Route::group(['as' => 'api.'], function (){
     Route::get('/contacts/{locale?}', [ ContactController::class, 'index'])->name('contacts');
     Route::get('/categories/{locale?}', [ CategoryController::class, 'index'])->name('categories');
     Route::get('/partners/{locale?}', [ PartnerController::class, 'index'])->name('partners');
+    Route::get('/post-delivery-price', [ SettingController::class, 'postDeliveryPrice']);
 });
 
 
