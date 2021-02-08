@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Product as ProductModel;
+use TCG\Voyager\Models\Setting;
 use WayForPay\SDK\Collection\ProductCollection;
 use WayForPay\SDK\Credential\AccountSecretCredential;
 use WayForPay\SDK\Domain\Client;
@@ -62,6 +63,7 @@ class PaymentService
 
     private function createOrder($client, $products): Order
     {
+        $delivery = Setting::where('key', 'admin.post_delivery_price')->first();
         return Order::create([
             'name' => $client['name'],
             'phone' => $client['phone'],
@@ -73,20 +75,20 @@ class PaymentService
             'comment' => $client['comment'] ?? '',
             'address' => $client['address'] ?? '',
             'online_payment' => $client['online_payment'],
-            'post_delivery_price' => $client['post_delivery_price'] ?? null,
-            'total_price' => $this->totalPrice($products)
+            'post_delivery_price' => $delivery->value,
+            'total_price' => $this->totalPrice($products, $delivery)
         ]);
 
     }
 
-    private function totalPrice($products)
+    private function totalPrice($products, $delivery)
     {
         $totalPrice = 0;
         foreach ($products as $product) {
             $productModel = ProductModel::findOrFail($product['id']);
             $totalPrice += $productModel->price * $product['quantity'];
         }
-
+        $totalPrice = $totalPrice + $delivery->value;
         return $totalPrice;
     }
 

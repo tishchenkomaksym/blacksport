@@ -237,7 +237,6 @@ class BasketController extends Controller
      *                   @OA\Property(property="post_branch", type="string", example="some post_branch (not required)"),
      *                   @OA\Property(property="comment", type="string", example="some comment (not required)"),
      *                   @OA\Property(property="address", type="string", example="some address (not required)"),
-     *                   @OA\Property(property="post_delivery_price", type="integer", example="1 (not required)"),
      *                   @OA\Property(property="online_payment", type="boolean")
      *              ),
      *          ),
