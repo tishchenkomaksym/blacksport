@@ -73,9 +73,21 @@ class PaymentService
             'comment' => $client['comment'] ?? '',
             'address' => $client['address'] ?? '',
             'online_payment' => $client['online_payment'],
-            'post_delivery_price' => $client['post_delivery_price'] ?? null
+            'post_delivery_price' => $client['post_delivery_price'] ?? null,
+            'total_price' => $this->totalPrice($products)
         ]);
 
+    }
+
+    private function totalPrice($products)
+    {
+        $totalPrice = 0;
+        foreach ($products as $product) {
+            $productModel = ProductModel::findOrFail($product['id']);
+            $totalPrice += $productModel->price * $product['quantity'];
+        }
+
+        return $totalPrice;
     }
 
     private function parseProducts($products, $client): array
@@ -88,7 +100,7 @@ class PaymentService
             If($client['online_payment']){
                 $array[] = new Product(
                     $product['name'],
-                    $product['price'],
+                    $product->price,
                     $product['quantity']
                 );
             }

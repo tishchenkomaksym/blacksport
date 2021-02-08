@@ -957,6 +957,38 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($ordersDataType, 'post_delivery_price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Стоимость доставки Новой Почты',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 14,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'total_price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Общая цена',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 15,
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($ordersDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -969,7 +1001,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 14,
+                'order'        => 16,
             ])->save();
         }
 
@@ -985,7 +1017,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 15,
+                'order'        => 17,
             ])->save();
         }
 
