@@ -22,6 +22,9 @@ $factory->define( Contact::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'email' => $faker->companyEmail,
         'social_links' => "https://www.facebook.com/, https://www.instagram.com",
-        'address' => $faker->address
+        'address' => $faker->address,
+        'name' => $faker->name,
+        'ipn' => $faker->randomNumber(),
+        'law_address' => $faker->address
     ];
 });

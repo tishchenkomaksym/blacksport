@@ -45,7 +45,10 @@ class ContactController extends Controller
  *                      @OA\Property(property="id", type="integer"),
  *                      @OA\Property(property="phone", type="string"),
  *                      @OA\Property(property="social_links", type="string"),
- *                      @OA\Property(property="address", type="string")
+ *                      @OA\Property(property="address", type="string"),
+ *                      @OA\Property(property="name", type="string"),
+ *                      @OA\Property(property="ipn", type="string"),
+ *                      @OA\Property(property="law_address", type="string"),
  *                  )
  *              )
  *       )

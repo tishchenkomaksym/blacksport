@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\RuleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,9 @@ Route::group(['as' => 'api.'], function (){
     Route::get('/categories/{locale?}', [ CategoryController::class, 'index'])->name('categories');
     Route::get('/partners/{locale?}', [ PartnerController::class, 'index'])->name('partners');
     Route::get('/post-delivery-price', [ SettingController::class, 'postDeliveryPrice']);
+
+    Route::get('/term_condition_first', [ RuleController::class, 'termConditionFirst']);
+    Route::get('/term_condition_second', [ RuleController::class, 'termConditionSecond']);
 });
 
 
