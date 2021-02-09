@@ -42,16 +42,16 @@ class PageTableSeeder extends Seeder
         ]);
 
         DB::table('pages')->insert([
-            'name' => 'Правила первая часть',
-            'page_key' => 'term_condition_first',
+            'name' => 'Правила и условия',
+            'page_key' => 'terms_conditions',
             'meta_description' => 'Et aperiam repudiandae labore nam itaque. Molestiae ipsa omnis molestias vel eligendi voluptatem. Odio molestiae accusamus est odit fugiat repellat est. Est praesentium pariatur provident eaque et. In hic ullam eius nisi tenetur sed. Fugiat adipisci esse ut velit tempore.',
             'noindex' => false,
             'nofollow' => false
         ]);
 
         DB::table('pages')->insert([
-            'name' => 'Правила вторая часть',
-            'page_key' => 'term_condition_second',
+            'name' => 'Правила возврата средств',
+            'page_key' => 'refund_policy',
             'meta_description' => 'Et aperiam repudiandae labore nam itaque. Molestiae ipsa omnis molestias vel eligendi voluptatem. Odio molestiae accusamus est odit fugiat repellat est. Est praesentium pariatur provident eaque et. In hic ullam eius nisi tenetur sed. Fugiat adipisci esse ut velit tempore.',
             'noindex' => false,
             'nofollow' => false

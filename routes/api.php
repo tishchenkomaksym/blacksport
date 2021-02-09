@@ -55,8 +55,8 @@ Route::group(['as' => 'api.'], function (){
     Route::get('/partners/{locale?}', [ PartnerController::class, 'index'])->name('partners');
     Route::get('/post-delivery-price', [ SettingController::class, 'postDeliveryPrice']);
 
-    Route::get('/term_condition_first', [ RuleController::class, 'termConditionFirst']);
-    Route::get('/term_condition_second', [ RuleController::class, 'termConditionSecond']);
+    Route::get('/terms_conditions/{locale?}', [ RuleController::class, 'termConditions']);
+    Route::get('/refund_policy/{locale?}', [ RuleController::class, 'refundPolicy']);
 });
 
 
