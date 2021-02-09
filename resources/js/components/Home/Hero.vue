@@ -1,7 +1,8 @@
 <template>
   <section class="hero">
-    <WinterHero v-if="isWinter" />
-    <SummerHero v-else />
+<!--    <WinterHero v-if="isWinter" />-->
+<!--    <SummerHero v-else />-->
+    <SummerHero />
     <div class="gradient" />
   </section>
 </template>
@@ -32,6 +33,7 @@ export default {
 .hero {
   position: relative;
   height: 100%;
+  pointer-events: none;
 }
 
 .gradient {
