@@ -70,5 +70,10 @@
   "cashOnDelivery": "Накладений платіж",
   "branchPayment": "Оплата у відділенні НП",
   "search": "Пошук",
-  "from": "Від"
+  "from": "Від",
+  "companyName": "Назва компанії",
+  "legalAddress": "Юр. адреса",
+  "taxNumber": "ІПН",
+  "termsAndConditions": "Правила та умови",
+  "refundPolicy": "Правила повернення коштів"
 }

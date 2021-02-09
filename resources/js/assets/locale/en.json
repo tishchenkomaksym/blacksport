@@ -70,5 +70,10 @@
   "cashOnDelivery": "Cash on delivery",
   "branchPayment": "Payment at the NP branch",
   "search": "Search",
-  "from": "From"
+  "from": "From",
+  "companyName": "Company name",
+  "legalAddress": "Legal address",
+  "taxNumber": "Individual tax number",
+  "termsAndConditions": "Terms and conditions",
+  "refundPolicy": "Refund policy"
 }

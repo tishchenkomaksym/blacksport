@@ -70,5 +70,10 @@
   "cashOnDelivery": "Наложенный платёж",
   "branchPayment": "Оплата в отделении НП",
   "search": "Поиск",
-  "from": "От"
+  "from": "От",
+  "companyName": "Название компании",
+  "legalAddress": "Юр. адрес",
+  "taxNumber": "ИНН",
+  "termsAndConditions": "Правила и условия",
+  "refundPolicy": "Правила возврата средств"
 }
