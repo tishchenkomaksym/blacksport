@@ -44,7 +44,7 @@ class Page extends Model
     use Translatable;
 
     protected $translatable = [
-        'name'
+        'name', 'meta_description'
     ];
 
     protected $table = 'pages';
@@ -58,7 +58,7 @@ class Page extends Model
 
     public static function translatedFields(){
         return [
-            'name'
+            'name', 'meta_description'
         ];
     }
 

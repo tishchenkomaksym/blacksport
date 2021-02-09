@@ -3,16 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Services\TranslateService;
 use Illuminate\Http\Request;
 
 class RuleController extends Controller
 {
+
+    /**
+     * @var TranslateService
+     */
+    private $translateService;
+
+    public function __construct(TranslateService $translateService)
+    {
+
+        $this->translateService = $translateService;
+    }
+
     /**
      * @OA\Get(
-     *      path="/api/term_condition_first",
+     *      path="/api/terms_conditions",
      *      tags={"rule"},
      *      summary="Rule",
-     *      description="Getting first rule",
+     *      description="Getting terms_conditions",
+     *      @OA\Parameter(
+     *        description="Language",
+     *        in="path",
+     *        name="Locale",
+     *        required=false,
+     *        example="ru, en, uk",
+     *        @OA\Schema(type="string")
+     *    ),
      *  @OA\Response(
      *          response="200",
      *          description="success",
@@ -33,18 +54,29 @@ class RuleController extends Controller
      *     )
      *  )
      */
-    public function termConditionFirst()
+    public function termConditions($locale = null)
     {
-        $page = Page::where('page_key', 'term_condition_first')->get();
+        $page = $this->translateService->translate($locale, Page::with('viewTexts')
+                                                        ->where('page_key', 'terms_conditions')->get(), Page::class);
+
         return response()->json($page, 200);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/term_condition_second",
+     *      path="/api/refund_policy",
      *      tags={"rule"},
      *      summary="Rule",
-     *      description="Getting second rule",
+     *      description="Getting refund_policy",
+     *
+     *      @OA\Parameter(
+     *        description="Language",
+     *        in="path",
+     *        name="Locale",
+     *        required=false,
+     *        example="ru, en, uk",
+     *        @OA\Schema(type="string")
+     *    ),
      *  @OA\Response(
      *          response="200",
      *          description="success",
@@ -65,9 +97,11 @@ class RuleController extends Controller
      *     )
      *  )
      */
-    public function termConditionSecond()
+    public function refundPolicy($locale = null)
     {
-        $page = Page::where('page_key', 'term_condition_second')->get();
+
+        $page = $this->translateService->translate($locale, Page::with('viewTexts')
+                                                                ->where('page_key', 'refund_policy')->get(), Page::class);
         return response()->json($page, 200);
     }
 }
