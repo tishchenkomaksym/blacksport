@@ -57,6 +57,7 @@
         class="logo-mask__logo--hidden"
         d="M104.536 17.5639C106.199 17.5639 107.751 18.1233 108.97 19.1301L114.402 13.6484C111.852 11.2991 108.416 9.84475 104.536 9.84475C96.4434 9.84475 89.903 16.4452 89.903 24.6119C89.903 32.7785 96.4434 39.379 104.536 39.379C108.305 39.379 111.741 37.9247 114.402 35.5753L108.97 30.0936C107.751 31.1005 106.199 31.6598 104.536 31.6598C100.656 31.6598 97.552 28.5274 97.552 24.6119C97.552 20.6963 100.656 17.5639 104.536 17.5639Z"/>
       <path
+        class="logo-mask__logo--hidden"
         d="M128.702 22.71L140.674 10.6279H150.54L136.462 24.7237L150.208 38.5959H137.903L130.254 30.9886L128.702 32.5548V38.5959H119.723V0H128.702V22.71Z"/>
     </svg>
   </div>
@@ -184,6 +185,11 @@ img {
     left: -27vw;
     bottom: -18vh;
   }
+
+  @media screen and (min-width: 1441px) {
+    width: 100vw;
+    left: 0;
+  }
 }
 
 .skatepark-1 {
@@ -213,6 +219,11 @@ img {
     bottom: -49vh;
     left: 0;
   }
+
+  @media screen and (min-width: 1441px) {
+    width: 50vw;
+    bottom: -30vh;
+  }
 }
 
 .skatepark-2 {
@@ -236,6 +247,12 @@ img {
     width: calc((2048 * 100vw) / 1440);
     bottom: -64vh;
     left: -39vw;
+  }
+
+  @media screen and (min-width: 1441px) {
+    width: 114vw;
+    left: -14vw;
+    bottom: -80vh;
   }
 }
 
@@ -261,6 +278,11 @@ img {
     bottom: -23vh;
     left: 28vw;
     right: auto;
+  }
+
+  @media screen and (min-width: 1441px) {
+    width: 50vw;
+    left: 50vw;
   }
 }
 
