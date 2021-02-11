@@ -66,11 +66,11 @@ export default {
       white-space: nowrap;
     }
 
-    @include mobile-landscape() {
+    @include big-phones-landscape() {
       margin: 5px auto 40px;
     }
 
-    @media screen and (min-width: 768px) and (min-height: 768px) {
+    @include phones-tablets() {
       margin: 5px auto 70px;
     }
 

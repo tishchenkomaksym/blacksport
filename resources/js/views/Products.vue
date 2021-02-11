@@ -241,11 +241,11 @@ export default {
       overflow-y: auto;
     }
 
-    @include mobile-landscape() {
+    @include big-phones-landscape() {
       max-height: $page-height;
     }
 
-    @media screen and (min-width: 768px) and (min-height: 768px) {
+    @include phones-tablets() {
       max-height: calc(#{$page-height} - #{$spacing-lg});
     }
 

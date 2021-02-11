@@ -14,9 +14,9 @@
     "lodash.debounce": "^4.0.8",
     "maska": "^1.4.0",
     "normalize.css": "^8.0.1",
-    "vee-validate": "^4.1.16",
+    "vee-validate": "^4.1.18",
     "vue": "^3.0.5",
-    "vue-i18n": "^9.0.0-rc.5",
+    "vue-i18n": "^9.0.0-rc.6",
     "vue-router": "^4.0.3",
     "vue3-click-away": "^1.1.0",
     "vue3-google-map": "^0.6.0",
@@ -27,9 +27,9 @@
     "@vue/compiler-sfc": "^3.0.5",
     "dotenv": "^8.2.0",
     "laravel-mix": "^6.0.11",
-    "postcss": "^8.2.5",
-    "sass": "^1.32.6",
-    "sass-loader": "^11.0.0",
+    "postcss": "^8.2.6",
+    "sass": "^1.32.7",
+    "sass-loader": "^11.0.1",
     "vue-loader": "^16.1.2"
   }
 }

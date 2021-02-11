@@ -56,14 +56,13 @@ export default {
   @include tablets() {
     overflow: hidden;
     position: relative;
-    @include page-height;
   }
 
-  @include mobile-landscape() {
+  @include big-phones-landscape() {
     height: calc(#{$page-height} + #{$spacing-lg});
   }
 
-  @media screen and (min-width: 768px) and (min-height: 768px) {
+  @include phones-tablets() {
     @include page-height;
   }
 

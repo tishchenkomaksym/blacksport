@@ -48,24 +48,21 @@ export default {
 @import "../assets/scss/page-helpers";
 
 .news {
-  @include tablets() {
-    overflow-y: auto;
-  }
-
-  @include mobile-landscape() {
-    height: calc(#{$page-height} - 49px);
-  }
-
-  @media screen and (min-width: 768px) and (min-height: 768px) {
-    @include page-height;
-  }
-
   display: grid;
   row-gap: $spacing;
 
   @include tablets() {
+    overflow-y: auto;
     column-gap: $spacing;
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include big-phones-landscape() {
+    height: calc(#{$page-height} + #{$spacing-lg});
+  }
+
+  @include phones-tablets() {
+    @include page-height;
   }
 
   @include laptop() {
