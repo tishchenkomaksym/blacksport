@@ -32,6 +32,7 @@ export default {
 .hero {
   position: relative;
   height: 100%;
+  pointer-events: none;
 }
 
 .gradient {

@@ -169,31 +169,28 @@ export default {
 @import "../assets/scss/breakpoints";
 
 .services {
-  @include tablets() {
-    overflow: hidden;
-    position: relative;
-  }
-
-  @include mobile-landscape() {
-    height: calc(#{$page-height} - 49px);
-  }
-
-  @media screen and (min-width: 768px) and (min-height: 768px) {
-    @include page-height;
-  }
-
   display: grid;
   row-gap: $spacing-sm;
   position: relative;
+
+  @include tablets() {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  @include big-phones-landscape() {
+    height: calc(#{$page-height} + #{$spacing-lg});
+  }
+
+  @include phones-tablets() {
+    @include page-height;
+  }
 
   @include phones() {
     grid-template-columns: repeat(2, 1fr);
     row-gap: $spacing;
     column-gap: $spacing-md;
-  }
-
-  @include tablets() {
-    overflow-x: hidden;
   }
 
   @include laptop() {

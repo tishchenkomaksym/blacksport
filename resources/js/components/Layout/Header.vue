@@ -305,10 +305,17 @@ nav {
     top: 70px;
     width: initial;
     height: initial;
-    max-height: calc(100vh - 130px);
     right: 0;
     align-items: flex-end;
     padding: 46px $spacing-lg #{$spacing-lg + $spacing-md - $spacing-sm / 2};
+  }
+
+  @include big-phones-landscape() {
+    max-height: calc(100vh - 150px);
+  }
+
+  @include phones-tablets() {
+    max-height: calc(100vh - 130px);
   }
 
   .link {
@@ -341,7 +348,11 @@ nav {
     display: none;
   }
 
-  @include tablets() {
+  @include big-phones-landscape() {
+    display: none;
+  }
+
+  @include phones-tablets() {
     display: flex;
     padding: $spacing $spacing-lg;
     bottom: 100px;

@@ -87,15 +87,22 @@ export default {
   position: absolute;
   z-index: 1;
 
-  @include tablets() {
+  @include tablets {
     top: 78px;
     max-width: 1440px;
     margin: 0 auto;
     padding: $spacing $spacing-lg 0;
     left: 0;
     right: 0;
-    height: calc(100vh - 200px);
     box-sizing: border-box;
+  }
+
+  @include big-phones-landscape {
+    height: calc(100vh - 170px);
+  }
+
+  @include phones-tablets {
+    height: calc(100vh - 200px);
   }
 }
 
