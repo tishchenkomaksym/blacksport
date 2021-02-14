@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div @wheel="handleWheel" class="home">
     <Hero v-show="currentSlide === 'hero'"/>
     <About
       @switch-slide="switchSlide"
@@ -74,12 +74,18 @@ export default {
     watch(currentSlide, (to, from) => {
       console.log(`Going from ${from} slide to ${to} slide`)
     })
+    /** @param {WheelEvent} e */
+    const handleWheel = ({deltaY}) => {
+      const nextSlide = SLIDE_ORDER[SLIDE_ORDER.findIndex(slide => currentSlide.value === slide) + (Math.sign(deltaY) > 0 ? 1 : -1)]
+      if (nextSlide) currentSlide.value = nextSlide
+    }
 
     return {
       currentSlide,
       switchSlide,
       isArrowDownShown,
       nextSlide: computed(() => SLIDE_ORDER[SLIDE_ORDER.findIndex(slide => currentSlide.value === slide) + 1]),
+      handleWheel,
     }
   },
 }
