@@ -827,6 +827,22 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($newsDataType, 'preview_image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'multiple_images',
+                'display_name' => 'Ghtdm.',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 9,
+            ])->save();
+        }
+
         $ordersDataType = DataType::where('slug', 'orders')->firstOrFail();
 
         $dataRow = $this->dataRow($ordersDataType, 'id');
