@@ -397,7 +397,7 @@ class MenuItemsTableSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => 'Достижение',
+            'title'   => 'Сделано',
             'url'     => '',
             'route'   => 'voyager.achievements.index',
         ]);

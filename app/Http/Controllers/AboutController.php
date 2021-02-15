@@ -79,7 +79,8 @@ class AboutController extends Controller
      *                      @OA\Property(property="title", type="string"),
      *                      @OA\Property(property="description", type="string"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="video", type="string", example="link (not required)"),
      *                  )
      *              ),
      *       )
@@ -88,8 +89,6 @@ class AboutController extends Controller
      */
     public function index($locale = null)
     {
-//        dd(Page::with('viewTexts')
-//               ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get());
         $texts = $this->translateService->translate($locale, Page::with('viewTexts')
                                          ->whereIn('page_key', ['made', 'partners', 'ambassadors', 'about'])->get(), Page::class);
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
