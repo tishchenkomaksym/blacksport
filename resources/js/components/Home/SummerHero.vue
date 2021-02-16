@@ -329,6 +329,11 @@ img {
   fill: $text-accent-color;
   position: absolute;
 
+  @include big-phones-landscape {
+    width: 80vw;
+    transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 90%));
+  }
+
   @include laptop {
     width: 970px;
     transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 94%));
@@ -361,8 +366,7 @@ img {
   }
 
   @include big-phones-landscape {
-    mask-size: calc((369.18 * 100vw) / 812) auto;
-    mask-position: 43.75vw calc(50vh - ((413 * 100vw) / 812) / 2);
+    mask-image: unset;
   }
 
   @include phones-tablets {
@@ -381,6 +385,11 @@ img {
   transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 10%));
   fill: $text-accent-color;
   position: absolute;
+
+  @include big-phones-landscape {
+    width: 50vw;
+    transform: translateX(calc(50vw - 50%)) translateY(calc(50vh + 100%));
+  }
 
   @include laptop {
     width: 654px;

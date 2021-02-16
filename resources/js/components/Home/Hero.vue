@@ -1,8 +1,7 @@
 <template>
   <section class="hero">
-<!--    <WinterHero v-if="isWinter" />-->
-<!--    <SummerHero v-else />-->
-    <SummerHero />
+    <WinterHero v-if="isWinter" />
+    <SummerHero v-else />
     <div class="gradient" />
   </section>
 </template>
@@ -14,16 +13,15 @@ import WinterHero from './WinterHero'
 export default {
   name: 'Hero',
   components: {WinterHero, SummerHero},
-  setup() {
+  data: () => ({
+    isWinter: false,
+  }),
+  beforeMount() {
     const now = new Date()
     const month = now.getMonth()
     // Considered to be winter if the current date is between the 22nd of October and the 22nd of April
-    const isWinter = month === 9 ? now.getDate() >= 22 : month === 3 ? now.getDate() < 22 : month < 3 || month > 10
-
-    return {
-      isWinter,
-    }
-  }
+    this.isWinter = month === 9 ? now.getDate() >= 22 : month === 3 ? now.getDate() < 22 : month < 3 || month > 10
+  },
 }
 </script>
 
