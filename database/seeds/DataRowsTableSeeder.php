@@ -811,6 +811,38 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($newsDataType, 'hide_date');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Скрыть дату',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 8,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($newsDataType, 'preview_image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'multiple_images',
+                'display_name' => 'Ghtdm.',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 9,
+            ])->save();
+        }
+
         $ordersDataType = DataType::where('slug', 'orders')->firstOrFail();
 
         $dataRow = $this->dataRow($ordersDataType, 'id');
@@ -2230,6 +2262,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($achievementsDataType, 'video');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Видео',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 6,
             ])->save();
         }
 
