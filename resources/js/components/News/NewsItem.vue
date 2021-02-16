@@ -2,13 +2,13 @@
   <article class="news-item">
     <div class="news-item__header">
       <router-link
-        :to="articlePath"
+        :to="'/'"
         class="link link--smaller"
       >
-        {{t('read')}}
+        {{$t('read')}}
       </router-link>
-      <p class="description">
-        {{d(new Date(data.created_at), 'date', localeType)}} • {{d(new Date(data.created_at), 'time', localeType)}}
+      <p class="description" v-if="data.created_at">
+        {{$d(new Date(data.created_at), 'date', localeType)}} • {{$d(new Date(data.created_at), 'time', localeType)}}
       </p>
     </div>
 
@@ -31,30 +31,28 @@
 </template>
 
 <script>
-import {computed} from 'vue'
-import {useI18n} from 'vue-i18n'
-import {ROUTE_CONF} from '../../router'
 import useImageStorage from '../../hooks/useImageStorage'
+import {ROUTE_CONF} from '../../router'
 
 export default {
   name: 'NewsItem',
   props: {
     data: Object,
   },
-  setup(props) {
-    const {t, locale, d} = useI18n()
-    const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
-    const images = useImageStorage(props.data.images)
-
-    return {
-      t,
-      d,
-      localeType,
-      images,
-      articlePath: computed(() => ({
+  computed: {
+    localeType() {
+      return this.$i18n.locale === 'ru' ? 'ru-RU' : this.$i18n.locale === 'en' ? 'en-US' : 'uk-UA'
+    },
+    articlePath() {
+      return {
         name: ROUTE_CONF.ARTICLE.name,
-        params: {locale: locale.value, id: props.data.id},
-      })),
+        params: {locale: this.$i18n.locale, id: this.data.id},
+      }
+    },
+  },
+  setup(props) {
+    return {
+      images: useImageStorage(props.data.preview_image),
     }
   },
 }

@@ -30,7 +30,6 @@ const numberFormats = localeTypes.reduce((numberFormats, locale) => ({
 }), {})
 
 const i18n = createI18n({
-  legacy: false,
   locale: locale.trim().length && locale !== '/' && LANGS.includes(locale) ? locale : DEFAULT_LANG,
   fallbackLocale: DEFAULT_LANG,
   messages: {

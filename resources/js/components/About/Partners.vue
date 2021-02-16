@@ -127,6 +127,10 @@ export default {
       background-repeat: no-repeat;
       background-position: center;
       filter: grayscale(90%);
+
+      &:hover {
+        filter: initial;
+      }
     }
   }
 }

@@ -5,10 +5,13 @@
         :to="newsLink"
         class="basic"
       >
-        {{t('news')}}
+        {{$t('news')}}
       </router-link> <span v-if="article.title">• {{article.title}}</span>
     </template>
     <GradientContainer color="bgColor" class="article">
+      <p class="article__date description" v-if="article.created_at">
+        {{$d(new Date(article.created_at), 'date', localeType)}} • {{$d(new Date(article.created_at), 'time', localeType)}}
+      </p>
       <div
         :class="{'article__images--disabled': width >= 1024}"
         class="glide article__images"
@@ -75,11 +78,16 @@ import GradientContainer from '../components/Layout/GradientContainer'
 export default {
   name: 'Article',
   components: {GradientContainer, PageLayout},
+  computed: {
+    localeType() {
+      return this.$i18n.locale === 'ru' ? 'ru-RU' : this.$i18n.locale === 'en' ? 'en-US' : 'uk-UA'
+    },
+  },
   setup() {
     const {dispatch} = useStore()
     const route = useRoute()
     const router = useRouter()
-    const {t, locale} = useI18n()
+    const {locale} = useI18n()
     const {width} = useWindowSize()
 
     const article = ref({})
@@ -168,7 +176,6 @@ export default {
     })
 
     return {
-      t,
       images,
       imageSlider,
       article,
@@ -193,24 +200,38 @@ export default {
 @import "../assets/scss/page-helpers";
 
 .article {
-  @include tablets() {
+  @include tablets {
     overflow-y: auto;
   }
 
-  @include big-phones-landscape() {
+  @include big-phones-landscape {
     height: calc(#{$page-height} + #{$spacing-lg});
   }
 
-  @include phones-tablets() {
+  @include phones-tablets {
     @include page-height;
   }
 
-  @include laptop() {
+  @include laptop {
     display: grid;
-    grid-template-columns: 560px 1fr;
+    grid-template-columns: 400px 1fr auto;
     column-gap: $spacing-lg;
     overflow-y: initial;
     @include page-height;
+  }
+
+  @include desktop {
+    grid-template-columns: 560px 1fr auto;
+  }
+
+  &__date {
+    text-align: right;
+    margin-bottom: $spacing-sm;
+
+    @include laptop {
+      grid-column: 3;
+      grid-row: 1;
+    }
   }
 
   &__images {
@@ -225,7 +246,7 @@ export default {
       background-size: cover;
       background-position: center;
 
-      @include laptop() {
+      @include laptop {
         padding-bottom: $page-height;
       }
     }
@@ -256,14 +277,14 @@ export default {
         }
       }
 
-      @include laptop() {
+      @include laptop {
         display: none;
       }
     }
   }
 
   &__main {
-    @include laptop() {
+    @include laptop {
       overflow-y: auto;
       @include page-height;
     }

@@ -19,6 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- Social Graph Protocol Meta Data -->
+    <meta property="og:title" content="Blacksport" />
+    <meta property="og:description" content="Blacksport - это команда людей, призванных подготовить Вас к реализации Вашей спортивной мечты." />
+    <meta property="og:image" content="/Blacksport.png" />
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
