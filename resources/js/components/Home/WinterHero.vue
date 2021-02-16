@@ -2,7 +2,7 @@
   <div class="winter-hero">
     <img src="/img/hero/winter/cloud-left.png" class="winter-hero__cloud-left" alt="Cloud">
     <img src="/img/hero/winter/cloud-right.png" class="winter-hero__cloud-right" alt="Cloud">
-    <img src="/img/hero/winter/bg1.png" class="winter-hero__bg3" alt="">
+    <img src="/img/hero/winter/bg3.png" class="winter-hero__bg3" alt="">
 
     <svg class="logo-back" viewBox="0 0 238 40" xmlns="http://www.w3.org/2000/svg">
       <path d="M37.6513 20.5479V0H30.2309V20.0913C30.2309 26.484 35.2694 31.7808 41.6821 32.0548V24.6575C39.5751 24.3836 37.8345 22.7397 37.6513 20.5479Z"  />
@@ -18,7 +18,7 @@
     </svg>
 
     <img src="/img/hero/winter/bg2.png" class="winter-hero__bg2" alt="">
-    <img src="/img/hero/winter/bg3.png" class="winter-hero__bg1" alt="">
+    <img src="/img/hero/winter/bg1.png" class="winter-hero__bg1" alt="">
     <img src="/img/hero/winter/man.png" class="winter-hero__man" alt="Man">
 
     <div class="logo-mask">
@@ -81,184 +81,149 @@ export default {
     position: absolute;
   }
 
+  &__cloud-left {
+    width: calc((399 * 100vw) / 320);
+    transform: translateX(-5%) translateY(calc(50vh - 150%));
+
+    @include tablets {
+      width: calc((750 * 100vw) / 1440);
+      max-width: 750px;
+      transform: translateX(-3%) translateY(calc(50vh - 135%));
+    }
+  }
+
+  &__cloud-right {
+    width: calc((259 * 100vw) / 320);
+    transform: translateX(calc(100vw - 70%)) translateY(calc(50vh - 132%));
+
+    @include tablets {
+      width: calc((410 * 100vw) / 1440);
+      max-width: 410px;
+      transform: translateX(calc(100vw - 85%)) translateY(calc(50vh - 153%));
+    }
+  }
+
   &__bg3 {
     width: calc((736 * 100vw) / 320);
-    bottom: 22vh;
-    left: -64vw;
+    transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 129%));
 
     @include landscape {
       width: 100vw;
-      left: 0;
-      bottom: 10vh;
+      transform: translateY(calc(100vh - 100%));
     }
 
     @include big-phones-landscape {
       width: 100vw;
-      left: 0;
-      bottom: 10vh;
+      transform: translateY(calc(100vh - 100%));
     }
 
     @include phones-tablets {
-      bottom: 15vh;
+      transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 100%));
     }
 
     @include laptop {
       width: calc((1966 * 100vw) / 1440);
-      bottom: 3vh;
-      left: -18vw;
+      transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 103%));
     }
 
     @media screen and (min-width: 1441px) {
       width: 100vw;
-      left: 0;
-      bottom: 0;
+      transform: translateY(calc(100vh - 100%));
     }
   }
 
   &__bg2 {
-    width: calc((792 * 100vw) / 320);
-    bottom: 8vh;
-    left: -80vw;
+    width: calc((793 * 100vw) / 320);
+    transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 116%));
 
     @include landscape {
       width: 100vw;
-      left: 0;
-      bottom: 0;
+      transform: translateY(calc(100vh - 75%));
     }
 
     @include big-phones-landscape {
       width: 100vw;
-      left: 0;
-      bottom: 0;
+      transform: translateY(calc(100vh - 75%));
     }
 
     @include phones-tablets {
-      bottom: 0;
+      transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 85%));
     }
 
     @include laptop {
       width: calc((1681 * 100vw) / 1440);
-      bottom: 1vh;
-      left: -8vw;
+      transform: translateX(calc(50vw - 50%)) translateY(calc(100vh - 102%));
     }
 
     @media screen and (min-width: 1441px) {
       width: 100vw;
-      left: 0;
-      bottom: -20vh;
+      transform: translateY(calc(100vh - 90%));
     }
   }
 
   &__bg1 {
     width: calc((524 * 100vw) / 320);
-    bottom: 6vh;
-    left: -74vw;
+    transform: translateX(calc(50vw - 75%)) translateY(calc(100vh - 110%));
 
     @include landscape {
       width: 100vw;
-      left: 0;
-      bottom: -30vh;
+      transform: translateY(calc(100vh - 60%));
     }
 
     @include big-phones-landscape {
       width: 100vw;
-      left: 0;
-      bottom: -30vh;
+      transform: translateY(calc(100vh - 60%));
     }
 
     @include phones-tablets {
-      bottom: 0;
+      transform: translateX(calc(50vw - 75%)) translateY(calc(100vh - 100%));
     }
 
     @include laptop {
       width: calc((1158 * 100vw) / 1440);
-      bottom: -1vh;
-      left: -10vw;
+      transform: translateX(calc(50vw - 75%)) translateY(calc(100vh - 99%));
     }
 
     @media screen and (min-width: 1441px) {
       width: 100vw;
-      bottom: -40vh;
-      left: 0;
+      transform: translateY(calc(100vh - 70%));
     }
   }
 
   &__man {
     width: calc((822 * 100vw) / 320);
-    left: -116vw;
-    top: calc(100vh - (490 * 100vw) / 320);
+    transform: translateX(-46%) translateY(calc(100vh - 86%));
 
     @include landscape {
       width: 100vw;
-      left: 2vw;
-      top: initial;
-      bottom: -30vh;
+      transform: translateX(1px) translateY(calc(100vh - 76%));
     }
 
     @include big-phones-landscape {
       width: 100vw;
-      left: 2vw;
-      top: initial;
-      bottom: -30vh;
+      transform: translateX(1px) translateY(calc(100vh - 76%));
     }
 
     @include phones-tablets {
-      top: calc(100vh - (460 * 100vw) / 320);
+      transform: translateX(-46%) translateY(calc(100vh - 70%));
     }
 
     @include laptop {
       width: calc((2094 * 100vw) / 1440);
       max-width: 2094px;
-      left: calc(100vw - (2055 * 100vw) / 1440);
-      top: calc(100vh - (1020 * 100vw) / 1440);
-    }
-
-    @include large-desktop {
-      left: calc(100vw - 2060px);
-      top: calc(100vh - 1020px);
-    }
-  }
-
-  &__cloud-left {
-    width: calc((325 * 100vw) / 320);
-    top: 10vh;
-
-    @include tablets {
-      width: calc((750 * 100vw) / 1440);
-      max-width: 750px;
-      top: 5vh;
-    }
-  }
-
-  &__cloud-right {
-    width: calc((200 * 100vw) / 320);
-    right: -10vw;
-    top: 10vh;
-
-    @include tablets {
-      width: calc((410 * 100vw) / 1440);
-      max-width: 410px;
-      right: 0;
-      top: -10vh;
+      transform: translateX(calc(100vw - 98%)) translateY(calc(100vh - 70%));
     }
   }
 
   .logo-back, .logo-mask__logo {
     width: calc((256 * 100vw) / 320);
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    top: calc(50vh - calc((30 * 100vw) / 320));
     position: absolute;
     fill: $text-accent-color;
-
-    @include phones-tablets {
-      top: calc(50vh - calc((90 * 100vw) / 320));
-    }
+    transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 70%));
 
     @include laptop {
       width: 714px;
-      top: calc(50vh - 125px);
+      transform: translateX(calc(50vw - 50%)) translateY(calc(50vh - 104%));
     }
   }
 
@@ -270,7 +235,7 @@ export default {
     mask-image:  $mask-image;
     mask-repeat: no-repeat;
     mask-size: calc((822 * 100vw) / 320) auto;
-    mask-position: -116vw calc(100vh - (490 * 100vw) / 320);
+    mask-position: calc(75.5%) calc(100vh - (493 * 100vw) / 320);
 
     @include landscape {
       mask-image: unset;
@@ -281,40 +246,30 @@ export default {
     }
 
     @include phones-tablets {
-      mask-position: -116vw calc(100vh - (460 * 100vw) / 320);
+      mask-image: unset;
     }
 
     @include laptop {
+      mask-image: $mask-image;
       mask-size: calc((2094 * 100vw) / 1440) auto;
-      mask-position: calc(100vw - (2055 * 100vw) / 1440) calc(100vh - (1020 * 100vw) / 1440);
+      mask-position: calc(100vw - (2052 * 100vw) / 1440) calc(100vh - (1024 * 100vw) / 1440);
     }
 
     @include large-desktop {
       mask-size: 2094px auto;
-      mask-position: calc(100vw - 2060px) calc(100vh - 1020px);
+      mask-position: calc(100vw - 2052px) calc(100vh - 1024px);
     }
   }
 
   .slogan {
     width: calc((212 * 100vw) / 320);
-    top: calc(50vh + calc((20 * 100vw) / 320));
-    left: 0;
-    right: 0;
-    margin: 0 auto;
     fill: $text-accent-color;
     position: absolute;
-
-    @include landscape {
-      top: 55vh;
-    }
-
-    @include phones-tablets {
-      top:  calc(50vh - calc((40 * 100vw) / 320));
-    }
+    transform: translateX(calc(50vw - 50%)) translateY(calc(50vh + 190%));
 
     @include laptop {
       width: 613px;
-      top: calc(50vh + 13px);
+      transform: translateX(calc(50vw - 50%)) translateY(calc(50vh + 50%));
     }
   }
 }
