@@ -11,18 +11,22 @@
     </div>
 
     <ul
-      class="ambassadors__grid"
       :style="`--amount: ${ambassadors.length + 1}; --rows: ${ambassadorRows}`"
+      class="ambassadors__grid"
     >
-      <li class="ambassadors__grid__item"
-          :key="ambassador.id"
-          :title="ambassador.description"
-          v-for="(ambassador, i) in ambassadors"
+      <li
+        :key="ambassador.id"
+        class="ambassadors__grid__item"
+        v-for="(ambassador, i) in ambassadors"
       >
         <div
           :style="{backgroundImage: `url(${imageSrc[i]})`}"
           class="ambassadors__grid__item-content"
-        />
+        >
+          <div class="ambassadors__grid__item-description">
+            <span>{{ ambassador.description }}</span>
+          </div>
+        </div>
       </li>
     </ul>
   </section>
@@ -202,6 +206,44 @@ export default {
       background-position: center;
       background-size: cover;
       clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      position: relative;
+
+      &:hover {
+        .ambassadors__grid__item-description {
+          background-color: rgba($bg-color, 0.4);
+
+          span {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    &__item-description {
+      width: 100%;
+      height: 100%;
+      padding: 0 $spacing-sm;
+      box-sizing: border-box;
+      top: 0;
+      position: absolute;
+      color: $text-accent-color;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      transition: background-color 0.3s ease-in-out;
+      user-select: none;
+
+      @include laptop {
+        font-size: 24px;
+        line-height: 135%;
+      }
+
+      span {
+        transform: translateY(50px);
+        opacity: 0;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <PageLayout background-color="park">
     <template v-slot:title>
-      {{t('about')}}
+      {{$t('about')}}
     </template>
     <div class="about">
       <div class="about__container">
@@ -9,7 +9,7 @@
           <img src="/img/about/about-1.png" alt="Snowboarding">
           <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         </div>
-        <h1>{{t('about')}}</h1>
+        <h1>{{$t('about')}}</h1>
         <p :key="i" v-for="(paragraph, i) in aboutParagraphs">{{paragraph}}</p>
       </div>
 
@@ -44,7 +44,7 @@ export default {
   name: 'About',
   components: {Ambassadors, Partners, Achievements, PageLayout},
   setup() {
-    const {t, locale} = useI18n()
+    const {locale} = useI18n()
     const {dispatch, state} = useStore()
     const missionImageSrc = computed(() => locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
     const aboutText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'about') || {})
@@ -55,7 +55,6 @@ export default {
     })
 
     return {
-      t,
       missionImageSrc,
       aboutParagraphs,
     }

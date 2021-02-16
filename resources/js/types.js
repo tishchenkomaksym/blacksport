@@ -7,6 +7,7 @@
  * @property {string} published
  * @property {string} title
  * @property {string} updated_at
+ * @property {string} preview_image
  */
 
 /**
