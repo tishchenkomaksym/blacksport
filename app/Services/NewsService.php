@@ -19,4 +19,14 @@ class NewsService
         }
 
     }
+
+    public function checkCreatedAtOneNews(&$news)
+    {
+
+        if ($news->hide_date == 1){
+            $news->created_at = null;
+            $news->updated_at = null;
+        }
+    }
+
 }
