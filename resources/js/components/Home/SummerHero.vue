@@ -32,7 +32,7 @@
     <img src="/img/hero/summer/skatepark-2.png" class="skatepark-2" alt="Skatepark">
     <img src="/img/hero/summer/skatepark-1.png" class="skatepark-1" alt="Skatepark">
     <img src="/img/hero/summer/man.png" class="man" ref="man" alt="Man">
-    <img src="/img/hero/summer/skateboard.png" class="skateboard" alt="Skateboard">
+    <img src="/img/hero/summer/skateboard.png" class="skateboard" alt="Skateboard" ref="skate" />
 
     <div class="logo-mask">
       <svg class="logo-mask__logo" viewBox="0 0 288 49" xmlns="http://www.w3.org/2000/svg">
@@ -94,26 +94,63 @@ import gsap from 'gsap'
 
 export default {
   name: 'SummerHero',
+  data: () => ({
+    container: null,
+    gyroPresent: false,
+  }),
   mounted() {
-    console.log('summer mounted', gsap)
+    this.container = this.$refs.hero
+    window.addEventListener('resize', this.handleWindowResize)
+    window.addEventListener('devicemotion', this.handleDeviceMotion)
   },
   beforeUnmount() {
-    console.log('summer unmounted', this.$refs.man)
+    window.removeEventListener('resize', this.handleWindowResize)
+    window.removeEventListener('devicemotion', this.handleDeviceMotion)
   },
   methods: {
     handleMouseMove(e) {
-      // this.parallaxIt(e, this.$refs.man, -50)
+      if (this.gyroPresent) return // TODO Handle device motion
+      this.parallaxMan(e)
+      this.parallaxSkate(e)
     },
-    parallaxIt(e, target, movement) {
-      /** @type {HTMLDivElement} container */
-      const container = this.$refs.hero
-      const relX = e.pageY - container.offsetLeft
-      const relY = e.pageX - container.offsetTop
-      gsap.to(target, {
-        x: (relX - container.offsetWidth / 2) / container.offsetWidth * movement,
-        y: (relY - container.offsetHeight / 2) / container.offsetHeight * movement,
-      })
+    getRel(x, y) {
+      return {relX: x - this.container.offsetLeft, relY: y - this.container.offsetTop}
     },
+    parallaxMan(e) {
+      const man = this.$refs.man
+      const {relX, relY} = this.getRel(e.pageX, e.pageY)
+      const xOffset = (relX - this.container.offsetWidth / 2) / this.container.offsetWidth
+      const yOffset = (relY - this.container.offsetHeight / 2) / this.container.offsetHeight
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(man, `translateX(calc(50vw + 9% + ${xOffset * 40}px)) translateY(calc(50vh - 60% + ${yOffset * 40}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(man, `translateX(calc(50vw - 23% + ${xOffset * 20}px)) translateY(calc(50vh - 56% + ${yOffset * 20}px)) rotate(-15deg)`)
+      }
+    },
+    parallaxSkate(e) {
+      const skate = this.$refs.skate
+      const {relX, relY} = this.getRel(e.pageX, e.pageY)
+      const xOffset = (relX - this.container.offsetWidth / 2) / this.container.offsetWidth
+      const yOffset = (relY - this.container.offsetHeight / 2) / this.container.offsetHeight
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(skate, `translateX(calc(50vw - 94% + ${xOffset * 40}px)) translateY(calc(50vh + 6% + ${yOffset * 40}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(skate, `translateX(calc(50vw - 142% + ${xOffset * 20}px)) translateY(calc(50vh + 47% + ${yOffset * 20}px)) rotate(-15deg)`)
+      }
+    },
+    parallaxElem(elem, transform) {
+      gsap.to(elem, {transform})
+    },
+    /** @param {DeviceMotionEvent} event */
+    handleDeviceMotion(event) {
+      // Check whether gyroscope is present
+      const {alpha, beta, gamma} = event.rotationRate
+      if (alpha || beta || gamma) this.gyroPresent = true
+    },
+    handleWindowResize() {
+      gsap.to(this.$refs.man, {clearProps: 'all', duration: 0})
+      gsap.to(this.$refs.skate, {clearProps: 'all', duration: 0})
+    }
   },
 }
 </script>

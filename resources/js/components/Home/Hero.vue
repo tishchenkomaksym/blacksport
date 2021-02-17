@@ -1,7 +1,8 @@
 <template>
   <section class="hero">
-    <WinterHero v-if="isWinter" />
-    <SummerHero v-else />
+<!--    <WinterHero v-if="isWinter" />-->
+<!--    <SummerHero v-else />-->
+    <SummerHero />
     <div class="gradient" />
   </section>
 </template>
@@ -39,6 +40,7 @@ export default {
     height: 120px;
     bottom: 0;
     position: absolute;
+    pointer-events: none;
     background: linear-gradient(180deg, rgba(111, 116, 120, 0) 0%, #6F7478 100%);
   }
 }
