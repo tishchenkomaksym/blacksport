@@ -109,7 +109,7 @@ class NewsController extends Controller
     public function show($id, $locale = null)
     {
         $news = News::where('id', $id)->get();
-        $this->news_service->checkCreatedAtOneNews($news);
+        $this->news_service->checkCreatedAt($news);
         $news = $this->translate_service->translate($locale, $news, News::class);
 
         return response()->json($news, 200);
