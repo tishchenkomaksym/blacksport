@@ -9,6 +9,7 @@ import axios from 'axios'
  * @property {Contacts[]} contacts
  * @property {any} shownServiceExample
  * @property {any} shownServiceOrder
+ * @property {string} shownAchievement
  */
 
 const GOOGLE_MAPS_API_KEY = process.env.MIX_GOOGLE_MAPS_API_KEY
@@ -32,12 +33,13 @@ export default {
     basketOpen: false,
     shownServiceExample: null,
     shownServiceOrder: null,
+    shownAchievement: null,
     contacts: [],
   }),
   getters: {
     socialLinks: ({contacts}) => contacts[0]?.social_links || [],
-    isBlurred: ({menuShown, basketOpen, shownServiceExample, shownServiceOrder}) => {
-      return menuShown || basketOpen || shownServiceExample || shownServiceOrder
+    isBlurred: ({menuShown, basketOpen, shownServiceExample, shownServiceOrder, shownAchievement}) => {
+      return menuShown || basketOpen || shownServiceExample || shownServiceOrder || shownAchievement
     },
   },
   actions: {
@@ -54,6 +56,7 @@ export default {
       commit('setBasketOpen', false)
       commit('setShownServiceExample', null)
       commit('setShownServiceOrder', null)
+      commit('setShownAchievement', null)
     },
   },
   mutations: {
@@ -69,5 +72,6 @@ export default {
     },
     setShownServiceExample: (state, shownServiceExample) => state.shownServiceExample = shownServiceExample,
     setShownServiceOrder: (state, shownServiceOrder) => state.shownServiceOrder = shownServiceOrder,
+    setShownAchievement: (state, shownAchievement) => state.shownAchievement = shownAchievement,
   },
 }

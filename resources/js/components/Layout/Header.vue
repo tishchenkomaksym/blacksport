@@ -2,7 +2,7 @@
   <transition appear name="logo-transition">
     <router-link
       :to="`/${locale}`"
-      :class="{blurred: shownServiceExample || shownServiceOrder}"
+      :class="{blurred: isBlurred}"
       @click.prevent="goToPage(`/${locale}`)"
       class="logo"
     >
@@ -10,7 +10,7 @@
     </router-link>
   </transition>
   <transition appear name="right-panel-transition">
-    <div class="right-panel" :class="{blurred: shownServiceExample || shownServiceOrder}">
+    <div class="right-panel" :class="{blurred: isBlurred}">
       <BasketIcon/>
       <router-link
         :to="`/${locale}`"
@@ -77,8 +77,6 @@ export default {
     const router = useRouter()
     const menuShown = computed(() => state.common.menuShown)
     const basketOpen = computed(() => state.common.basketOpen)
-    const shownServiceExample = computed(() => state.common.shownServiceExample)
-    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
     const links = computed(() => [
       {
         path: {
@@ -149,10 +147,11 @@ export default {
       links,
       goToPage,
       basketOpen,
-      shownServiceExample,
-      shownServiceOrder,
       termsLink: computed(() => `/${locale.value}${ROUTE_CONF.TERMS.path}`),
       refundLink: computed(() => `/${locale.value}${ROUTE_CONF.REFUND.path}`),
+      isBlurred: computed(() => {
+        return state.common.shownServiceExample || state.common.shownServiceOrder || state.common.shownAchievement
+      }),
     }
   },
 }
