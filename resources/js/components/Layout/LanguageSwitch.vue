@@ -1,7 +1,7 @@
 <template>
   <transition appear name="slide">
     <div
-      :class="{'languages--blurred': shownServiceExample || shownServiceOrder}"
+      :class="{'languages--blurred': isBlurred}"
       class="languages"
       v-if="!isHidden"
     >
@@ -41,21 +41,20 @@ export default {
       const currentRoute = Object.values(ROUTE_CONF).find(({name}) => name === useRoute().matched[0]?.name)
       return (currentRoute || ROUTE_CONF.HOME).path
     })
-    const shownServiceExample = computed(() => state.common.shownServiceExample)
-    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
     const {width} = useWindowSize()
     const menuShown = computed(() => state.common.menuShown)
 
     const switchLocale = newLocale => locale.value = newLocale
 
     return {
-      shownServiceExample,
-      shownServiceOrder,
       locale,
       switchLocale,
       currentRoute,
       locales,
       isHidden: computed(() => !menuShown.value && width.value < 768),
+      isBlurred: computed(() => {
+        return state.common.shownServiceExample || state.common.shownServiceOrder || state.common.shownAchievement
+      }),
     }
   },
 }

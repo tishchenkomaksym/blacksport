@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import {computed} from 'vue'
-
 export default {
   name: 'Button',
   props: {
@@ -34,22 +32,20 @@ export default {
       default: null,
     },
   },
-  setup(props) {
-    const buttonClassNames = computed(() => ({
-      block: props.block,
-      link: props.link,
-      light: props.light,
-      small: props.small,
-    }))
-
-    const buttonStyles = computed(() => ({
-      backgroundColor: props.color,
-    }))
-
-    return {
-      buttonClassNames,
-      buttonStyles,
-    }
+  computed: {
+    buttonClassNames() {
+      return {
+        block: this.block,
+        link: this.link,
+        light: this.light,
+        small: this.small,
+      }
+    },
+    buttonStyles() {
+      return {
+        backgroundColor: this.color,
+      }
+    },
   },
 }
 </script>
@@ -91,9 +87,28 @@ button {
   &.link {
     padding: 0;
     background-color: transparent;
+    position: relative;
 
     &:hover:not(:disabled) {
       color: $text-accent-color;
+
+      &::after {
+        opacity: 0.3;
+      }
+    }
+
+    &::after {
+      width: calc(100% + #{$spacing});
+      top: 50%;
+      transform: translateY(calc(-50% - 1px));
+      left: -$spacing-sm;
+      height: 4px;
+      display: block;
+      background-color: $text-color;
+      opacity: 0;
+      content: "";
+      position: absolute;
+      transition: opacity 0.3s ease-in-out;
     }
   }
 

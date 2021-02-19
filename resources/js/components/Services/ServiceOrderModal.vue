@@ -28,12 +28,12 @@
             light
           />
           <p class="form-error" v-if="hasError">{{t('phoneExists')}}</p>
-          <Button type="submit" block link>{{t('order')}}</Button>
+          <Button type="submit" link>{{t('order')}}</Button>
         </template>
         <template v-else>
           <h1>{{t('thankYou')}}</h1>
           <h2>{{t('operatorContact')}}</h2>
-          <Button type="reset" @click="$emit('close-modal')" block link>{{t('close')}}</Button>
+          <Button type="reset" @click="$emit('close-modal')" link>{{t('close')}}</Button>
         </template>
       </div>
     </Form>
