@@ -16,13 +16,16 @@
       @close-modal="closeEverything"
       v-if="shownServiceExample"
     />
-  </transition>
-  <transition name="modal-transition">
     <ServiceOrderModal
       :service-id="shownServiceOrder.id"
       :service-name="shownServiceOrder.name"
       @close-modal="closeEverything"
-      v-if="shownServiceOrder"
+      v-else-if="shownServiceOrder"
+    />
+    <AchievementVideoModal
+      :video-id="shownAchievement"
+      @close-modal="closeEverything"
+      v-else-if="shownAchievement"
     />
   </transition>
   <main
@@ -43,10 +46,11 @@ import Footer from './Footer'
 import BasketPopup from '../Products/BasketPopup'
 import ServiceExamplesModal from '../Services/ServiceExamplesModal'
 import ServiceOrderModal from '../Services/ServiceOrderModal'
+import AchievementVideoModal from '../Base/VideoModal'
 
 export default {
   name: 'Layout',
-  components: {ServiceOrderModal, ServiceExamplesModal, BasketPopup, Header, Footer},
+  components: {AchievementVideoModal, ServiceOrderModal, ServiceExamplesModal, BasketPopup, Header, Footer},
   props: {
     backgroundColor: String,
   },
@@ -55,6 +59,7 @@ export default {
     const basketOpen = computed(() => state.common.basketOpen)
     const shownServiceExample = computed(() => state.common.shownServiceExample)
     const shownServiceOrder = computed(() => state.common.shownServiceOrder)
+    const shownAchievement = computed(() => state.common.shownAchievement)
     const isBlurred = computed(() => getters['common/isBlurred'])
 
     const closeEverything = () => dispatch('common/closeEverything')
@@ -65,6 +70,7 @@ export default {
       basketOpen,
       shownServiceExample,
       shownServiceOrder,
+      shownAchievement,
       isBlurred,
       closeEverything,
     }

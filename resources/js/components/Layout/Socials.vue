@@ -1,7 +1,7 @@
 <template>
   <transition appear name="slide">
     <div
-      :class="{'socials--blurred': shownServiceExample || shownServiceOrder}"
+      :class="{'socials--blurred': isBlurred}"
       class="socials"
       v-if="!isHidden"
     >
@@ -37,8 +37,6 @@ export default {
   setup() {
     const {state, getters} = useStore()
     const menuShown = computed(() => state.common.menuShown)
-    const shownServiceExample = computed(() => state.common.shownServiceExample)
-    const shownServiceOrder = computed(() => state.common.shownServiceOrder)
     const {width} = useWindowSize()
     const socialLinks = computed(() => getters['common/socialLinks'])
 
@@ -48,12 +46,13 @@ export default {
     const isInstagram = link => link.includes('instagram.com') || link.includes('instagr.am')
 
     return {
-      shownServiceExample,
-      shownServiceOrder,
       isHidden: computed(() => !menuShown.value && width.value < 768),
       socialLinks,
       isFacebook,
       isInstagram,
+      isBlurred: computed(() => {
+        return state.common.shownServiceExample || state.common.shownServiceOrder || state.common.shownAchievement
+      }),
     }
   }
 }

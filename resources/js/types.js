@@ -103,7 +103,8 @@
  * @property {string} description
  * @property {number }id
  * @property {string} title
- * @property {string } updated_at
+ * @property {string} updated_at
+ * @property {string} video
  */
 
 /**

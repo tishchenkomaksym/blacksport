@@ -16,7 +16,19 @@
         class="achievements__list-item"
         v-for="achievement in achievements"
       >
-        <img src="/img/branch.svg" alt="Branch">
+        <div
+          @click="openVideoModal(getVideoId(achievement.video))"
+          class="achievements__list-item__video"
+          v-if="achievement.video && getVideoId(achievement.video)"
+        >
+          <img
+            :src="getVideoThumbnail(achievement.video)"
+            :alt="achievement.title"
+            class="achievements__list-item__video-thumbnail"
+          />
+          <img class="achievements__list-item__video-icon" src="/img/youtube_social_icon_red.png" alt="Youtube" />
+        </div>
+        <img src="/img/branch.svg" alt="Branch" v-else />
         <h2>{{achievement.title}}</h2>
         <p>{{achievement.description}}</p>
       </article>
@@ -32,16 +44,32 @@ import useParseText from '../../hooks/useParseText'
 export default {
   name: 'Achievements',
   setup() {
-    const {state} = useStore()
+    const {commit, state} = useStore()
     const achievements = computed(() => state.pages.about.achievements)
     const achievementsText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'made') || {})
     const achievementsDescription = computed(() => useParseText(achievementsText.value?.meta_description || '').value)
+
+    const openVideoModal = videoUrl => {
+      commit('common/setShownAchievement', videoUrl)
+    }
 
     return {
       achievements,
       achievementsText,
       achievementsDescription,
+      openVideoModal,
     }
+  },
+  methods: {
+    getVideoThumbnail(url) {
+      console.log(url)
+      return `https://img.youtube.com/vi/${this.getVideoId(url)}/maxresdefault.jpg`
+    },
+    getVideoId(url) {
+      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+      const match = url.match(regExp)
+      return (match && match[7].length === 11) ? match[7] : false
+    },
   },
 }
 </script>
@@ -65,7 +93,7 @@ export default {
     flex-wrap: nowrap;
     overflow-x: auto;
 
-    @include tablets() {
+    @include tablets {
       width: initial;
       margin: initial;
       display: grid;
@@ -76,11 +104,11 @@ export default {
       overflow-x: initial;
     }
 
-    @include laptop() {
+    @include laptop {
       grid-template-columns: repeat(3, 1fr);
     }
 
-    @include large-desktop() {
+    @include large-desktop {
       grid-template-columns: repeat(4, 1fr);
     }
   }
@@ -99,13 +127,31 @@ export default {
       margin-right: $spacing;
     }
 
-    @include tablets() {
+    @include tablets {
       padding: #{$spacing-md + $spacing-sm} $spacing;
       margin: initial;
 
       &:first-of-type,
       &:last-of-type {
         margin: initial;
+      }
+    }
+
+    &__video {
+      position: relative;
+      cursor: pointer;
+
+      &-thumbnail {
+        width: 100%;
+        min-width: 250px;
+      }
+
+      &-icon {
+        width: 48px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
       }
     }
   }

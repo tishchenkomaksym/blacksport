@@ -34,7 +34,7 @@
     <TransitionExpand>
       <div class="select__dropdown" v-if="isOpen">
         <input
-          :placeholder="`${t('search')}...`"
+          :placeholder="`${$t('search')}...`"
           class="select__dropdown-search"
           v-model="searchValue"
           v-if="search"
@@ -60,7 +60,6 @@
 
 <script>
 import {computed, ref, watch} from 'vue'
-import {useI18n} from 'vue-i18n'
 
 import TransitionExpand from './TransitionExpand'
 
@@ -92,7 +91,6 @@ export default {
     'search-change',
   ],
   setup(props, {emit}) {
-    const {t} = useI18n()
     const isOpen = ref(false)
     const searchValue = ref('')
     const availableOptions = computed(() => {
@@ -109,7 +107,6 @@ export default {
     watch(searchValue, searchValue => emit('search-change', searchValue))
 
     return {
-      t,
       isOpen,
       searchValue,
       availableOptions,

@@ -54,7 +54,7 @@ export default {
   z-index: 999;
   overflow: auto;
 
-  @include tablets() {
+  @include tablets {
     display: flex;
     flex-direction: column;
   }
@@ -65,7 +65,7 @@ export default {
     justify-content: flex-end;
     align-items: center;
 
-    @include tablets() {
+    @include tablets {
       padding: $spacing-lg + $spacing-sm $spacing-lg;
       right: 0;
       position: absolute;
@@ -76,6 +76,14 @@ export default {
       &:hover .modal__close-icon {
         fill: $text-accent-color;
       }
+
+      &::after {
+        width: calc(100% - 11px);
+
+        @include tablets {
+          width: calc(100% - 22px);
+        }
+      }
     }
 
     &-icon {
@@ -85,7 +93,7 @@ export default {
       fill: $text-color;
       transition: fill 0.3s ease-in-out;
 
-      @include tablets() {
+      @include tablets {
         width: 17px;
         height: 17px;
         margin-left: 20px;
@@ -97,7 +105,7 @@ export default {
   &__container {
     padding: 0 $spacing;
 
-    @include tablets() {
+    @include tablets {
       padding: 116px $spacing-lg 90px;
       flex-grow: 1;
     }
