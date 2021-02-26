@@ -1,8 +1,7 @@
 <template>
   <section class="hero">
-<!--    <WinterHero v-if="isWinter" />-->
-<!--    <SummerHero v-else />-->
-    <SummerHero />
+    <WinterHero v-if="isWinter" />
+    <SummerHero v-else />
     <div class="gradient" />
   </section>
 </template>

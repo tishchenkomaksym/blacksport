@@ -1,38 +1,58 @@
 <template>
-  <div class="winter-hero">
-    <img src="/img/hero/winter/cloud-left.png" class="winter-hero__cloud-left" alt="Cloud">
-    <img src="/img/hero/winter/cloud-right.png" class="winter-hero__cloud-right" alt="Cloud">
-    <img src="/img/hero/winter/bg3.png" class="winter-hero__bg3" alt="">
+  <div @mousemove="handleMouseMove" class="winter-hero" ref="hero">
+    <img src="/img/hero/winter/cloud-left.png" class="winter-hero__cloud-left" alt="Cloud" ref="cloudLeft"/>
+    <img src="/img/hero/winter/cloud-right.png" class="winter-hero__cloud-right" alt="Cloud" ref="cloudRight"/>
+    <img src="/img/hero/winter/bg3.png" class="winter-hero__bg3" alt="Mountains" ref="mountains"/>
 
     <svg class="logo-back" viewBox="0 0 238 40" xmlns="http://www.w3.org/2000/svg">
-      <path d="M37.6513 20.5479V0H30.2309V20.0913C30.2309 26.484 35.2694 31.7808 41.6821 32.0548V24.6575C39.5751 24.3836 37.8345 22.7397 37.6513 20.5479Z"  />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.60354 9.58904C9.34411 8.6758 11.2679 8.12785 13.3749 8.12785C20.0624 8.12785 25.4673 13.4247 25.4673 20.0913C25.4673 26.758 20.0624 32.1461 13.3749 32.1461C11.2679 32.1461 9.34411 31.5982 7.60354 30.6849V31.5982H0V0.0913242H7.60354V9.58904ZM7.60354 20.0913C7.60354 23.2877 10.1686 25.8447 13.3749 25.8447C16.5812 25.8447 19.1463 23.2877 19.1463 20.0913C19.1463 16.895 16.5812 14.3379 13.3749 14.3379C10.1686 14.3379 7.60354 16.895 7.60354 20.0913Z"  />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M63.0269 9.58904C61.2864 8.6758 59.3626 8.12785 57.2556 8.12785C50.5681 8.12785 45.1632 13.516 45.1632 20.1826C45.1632 26.8493 50.5681 32.2374 57.2556 32.2374C59.3626 32.2374 61.2864 31.6895 63.0269 30.7763V31.6895H69.8976V8.85845H63.0269V9.58904ZM57.2556 25.8447C54.0493 25.8447 51.4842 23.2877 51.4842 20.0913C51.4842 16.895 54.0493 14.3379 57.2556 14.3379C60.4619 14.3379 63.0269 16.895 63.0269 20.0913C63.0269 23.2877 60.4619 25.8447 57.2556 25.8447Z"  />
-      <path d="M134.574 15.4338C134.482 16.0731 135.123 16.5297 136.222 16.7123C140.162 17.2603 144.65 19.2694 144.65 24.0183C144.65 29.7717 139.154 31.6895 135.398 31.6895C132.467 31.6895 128.985 30.8676 126.329 27.3059L129.718 23.0137C131.276 24.6575 133.383 25.3881 135.032 25.4795C136.406 25.4795 137.139 25.0228 137.139 24.3836C137.139 23.8356 136.681 23.2877 135.306 23.105C131.367 22.6484 127.153 20.1826 127.153 15.5251C127.153 10.5936 131.734 8.12785 136.131 8.12785C138.055 8.12785 141.169 8.40183 143.918 11.3242L140.436 15.7078C138.696 14.4292 136.955 14.3379 136.314 14.3379C135.215 14.3379 134.574 14.8858 134.574 15.4338Z"  />
-      <path d="M233.969 14.1553V20.7306C234.244 22.831 235.893 24.4749 238 24.7489V32.1461C231.679 31.7808 226.549 26.5753 226.549 20.1826V14.1553H223.526V8.49315H226.549V3.28767L233.969 2.55708V8.49315H237.725V14.1553H233.969Z"  />
-      <path d="M206.761 8.6758H214.365V9.95434C215.831 9.13242 217.663 8.6758 219.495 8.6758V14.4292C217.022 14.4292 214.915 16.1644 214.365 18.5388V31.5069H206.761V8.6758Z"  />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M178.546 20.1826C178.546 13.516 183.951 8.12785 190.638 8.12785C197.326 8.12785 202.731 13.4247 202.731 20.1826C202.731 26.8493 197.326 32.2374 190.638 32.2374C183.951 32.2374 178.546 26.8493 178.546 20.1826ZM184.867 20.0913C184.867 23.2877 187.432 25.8447 190.638 25.8447C193.844 25.8447 196.41 23.2877 196.41 20.0913C196.41 16.895 193.844 14.3379 190.638 14.3379C187.432 14.3379 184.867 16.895 184.867 20.0913Z"  />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M162.331 8.12785C160.224 8.12785 158.209 8.6758 156.56 9.58904V8.6758H148.956V40H156.56V30.5936C158.3 31.5069 160.224 32.0548 162.331 32.0548C169.018 32.0548 174.423 26.6667 174.423 20C174.423 13.4247 169.018 8.12785 162.331 8.12785ZM162.331 25.8447C159.125 25.8447 156.56 23.2877 156.56 20.0913C156.56 16.895 159.125 14.3379 162.331 14.3379C165.537 14.3379 168.102 16.895 168.102 20.0913C168.102 23.2877 165.537 25.8447 162.331 25.8447Z"  />
-      <path d="M86.3872 14.3379C87.7614 14.3379 89.0439 14.7945 90.0516 15.6164L94.5404 11.1416C92.4334 9.22374 89.5935 8.03653 86.3872 8.03653C79.6998 8.03653 74.2948 13.4247 74.2948 20.0913C74.2948 26.758 79.6998 32.1461 86.3872 32.1461C89.5019 32.1461 92.3418 30.9589 94.5404 29.0411L90.0516 24.5662C89.0439 25.3881 87.7614 25.8447 86.3872 25.8447C83.1809 25.8447 80.6159 23.2877 80.6159 20.0913C80.6159 16.895 83.1809 14.3379 86.3872 14.3379Z"  />
-      <path d="M106.358 18.5388L116.252 8.6758H124.405L112.771 20.1826L124.13 31.5068H113.962L107.64 25.2968L106.358 26.5753V31.5068H98.9376V0H106.358V18.5388Z"  />
+      <path
+        d="M37.6513 20.5479V0H30.2309V20.0913C30.2309 26.484 35.2694 31.7808 41.6821 32.0548V24.6575C39.5751 24.3836 37.8345 22.7397 37.6513 20.5479Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M7.60354 9.58904C9.34411 8.6758 11.2679 8.12785 13.3749 8.12785C20.0624 8.12785 25.4673 13.4247 25.4673 20.0913C25.4673 26.758 20.0624 32.1461 13.3749 32.1461C11.2679 32.1461 9.34411 31.5982 7.60354 30.6849V31.5982H0V0.0913242H7.60354V9.58904ZM7.60354 20.0913C7.60354 23.2877 10.1686 25.8447 13.3749 25.8447C16.5812 25.8447 19.1463 23.2877 19.1463 20.0913C19.1463 16.895 16.5812 14.3379 13.3749 14.3379C10.1686 14.3379 7.60354 16.895 7.60354 20.0913Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M63.0269 9.58904C61.2864 8.6758 59.3626 8.12785 57.2556 8.12785C50.5681 8.12785 45.1632 13.516 45.1632 20.1826C45.1632 26.8493 50.5681 32.2374 57.2556 32.2374C59.3626 32.2374 61.2864 31.6895 63.0269 30.7763V31.6895H69.8976V8.85845H63.0269V9.58904ZM57.2556 25.8447C54.0493 25.8447 51.4842 23.2877 51.4842 20.0913C51.4842 16.895 54.0493 14.3379 57.2556 14.3379C60.4619 14.3379 63.0269 16.895 63.0269 20.0913C63.0269 23.2877 60.4619 25.8447 57.2556 25.8447Z"/>
+      <path
+        d="M134.574 15.4338C134.482 16.0731 135.123 16.5297 136.222 16.7123C140.162 17.2603 144.65 19.2694 144.65 24.0183C144.65 29.7717 139.154 31.6895 135.398 31.6895C132.467 31.6895 128.985 30.8676 126.329 27.3059L129.718 23.0137C131.276 24.6575 133.383 25.3881 135.032 25.4795C136.406 25.4795 137.139 25.0228 137.139 24.3836C137.139 23.8356 136.681 23.2877 135.306 23.105C131.367 22.6484 127.153 20.1826 127.153 15.5251C127.153 10.5936 131.734 8.12785 136.131 8.12785C138.055 8.12785 141.169 8.40183 143.918 11.3242L140.436 15.7078C138.696 14.4292 136.955 14.3379 136.314 14.3379C135.215 14.3379 134.574 14.8858 134.574 15.4338Z"/>
+      <path
+        d="M233.969 14.1553V20.7306C234.244 22.831 235.893 24.4749 238 24.7489V32.1461C231.679 31.7808 226.549 26.5753 226.549 20.1826V14.1553H223.526V8.49315H226.549V3.28767L233.969 2.55708V8.49315H237.725V14.1553H233.969Z"/>
+      <path
+        d="M206.761 8.6758H214.365V9.95434C215.831 9.13242 217.663 8.6758 219.495 8.6758V14.4292C217.022 14.4292 214.915 16.1644 214.365 18.5388V31.5069H206.761V8.6758Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M178.546 20.1826C178.546 13.516 183.951 8.12785 190.638 8.12785C197.326 8.12785 202.731 13.4247 202.731 20.1826C202.731 26.8493 197.326 32.2374 190.638 32.2374C183.951 32.2374 178.546 26.8493 178.546 20.1826ZM184.867 20.0913C184.867 23.2877 187.432 25.8447 190.638 25.8447C193.844 25.8447 196.41 23.2877 196.41 20.0913C196.41 16.895 193.844 14.3379 190.638 14.3379C187.432 14.3379 184.867 16.895 184.867 20.0913Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M162.331 8.12785C160.224 8.12785 158.209 8.6758 156.56 9.58904V8.6758H148.956V40H156.56V30.5936C158.3 31.5069 160.224 32.0548 162.331 32.0548C169.018 32.0548 174.423 26.6667 174.423 20C174.423 13.4247 169.018 8.12785 162.331 8.12785ZM162.331 25.8447C159.125 25.8447 156.56 23.2877 156.56 20.0913C156.56 16.895 159.125 14.3379 162.331 14.3379C165.537 14.3379 168.102 16.895 168.102 20.0913C168.102 23.2877 165.537 25.8447 162.331 25.8447Z"/>
+      <path
+        d="M86.3872 14.3379C87.7614 14.3379 89.0439 14.7945 90.0516 15.6164L94.5404 11.1416C92.4334 9.22374 89.5935 8.03653 86.3872 8.03653C79.6998 8.03653 74.2948 13.4247 74.2948 20.0913C74.2948 26.758 79.6998 32.1461 86.3872 32.1461C89.5019 32.1461 92.3418 30.9589 94.5404 29.0411L90.0516 24.5662C89.0439 25.3881 87.7614 25.8447 86.3872 25.8447C83.1809 25.8447 80.6159 23.2877 80.6159 20.0913C80.6159 16.895 83.1809 14.3379 86.3872 14.3379Z"/>
+      <path
+        d="M106.358 18.5388L116.252 8.6758H124.405L112.771 20.1826L124.13 31.5068H113.962L107.64 25.2968L106.358 26.5753V31.5068H98.9376V0H106.358V18.5388Z"/>
     </svg>
 
-    <img src="/img/hero/winter/bg2.png" class="winter-hero__bg2" alt="">
-    <img src="/img/hero/winter/bg1.png" class="winter-hero__bg1" alt="">
-    <img src="/img/hero/winter/man.png" class="winter-hero__man" alt="Man">
+    <img src="/img/hero/winter/bg2.png" class="winter-hero__bg2" alt="Hill" ref="middleMountains"/>
+    <img src="/img/hero/winter/bg1.png" class="winter-hero__bg1" alt="Hill" ref="frontMountains"/>
+    <img src="/img/hero/winter/man.png" class="winter-hero__man" alt="Man" ref="man"/>
 
-    <div class="logo-mask">
+    <div class="logo-mask" ref="logoMask">
       <svg class="logo-mask__logo" viewBox="0 0 238 40" xmlns="http://www.w3.org/2000/svg">
-        <path d="M37.6513 20.5479V0H30.2309V20.0913C30.2309 26.484 35.2694 31.7808 41.6821 32.0548V24.6575C39.5751 24.3836 37.8345 22.7397 37.6513 20.5479Z"  />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.60354 9.58904C9.34411 8.6758 11.2679 8.12785 13.3749 8.12785C20.0624 8.12785 25.4673 13.4247 25.4673 20.0913C25.4673 26.758 20.0624 32.1461 13.3749 32.1461C11.2679 32.1461 9.34411 31.5982 7.60354 30.6849V31.5982H0V0.0913242H7.60354V9.58904ZM7.60354 20.0913C7.60354 23.2877 10.1686 25.8447 13.3749 25.8447C16.5812 25.8447 19.1463 23.2877 19.1463 20.0913C19.1463 16.895 16.5812 14.3379 13.3749 14.3379C10.1686 14.3379 7.60354 16.895 7.60354 20.0913Z"  />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M63.0269 9.58904C61.2864 8.6758 59.3626 8.12785 57.2556 8.12785C50.5681 8.12785 45.1632 13.516 45.1632 20.1826C45.1632 26.8493 50.5681 32.2374 57.2556 32.2374C59.3626 32.2374 61.2864 31.6895 63.0269 30.7763V31.6895H69.8976V8.85845H63.0269V9.58904ZM57.2556 25.8447C54.0493 25.8447 51.4842 23.2877 51.4842 20.0913C51.4842 16.895 54.0493 14.3379 57.2556 14.3379C60.4619 14.3379 63.0269 16.895 63.0269 20.0913C63.0269 23.2877 60.4619 25.8447 57.2556 25.8447Z"  />
-        <path d="M134.574 15.4338C134.482 16.0731 135.123 16.5297 136.222 16.7123C140.162 17.2603 144.65 19.2694 144.65 24.0183C144.65 29.7717 139.154 31.6895 135.398 31.6895C132.467 31.6895 128.985 30.8676 126.329 27.3059L129.718 23.0137C131.276 24.6575 133.383 25.3881 135.032 25.4795C136.406 25.4795 137.139 25.0228 137.139 24.3836C137.139 23.8356 136.681 23.2877 135.306 23.105C131.367 22.6484 127.153 20.1826 127.153 15.5251C127.153 10.5936 131.734 8.12785 136.131 8.12785C138.055 8.12785 141.169 8.40183 143.918 11.3242L140.436 15.7078C138.696 14.4292 136.955 14.3379 136.314 14.3379C135.215 14.3379 134.574 14.8858 134.574 15.4338Z"  />
-        <path d="M233.969 14.1553V20.7306C234.244 22.831 235.893 24.4749 238 24.7489V32.1461C231.679 31.7808 226.549 26.5753 226.549 20.1826V14.1553H223.526V8.49315H226.549V3.28767L233.969 2.55708V8.49315H237.725V14.1553H233.969Z"  />
-        <path d="M206.761 8.6758H214.365V9.95434C215.831 9.13242 217.663 8.6758 219.495 8.6758V14.4292C217.022 14.4292 214.915 16.1644 214.365 18.5388V31.5069H206.761V8.6758Z"  />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M178.546 20.1826C178.546 13.516 183.951 8.12785 190.638 8.12785C197.326 8.12785 202.731 13.4247 202.731 20.1826C202.731 26.8493 197.326 32.2374 190.638 32.2374C183.951 32.2374 178.546 26.8493 178.546 20.1826ZM184.867 20.0913C184.867 23.2877 187.432 25.8447 190.638 25.8447C193.844 25.8447 196.41 23.2877 196.41 20.0913C196.41 16.895 193.844 14.3379 190.638 14.3379C187.432 14.3379 184.867 16.895 184.867 20.0913Z"  />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M162.331 8.12785C160.224 8.12785 158.209 8.6758 156.56 9.58904V8.6758H148.956V40H156.56V30.5936C158.3 31.5069 160.224 32.0548 162.331 32.0548C169.018 32.0548 174.423 26.6667 174.423 20C174.423 13.4247 169.018 8.12785 162.331 8.12785ZM162.331 25.8447C159.125 25.8447 156.56 23.2877 156.56 20.0913C156.56 16.895 159.125 14.3379 162.331 14.3379C165.537 14.3379 168.102 16.895 168.102 20.0913C168.102 23.2877 165.537 25.8447 162.331 25.8447Z"  />
-        <path d="M86.3872 14.3379C87.7614 14.3379 89.0439 14.7945 90.0516 15.6164L94.5404 11.1416C92.4334 9.22374 89.5935 8.03653 86.3872 8.03653C79.6998 8.03653 74.2948 13.4247 74.2948 20.0913C74.2948 26.758 79.6998 32.1461 86.3872 32.1461C89.5019 32.1461 92.3418 30.9589 94.5404 29.0411L90.0516 24.5662C89.0439 25.3881 87.7614 25.8447 86.3872 25.8447C83.1809 25.8447 80.6159 23.2877 80.6159 20.0913C80.6159 16.895 83.1809 14.3379 86.3872 14.3379Z"  />
-        <path d="M106.358 18.5388L116.252 8.6758H124.405L112.771 20.1826L124.13 31.5068H113.962L107.64 25.2968L106.358 26.5753V31.5068H98.9376V0H106.358V18.5388Z"  />
+        <path
+          d="M37.6513 20.5479V0H30.2309V20.0913C30.2309 26.484 35.2694 31.7808 41.6821 32.0548V24.6575C39.5751 24.3836 37.8345 22.7397 37.6513 20.5479Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M7.60354 9.58904C9.34411 8.6758 11.2679 8.12785 13.3749 8.12785C20.0624 8.12785 25.4673 13.4247 25.4673 20.0913C25.4673 26.758 20.0624 32.1461 13.3749 32.1461C11.2679 32.1461 9.34411 31.5982 7.60354 30.6849V31.5982H0V0.0913242H7.60354V9.58904ZM7.60354 20.0913C7.60354 23.2877 10.1686 25.8447 13.3749 25.8447C16.5812 25.8447 19.1463 23.2877 19.1463 20.0913C19.1463 16.895 16.5812 14.3379 13.3749 14.3379C10.1686 14.3379 7.60354 16.895 7.60354 20.0913Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M63.0269 9.58904C61.2864 8.6758 59.3626 8.12785 57.2556 8.12785C50.5681 8.12785 45.1632 13.516 45.1632 20.1826C45.1632 26.8493 50.5681 32.2374 57.2556 32.2374C59.3626 32.2374 61.2864 31.6895 63.0269 30.7763V31.6895H69.8976V8.85845H63.0269V9.58904ZM57.2556 25.8447C54.0493 25.8447 51.4842 23.2877 51.4842 20.0913C51.4842 16.895 54.0493 14.3379 57.2556 14.3379C60.4619 14.3379 63.0269 16.895 63.0269 20.0913C63.0269 23.2877 60.4619 25.8447 57.2556 25.8447Z"/>
+        <path
+          d="M134.574 15.4338C134.482 16.0731 135.123 16.5297 136.222 16.7123C140.162 17.2603 144.65 19.2694 144.65 24.0183C144.65 29.7717 139.154 31.6895 135.398 31.6895C132.467 31.6895 128.985 30.8676 126.329 27.3059L129.718 23.0137C131.276 24.6575 133.383 25.3881 135.032 25.4795C136.406 25.4795 137.139 25.0228 137.139 24.3836C137.139 23.8356 136.681 23.2877 135.306 23.105C131.367 22.6484 127.153 20.1826 127.153 15.5251C127.153 10.5936 131.734 8.12785 136.131 8.12785C138.055 8.12785 141.169 8.40183 143.918 11.3242L140.436 15.7078C138.696 14.4292 136.955 14.3379 136.314 14.3379C135.215 14.3379 134.574 14.8858 134.574 15.4338Z"/>
+        <path
+          d="M233.969 14.1553V20.7306C234.244 22.831 235.893 24.4749 238 24.7489V32.1461C231.679 31.7808 226.549 26.5753 226.549 20.1826V14.1553H223.526V8.49315H226.549V3.28767L233.969 2.55708V8.49315H237.725V14.1553H233.969Z"/>
+        <path
+          d="M206.761 8.6758H214.365V9.95434C215.831 9.13242 217.663 8.6758 219.495 8.6758V14.4292C217.022 14.4292 214.915 16.1644 214.365 18.5388V31.5069H206.761V8.6758Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M178.546 20.1826C178.546 13.516 183.951 8.12785 190.638 8.12785C197.326 8.12785 202.731 13.4247 202.731 20.1826C202.731 26.8493 197.326 32.2374 190.638 32.2374C183.951 32.2374 178.546 26.8493 178.546 20.1826ZM184.867 20.0913C184.867 23.2877 187.432 25.8447 190.638 25.8447C193.844 25.8447 196.41 23.2877 196.41 20.0913C196.41 16.895 193.844 14.3379 190.638 14.3379C187.432 14.3379 184.867 16.895 184.867 20.0913Z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M162.331 8.12785C160.224 8.12785 158.209 8.6758 156.56 9.58904V8.6758H148.956V40H156.56V30.5936C158.3 31.5069 160.224 32.0548 162.331 32.0548C169.018 32.0548 174.423 26.6667 174.423 20C174.423 13.4247 169.018 8.12785 162.331 8.12785ZM162.331 25.8447C159.125 25.8447 156.56 23.2877 156.56 20.0913C156.56 16.895 159.125 14.3379 162.331 14.3379C165.537 14.3379 168.102 16.895 168.102 20.0913C168.102 23.2877 165.537 25.8447 162.331 25.8447Z"/>
+        <path
+          d="M86.3872 14.3379C87.7614 14.3379 89.0439 14.7945 90.0516 15.6164L94.5404 11.1416C92.4334 9.22374 89.5935 8.03653 86.3872 8.03653C79.6998 8.03653 74.2948 13.4247 74.2948 20.0913C74.2948 26.758 79.6998 32.1461 86.3872 32.1461C89.5019 32.1461 92.3418 30.9589 94.5404 29.0411L90.0516 24.5662C89.0439 25.3881 87.7614 25.8447 86.3872 25.8447C83.1809 25.8447 80.6159 23.2877 80.6159 20.0913C80.6159 16.895 83.1809 14.3379 86.3872 14.3379Z"/>
+        <path
+          d="M106.358 18.5388L116.252 8.6758H124.405L112.771 20.1826L124.13 31.5068H113.962L107.64 25.2968L106.358 26.5753V31.5068H98.9376V0H106.358V18.5388Z"/>
       </svg>
     </div>
 
@@ -63,8 +83,199 @@
 </template>
 
 <script>
+import gsap from 'gsap'
+
 export default {
   name: 'WinterHero',
+  data: () => ({
+    container: null,
+    gyroPresent: false,
+  }),
+  mounted() {
+    this.container = this.$refs.hero
+    window.addEventListener('resize', this.handleWindowResize)
+    window.addEventListener('devicemotion', this.handleDeviceMotion)
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize)
+    window.removeEventListener('devicemotion', this.handleDeviceMotion)
+  },
+  methods: {
+    getRel(x, y) {
+      return {
+        x: (x - this.container.offsetLeft - this.container.offsetWidth / 2) / this.container.offsetWidth,
+        y: (y - this.container.offsetTop - this.container.offsetHeight / 2) / this.container.offsetHeight,
+      }
+    },
+    /** @param {MouseEvent} e */
+    handleMouseMove(e) {
+      if (this.gyroPresent) return // TODO Handle device motion
+      const {x, y} = this.getRel(e.pageX, e.pageY)
+      this.parallaxCloudLeft(x, y)
+      this.parallaxCloudRight(x, y)
+      this.parallaxMountains(x, y)
+      this.parallaxMiddleMountains(x, y)
+      this.parallaxFrontMountains(x, y)
+      this.parallaxMan(x, y)
+    },
+    parallaxCloudLeft(x, y) {
+      const cloud = this.$refs.cloudLeft
+      if (window.innerWidth >= 768) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = `translateX(calc(-3% - ${x * 80}px)) translateY(calc(50vh - 135% - ${y * 20}px)) scale(${1 + y / 10})`
+        } else if (x < 0 && y < 0) {
+          transformValue = `translateX(calc(-3% - ${x * 60}px)) translateY(calc(50vh - 135% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+        } else if (x > 0 && y > 0) {
+          transformValue = `translateX(calc(-3% - ${x * 80}px)) translateY(calc(50vh - 135% - ${y * 60}px)) scale(${1 - y / 10})`
+        } else {
+          transformValue = `translateX(calc(-3% - ${x * 5}px)) translateY(calc(50vh - 135% - ${y * 40}px)) scale(${1 - y / 10})`
+        }
+        this.parallaxElem(cloud, transformValue)
+      }
+    },
+    parallaxCloudRight(x, y) {
+      const cloud = this.$refs.cloudRight
+      if (window.innerWidth >= 768) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = `translateX(calc(100vw - 85% - ${x * 40}px)) translateY(calc(50vh - 153%)) scale(${1 + Math.abs(y / 10)})`
+        } else if (x < 0 && y < 0) {
+          transformValue = `translateX(calc(100vw - 85% - ${x * 40}px)) translateY(calc(50vh - 153%)) scale(${1 + y / 10})`
+        } else if (x > 0 && y > 0) {
+          transformValue = `translateX(calc(100vw - 85% + ${x * 40}px)) translateY(calc(50vh - 153% - ${y * 30}px)) scale(${1 - y / 10})`
+        } else {
+          transformValue = `translateX(calc(100vw - 85% - ${x * 40}px)) translateY(calc(50vh - 153% - ${y * 30}px)) scale(${1 - y / 10})`
+        }
+        this.parallaxElem(cloud, transformValue)
+      }
+    },
+    parallaxMountains(x, y) {
+      const mountains = this.$refs.mountains
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 10}px)) translateY(calc(100vh - 100% - ${y * 20}px))`
+            : `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 103%)) scale(${1 + y / 15})`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 10}px)) translateY(calc(100vh - 100% - ${y * 20}px))`
+            : `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 103% - ${y * 40}px)) scale(${1 + y / 10})`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 10}px)) translateY(calc(100vh - 100% - ${y * 20}px))`
+            : `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 103% - ${y * 40}px))`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 10}px)) translateY(calc(100vh - 100% - ${y * 20}px))`
+            : `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 103% - ${y * 80}px))`
+        }
+        this.parallaxElem(mountains, transformValue)
+      }
+    },
+    parallaxMiddleMountains(x, y) {
+      const mountains = this.$refs.middleMountains
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 30}px)) translateY(calc(100vh - 90% - ${y * 30}px))`
+            : `translateX(calc(50vw - 50% - ${x * 40}px)) translateY(calc(100vh - 102%)) scale(${1 + y / 20})`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 30}px)) translateY(calc(100vh - 90% - ${y * 30}px))`
+            : `translateX(calc(50vw - 50% - ${x * 60}px)) translateY(calc(100vh - 102% - ${y * 40}px)) scale(${1 + y / 20})`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 30}px)) translateY(calc(100vh - 90% - ${y * 30}px))`
+            : `translateX(calc(50vw - 50% - ${x * 40}px)) translateY(calc(100vh - 102% + ${y * 20}px))`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-1vw - ${x * 30}px)) translateY(calc(100vh - 90% - ${y * 30}px))`
+            : `translateX(calc(50vw - 50% - ${x * 40}px)) translateY(calc(100vh - 102% + ${y * 20}px))`
+        }
+        this.parallaxElem(mountains, transformValue)
+      }
+    },
+    parallaxFrontMountains(x, y) {
+      const mountains = this.$refs.frontMountains
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-5% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+            : `translateX(calc(50vw - 75% + ${x * 20}px)) translateY(calc(100vh - 99%)) scale(${1 + Math.abs(y / 10)})`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-5% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+            : `translateX(calc(50vw - 75% - ${x * 40}px)) translateY(calc(100vh - 99%)) scale(${1 + y / 10})`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-5% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+            : `translateX(calc(50vw - 75% - ${x * 40}px)) translateY(calc(100vh - 99% + ${y * 10}px)) scale(${1 - y / 10})`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(-5% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+            : `translateX(calc(50vw - 75% - ${x * 40}px)) translateY(calc(100vh - 99% - ${y * 10}px)) scale(${1 + y / 10})`
+        }
+        this.parallaxElem(mountains, transformValue)
+      }
+    },
+    parallaxMan(x, y) {
+      const man = this.$refs.man
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        let maskSize = ''
+        let maskPosition = ''
+        if (x > 0 && y < 0) {
+          transformValue = `translateX(calc(100vw - 98% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + Math.abs(y / 10)})`
+          maskSize = `calc(((2094 * ${1 + Math.abs(y / 10)}) * 100vw) / 1440) auto`
+          maskPosition = `calc(100vw - (2052 * 100vw) / 1440 - ${x * 40}px - ${Math.abs(y * 105)}px) calc(100vh - (1024 * 100vw) / 1440 - ${Math.abs(y * 35)}px)`
+        } else if (x < 0 && y < 0) {
+          transformValue = `translateX(calc(100vw - 98% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+          maskSize = `calc(((2094 * ${1 + y / 20}) * 100vw) / 1440) auto`
+          maskPosition = `calc(100vw - (2052 * 100vw) / 1440 - ${x * 40}px + ${Math.abs(y * 55)}px) calc(100vh - (1024 * 100vw) / 1440 + ${Math.abs(y * 75)}px)`
+        } else if (x > 0 && y > 0) {
+          transformValue = `translateX(calc(100vw - 98% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 + y / 20})`
+          maskSize = `calc(((2094 * ${1 + y / 20}) * 100vw) / 1440) auto`
+          maskPosition = `calc(100vw - (2052 * 100vw) / 1440 - ${x * 40}px - ${y * 55}px) calc(100vh - (1024 * 100vw) / 1440 - ${y * 75}px)`
+        } else {
+          transformValue = `translateX(calc(100vw - 98% - ${x * 40}px)) translateY(calc(100vh - 70% - ${y * 40}px)) scale(${1 - y / 20})`
+          maskSize = `calc(((2094 * ${1 - y / 20}) * 100vw) / 1440) auto`
+          maskPosition = `calc(100vw - (2052 * 100vw) / 1440 - ${x * 40}px + ${y * 55}px) calc(100vh - (1024 * 100vw) / 1440)`
+        }
+        this.parallaxElem(man, transformValue)
+        this.parallaxMask(maskSize, maskPosition)
+      }
+    },
+    parallaxElem(elem, transform) {
+      gsap.to(elem, {transform, duration: 0.5})
+    },
+    parallaxMask(maskSize, maskPosition) {
+      const logoMask = this.$refs.logoMask
+      gsap.to(logoMask, {
+        maskSize,
+        maskPosition,
+        duration: 0,
+      })
+    },
+    /** @param {DeviceMotionEvent} event */
+    handleDeviceMotion(event) {
+      // Check whether gyroscope is present
+      const {alpha, beta, gamma} = event.rotationRate
+      if (alpha || beta || gamma) this.gyroPresent = true
+    },
+    handleWindowResize() {
+      this.resetPositions()
+    },
+    resetPositions() {
+      const {hero, ...refs} = this.$refs
+      for (const ref of Object.values(refs)) {
+        gsap.to(ref, {clearProps: 'all', duration: 0})
+      }
+    },
+  },
 }
 </script>
 
@@ -127,8 +338,8 @@ export default {
     }
 
     @media screen and (min-width: 1441px) {
-      width: 100vw;
-      transform: translateY(calc(100vh - 100%));
+      width: 102vw;
+      transform: translateX(-1vw) translateY(calc(100vh - 100%));
     }
   }
 
@@ -156,8 +367,8 @@ export default {
     }
 
     @media screen and (min-width: 1441px) {
-      width: 100vw;
-      transform: translateY(calc(100vh - 90%));
+      width: 102vw;
+      transform: translateX(-1vw) translateY(calc(100vh - 90%));
     }
   }
 
@@ -185,8 +396,8 @@ export default {
     }
 
     @media screen and (min-width: 1441px) {
-      width: 100vw;
-      transform: translateY(calc(100vh - 70%));
+      width: 1508px;
+      transform: translateX(-5%) translateY(calc(100vh - 70%));
     }
   }
 
@@ -232,10 +443,11 @@ export default {
     width: 100vw;
     height: 100vh;
     position: absolute;
-    mask-image:  $mask-image;
+    mask-image: $mask-image;
     mask-repeat: no-repeat;
     mask-size: calc((822 * 100vw) / 320) auto;
     mask-position: calc(75.5%) calc(100vh - (493 * 100vw) / 320);
+    //background-color: rgba(grey, 0.5);
 
     @include landscape {
       mask-image: unset;
