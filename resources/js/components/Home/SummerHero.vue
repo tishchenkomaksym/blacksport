@@ -1,8 +1,8 @@
 <template>
   <div @mousemove="handleMouseMove" ref="hero" class="summer-hero">
-    <img src="/img/hero/summer/cloud-3.png" class="cloud-3" alt="Cloud">
-    <img src="/img/hero/summer/cloud-2.png" class="cloud-2" alt="Cloud">
-    <img src="/img/hero/summer/cloud-1.png" class="cloud-1" alt="Cloud">
+    <img src="/img/hero/summer/cloud-3.png" class="cloud-3" alt="Cloud" ref="cloud3">
+    <img src="/img/hero/summer/cloud-2.png" class="cloud-2" alt="Cloud" ref="cloud2">
+    <img src="/img/hero/summer/cloud-1.png" class="cloud-1" alt="Cloud" ref="cloud1">
 
     <svg class="logo-back" viewBox="0 0 288 49" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -27,12 +27,12 @@
         d="M128.702 22.71L140.674 10.6279H150.54L136.462 24.7237L150.208 38.5959H137.903L130.254 30.9886L128.702 32.5548V38.5959H119.723V0H128.702V22.71Z"/>
     </svg>
 
-    <img src="/img/hero/summer/city.png" class="city" alt="City">
-    <img src="/img/hero/summer/skatepark-3.png" class="skatepark-3" alt="Skatepark">
-    <img src="/img/hero/summer/skatepark-2.png" class="skatepark-2" alt="Skatepark">
-    <img src="/img/hero/summer/skatepark-1.png" class="skatepark-1" alt="Skatepark">
-    <img src="/img/hero/summer/man.png" class="man" ref="man" alt="Man">
-    <img src="/img/hero/summer/skateboard.png" class="skateboard" alt="Skateboard">
+    <img src="/img/hero/summer/city.png" class="city" alt="City" ref="city" />
+    <img src="/img/hero/summer/skatepark-3.png" class="skatepark-3" alt="Skatepark" ref="skatepark3" />
+    <img src="/img/hero/summer/skatepark-2.png" class="skatepark-2" alt="Skatepark" ref="skatepark2" />
+    <img src="/img/hero/summer/skatepark-1.png" class="skatepark-1" alt="Skatepark" ref="skatepark1" />
+    <img src="/img/hero/summer/man.png" class="man" alt="Man" ref="man" />
+    <img src="/img/hero/summer/skateboard.png" class="skateboard" alt="Skateboard" ref="skate" />
 
     <div class="logo-mask">
       <svg class="logo-mask__logo" viewBox="0 0 288 49" xmlns="http://www.w3.org/2000/svg">
@@ -91,28 +91,203 @@
 
 <script>
 import gsap from 'gsap'
+import {scaleValue} from '../../helpers'
 
 export default {
   name: 'SummerHero',
+  data: () => ({
+    container: null,
+    gyroPresent: false,
+  }),
   mounted() {
-    console.log('summer mounted', gsap)
+    this.container = this.$refs.hero
+    window.addEventListener('resize', this.handleWindowResize)
+    window.addEventListener('devicemotion', this.handleDeviceMotion)
   },
   beforeUnmount() {
-    console.log('summer unmounted', this.$refs.man)
+    window.removeEventListener('resize', this.handleWindowResize)
+    window.removeEventListener('devicemotion', this.handleDeviceMotion)
   },
   methods: {
+    /** @param {MouseEvent} e */
     handleMouseMove(e) {
-      // this.parallaxIt(e, this.$refs.man, -50)
+      if (this.gyroPresent) return // TODO Handle device motion
+      const {x, y} = this.getRel(e.pageX, e.pageY)
+      this.parallaxMan(x, y)
+      this.parallaxSkate(x, y)
+      this.parallaxCloud3(x, y)
+      this.parallaxCloud2(x, y)
+      this.parallaxCloud1(x, y)
+      this.parallaxCity(x, y)
+      this.parallaxSkatepark3(x, y)
+      this.parallaxSkatepark2(x, y)
+      this.parallaxSkatepark1(x, y)
     },
-    parallaxIt(e, target, movement) {
-      /** @type {HTMLDivElement} container */
-      const container = this.$refs.hero
-      const relX = e.pageY - container.offsetLeft
-      const relY = e.pageX - container.offsetTop
-      gsap.to(target, {
-        x: (relX - container.offsetWidth / 2) / container.offsetWidth * movement,
-        y: (relY - container.offsetHeight / 2) / container.offsetHeight * movement,
-      })
+    getRel(x, y) {
+      return {
+        x: (x - this.container.offsetLeft - this.container.offsetWidth / 2) / this.container.offsetWidth,
+        y: (y - this.container.offsetTop - this.container.offsetHeight / 2) / this.container.offsetHeight,
+      }
+    },
+    parallaxMan(x, y) {
+      const man = this.$refs.man
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(man, `translateX(calc(50vw + 9% + ${x * 40}px)) translateY(calc(50vh - 60% + ${y * 40}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(man, `translateX(calc(50vw - 23% + ${x * 20}px)) translateY(calc(50vh - 56% + ${y * 20}px)) rotate(-15deg)`)
+      }
+    },
+    // Skate parallax
+    parallaxSkate(x, y) {
+      const skate = this.$refs.skate
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(skate, `translateX(calc(50vw - 94% + ${x * 40}px)) translateY(calc(50vh + 6% + ${y * 40}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(skate, `translateX(calc(50vw - 142% + ${x * 20}px)) translateY(calc(50vh + 47% + ${y * 20}px)) rotate(-15deg)`)
+      }
+    },
+    // Cloud 3 parallax
+    parallaxCloud3(x, y) {
+      const cloud = this.$refs.cloud3
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(cloud, `translateX(calc(50vw - 192% - ${x * 16}px)) translateY(calc(9vh - ${y * 16}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(cloud, `translateX(calc(50vw - 90% - ${x * 8}px)) translateY(calc(12vh - ${y * 8}px))`)
+      }
+    },
+    parallaxCloud2(x, y) {
+      const cloud = this.$refs.cloud2
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(cloud, `translateX(calc(50vw - 10% - ${x * 24}px)) translateY(calc(6vh - ${y * 24}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(cloud, `translateX(calc(50vw - 9% - ${x * 20}px)) translateY(calc(18vh - ${y * 20}px))`)
+      }
+    },
+    parallaxCloud1(x, y) {
+      const cloud = this.$refs.cloud1
+      if (window.innerWidth >= 1024) {
+        this.parallaxElem(cloud, `translateX(calc(50vw - 128% - ${x * 15}px)) translateY(calc(22vh - ${y * 15}px))`)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(cloud, `translateX(calc(-30vw - ${x * 15}px)) translateY(calc(25vh - ${y * 15}px))`)
+      }
+    },
+    parallaxCity(x, y) {
+      const city = this.$refs.city
+      if (window.innerWidth > 1440) {
+        if (y > 0) {
+          this.parallaxElem(city, `translateX(${-x * 10}px) translateY(calc(100vh - 87%)) scale(${1 + Math.abs(y / 20)})`)
+        } else {
+          this.parallaxElem(city, `translateX(${-x * 10}px) translateY(calc(100vh - 87%))`)
+        }
+      } else if (window.innerWidth >= 1024 && window.innerWidth <= 1440) {
+        if (y < 0) {
+          this.parallaxElem(city, `translateX(calc(50vw - 55% - ${x * 30}px)) translateY(calc(100vh - 87% - ${y * 30}px))`)
+        } else {
+          this.parallaxElem(city, `translateX(calc(50vw - 55% - ${x * 30}px)) translateY(calc(100vh - 87% - ${y * 30}px)) scale(${1 + Math.abs(y / 10)})`)
+        }
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        if (y > 0) {
+          this.parallaxElem(city, `translateX(calc(50vw - 50% - ${x * 10}px)) translateY(calc(100vh - 90%)) scale(${1 + Math.abs(y / 10)})`)
+        } else {
+          this.parallaxElem(city, `translateX(calc(50vw - 50% - ${x * 10}px)) translateY(calc(100vh - 90%))`)
+        }
+      }
+    },
+    parallaxSkatepark3(x, y) {
+      const skatepark = this.$refs.skatepark3
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(100vw - 100%)) translateY(calc(100vh - 50%)) rotate(-${scaleValue(Math.abs(y), [0, 1], [0, 2])}deg)`
+            : `translateX(calc(100vw - 100%)) translateY(calc(100vh - 60%)) rotate(-${scaleValue(Math.abs(y), [0, 1], [0, 2])}deg)`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(100vw - 100% - ${x * 32}px)) translateY(calc(100vh - 50% - ${y * 32}px))`
+            : `translateX(calc(100vw - 100% - ${x * 32}px)) translateY(calc(100vh - 60% - ${y * 32}px))`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(100vw - 100%)) translateY(calc(100vh - 50% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+            : `translateX(calc(100vw - 100%)) translateY(calc(100vh - 60% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(100vw - 100%)) translateY(calc(100vh - 50% - ${y * 32}px))`
+            : `translateX(calc(100vw - 100%)) translateY(calc(100vh - 60% + ${y * 32}px))`
+        }
+        this.parallaxElem(skatepark, transformValue)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(skatepark, `translateX(calc(50vw - 40% - ${x * 15}px)) translateY(calc(100vh - 106% - ${y * 15}px))`)
+      }
+    },
+    parallaxSkatepark2(x, y) {
+      const skatepark = this.$refs.skatepark2
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 45% - ${y * 20}px))`
+            : `translateX(calc(50vw - 63% - ${x * 20}px)) translateY(calc(100vh - 50% - ${y * 20}px))`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(50vw - 50% - ${x * 20}px)) translateY(calc(100vh - 45% + ${y * 20}px))`
+            : `translateX(calc(50vw - 63% - ${x * 20}px)) translateY(calc(100vh - 50% + ${y * 20}px))`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(50vw - 50% + ${x * 20}px)) translateY(calc(100vh - 45% - ${y * 20}px))`
+            : `translateX(calc(50vw - 63% + ${x * 20}px)) translateY(calc(100vh - 50% - ${y * 20}px))`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(calc(50vw - 50%)) translateY(calc(100vh - 45% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+            : `translateX(calc(50vw - 63%)) translateY(calc(100vh - 50% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+        }
+        this.parallaxElem(skatepark, transformValue)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(skatepark, `translateX(calc(50vw - 67% - ${x * 25}px)) translateY(calc(100vh - 70% - ${y * 25}px))`)
+      }
+    },
+    parallaxSkatepark1(x, y) {
+      const skatepark = this.$refs.skatepark1
+      if (window.innerWidth >= 1024) {
+        let transformValue = ''
+        if (x > 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(${-y * 10}px) translateY(calc(100vh - 50% + ${y * 20}px)) scale(${1 + Math.abs(y / 20)})`
+            : `translateX(${-y * 20}px) translateY(calc(100vh - 47% + ${y * 20}px)) scale(${1 + Math.abs(y / 20)})`
+        } else if (x < 0 && y < 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(${y * 40}px) translateY(calc(100vh - 50% - ${y * 20}px)) scale(${1 - Math.abs(y / 10)})`
+            : `translateX(${y * 60}px) translateY(calc(100vh - 47% - ${y * 20}px)) scale(${1 - Math.abs(y / 10)})`
+        } else if (x > 0 && y > 0) {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(${-y * 40}px) translateY(calc(100vh - 50% - ${y * 20}px)) scale(${1 - Math.abs(y / 10)})`
+            : `translateX(${-y * 60}px) translateY(calc(100vh - 47% - ${y * 20}px)) scale(${1 - Math.abs(y / 10)})`
+        } else {
+          transformValue = window.innerWidth > 1440
+            ? `translateX(${y * 40}px) translateY(calc(100vh - 50% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+            : `translateX(${y * 60}px) translateY(calc(100vh - 47% - ${y * 20}px)) scale(${1 + Math.abs(y / 10)})`
+        }
+        this.parallaxElem(skatepark, transformValue)
+      } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        this.parallaxElem(skatepark, `translateX(calc(50vw - 50% - ${x * 30}px)) translateY(calc(100vh - 55% - ${y * 30}px))`)
+      }
+    },
+    parallaxElem(elem, transform) {
+      gsap.to(elem, {transform})
+    },
+    /** @param {DeviceMotionEvent} event */
+    handleDeviceMotion(event) {
+      // Check whether gyroscope is present
+      const {alpha, beta, gamma} = event.rotationRate
+      if (alpha || beta || gamma) this.gyroPresent = true
+    },
+    handleWindowResize() {
+      this.resetPositions()
+    },
+    resetPositions() {
+      const {hero, ...refs} = this.$refs
+      for (const ref of Object.values(refs)) {
+        gsap.to(ref, {clearProps: 'all', duration: 0})
+      }
     },
   },
 }
@@ -132,21 +307,22 @@ img {
 
 .cloud-1 {
   width: ((235 * 100vw) / 320);
-  transform: translateY(25vh) translateX(-30vw) scaleX(-1);
+  max-width: 563px;
+  transform: translateX(-30vw) translateY(25vh);
 
   @include landscape {
     width: 40vw;
-    transform: translateX(25vw) translateY(30vh) scaleX(-1);
+    transform: translateX(25vw) translateY(30vh);
   }
 
   @include laptop {
-    width: 563px;
-    transform: translateY(22vh) translateX(calc(50vw - 128%)) scaleX(-1);
+    transform: translateX(calc(50vw - 128%)) translateY(22vh);
   }
 }
 
 .cloud-2 {
   width: calc((275 * 100vw) / 320);
+  max-width: 658px;
   transform: translateX(calc(50vw - 9%)) translateY(18vh);
 
   @include landscape {
@@ -155,13 +331,13 @@ img {
   }
 
   @include laptop {
-    width: 658px;
     transform: translateX(calc(50vw - 10%)) translateY(6vh);
   }
 }
 
 .cloud-3 {
   width: calc((157 * 100vw) / 320);
+  max-width: 375px;
   transform: translateX(calc(50vw - 90%)) translateY(12vh);
 
   @include landscape {
@@ -170,7 +346,6 @@ img {
   }
 
   @include laptop {
-    width: 375px;
     transform: translateX(calc(50vw - 192%)) translateY(9vh);
   }
 }
