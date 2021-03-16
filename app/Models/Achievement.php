@@ -11,7 +11,7 @@ class Achievement extends Model
 
     protected $table = 'achievements';
     public $timestamps = true;
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description', 'video'];
 
     protected $translatable = [
         'title', 'description',

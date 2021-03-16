@@ -1,12 +1,12 @@
 <template>
   <section class="products">
     <PrevSectionButton
-      :title="i18n.$t('defaults.services')"
+      :title="t('services')"
       @click="$emit('switch-slide', 'services')"
     />
     <div class="products__content">
       <div class="products__heading container">
-        <h2>{{i18n.$t('defaults.popularProducts')}}</h2>
+        <h2>{{t('popularProducts')}}</h2>
         <router-link
           :to="productsPath"
           class="link subtitle"
@@ -29,7 +29,7 @@
         </div>
       </div>
       <PrevSectionButton
-        :title="i18n.$t('defaults.up')"
+        :title="t('up')"
         @click="$emit('switch-slide', 'hero')"
         style="margin-bottom: 48px"
       />
@@ -40,7 +40,7 @@
 <script>
 import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
 import useWindowSize from '../../hooks/useWindowSize'
 import useGlide from '../../hooks/useGlide'
@@ -52,7 +52,7 @@ export default {
   components: {ProductItem, PrevSectionButton},
   setup() {
     const {state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {width} = useWindowSize()
     const products = computed(() => state.home.homeData.popular_products)
     const glide = ref(null)
@@ -84,18 +84,18 @@ export default {
     })
 
     return {
-      i18n,
+      t,
       productsSlider,
       products,
       productsPath: computed(() => ({
         name: ROUTE_CONF.PRODUCTS.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
       allProducts: computed(() => {
         return width.value < 768 ? (
-          i18n.$t('defaults.allProducts').split(' ')[0]
+          t('allProducts').split(' ')[0]
         ) : (
-          i18n.$t('defaults.allProducts')
+          t('allProducts')
         )
       })
     }

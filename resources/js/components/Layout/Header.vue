@@ -1,128 +1,157 @@
 <template>
-  <header :class="{overlay: menuShown}">
-    <div class="toolbar container">
-      <transition appear name="logo-transition">
-        <router-link
-          :to="`/${i18n.locale.value}`"
-          class="toolbar__logo"
-        >
-          <img src="/img/blacksport_logo.svg" alt="Blacksport">
-        </router-link>
-      </transition>
-      <transition appear name="right-panel-transition">
-        <div class="toolbar__right-panel">
-          <Basket />
-          <router-link
-            :to="`/${i18n.locale.value}`"
-            class="link toolbar__home-link"
-          >
-            {{i18n.$t('defaults.home')}}
-          </router-link>
-          <button
-            :class="{'toolbar__burger--opened': menuShown}"
-            @click="toggleMenu"
-            class="toolbar__burger"
-          />
-        </div>
-      </transition>
+  <transition appear name="logo-transition">
+    <router-link
+      :to="`/${locale}`"
+      :class="{blurred: isBlurred}"
+      @click.prevent="goToPage(`/${locale}`)"
+      class="logo"
+    >
+      <img src="/img/blacksport_logo.svg" alt="Blacksport">
+    </router-link>
+  </transition>
+  <transition appear name="right-panel-transition">
+    <div class="right-panel" :class="{blurred: isBlurred}">
+      <BasketIcon/>
+      <router-link
+        :to="`/${locale}`"
+        class="link right-panel__home-link"
+      >
+        {{t(basketOpen ? 'basket' : 'home')}}
+      </router-link>
+      <button
+        :class="{'right-panel__burger--opened': menuShown || basketOpen}"
+        @click="basketOpen ? toggleBasket(false) : toggleMenu(!menuShown)"
+        class="right-panel__burger"
+      />
     </div>
-    <transition name="nav-complete">
-      <nav class="container" v-if="menuShown">
-        <router-link
-          :data-link="link.name"
-          :key="i"
-          :to="link.path"
-          @click.prevent="goToPage(link.path)"
-          class="link"
-          v-for="(link, i) in links"
-        >
-          {{i18n.$t(`defaults.${link.name}`)}}
-        </router-link>
-      </nav>
-    </transition>
-  </header>
+  </transition>
+  <transition name="nav-transition">
+    <nav v-if="menuShown">
+      <router-link
+        :data-link="link.name"
+        :key="i"
+        :to="link.path"
+        @click.prevent="goToPage(link.path)"
+        class="link"
+        v-for="(link, i) in links"
+      >
+        {{t(link.name)}}
+      </router-link>
+    </nav>
+  </transition>
+  <transition name="terms-transition">
+    <div class="navigation-terms" v-if="menuShown">
+      <router-link
+        :to="termsLink"
+        @click.prevent="goToPage(termsLink)"
+        class="basic"
+      >
+        {{t('termsAndConditions')}}
+      </router-link>
+      <router-link
+        :to="termsLink"
+        @click.prevent="goToPage(refundLink)"
+        class="basic"
+      >
+        {{t('refundPolicy')}}
+      </router-link>
+    </div>
+  </transition>
 </template>
 
 <script>
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
-import {useI18n} from '../../i18nPlugin'
-import Basket from '../Products/Basket'
+
+import BasketIcon from '../Products/BasketIcon'
 
 export default {
   name: 'Header',
-  components: {Basket},
+  components: {BasketIcon},
   setup() {
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const {state, commit} = useStore()
     const router = useRouter()
+    const menuShown = computed(() => state.common.menuShown)
+    const basketOpen = computed(() => state.common.basketOpen)
     const links = computed(() => [
       {
         path: {
           name: ROUTE_CONF.HOME.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'home',
       },
       {
         path: {
           name: ROUTE_CONF.NEWS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'news',
       },
       {
         path: {
           name: ROUTE_CONF.ABOUT.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'about',
       },
       {
         path: {
           name: ROUTE_CONF.SERVICES.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'services',
       },
       {
         path: {
           name: ROUTE_CONF.PRODUCTS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'products',
       },
       {
         path: {
           name: ROUTE_CONF.PROGRAMS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'programs',
       },
       {
         path: {
           name: ROUTE_CONF.CONTACTS.name,
-          params: {locale: i18n.locale.value},
+          params: {locale: locale.value},
         },
         name: 'contacts',
       },
     ])
 
-    const toggleMenu = () => commit('common/toggleMenu')
+    const toggleMenu = menuShown => commit('common/setMenuShown', menuShown)
+    const toggleBasket = basketShown => commit('common/setBasketOpen', basketShown)
 
     const goToPage = path => {
-      toggleMenu()
+      toggleMenu(false)
+      toggleBasket(false)
       router.push(path)
     }
 
     return {
-      i18n,
-      menuShown: computed(() => state.common.menuShown),
+      t,
+      locale,
+      menuShown,
       toggleMenu,
+      toggleBasket,
       links,
       goToPage,
+      basketOpen,
+      termsLink: computed(() => `/${locale.value}${ROUTE_CONF.TERMS.path}`),
+      refundLink: computed(() => `/${locale.value}${ROUTE_CONF.REFUND.path}`),
+      isBlurred: computed(() => {
+        return state.common.shownServiceExample || state.common.shownServiceOrder || state.common.shownAchievement
+      }),
     }
   },
 }
@@ -132,51 +161,55 @@ export default {
 @import "../../assets/scss/breakpoints";
 @import "../../assets/scss/variables";
 
-header {
-  width: 100vw;
-  position: absolute;
-  z-index: 1;
+.blurred {
+  filter: blur(16px);
+}
 
-  &.overlay {
-    background-color: rgba(black, 0.5);
+.logo {
+  top: $spacing-md - $spacing-sm / 2;
+  left: $spacing;
+  opacity: 0.2;
+  position: fixed;
+  z-index: 2;
+  transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include tablets() {
+    top: 46px;
+    left: $spacing-lg;
+  }
+
+  img {
+    height: $spacing-md;
+
+    @include tablets() {
+      height: $spacing-md + $spacing-sm;
+    }
   }
 }
 
-.toolbar {
-  padding: 20px 16px 0;
-  display: flex;
-  justify-content: space-between;
+.right-panel {
+  position: fixed;
+  z-index: 2;
+  top: $spacing-md - $spacing-sm / 4;
+  right: $spacing;
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
+  column-gap: 10px;
+  transition: filter 0.3s ease-in-out;
 
   @include tablets() {
-    padding: 46px 40px 0;
+    top: $spacing-lg + $spacing-sm / 2 + 2px;
+    right: $spacing-lg;
+    grid-template-columns: repeat(3, auto);
   }
 
-  &__logo {
-    opacity: 0.2;
-
-    img {
-      height: 24px;
-
-      @include tablets() {
-        height: 32px;
-      }
-    }
-  }
-
-  &__right-panel {
-    display: grid;
-    grid-template-columns: auto auto;
-    align-items: center;
-    column-gap: 10px;
-
-    @include tablets() {
-      grid-template-columns: repeat(3, auto);
-    }
-
-    @include laptop() {
-      column-gap: 15px;
-    }
+  @include laptop() {
+    column-gap: $spacing;
   }
 
   &__home-link {
@@ -251,23 +284,45 @@ header {
 }
 
 nav {
-  height: calc(100vh - 50px);
-  padding: 35px 24px 60px;
+  top: 50px;
+  width: 100vw;
+  height: calc(100vh - 170px);
+  padding: 35px $spacing;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  position: fixed;
+  z-index: 1;
+
+  @include landscape() {
+    height: calc(100vh - 100px);
+  }
 
   @include tablets() {
+    top: 70px;
+    width: initial;
+    height: initial;
+    right: 0;
     align-items: flex-end;
-    height: calc(100vh - 83px);
-    padding: 46px 40px 60px;
+    padding: 46px $spacing-lg #{$spacing-lg + $spacing-md - $spacing-sm / 2};
+  }
+
+  @include big-phones-landscape() {
+    max-height: calc(100vh - 150px);
+  }
+
+  @include phones-tablets() {
+    max-height: calc(100vh - 130px);
   }
 
   .link {
     display: inline-block;
-    margin-bottom: 28px;
+
+    &:not(:last-of-type) {
+      margin-bottom: 28px;
+    }
 
     @include tablets() {
       &[data-link="home"] {
@@ -277,7 +332,44 @@ nav {
   }
 }
 
-.nav-complete {
+.navigation-terms {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: $spacing-lg * 2;
+
+  @include landscape() {
+    display: none;
+  }
+
+  @include big-phones-landscape() {
+    display: none;
+  }
+
+  @include phones-tablets() {
+    display: flex;
+    padding: $spacing $spacing-lg;
+    bottom: 100px;
+    left: initial;
+    margin: initial;
+    align-items: flex-end;
+  }
+
+  a:first-of-type {
+    margin-bottom: $spacing-sm;
+
+    @include tablets() {
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+.nav-transition {
   &-enter-active,
   &-leave-active {
     transition: transform 0.5s ease-in-out;
@@ -287,7 +379,7 @@ nav {
     }
 
     @include tablets() {
-      transition: none;
+      transition: opacity 0.3s ease-in-out;
 
       a {
         transition: none;
@@ -298,21 +390,22 @@ nav {
   &-enter-from,
   &-leave-to {
     @media screen and (orientation: portrait) {
-      transform: translateY(calc(-100% + 300px));
+      transform: translateY(calc(-100% + 175px));
     }
 
     @media screen and (orientation: landscape) {
       transform: translateY(calc(-100% - 25px));
     }
 
-    a {
+    a:not(:last-of-type) {
       margin-bottom: 0;
     }
 
     @include tablets() {
       transform: none;
+      opacity: 0;
 
-      a {
+      a:not(:last-of-type) {
         margin-bottom: 28px;
       }
     }
@@ -346,6 +439,18 @@ nav {
   &-enter-from {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+.terms-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
   }
 }
 </style>

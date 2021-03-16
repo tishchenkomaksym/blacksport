@@ -1,15 +1,14 @@
 $gradient-height: 40px;
+$page-height: calc(100vh - 264px);
 
 @mixin page-height {
-  height: calc(100vh - 264px);
+  height: $page-height;
 }
 
 @mixin container-gradients($color) {
-  $height: calc(100vh - 264px);
 
   &::before, &::after {
-    width: calc(100% - 88px);
-    max-width: calc(1440px - 88px); // Container width minus left-right paddings
+    width: calc(100% - 8px);
     height: $gradient-height;
     content: '';
     display: block;
@@ -19,13 +18,13 @@ $gradient-height: 40px;
 
   // Top gradient
   &::before {
-    top: 106px;
-    background: linear-gradient(180deg, $color 0%, rgba(38, 38, 38, 0) 100%);
+    top: 0;
+    background: linear-gradient(180deg, $color 0%, rgba($color, 0) 100%);
   }
 
   // Bottom gradient
   &::after {
-    top: calc(106px + #{$height});
-    background: linear-gradient(180deg, rgba(38, 38, 38, 0) 0%, $color 100%);
+    bottom: 0;
+    background: linear-gradient(180deg, rgba($color, 0) 0%, $color 100%);
   }
 }

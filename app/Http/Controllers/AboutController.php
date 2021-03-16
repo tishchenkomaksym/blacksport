@@ -79,7 +79,8 @@ class AboutController extends Controller
      *                      @OA\Property(property="title", type="string"),
      *                      @OA\Property(property="description", type="string"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="video", type="string", example="link (not required)"),
      *                  )
      *              ),
      *       )
@@ -88,20 +89,18 @@ class AboutController extends Controller
      */
     public function index($locale = null)
     {
-//        dd(Page::with('viewTexts')
-//               ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get());
         $texts = $this->translateService->translate($locale, Page::with('viewTexts')
-                                         ->whereIn('page_key', ['made', 'partners', 'ambassadors'])->get(), Page::class);
+                                         ->whereIn('page_key', ['made', 'partners', 'ambassadors', 'about'])->get(), Page::class);
         $ambassadors = Ambassador::orderByDesc( 'created_at' )->get();
         $partners    = Partner::orderByDesc( 'created_at' )->get();
         list($ambassadors, $partners) = $this->translateService->translateAbout($locale, $ambassadors, $partners);
         $achievements = $this->translateService->translate($locale, Achievement::orderByDesc('created_at')->get(), Achievement::class);
 
-        return json_encode([
-                'texts' => $texts,
-                'ambassadors' => $ambassadors,
-                'partners' => $partners,
-                'achievements' => $achievements
-            ]);
+        return response()->json([
+                'texts' => $texts->toArray() ?? [],
+                'ambassadors' => $ambassadors->toArray() ?? [],
+                'partners' => $partners->toArray() ?? [],
+                'achievements' => $achievements->toArray() ?? []
+            ], 200);
     }
 }

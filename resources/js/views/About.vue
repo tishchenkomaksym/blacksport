@@ -1,23 +1,22 @@
 <template>
-  <PageLayout
-    :title="i18n.$t('defaults.about')"
-    background-color="park"
-  >
+  <PageLayout background-color="park">
+    <template v-slot:title>
+      {{$t('about')}}
+    </template>
     <div class="about">
       <div class="about__container">
         <div class="about__images">
           <img src="/img/about/about-1.png" alt="Snowboarding">
           <img src="/img/about/about-2.png" class="about__img2" alt="Man playing football">
         </div>
-        <h1>{{i18n.$t('defaults.about')}}</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <h1>{{$t('about')}}</h1>
+        <p :key="i" v-for="(paragraph, i) in aboutParagraphs">{{paragraph}}</p>
       </div>
 
       <div class="about__container">
         <div class="about__mission">
           <img
-            :src="i18n.locale === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg'"
+            :src="missionImageSrc"
             alt="Mission"
           />
         </div>
@@ -31,9 +30,11 @@
 </template>
 
 <script>
-import {watchEffect} from 'vue'
+import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
+import useParseText from '../hooks/useParseText'
+
 import PageLayout from '../components/Layout/PageLayout'
 import Achievements from '../components/About/Achievements'
 import Partners from '../components/About/Partners'
@@ -43,15 +44,19 @@ export default {
   name: 'About',
   components: {Ambassadors, Partners, Achievements, PageLayout},
   setup() {
-    const i18n = useI18n()
-    const {dispatch} = useStore()
+    const {locale} = useI18n()
+    const {dispatch, state} = useStore()
+    const missionImageSrc = computed(() => locale.value === 'en' ? '/img/mission-en.svg' : '/img/mission-ru.svg')
+    const aboutText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'about') || {})
+    const aboutParagraphs = computed(() => useParseText(aboutText.value.meta_description || '').value)
 
     watchEffect(() => {
-      dispatch('pages/getAbout', i18n.locale.value)
+      dispatch('pages/getAbout', locale.value)
     })
 
     return {
-      i18n,
+      missionImageSrc,
+      aboutParagraphs,
     }
   },
 }
@@ -59,6 +64,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/variables";
 
 .about {
   &__container {
@@ -68,26 +74,32 @@ export default {
 
   &__images {
     display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-md;
+
+    @include tablets() {
+      justify-content: center;
+    }
 
     img {
-      width: 50%;
+      width: calc((136 * 100%) / 288);
       max-width: 440px;
-      filter: drop-shadow(4px 4px 16px rgba(0, 0, 0, 0.08));
+      filter: drop-shadow($spacing-sm / 2 $spacing-sm / 2 $spacing rgba($bg-color, 0.08));
 
       @include tablets() {
-        filter: drop-shadow(16px 16px 32px rgba(0, 0, 0, 0.08));
+        width: 50%;
+        filter: drop-shadow($spacing $spacing #{$spacing-sm + $spacing-md} rgba($bg-color, 0.08));
       }
     }
   }
 
   &__mission {
-    margin: 24px 0;
+    margin: $spacing-md 0;
     text-align: center;
 
     @include tablets() {
-      margin: 48px 0 65px;
+      margin: #{$spacing-sm + $spacing-lg} 0 65px;
     }
 
     img {

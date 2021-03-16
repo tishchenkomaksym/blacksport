@@ -364,6 +364,12 @@
                                                 },
                                                 "phone": {
                                                     "type": "string"
+                                                },
+                                                "payment_metho": {
+                                                    "type": "string"
+                                                },
+                                                "post_branch": {
+                                                    "type": "string"
                                                 }
                                             },
                                             "type": "object"
@@ -444,7 +450,7 @@
                 }
             }
         },
-        "/api/contacts": {
+        "/api/contacts/{locale?}": {
             "get": {
                 "tags": [
                     "contacts"
@@ -452,6 +458,18 @@
                 "summary": "Contacts",
                 "description": "Getting Contacts",
                 "operationId": "App\\Http\\Controllers\\ContactController::index",
+                "parameters": [
+                    {
+                        "name": "Locale",
+                        "in": "path",
+                        "description": "Language",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "ru, en, uk"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1211,11 +1229,8 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "success"
-                    },
-                    "403": {
-                        "description": "error, User with this phone or email already exist"
                     }
                 }
             }
@@ -1275,6 +1290,58 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/service/request": {
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Program Page",
+                "description": "Create service request",
+                "operationId": "App\\Http\\Controllers\\ServiceController::store",
+                "requestBody": {
+                    "description": "Pass params",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "service_id",
+                                    "name",
+                                    "phone",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "service_id": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Arsen"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "380645564545"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "success"
                     }
                 }
             }

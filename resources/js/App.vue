@@ -5,13 +5,10 @@
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, onMounted, watch} from 'vue'
 import {useStore} from 'vuex'
-import {provideI18n} from './i18nPlugin'
-import {LANGS} from './router'
-import en from './assets/locale/en.json'
-import ru from './assets/locale/ru.json'
-import ua from './assets/locale/ua.json'
+import {useRoute, useRouter} from 'vue-router'
+import {useI18n} from 'vue-i18n'
 
 import Layout from './components/Layout/Layout'
 
@@ -20,25 +17,18 @@ export default {
   components: {Layout},
   setup() {
     const {state, dispatch} = useStore()
+    const router = useRouter()
+    const route = useRoute()
+    const {locale} = useI18n()
     const backgroundColor = computed(() => state.common.backgroundColor)
 
     onMounted(() => {
       dispatch('products/getBasket')
+      dispatch('common/getContacts')
     })
 
-    provideI18n({
-      locale: LANGS[0],
-      translations: {
-        en: {
-          defaults: {...en},
-        },
-        ru: {
-          defaults: {...ru},
-        },
-        ua: {
-          defaults: {...ua},
-        },
-      },
+    watch(locale, locale => {
+      router.replace({name: route.name, params: {locale}, query: {...route.query}})
     })
 
     return {
@@ -47,15 +37,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-#app {
-  height: 100vh;
-  overflow: hidden;
-}
-
-main {
-  height: 100%;
-  overflow-y: auto;
-}
-</style>

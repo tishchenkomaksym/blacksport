@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Services\NewsService;
 use App\Services\TranslateService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -13,11 +15,16 @@ class NewsController extends Controller
      * @var TranslateService
      */
     private $translate_service;
+    /**
+     * @var NewsService
+     */
+    private $news_service;
 
-    public function __construct(TranslateService $translate_service)
+    public function __construct(TranslateService $translate_service, NewsService $news_service)
     {
 
         $this->translate_service = $translate_service;
+        $this->news_service = $news_service;
     }
 
     /**
@@ -47,6 +54,7 @@ class NewsController extends Controller
      *                      @OA\Property(property="created_at", type="string"),
      *                      @OA\Property(property="updated_at", type="string"),
      *                      @OA\Property(property="published", type="string"),
+     *                      @OA\Property(property="hide_date", type="boolean"),
      *                  )
      *              )
      *       )
@@ -55,9 +63,12 @@ class NewsController extends Controller
      */
     public function index($locale = null)
     {
-      $news = News::orderByDesc('created_at')->get();
-      $news = $this->translate_service->translate($locale, $news, News::class)->toArray();
-      return response()->json($news, 200);
+
+        $news = News::orderByDesc('created_at')->get();
+        $this->news_service->checkCreatedAt($news);
+
+        $news = $this->translate_service->translate($locale, $news, News::class)->toArray();
+        return response()->json($news, 200);
 
     }
 
@@ -98,6 +109,7 @@ class NewsController extends Controller
     public function show($id, $locale = null)
     {
         $news = News::where('id', $id)->get();
+        $this->news_service->checkCreatedAt($news);
         $news = $this->translate_service->translate($locale, $news, News::class);
 
         return response()->json($news, 200);

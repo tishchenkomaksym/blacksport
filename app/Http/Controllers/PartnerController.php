@@ -53,7 +53,7 @@ class PartnerController extends Controller
      */
     public function index($locale =null)
     {
-        $partner = $this->translateService->translate($locale, Partner::get(), Partner::class);
+        $partner = $this->translateService->translate($locale, Partner::get(), Partner::class)->toArray();
 
         return response()->json($partner, 200);
     }

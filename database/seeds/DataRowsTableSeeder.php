@@ -97,8 +97,8 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.created_at'),
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
+                'browse'       => 0,
+                'read'         => 0,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -410,11 +410,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 4,
             ])->save();
@@ -508,11 +508,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -617,11 +617,11 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($contactDataType, 'created_at');
+        $dataRow = $this->dataRow($contactDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Created At',
+                'type'         => 'text',
+                'display_name' => 'Название',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -630,6 +630,54 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 6,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($contactDataType, 'ipn');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'ИПН',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 7,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($contactDataType, 'law_address');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Юридический Адрес',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 8,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($contactDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Created At',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 9,
             ])->save();
         }
 
@@ -645,7 +693,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 7,
+                'order'        => 10,
             ])->save();
         }
 
@@ -721,11 +769,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -750,7 +798,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($newsDataType, 'published');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'checkbox',
                 'display_name' => 'Published',
                 'required'     => 1,
                 'browse'       => 1,
@@ -760,6 +808,38 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 7,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($newsDataType, 'hide_date');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Скрыть дату',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 8,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($newsDataType, 'preview_image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'multiple_images',
+                'display_name' => 'Ghtdm.',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 9,
             ])->save();
         }
 
@@ -789,7 +869,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -805,7 +885,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -821,7 +901,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -837,7 +917,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -869,7 +949,7 @@ class DataRowsTableSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
+                'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
@@ -877,19 +957,131 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($ordersDataType, 'created_at');
+        $dataRow = $this->dataRow($ordersDataType, 'payment_method');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => 'Created At',
+                'type'         => 'text',
+                'display_name' => 'Способ оплаты',
                 'required'     => 0,
                 'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 9,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'post_branch');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Отделение почты',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 10,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'comment');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Комментарий',
+                'required'     => 0,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 9,
+                'order'        => 11,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'address');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Адрес',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 12,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'online_payment');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Оплата онлайн',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 13,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'post_delivery_price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Стоимость доставки Новой Почты',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 14,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'total_price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Общая цена',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 15,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ordersDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Время заказа',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => '{}',
+                'order'        => 16,
             ])->save();
         }
 
@@ -905,7 +1097,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 10,
+                'order'        => 17,
             ])->save();
         }
 
@@ -950,10 +1142,10 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'text',
                 'display_name' => 'Page Key',
                 'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
                 'order'        => 3,
@@ -1014,11 +1206,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 7,
             ])->save();
@@ -1122,11 +1314,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -1194,7 +1386,14 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required|max:150",
+                        "messages" => [
+                            "max" => "Вы ввели более 150 символов"
+                        ]
+                    ]
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -1206,11 +1405,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -1229,6 +1428,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($serviceDataType, 'show_on_main');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Отобразить на главной',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 7,
             ])->save();
         }
 
@@ -1287,14 +1502,16 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text_area',
-                'display_name' => 'Спецификации',
+                'display_name' => 'Характеристики',
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    'description' => 'Характеристики должны быть записаны через двуеточия от их значения, каждую новую характеристику нужно писать с новой строки'
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -1340,9 +1557,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                                "required"=> "Выберите пожалуйста категорию!"
+                        ]
+                     ]
+                ],
                 'order'        => 7,
             ])->save();
         }
@@ -1369,11 +1593,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 9,
             ])->save();
@@ -1418,6 +1642,22 @@ class DataRowsTableSeeder extends Seeder
                     "taggable" => "0"
                 ],
                 'order'        => 11,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($productDataType, 'show_on_main');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Отобразить на главной',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 12,
             ])->save();
         }
 
@@ -1497,11 +1737,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -1529,7 +1769,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => 'Service Id',
+                'display_name' => 'Id',
                 'required'     => 1,
                 'browse'       => 0,
                 'read'         => 0,
@@ -1545,34 +1785,24 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => 'Id',
+                'display_name' => 'Service Id',
                 'required'     => 1,
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
-                'order'        => 1,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($serviceExampleDataType, 'name');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Название',
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста услугу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
-
 
         $dataRow = $this->dataRow($serviceExampleDataType, 'description');
         if (!$dataRow->exists) {
@@ -1597,13 +1827,13 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 5,
+                'order'        => 4,
             ])->save();
         }
 
@@ -1619,15 +1849,15 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '{}',
-                'order'        => 6,
+                'order'        => 5,
             ])->save();
         }
 
         $dataRow = $this->dataRow($serviceExampleDataType, 'media');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'media_picker',
-                'display_name' => 'Медиа',
+                'type'         => 'multiple_images',
+                'display_name' => 'Картинки',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -1635,7 +1865,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => '{}',
-                'order'        => 7,
+                'order'        => 6,
             ])->save();
         }
 
@@ -1661,7 +1891,7 @@ class DataRowsTableSeeder extends Seeder
                     "pivot"       => "0",
                     "taggable"    => "0"
                 ],
-                'order'        => 8,
+                'order'        => 7,
             ] )->save();
         }
 
@@ -1692,9 +1922,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста страницу!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1739,11 +1976,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -1771,11 +2008,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Deleted At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
             ])->save();
@@ -1807,6 +2044,7 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+
         $viewTextsImagesDataType = DataType::where('slug', 'view-texts-images')->firstOrFail();
 
         $dataRow = $this->dataRow($viewTextsImagesDataType, 'id');
@@ -1834,9 +2072,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'details'      => '{}',
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста текст страницы!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -1866,11 +2111,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
             ])->save();
@@ -1898,11 +2143,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Deleted At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
             ])->save();
@@ -1934,32 +2179,6 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
-
-        $dataRow = $this->dataRow($viewTextDataType, 'view_text_belongsto_page_relationship');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Страница',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'details'      => [
-                    "model" => "\\App\\Models\\Page",
-                    "table" => "pages",
-                    "type"=>"belongsTo",
-                    "column" => "page_id",
-                    "key" => "id",
-                    "label" => "name",
-                    "pivot_table" =>"ambassadors",
-                    "pivot" => "0",
-                    "taggable" =>"0"
-                ],
-                'order'        => 7,
-            ])->save();
-        }
 
         $achievementsDataType = DataType::where('slug', 'achievements')->firstOrFail();
 
@@ -2020,11 +2239,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 4,
             ])->save();
@@ -2043,6 +2262,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 5,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($achievementsDataType, 'video');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Видео',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => '{}',
+                'order'        => 6,
             ])->save();
         }
 
@@ -2073,9 +2308,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -2135,11 +2377,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
             ])->save();
@@ -2216,9 +2458,16 @@ class DataRowsTableSeeder extends Seeder
                 'browse'       => 0,
                 'read'         => 0,
                 'edit'         => 0,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "validation" => [
+                        "rule" => "required",
+                        "messages"=> [
+                            "required"=> "Выберите пожалуйста програму!"
+                        ]
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -2278,11 +2527,11 @@ class DataRowsTableSeeder extends Seeder
                 'type'         => 'timestamp',
                 'display_name' => 'Created At',
                 'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'details'      => '{}',
                 'order'        => 6,
             ])->save();

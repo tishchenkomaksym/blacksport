@@ -1,12 +1,12 @@
 <template>
   <div
-    :style="{backgroundImage: `url(https://loremflickr.com/50${data.id % 9}/50${data.id % 9}/sport_equipment)`}"
+    :style="{backgroundImage: `url(${image})`}"
     class="service-example"
   />
 </template>
 
 <script>
-import {computed} from 'vue'
+import useImageStorage from '../../hooks/useImageStorage'
 
 export default {
   name: 'ServiceExample',
@@ -16,8 +16,8 @@ export default {
       required: true,
     },
   },
-  setup({data}) {
-    const image = computed(() => JSON.parse(data.media)[0])
+  setup(props) {
+    const image = useImageStorage(JSON.parse(props.data.media)[0], true)
 
     return {
       image,

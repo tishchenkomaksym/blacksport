@@ -9,11 +9,10 @@
             :key="i"
             style="max-width: 192px"
             class="glide__slide"
-            v-for="(image, i) in 4"
+            v-for="(image, i) in images"
           >
-            <!-- TODO Change to dynamic image -->
             <div
-              :style="{backgroundImage: `url(https://loremflickr.com/80${i}/80${i}/sport)`}"
+              :style="{backgroundImage: `url(${image})`}"
               class="program-item__images-item"
             />
           </li>
@@ -24,29 +23,28 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {ref} from 'vue'
 import useGlide from '../../hooks/useGlide'
 import useParseText from '../../hooks/useParseText'
+import useImageStorage from '../../hooks/useImageStorage'
 
 export default {
   name: 'ProgramItem',
   props: {
     data: Object,
   },
-  setup({data}) {
-    const images = computed(() => JSON.parse(data.images))
+  setup(props) {
+    const images = useImageStorage(props.data.images)
     const imagesSlider = ref(null)
     const glide = ref(null)
-    const description = useParseText(data.description)
+    const description = useParseText(props.data.description)
 
     useGlide(glide, imagesSlider, {
       perView: 4,
       gap: 16,
       bound: true,
+      rewind: false,
       breakpoints: {
-        768: {
-          peek: {before: 40, after: 40},
-        },
         450: {
           perView: 1,
           peek: {before: 16, after: 104},
@@ -65,19 +63,15 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/scss/breakpoints";
+@import "../../assets/scss/variables";
 
 .program-item {
   &__images {
     width: 100vw;
-    margin: 0 0 0 -32px;
-    transform: translateX(16px);
+    margin: 0 0 0 #{-$spacing-md - $spacing-sm};
+    transform: translateX($spacing);
 
     @include tablets() {
-      margin: 0 0 0 -80px;
-      transform: translateX(40px);
-    }
-
-    @include laptop() {
       width: 100%;
       margin: 0;
       transform: none;

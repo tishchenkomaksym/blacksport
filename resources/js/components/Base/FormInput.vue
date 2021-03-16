@@ -1,13 +1,14 @@
 <template>
   <div class="form-input">
     <Field
+      :as="asTextarea ? 'textarea' : 'input'"
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :rows="asTextarea ? 4 : null"
       :class="{light}"
-      @input="handleChange"
+      @input="onChange"
       @blur="handleBlur"
-      as="input"
       v-if="!mask"
     />
     <Field
@@ -15,21 +16,20 @@
       :placeholder="placeholder"
       :type="type"
       :class="{light}"
-      @input="handleChange"
+      @input="onChange"
       @blur="handleBlur"
       as="input"
       v-maska="mask"
       v-else
     />
     <p class="form-error" v-if="errorMessage">
-      {{i18n.$t(errorMessage)}}
+      {{$t(errorMessage)}}
     </p>
   </div>
 </template>
 
 <script>
 import {ErrorMessage, Field, useField} from 'vee-validate'
-import {useI18n} from '../../i18nPlugin'
 
 export default {
   name: 'FormInput',
@@ -43,16 +43,26 @@ export default {
     placeholder: String,
     mask: [Array, Object, String],
     light: Boolean,
+    asTextarea: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup({name}) {
-    const i18n = useI18n()
+  emits: [
+    'on-change',
+  ],
+  setup({name}, {emit}) {
     const {errorMessage, handleBlur, handleChange} = useField(name)
 
+    const onChange = e => {
+      handleChange(e)
+      emit('on-change', e.target.value)
+    }
+
     return {
-      i18n,
       errorMessage,
       handleBlur,
-      handleChange,
+      onChange,
     }
   },
 }
@@ -62,12 +72,12 @@ export default {
 @import "../../assets/scss/variables";
 
 .form-input {
-  margin-bottom: 16px;
+  margin-bottom: $spacing;
 
-  input {
+  input, textarea {
     width: 100%;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: $spacing-sm;
   }
 }
 </style>

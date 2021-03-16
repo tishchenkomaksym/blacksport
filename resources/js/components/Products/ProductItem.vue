@@ -1,36 +1,39 @@
 <template>
   <article class="product-item">
-    <!-- TODO change to dynamic image -->
     <router-link
       :to="productLink"
-      :style="{backgroundImage: `url(https://loremflickr.com/1024/1024/sport_equipment)`}"
+      :title="data.title"
       class="product-item__image"
-    />
+    >
+      <img :src="image" :alt="data.title" />
+    </router-link>
     <div class="product-item__info">
       <div class="product-item__info-title">
         <router-link class="basic" :to="productLink">
           {{data.title}}
         </router-link>
       </div>
-      <div class="product-item__info-price">{{price}} <span>₴</span></div>
+      <div class="product-item__info-price">{{n(data.price, 'price', localeType)}} <span>₴</span></div>
     </div>
     <div class="product-item__button-wrapper">
       <transition name="order-button-slide">
-        <button
+        <Button
+          block
           @click="addToBasket(data.id)"
-          class="product-item__order-button"
           v-if="!isInBasket"
         >
-          {{i18n.$t('defaults.buy')}}
-        </button>
+          {{t('buy')}}
+        </Button>
       </transition>
       <transition name="ordered-button-slide">
-        <button
-          class="product-item__order-button product-item__order-button--ordered"
+        <Button
+          @click="openBasket"
+          block
+          light
           v-if="isInBasket"
         >
-          {{i18n.$t('defaults.openBasket')}}
-        </button>
+          {{t('openBasket')}}
+        </Button>
       </transition>
     </div>
   </article>
@@ -40,40 +43,46 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
+import useImageStorage from '../../hooks/useImageStorage'
 import {ROUTE_CONF} from '../../router'
+import Button from '../Base/Button'
 
 export default {
   name: 'ProductItem',
+  components: {Button},
   props: {
     data: Object,
   },
-  setup({data}) {
-    const i18n = useI18n()
-    const {dispatch, state} = useStore()
-    const price = computed(() => {
-      const locales = i18n.locale.value === 'ru' ? 'ru-RU' : i18n.locale.value === 'en' ? 'en-US' : 'uk-UA'
-      return data.price.toLocaleString(locales)
-    })
+  setup(props) {
+    const {t, locale, n} = useI18n()
+    const {commit, dispatch, state} = useStore()
+    const localeType = computed(() => locale.value === 'ru' ? 'ru-RU' : locale.value === 'en' ? 'en-US' : 'uk-UA')
     const {width} = useWindowSize()
     const isInBasket = computed(() => {
-      return !!Object.keys(state.products.basket).find(key => +key === data.id)
+      return !!Object.keys(state.products.basket).find(key => +key === props.data.id)
     })
+    const image = useImageStorage(props.data.image, true)
 
     const addToBasket = productId => {
       dispatch('products/addToBasket', {productId})
     }
 
+    const openBasket = () => commit('common/setBasketOpen', true)
+
     return {
-      i18n,
-      price,
+      t,
+      n,
+      localeType,
       width,
       addToBasket,
+      openBasket,
       productLink: computed(() => ({
         name: ROUTE_CONF.PRODUCT.name,
-        params: {locale: i18n.locale.value, id: data.id},
+        params: {locale: locale.value, id: props.data.id},
       })),
       isInBasket,
+      image,
     }
   },
 }
@@ -90,25 +99,50 @@ export default {
 
   &__image {
     display: block;
+    height: 0;
     width: 100%;
     padding-bottom: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: calc(100% - 48px);
+    position: relative;
     background-color: white;
     transition: background-size 0.3s ease-in-out;
 
     &:hover {
-      background-size: calc(100% - 36px);
+      img {
+        width: calc((100vw * 118) / 320);
+        height: calc((100vw * 118) / 320);
+      }
+
+      @include laptop() {
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+    }
+
+    img {
+      width: calc((100vw * 112) / 320);
+      height: calc((100vw * 112) / 320);
+      object-fit: cover;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease-in-out;
+
+      @include laptop() {
+        width: 184px;
+        height: 184px;
+      }
     }
   }
 
   &__info {
-    padding: 8px;
+    padding: $spacing-sm;
     flex-grow: 1;
 
     @include laptop() {
-      padding: 16px 8px;
+      padding: $spacing $spacing-sm;
     }
 
     &-title {
@@ -145,6 +179,13 @@ export default {
     overflow: hidden;
     position: relative;
 
+    @media screen and (max-width: 1023px) {
+      button {
+        padding-top: 10px;
+        padding-bottom: 9px;
+      }
+    }
+
     @include laptop() {
       height: 52px;
     }
@@ -152,7 +193,7 @@ export default {
 
   &__order-button {
     width: 100%;
-    padding: 8px 0;
+    padding: $spacing-sm 0;
     display: block;
     text-transform: uppercase;
     font-size: 18px;
@@ -167,17 +208,8 @@ export default {
       background-color: $park;
     }
 
-    &--ordered {
-      background-color: $text-color;
-      color: $smoke;
-
-      &:hover {
-        background-color: $text-color;
-      }
-    }
-
     @include laptop() {
-      padding: 16px 0;
+      padding: $spacing 0;
     }
   }
 }

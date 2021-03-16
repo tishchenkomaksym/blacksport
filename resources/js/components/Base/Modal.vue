@@ -1,11 +1,11 @@
 <template>
   <div class="modal">
-    <div class="modal__close container">
+    <div class="modal__close">
       <Button
         @click="$emit('close-modal')"
         link
       >
-        {{i18n.$t('defaults.close')}}
+        {{t('close')}}
 
         <svg class="modal__close-icon" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -21,19 +21,20 @@
 </template>
 
 <script>
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
+
 import Button from './Button'
 
 export default {
   name: 'Modal',
   components: {Button},
   setup() {
-    const i18n = useI18n()
+    const {t} = useI18n()
     const {width} = useWindowSize()
 
     return {
-      i18n,
+      t,
       width,
     }
   },
@@ -50,30 +51,39 @@ export default {
   top: 0;
   left: 0;
   position: fixed;
-  backdrop-filter: blur(16px);
-  background-color: rgba(white, 0.01);
-  z-index: 1;
+  z-index: 999;
   overflow: auto;
 
-  @include tablets() {
+  @include tablets {
     display: flex;
     flex-direction: column;
   }
 
   &__close {
-    padding: 20px 16px;
+    padding: 20px $spacing;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 
-    @include tablets() {
-      width: 100%;
-      padding: 48px 40px;
-      margin: 0 auto;
-      left: 0;
+    @include tablets {
+      padding: $spacing-lg + $spacing-sm $spacing-lg;
       right: 0;
       position: absolute;
       box-sizing: border-box;
+    }
+
+    button {
+      &:hover .modal__close-icon {
+        fill: $text-accent-color;
+      }
+
+      &::after {
+        width: calc(100% - 11px);
+
+        @include tablets {
+          width: calc(100% - 22px);
+        }
+      }
     }
 
     &-icon {
@@ -81,8 +91,9 @@ export default {
       height: 11px;
       margin-left: 15px;
       fill: $text-color;
+      transition: fill 0.3s ease-in-out;
 
-      @include tablets() {
+      @include tablets {
         width: 17px;
         height: 17px;
         margin-left: 20px;
@@ -92,10 +103,10 @@ export default {
   }
 
   &__container {
-    padding: 0 16px;
+    padding: 0 $spacing;
 
-    @include tablets() {
-      padding: 116px 40px 90px;
+    @include tablets {
+      padding: 116px $spacing-lg 90px;
       flex-grow: 1;
     }
   }

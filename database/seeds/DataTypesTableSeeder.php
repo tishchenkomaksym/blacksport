@@ -246,8 +246,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'achievements',
-                'display_name_singular' => 'Достижение',
-                'display_name_plural'   => 'Достижения',
+                'display_name_singular' => 'Сделано',
+                'display_name_plural'   => 'Сделано',
                 'icon'                  => null,
                 'model_name'            => 'App\\Models\\Achievement',
                 'controller'            => null,

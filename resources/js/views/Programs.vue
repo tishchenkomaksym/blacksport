@@ -1,43 +1,46 @@
 <template>
-  <PageLayout
-    :title="i18n.$t('defaults.programs')"
-    background-color="sole"
-  >
+  <PageLayout background-color="sole">
+    <template v-slot:title>
+      {{t('programs')}}
+    </template>
     <div class="programs">
-      <div
-        :key="program.id"
-        class="programs__item"
-        v-for="program in programs"
-      >
-        <ProgramItem :data="program" style="min-width: 0" />
-        <ProgramRequestForm :program-id="program.id" />
-      </div>
+      <GradientContainer color="sole" class="programs__content">
+        <div
+          :key="program.id"
+          class="programs__item"
+          v-for="program in programs"
+        >
+          <ProgramItem :data="program" style="min-width: 0" />
+          <ProgramRequestForm :program-id="program.id" />
+        </div>
+      </GradientContainer>
     </div>
   </PageLayout>
 </template>
 
 <script>
-import {computed, onMounted} from 'vue'
+import {computed, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import PageLayout from '../components/Layout/PageLayout'
 import ProgramItem from '../components/Programs/ProgramItem'
 import ProgramRequestForm from '../components/Programs/ProgramRequestForm'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Programs',
-  components: {ProgramRequestForm, ProgramItem, PageLayout},
+  components: {GradientContainer, ProgramRequestForm, ProgramItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
-    const i18n = useI18n()
-    const programs = computed(() => state.pages.programs)
+    const {t, locale} = useI18n()
+    const programs = computed(() => state.programs.programs)
 
-    onMounted(() => {
-      dispatch('pages/getPrograms', i18n.locale.value)
+    watchEffect(() => {
+      dispatch('programs/getPrograms', locale.value)
     })
 
     return {
-      i18n,
+      t,
       programs,
     }
   },
@@ -47,45 +50,41 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .programs {
-  @include laptop() {
-    max-height: calc((640 * 100vh) / 900);
-    overflow-y: auto;
+  @include tablets() {
+    overflow: hidden;
+    position: relative;
+  }
 
-    &::before, &::after {
-      width: calc(100% - 88px);
-      max-width: calc(1440px - 88px);
-      height: 40px;
-      content: '';
-      display: block;
-      position: absolute;
-      z-index: 1;
-    }
+  @include big-phones-landscape() {
+    height: calc(#{$page-height} + #{$spacing-lg});
+  }
 
-    &::before {
-      top: 146px;
-      background: linear-gradient(180deg, $sole 0%, rgba(13, 13, 13, 0) 100%);
-    }
+  @include phones-tablets() {
+    @include page-height;
+  }
 
-    &::after {
-      top: calc(106px + (640 * 100vh) / 900);
-      background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, $sole 100%);
+  &__content {
+    @include tablets() {
+      height: 100%;
+      overflow-y: auto;
     }
   }
 
   &__item {
-    margin-bottom: 24px;
+    margin-bottom: $spacing-md;
 
     @include laptop() {
       display: grid;
       grid-template-columns: 1fr 300px;
-      column-gap: 40px;
-      margin-bottom: 40px;
+      column-gap: $spacing-lg;
+      margin-bottom: $spacing-lg;
     }
 
     @include large-desktop() {
-      grid-template-columns: 1fr 448px;
+      grid-template-columns: 1fr #{400px + $spacing-lg + $spacing-sm};
     }
   }
 }

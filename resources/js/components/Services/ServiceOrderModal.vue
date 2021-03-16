@@ -5,35 +5,37 @@
       @submit="orderService"
       class="service-order"
     >
-      <template v-if="!isOrdered">
-        <h2>{{i18n.$t('defaults.placingOrder')}} "{{serviceName}}"</h2>
-        <FormInput
-          :placeholder="i18n.$t('defaults.name')"
-          name="name"
-          type="text"
-          light
-        />
-        <FormInput
-          :placeholder="i18n.$t('defaults.email')"
-          name="email"
-          type="email"
-          light
-        />
-        <FormInput
-          mask="+38 (0##) ###-##-##"
-          :placeholder="i18n.$t('defaults.phoneNumber')"
-          name="phone"
-          type="text"
-          light
-        />
-        <p class="form-error" v-if="hasError">{{i18n.$t('defaults.phoneExists')}}</p>
-        <Button type="submit" block link>{{i18n.$t('defaults.order')}}</Button>
-      </template>
-      <template v-else>
-        <h1>{{i18n.$t('defaults.thankYou')}}</h1>
-        <h2>{{i18n.$t('defaults.operatorContact')}}</h2>
-        <Button type="reset" @click="$emit('close-modal')" block link>{{i18n.$t('defaults.close')}}</Button>
-      </template>
+      <div class="service-order__form" v-click-away="closeModal">
+        <template v-if="!isOrdered">
+          <h2>{{t('placingOrder')}} "{{serviceName}}"</h2>
+          <FormInput
+            :placeholder="t('name')"
+            name="name"
+            type="text"
+            light
+          />
+          <FormInput
+            :placeholder="t('email')"
+            name="email"
+            type="email"
+            light
+          />
+          <FormInput
+            mask="+38 (0##) ###-##-##"
+            :placeholder="t('phoneNumber')"
+            name="phone"
+            type="text"
+            light
+          />
+          <p class="form-error" v-if="hasError">{{t('phoneExists')}}</p>
+          <Button type="submit" link>{{t('order')}}</Button>
+        </template>
+        <template v-else>
+          <h1>{{t('thankYou')}}</h1>
+          <h2>{{t('operatorContact')}}</h2>
+          <Button type="reset" @click="$emit('close-modal')" link>{{t('close')}}</Button>
+        </template>
+      </div>
     </Form>
   </Modal>
 </template>
@@ -43,7 +45,7 @@ import {ref} from 'vue'
 import {useStore} from 'vuex'
 import {Form} from 'vee-validate'
 import * as Yup from 'yup'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import Modal from '../Base/Modal'
 import Button from '../Base/Button'
 import FormInput from '../Base/FormInput'
@@ -55,16 +57,16 @@ export default {
     serviceId: Number,
     serviceName: String,
   },
-  setup({serviceId}) {
+  setup(props, {emit}) {
     const {dispatch} = useStore()
-    const i18n = useI18n()
+    const {t} = useI18n()
     const hasError = ref(false)
     const isOrdered = ref(false)
 
     const orderService = async ({name, email, phone}) => {
       try {
         await dispatch('services/orderService', {
-          service_id: serviceId,
+          service_id: props.serviceId,
           name, email, phone,
         })
         isOrdered.value = true
@@ -74,18 +76,21 @@ export default {
       }
     }
 
+    const closeModal = () => emit('close-modal')
+
     const validationSchema = Yup.object().shape({
-      name: Yup.string().required('defaults.requiredField'),
-      email: Yup.string().email('defaults.invalidEmail').required('defaults.requiredField'),
-      phone: Yup.string().length(19, 'defaults.phoneValidation').required('defaults.requiredField'),
+      name: Yup.string().required('requiredField'),
+      email: Yup.string().email('invalidEmail').required('requiredField'),
+      phone: Yup.string().length(19, 'phoneValidation').required('requiredField'),
     })
 
     return {
-      i18n,
+      t,
       isOrdered,
       orderService,
       validationSchema,
       hasError,
+      closeModal,
     }
   },
 }
@@ -95,12 +100,13 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .service-order {
-  max-width: 367px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  &__form {
+    max-width: 367px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   &::after {
     height: 40px;
@@ -110,6 +116,7 @@ export default {
 
   h2 {
     margin-bottom: 40px;
+    text-align: center;
   }
 
   .form-input {

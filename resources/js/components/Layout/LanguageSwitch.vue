@@ -1,18 +1,22 @@
 <template>
   <transition appear name="slide">
-    <div class="languages" v-if="!isHidden">
+    <div
+      :class="{'languages--blurred': isBlurred}"
+      class="languages"
+      v-if="!isHidden"
+    >
       <div class="languages__item languages__item--active">
-        {{currentLocale}}
+        {{locale}}
       </div>
       <div class="languages__list">
-        <router-link
+        <div
           :key="locale"
-          :to="`/${locale}${currentRoute}`"
+          @click="switchLocale(locale)"
           class="languages__item"
           v-for="locale in locales"
         >
           {{locale}}
-        </router-link>
+        </div>
       </div>
     </div>
   </transition>
@@ -22,17 +26,17 @@
 import {computed} from 'vue'
 import {useStore} from 'vuex'
 import {useRoute} from 'vue-router'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../../hooks/useWindowSize'
-import {LANGS, ROUTE_CONF} from '../../router'
+import {LANGS} from '../../i18n'
+import {ROUTE_CONF} from '../../router'
 
 export default {
   name: 'LanguageSwitch',
   setup() {
-    const i18n = useI18n()
+    const {locale} = useI18n()
     const {state} = useStore()
-    const currentLocale = computed(() => i18n.locale.value)
-    const locales = computed(() => LANGS.filter(locale => locale !== currentLocale.value))
+    const locales = computed(() => LANGS.filter(lang => lang !== locale.value))
     const currentRoute = computed(() => {
       const currentRoute = Object.values(ROUTE_CONF).find(({name}) => name === useRoute().matched[0]?.name)
       return (currentRoute || ROUTE_CONF.HOME).path
@@ -40,11 +44,17 @@ export default {
     const {width} = useWindowSize()
     const menuShown = computed(() => state.common.menuShown)
 
+    const switchLocale = newLocale => locale.value = newLocale
+
     return {
-      currentLocale,
+      locale,
+      switchLocale,
       currentRoute,
       locales,
       isHidden: computed(() => !menuShown.value && width.value < 768),
+      isBlurred: computed(() => {
+        return state.common.shownServiceExample || state.common.shownServiceOrder || state.common.shownAchievement
+      }),
     }
   },
 }
@@ -55,12 +65,18 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 .languages {
-  position: relative;
   display: flex;
   flex-flow: row-reverse;
+  position: fixed;
+  z-index: 1;
+  right: $spacing-md;
+  bottom: $spacing-md;
+  transition: filter 0.3s ease-in-out;
 
   @include tablets() {
     display: initial;
+    right: $spacing-lg + $spacing-sm;
+    bottom: $spacing-lg + $spacing-sm;
 
     &:hover {
       .languages__list {
@@ -73,8 +89,13 @@ export default {
     }
   }
 
+  &--blurred {
+    filter: blur(16px);
+  }
+
   &__item {
-    width: 24px;
+    width: $spacing-md;
+    height: $spacing-md;
     display: block;
     padding: 0 2px;
     text-transform: uppercase;
@@ -84,14 +105,15 @@ export default {
     border-style: solid;
     color: $text-color;
     font-size: 12px;
-    line-height: 22px;
-    transition: color .3s ease, border-color .3s ease;
+    line-height: $spacing-md;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
     will-change: color, border-color;
     box-sizing: border-box;
 
-    &:hover {
+    &:hover:not(&--active) {
       color: $text-accent-color;
       border-color: $text-accent-color;
+      cursor: pointer;
     }
 
     @include tablets() {
@@ -99,10 +121,10 @@ export default {
     }
 
     &--active {
-      color: $park;
-      border-color: $park;
+      opacity: 0.5;
 
       @include tablets() {
+        opacity: 1;
         color: $text-color;
         border-color: $text-color;
       }
@@ -111,7 +133,7 @@ export default {
 
   &__list {
     display: flex;
-    right: 24px;
+    right: $spacing-md;
     top: 0;
 
     @include tablets() {
@@ -122,15 +144,15 @@ export default {
       position: absolute;
       transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s 0.3s;
       will-change: opacity, transform;
-      transform: translateY(-24px);
+      transform: translateY(#{-$spacing-md});
     }
 
     .languages__item {
-      margin-right: 16px;
+      margin-right: $spacing;
 
       @include tablets() {
         margin-right: 0;
-        margin-bottom: 16px;
+        margin-bottom: $spacing;
       }
     }
   }
@@ -148,7 +170,7 @@ export default {
 
   &-enter-from,
   &-leave-to {
-    transform: translateX(calc(100% + 24px));
+    transform: translateX(calc(100% + #{$spacing-md}));
   }
 }
 </style>

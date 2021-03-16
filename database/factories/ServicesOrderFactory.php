@@ -24,6 +24,7 @@ $factory->define( ServicesOrder::class, function (Faker $faker) {
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
         'email' => $faker->email,
-        'service_id' => Service::inRandomOrder()->value('id')
+        'service_id' => Service::inRandomOrder()->value('id'),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

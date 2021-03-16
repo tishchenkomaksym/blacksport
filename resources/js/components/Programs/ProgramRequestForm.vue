@@ -5,14 +5,14 @@
     class="request-form"
   >
     <template v-if="!requestSent">
-      <h3>{{i18n.$t('defaults.programApplication')}}</h3>
+      <h3>{{t('programApplication')}}</h3>
       <FormInput
-        :placeholder="i18n.$t('defaults.name')"
+        :placeholder="t('name')"
         name="name"
         type="text"
       />
       <FormInput
-        :placeholder="i18n.$t('defaults.email')"
+        :placeholder="t('email')"
         name="email"
         type="email"
       />
@@ -22,11 +22,11 @@
         name="phone"
         type="text"
       />
-      <p class="form-error" v-if="hasError">{{i18n.$t('defaults.phoneExists')}}</p>
-      <Button type="submit">{{i18n.$t('defaults.takePart')}}</Button>
+      <p class="form-error" v-if="hasError">{{t('phoneExists')}}</p>
+      <Button type="submit">{{t('takePart')}}</Button>
     </template>
     <template v-else>
-      <h3>{{i18n.$t('defaults.applicationSubmitted')}}</h3>
+      <h3>{{t('applicationSubmitted')}}</h3>
     </template>
   </Form>
 </template>
@@ -34,7 +34,7 @@
 <script>
 import {ref} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {Form} from 'vee-validate'
 import * as Yup from 'yup'
 import Button from '../Base/Button'
@@ -46,16 +46,16 @@ export default {
   props: {
     programId: Number,
   },
-  setup({programId}) {
+  setup(props) {
     const {dispatch} = useStore()
-    const i18n = useI18n()
+    const {t} = useI18n()
     const hasError = ref(false)
     const requestSent = ref(false)
 
     const submitApplication = async ({name, phone, email}) => {
       try {
-        await dispatch('pages/submitApplication', {
-          program_id: programId,
+        await dispatch('programs/submitApplication', {
+          program_id: props.programId,
           name, phone, email,
         })
         requestSent.value = true
@@ -65,13 +65,13 @@ export default {
     }
 
     const validationSchema = Yup.object().shape({
-      name: Yup.string().required('defaults.requiredField'),
-      email: Yup.string().email('defaults.invalidEmail').required('defaults.requiredField'),
-      phone: Yup.string().length(19, 'defaults.phoneValidation').required('defaults.requiredField'),
+      name: Yup.string().required('requiredField'),
+      email: Yup.string().email('invalidEmail').required('requiredField'),
+      phone: Yup.string().length(19, 'phoneValidation').required('requiredField'),
     })
 
     return {
-      i18n,
+      t,
       submitApplication,
       validationSchema,
       hasError,
@@ -87,7 +87,7 @@ export default {
 
 .request-form {
   @include laptop() {
-    padding: 24px;
+    padding: $spacing-md;
     transition: background-color 0.3s ease-in-out;
 
     &:hover, &:focus-within {

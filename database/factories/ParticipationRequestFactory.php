@@ -1,11 +1,12 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 
+/** @var Factory $factory */
 use App\Models\ParticipationRequest;
 use App\Models\Program;
 use App\User;
+use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,10 @@ use App\User;
 |
 */
 
-$factory->define( ParticipationRequest::class, function () {
+$factory->define( ParticipationRequest::class, function (Faker $faker) {
     return [
         'user_id' => User::inRandomOrder()->value('id'),
-        'program_id' => Program::inRandomOrder()->value('id')
+        'program_id' => Program::inRandomOrder()->value('id'),
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

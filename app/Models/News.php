@@ -43,7 +43,7 @@ class News extends Model
 
     protected $table = 'news';
     public $timestamps = true;
-    protected $fillable = ['title', 'description', 'images', 'published'];
+    protected $fillable = ['title', 'description', 'images', 'published', 'hide_date', 'preview_image'];
 
     public static function translatedFields(){
         return [

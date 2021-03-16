@@ -15,6 +15,8 @@ class CreateOrdersTable extends Migration {
 			$table->text('products')->default(null);
 			$table->boolean('is_paid')->default(false);
 			$table->string('delivery');
+			$table->string('payment_method');
+			$table->string('post_branch')->nullable();
 			$table->timestamps();
 		});
 	}

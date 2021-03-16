@@ -1,5 +1,5 @@
 /**
- * @typedef {object} Article
+ * @typedef Article
  * @property {number} id
  * @property {string} description
  * @property {string} created_at
@@ -7,15 +7,22 @@
  * @property {string} published
  * @property {string} title
  * @property {string} updated_at
+ * @property {string} preview_image
  */
 
 /**
- * @typedef {object} ServiceExample
+ * @typedef ServiceExample
  * @property {number} id
+ * @property {string} description
+ * @property {string} created_at
+ * @property {string} updated_at
+ * @property {string} field
+ * @property {string} media
+ * @property {number} service_id
  */
 
 /**
- * @typedef {object} ServiceItem
+ * @typedef ServiceItem
  * @property {number} id
  * @property {string} created_at
  * @property {string} description
@@ -25,7 +32,15 @@
  */
 
 /**
- * @typedef {object} Category
+ * @typedef OrderServiceData
+ * @property {number} service_id
+ * @property {string} name
+ * @property {string} email
+ * @property {string} phone
+ */
+
+/**
+ * @typedef Category
  * @property {number} id
  * @property {string} name
  * @property {string} url
@@ -36,7 +51,7 @@
  */
 
 /**
- * @typedef {object} ProductItem
+ * @typedef ProductItem
  * @property {number} id
  * @property {number} category_id
  * @property {string} created_at
@@ -51,7 +66,7 @@
  */
 
 /**
- * @typedef {object} Contacts
+ * @typedef Contacts
  * @property {string} address
  * @property {string} created_at
  * @property {string} email
@@ -62,7 +77,7 @@
  */
 
 /**
- * @typedef {object} Ambassador
+ * @typedef Ambassador
  * @property {string} created_at
  * @property {string} description
  * @property {number} id
@@ -72,26 +87,28 @@
  */
 
 /**
- * @typedef {object} Partner
+ * @typedef Partner
  * @property {string} created_at
  * @property {string} description
  * @property {number} id
  * @property {string} image
  * @property {Array<any>} translations
  * @property {string} updated_at
+ * @property {string} image_type
  */
 
 /**
- * @typedef {object} Achievement
+ * @typedef Achievement
  * @property {string} created_at
  * @property {string} description
  * @property {number }id
  * @property {string} title
- * @property {string } updated_at
+ * @property {string} updated_at
+ * @property {string} video
  */
 
 /**
- * @typedef {object} PageText
+ * @typedef PageText
  * @property {string} created_at
  * @property {number} id
  * @property {string} name
@@ -103,7 +120,7 @@
  */
 
 /**
- * @typedef {object} About
+ * @typedef About
  * @property {any[]} achievements
  * @property {Ambassador[]} ambassadors
  * @property {Partner[]} partners
@@ -111,7 +128,7 @@
  */
 
 /**
- * @typedef {object} Program
+ * @typedef Program
  * @property {string} created_at
  * @property {string} description
  * @property {number} id

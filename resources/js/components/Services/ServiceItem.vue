@@ -1,32 +1,42 @@
 <template>
-  <article class="service-item">
+  <article class="service-item" :data-id="data.id">
     <div class="service-item__info">
       <h2>{{data.name}}</h2>
-      <p class="service-item__info-description">{{data.description}}</p>
+      <p class="service-item__info-description">{{description}}</p>
       <div class="service-item__info-order">
-        <Button
-          @click="$emit('open-order-modal', data.id, data.name)"
-          link
-        >
-          {{i18n.$t('defaults.order')}}
+        <Button @click="openOrderModal" link>
+          {{t('order')}}
         </Button>
       </div>
 
       <transition name="mobile-examples">
-        <ServiceExamplesMobile
-          :examples="data.examples"
+        <ScrollableContainer
+          :gap="16"
           class="service-item__info-examples"
+          ref="mobileSlider"
+          direction="rtl"
           v-if="isMobile && examplesShown"
-        />
+        >
+          <div
+            :key="example.id"
+            :style="{width: `${mobileExampleWidth}px`}"
+            v-for="example in data.examples"
+          >
+            <ServiceExample
+              :data="example"
+              @click="showServiceExampleModal(example.id)"
+            />
+          </div>
+        </ScrollableContainer>
       </transition>
     </div>
     <p
-      @click="examplesShown = !examplesShown"
+      @click="toggleExamples"
       class="service-item__examples-button description"
     >
       <transition name="toggle-fade" mode="out-in">
         <span :key="examplesShown">
-          {{i18n.$t(`defaults.${examplesShown ? 'hide' : 'serviceExamples'}`)}}
+          {{t(examplesShown ? 'hide' : 'serviceExamples')}}
         </span>
       </transition>
     </p>
@@ -34,31 +44,80 @@
 </template>
 
 <script>
-import {computed, ref} from 'vue'
-import {useI18n} from '../../i18nPlugin'
+import {computed, nextTick, ref, watch} from 'vue'
+import {useI18n} from 'vue-i18n'
+import {useStore} from 'vuex'
 import useWindowSize from '../../hooks/useWindowSize'
+import useTruncate from '../../hooks/useTruncate'
+
 import Button from '../Base/Button'
-import ServiceExamples from './ServiceExamples'
-import ServiceExamplesMobile from './ServiceExamplesMobile'
+import ServiceExamplesModal from './ServiceExamplesModal'
+import ScrollableContainer from '../Layout/ScrollableContainer'
+import ServiceExample from './ServiceExample'
 
 export default {
   name: 'ServiceItem',
-  components: {ServiceExamplesMobile, ServiceExamples, Button},
+  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, Button},
   props: {
-    data: Object,
+    data: {
+      type: Object,
+      required: true,
+    },
+    examplesShown: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup() {
-    const i18n = useI18n()
+  emits: [
+    'on-toggle-examples',
+  ],
+  setup(props, {emit}) {
+    const {t} = useI18n()
+    const {commit} = useStore()
     const {width} = useWindowSize()
-    const examplesShown = ref(false)
-    const isMobile = computed(() => width.value <= 768)
+    const isMobile = computed(() => width.value < 768)
+
+    const description = useTruncate(props.data.description, 150)
+    const selectedExample = ref(null)
+
+    const mobileSlider = ref(null)
+    const mobileExampleWidth = ref(0)
+
+    const toggleExamples = () => emit('on-toggle-examples', props.data.id, !props.examplesShown)
+    const showServiceExampleModal = serviceId => {
+      commit('common/setShownServiceExample', {
+        example: serviceId,
+        examples: props.data.examples,
+      })
+    }
+    const openOrderModal = () => {
+      commit('common/setShownServiceOrder', {id: props.data.id, name: props.data.name})
+    }
+
+    // Make width the same as height to keep examples square
+    watch(width, async () => {
+      if (width.value >= 768) return
+      await nextTick()
+      if (props.examplesShown.value && mobileSlider.value) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
+    })
+    watch(() => props.examplesShown, async examplesShown => {
+      if (width.value >= 768) return
+      await nextTick()
+      if (examplesShown) mobileExampleWidth.value = mobileSlider.value.slider.offsetHeight
+    })
 
     return {
-      i18n,
-      examplesShown,
+      t,
       isMobile,
+      selectedExample,
+      description,
+      mobileSlider,
+      mobileExampleWidth,
+      toggleExamples,
+      showServiceExampleModal,
+      openOrderModal,
     }
-  }
+  },
 }
 </script>
 
@@ -104,8 +163,6 @@ export default {
       height: 100%;
       position: absolute;
       background-color: $sole;
-      overflow-x: auto;
-      overflow-y: hidden;
     }
   }
 

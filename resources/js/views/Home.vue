@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div @wheel="handleWheel" class="home">
     <Hero v-show="currentSlide === 'hero'"/>
     <About
       @switch-slide="switchSlide"
@@ -36,7 +36,7 @@
 <script>
 import {computed, ref, watch, watchEffect} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import useWindowSize from '../hooks/useWindowSize'
 import Hero from '../components/Home/Hero'
 import About from '../components/Home/About'
@@ -58,12 +58,11 @@ export default {
   setup() {
     const {dispatch} = useStore()
     const currentSlide = ref('hero')
-    const i18n = useI18n()
+    const {locale} = useI18n()
     const {width} = useWindowSize()
 
     watchEffect(() => {
-      dispatch('home/getHomeData', i18n.locale.value)
-      dispatch('common/getContacts')
+      dispatch('home/getHomeData', locale.value)
     })
 
     const switchSlide = to => currentSlide.value = to
@@ -72,15 +71,21 @@ export default {
       return width.value < 768 ? currentSlide.value === 'hero' : true
     })
 
-    watch(() => currentSlide.value, (to, from) => {
+    watch(currentSlide, (to, from) => {
       console.log(`Going from ${from} slide to ${to} slide`)
     })
+    /** @param {WheelEvent} e */
+    const handleWheel = ({deltaY}) => {
+      const nextSlide = SLIDE_ORDER[SLIDE_ORDER.findIndex(slide => currentSlide.value === slide) + (Math.sign(deltaY) > 0 ? 1 : -1)]
+      if (nextSlide) currentSlide.value = nextSlide
+    }
 
     return {
       currentSlide,
       switchSlide,
       isArrowDownShown,
       nextSlide: computed(() => SLIDE_ORDER[SLIDE_ORDER.findIndex(slide => currentSlide.value === slide) + 1]),
+      handleWheel,
     }
   },
 }

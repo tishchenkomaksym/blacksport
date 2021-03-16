@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Program;
 use App\Models\Service;
 use App\Models\Page;
+use App\Services\NewsService;
 use App\Services\TranslateService;
 use Carbon\Carbon;
 
@@ -17,16 +18,20 @@ class HomeController extends Controller
      * @var TranslateService
      */
     private $translate_service;
+    /**
+     * @var NewsService
+     */
+    private $news_service;
 
     /**
      * Create a new controller instance.
      *
      * @param TranslateService $translate_service
      */
-    public function __construct(TranslateService $translate_service)
+    public function __construct(TranslateService $translate_service, NewsService $news_service)
     {
-
         $this->translate_service = $translate_service;
+        $this->news_service = $news_service;
     }
 
 
@@ -118,17 +123,17 @@ class HomeController extends Controller
                                   ->orderByDesc('order_count')->limit(20)->get(), Product::class);
         $news = $this->translate_service->translate($locale, News::whereBetween('created_at', [Carbon::now()->subDays(60)->toDateTime()->format('Y-m-d H:i:s'),now()->format('Y-m-d H:i:s')])
                     ->orderByDesc('created_at')->limit(10)->get(), News::class);
-
+        $this->news_service->checkCreatedAt($news);
         $services = $this->translate_service->translate($locale, Service::all(), Service::class);
         $programs = $this->translate_service->translate($locale, Program::orderByDesc('created_at')->get(), Program::class);
         $texts = $this->translate_service->translate($locale, Page::with('viewTexts')->where('page_key', 'home')->get(), Page::class);
 
         return response()->json([
-            'news' => $news,
-            'services' => $services,
-            'programs' => $programs,
-            'popular_products' => $popularProducts,
-            'texts' => $texts
+            'news' => $news->toArray() ?? [],
+            'services' => $services->toArray() ?? [],
+            'programs' => $programs->toArray() ?? [],
+            'popular_products' => $popularProducts->toArray() ?? [],
+            'texts' => $texts->toArray() ?? []
         ], 200);
     }
 

@@ -1,6 +1,7 @@
 <template>
   <button
-    :class="{block, link}"
+    :class="buttonClassNames"
+    :style="buttonStyles"
   >
     <slot />
   </button>
@@ -10,8 +11,41 @@
 export default {
   name: 'Button',
   props: {
-    block: Boolean,
-    link: Boolean,
+    block: {
+      type: Boolean,
+      default: false,
+    },
+    link: {
+      type: Boolean,
+      default: false,
+    },
+    light: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    color: {
+      type: String,
+      default: null,
+    },
+  },
+  computed: {
+    buttonClassNames() {
+      return {
+        block: this.block,
+        link: this.link,
+        light: this.light,
+        small: this.small,
+      }
+    },
+    buttonStyles() {
+      return {
+        backgroundColor: this.color,
+      }
+    },
   },
 }
 </script>
@@ -21,7 +55,7 @@ export default {
 @import "../../assets/scss/breakpoints";
 
 button {
-  padding: 16px;
+  padding: $spacing;
   display: flex;
   align-items: center;
   color: $text-color;
@@ -33,11 +67,15 @@ button {
   letter-spacing: 0.05em;
 
   @include tablets() {
-    padding: 16px 32px;
+    padding: $spacing $spacing + $spacing-md;
     font-size: 18px;
   }
 
-  &:hover {
+  &:disabled {
+    opacity: 0.75;
+  }
+
+  &:hover:not(:disabled):not(.link) {
     background-color: $park;
   }
 
@@ -49,10 +87,38 @@ button {
   &.link {
     padding: 0;
     background-color: transparent;
+    position: relative;
 
-    &:hover {
+    &:hover:not(:disabled) {
       color: $text-accent-color;
+
+      &::after {
+        opacity: 0.3;
+      }
     }
+
+    &::after {
+      width: calc(100% + #{$spacing});
+      top: 50%;
+      transform: translateY(calc(-50% - 1px));
+      left: -$spacing-sm;
+      height: 4px;
+      display: block;
+      background-color: $text-color;
+      opacity: 0;
+      content: "";
+      position: absolute;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+
+  &.light {
+    background-color: $text-color;
+    color: $smoke;
+  }
+
+  &.small {
+    padding: $spacing-sm;
   }
 }
 </style>

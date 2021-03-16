@@ -1,8 +1,8 @@
 <template>
-  <PageLayout
-    :title="i18n.$t('defaults.products')"
-    background-color="sole"
-  >
+  <PageLayout background-color="sole">
+    <template v-slot:title>
+      {{t('products')}}
+    </template>
     <div class="products">
       <div class="products__categories">
         <div v-if="width < 1024">
@@ -10,7 +10,7 @@
             @click="categoryDropdownShown = !categoryDropdownShown"
             class="products__categories__category products__categories__category--active"
           >
-            <span>{{currentCategory.name || i18n.$t('defaults.selectCategory')}}</span>
+            <span>{{currentCategory.name || t('selectCategory')}}</span>
             <svg
               :class="{'products__categories__category-arrow--opened': categoryDropdownShown}"
               class="products__categories__category-arrow"
@@ -44,7 +44,7 @@
         <div
           v-else
         >
-          <h3 class="products__categories__title">{{i18n.$t('defaults.categories')}}</h3>
+          <h3 class="products__categories__title">{{t('productCategories')}}</h3>
           <div class="products__categories__list">
             <div :key="category.id" v-for="category in categories">
               <router-link
@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <div class="products__list" v-if="width >= 1024 || !categoryDropdownShown">
+      <GradientContainer color="sole" class="products__list" v-if="width >= 1024 || !categoryDropdownShown">
         <template v-if="(route.query.category ? categoryProducts : products).length">
           <ProductItem
             :key="product.id"
@@ -67,8 +67,8 @@
             v-for="product in (route.query.category ? categoryProducts : products)"
           />
         </template>
-        <p v-else>{{i18n.$t('defaults.emptyCategory')}}</p>
-      </div>
+        <p v-else>{{t('emptyCategory')}}</p>
+      </GradientContainer>
     </div>
   </PageLayout>
 </template>
@@ -77,18 +77,20 @@
 import {computed, ref, watch, watchEffect} from 'vue'
 import {useRoute} from 'vue-router'
 import {useStore} from 'vuex'
-import {useI18n} from '../i18nPlugin'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../router'
 import useWindowSize from '../hooks/useWindowSize'
+
 import PageLayout from '../components/Layout/PageLayout'
 import ProductItem from '../components/Products/ProductItem'
+import GradientContainer from '../components/Layout/GradientContainer'
 
 export default {
   name: 'Products',
-  components: {ProductItem, PageLayout},
+  components: {GradientContainer, ProductItem, PageLayout},
   setup() {
     const {dispatch, state} = useStore()
-    const i18n = useI18n()
+    const {t, locale} = useI18n()
     const route = useRoute()
     const {width} = useWindowSize()
     const categoryDropdownShown = ref(false)
@@ -100,19 +102,19 @@ export default {
     const categoryProducts = computed(() => state.products.categoryProducts) // Products of a specific category
 
     watchEffect(() => {
-      if (!route.query.category) dispatch('products/getProducts', i18n.locale.value)
-      dispatch('products/getCategories', i18n.locale.value)
+      if (!route.query.category) dispatch('products/getProducts', locale.value)
+      dispatch('products/getCategories', locale.value)
     })
 
     watch(() => route.query.category, categoryId => {
       if (categoryId) {
         categoryDropdownShown.value = false
-        dispatch('products/getProductCategory', {categoryId, locale: i18n.locale.value})
+        dispatch('products/getProductCategory', {categoryId, locale: locale.value})
       }
     }, {immediate: true})
 
     return {
-      i18n,
+      t,
       products,
       categories,
       currentCategory,
@@ -120,7 +122,7 @@ export default {
       categoryProducts,
       productCategoryPath: computed(() => ({
         name: ROUTE_CONF.PRODUCTS.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
       width,
       route,
@@ -132,15 +134,17 @@ export default {
 <style scoped lang="scss">
 @import "../assets/scss/variables";
 @import "../assets/scss/breakpoints";
+@import "../assets/scss/page-helpers";
 
 .products {
   @include laptop() {
+    margin-top: #{-$spacing-lg};
     display: flex;
     align-items: flex-start;
   }
 
   &__categories {
-    margin-bottom: 15px;
+    margin-bottom: $spacing;
 
     @include laptop() {
       width: 250px;
@@ -151,7 +155,7 @@ export default {
     &__category {
       width: 100%;
       display: block;
-      padding: 4px 0;
+      padding: $spacing-sm / 2 0;
       color: $text-color;
       text-transform: uppercase;
       font-weight: 700;
@@ -179,7 +183,7 @@ export default {
       @include laptop() {
         width: auto;
         display: inline-block;
-        padding: 8px 16px 6px;
+        padding: $spacing-sm $spacing 6px;
         position: relative;
 
         &::after {
@@ -204,7 +208,7 @@ export default {
     }
 
     &__list {
-      @media screen and (max-width: 767px) {
+      @media screen and (max-width: 1023px) {
         > a {
           margin: 18px 0;
         }
@@ -222,7 +226,7 @@ export default {
 
     &__title {
       margin-top: 0;
-      margin-left: 16px;
+      margin-left: $spacing;
       color: $park;
     }
   }
@@ -231,35 +235,27 @@ export default {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 16px;
+    grid-gap: $spacing;
+
+    @include tablets() {
+      overflow-y: auto;
+    }
+
+    @include big-phones-landscape() {
+      max-height: $page-height;
+    }
+
+    @include phones-tablets() {
+      max-height: calc(#{$page-height} - #{$spacing-lg});
+    }
 
     @include laptop() {
-      max-height: calc((610 * 100vh) / 900);
-      overflow-y: auto;
-      padding-top: 40px;
+      max-height: calc(#{$page-height} + #{$spacing-lg});
+      padding-top: $spacing-lg;
       grid-template-columns: repeat(3, 1fr);
-      column-gap: 24px;
-      row-gap: 40px;
-      padding-right: 8px;
-
-      &::before, &::after {
-        width: calc(100vw - 80px - 202px - 47px);
-        max-width: calc(1440px - 80px - 202px - 47px - 8px);
-        height: 40px;
-        content: '';
-        display: block;
-        position: absolute;
-      }
-
-      &::before {
-        top: 146px;
-        background: linear-gradient(180deg, #0D0D0D 0%, rgba(13, 13, 13, 0) 100%);
-      }
-
-      &::after {
-        top: calc(146px + (610 * 100vh) / 900);
-        background: linear-gradient(180deg, rgba(13, 13, 13, 0) 0%, #0D0D0D 100%);
-      }
+      column-gap: $spacing-md;
+      row-gap: $spacing-lg;
+      box-sizing: border-box;
     }
 
     @include desktop() {

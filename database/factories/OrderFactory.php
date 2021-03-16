@@ -20,11 +20,16 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define( Order::class, function (Faker $faker) {
     $array = ['самовывоз', 'доставка почтой'];
+    $payment_method = ['wayforpay', 'наложенный платеж'];
     return [
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
         'email' => $faker->email,
         'products' => $faker->text,
-        'delivery' => $array[array_rand($array, 1)]
+        'delivery' => $array[array_rand($array, 1)],
+        'payment_method' =>$payment_method[array_rand($payment_method, 1)],
+        'comment' => $faker->text,
+        'address' => $faker->address,
+        'online_payment' => $faker->boolean
     ];
 });

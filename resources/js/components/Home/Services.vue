@@ -1,74 +1,101 @@
 <template>
   <section class="services">
     <PrevSectionButton
-      :title="i18n.$t('defaults.news')"
+      :title="t('news')"
       @click="$emit('switch-slide', 'news')"
     />
     <div class="services__content">
       <div class="services__heading container">
-        <h2>{{i18n.$t('defaults.services')}}</h2>
+        <h2>{{t('services')}}</h2>
         <router-link
           :to="servicesPath"
           class="link subtitle"
         >
-          {{i18n.$t('defaults.allServices')}}
+          {{t('allServices')}}
         </router-link>
       </div>
       <div class="services__list">
-        <div class="services__list-scroll">{{i18n.$t('defaults.scroll')}}</div>
-        <ServiceItem
+        <div class="services__list-scroll">{{t('scroll')}}</div>
+        <div
           :key="service.id"
-          :data="service"
-          @open-order-modal="openOrderModal"
+          class="services__list-item"
           v-for="service in services.slice(0, 5)"
-        />
+        >
+          <ServiceItem
+            :data="service"
+            :examples-shown="examplesShownId === service.id"
+            @on-toggle-examples="onToggleExamples"
+          />
+          <transition name="service-examples-transition">
+            <ScrollableContainer
+              class="services__list-examples"
+              v-if="!isMobile && examplesShownId === service.id"
+            >
+              <template v-if="currentExamples.length">
+                <div :key="example.id" style="width: 192px" v-for="example in currentExamples">
+                  <ServiceExample
+                    :data="example"
+                    @click="showServiceExampleModal(example.id)"
+                  />
+                </div>
+              </template>
+              <p v-else>{{t('noExamples')}}</p>
+            </ScrollableContainer>
+          </transition>
+        </div>
       </div>
     </div>
-    <ServiceOrderModal
-      :service-id="selectedService.id"
-      :service-name="selectedService.name"
-      @close-modal="closeOrderModal"
-      v-if="!!selectedService"
-    />
   </section>
 </template>
 
 <script>
 import {computed, ref} from 'vue'
 import {useStore} from 'vuex'
-import {useI18n} from '../../i18nPlugin'
+import useWindowSize from '../../hooks/useWindowSize'
+import {useI18n} from 'vue-i18n'
 import {ROUTE_CONF} from '../../router'
+
 import PrevSectionButton from './PrevSectionButton'
 import ServiceItem from '../Services/ServiceItem'
-import ServiceOrderModal from '../Services/ServiceOrderModal'
+import ServiceExamplesModal from '../Services/ServiceExamplesModal'
+import ScrollableContainer from '../Layout/ScrollableContainer'
+import ServiceExample from '../Services/ServiceExample'
 
 export default {
   name: 'Services',
-  components: {ServiceOrderModal, ServiceItem, PrevSectionButton},
+  components: {ServiceExample, ScrollableContainer, ServiceExamplesModal, ServiceItem, PrevSectionButton},
   setup() {
-    const {state} = useStore()
-    const i18n = useI18n()
+    const {commit, state} = useStore()
+    const {t, locale} = useI18n()
+    const {width} = useWindowSize()
+    const isMobile = computed(() => width.value < 768)
     const services = computed(() => state.home.homeData.services)
-    const selectedService = ref(null)
+    const examplesShownId = ref(null)
+    const currentExamples = computed(() => services.value.find(({id}) => id === examplesShownId.value).examples)
 
-    const openOrderModal = (serviceId, serviceName) => {
-      selectedService.value = {id: serviceId, name: serviceName}
+    const onToggleExamples = (id, examplesShown) => {
+      examplesShownId.value = examplesShown ? id : null
     }
 
-    const closeOrderModal = () => {
-      selectedService.value = null
+    const showServiceExampleModal = serviceId => {
+      commit('common/setShownServiceExample', {
+        example: serviceId,
+        examples: services.value.find(service => service.id === examplesShownId.value).examples,
+      })
     }
 
     return {
-      i18n,
+      t,
+      isMobile,
       services,
       servicesPath: computed(() => ({
         name: ROUTE_CONF.SERVICES.name,
-        params: {locale: i18n.locale.value},
+        params: {locale: locale.value},
       })),
-      selectedService,
-      openOrderModal,
-      closeOrderModal,
+      onToggleExamples,
+      examplesShownId,
+      currentExamples,
+      showServiceExampleModal,
     }
   }
 }
@@ -94,7 +121,7 @@ export default {
     @include landscape() {
       margin-top: 8px;
       height: 65vh;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     @include laptop() {
@@ -168,7 +195,7 @@ export default {
 
     @include tablets() {
       padding: 0 40px;
-      grid-template-columns: 412px;
+      grid-auto-rows: 192px;
       row-gap: 16px;
       overflow-y: auto;
     }
@@ -183,6 +210,23 @@ export default {
     @include desktop() {
       height: 100%;
       padding: 40px 0 0 273px;
+    }
+
+    &-item {
+      @include tablets() {
+        display: grid;
+        grid-template-columns: 412px 1fr;
+      }
+    }
+
+    &-examples {
+      @include tablets() {
+        padding-left: $spacing-md;
+      }
+
+      @include desktop() {
+        padding-left: 86px;
+      }
     }
 
     &-scroll {
@@ -200,6 +244,18 @@ export default {
         text-transform: uppercase;
       }
     }
+  }
+}
+
+.service-examples-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: transform 0.75s ease-in-out;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateX(100%);
   }
 }
 </style>

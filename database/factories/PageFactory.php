@@ -23,6 +23,7 @@ $factory->define( Page::class, function (Faker $faker) {
         'page_key' => 'about',
         'meta_description' => $faker->text(300),
         'noindex' => false,
-        'nofollow' => false
+        'nofollow' => false,
+        'created_at' => $faker->dateTimeBetween('now', '+30 days')
     ];
 });

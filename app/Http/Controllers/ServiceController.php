@@ -46,7 +46,8 @@ class ServiceController extends Controller
      *                      @OA\Property(property="name", type="string"),
      *                      @OA\Property(property="description", type="string"),
      *                      @OA\Property(property="created_at", type="string"),
-     *                      @OA\Property(property="updated_at", type="string")
+     *                      @OA\Property(property="updated_at", type="string"),
+     *                      @OA\Property(property="show_on_main", type="boolean"),
      *                  )
      *              )
      *       )
@@ -59,7 +60,7 @@ class ServiceController extends Controller
           $locale, Service::with('examples')->orderByDesc('created_at')->get(), Service::class
       );
 
-      return response()->json(compact('services'), 200);
+      return response()->json($services, 200);
   }
 
     /**

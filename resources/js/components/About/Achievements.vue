@@ -2,7 +2,12 @@
   <section class="achievements">
     <div class="achievements__container">
       <h1>{{achievementsText.name}}</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p
+        :key="i"
+        v-for="(paragraph, i) in achievementsDescription"
+      >
+        {{paragraph}}
+      </p>
     </div>
 
     <div class="achievements__list">
@@ -11,7 +16,19 @@
         class="achievements__list-item"
         v-for="achievement in achievements"
       >
-        <img src="/img/branch.svg" alt="Branch">
+        <div
+          @click="openVideoModal(getVideoId(achievement.video))"
+          class="achievements__list-item__video"
+          v-if="achievement.video && getVideoId(achievement.video)"
+        >
+          <img
+            :src="getVideoThumbnail(achievement.video)"
+            :alt="achievement.title"
+            class="achievements__list-item__video-thumbnail"
+          />
+          <img class="achievements__list-item__video-icon" src="/img/youtube_social_icon_red.png" alt="Youtube" />
+        </div>
+        <img src="/img/branch.svg" alt="Branch" v-else />
         <h2>{{achievement.title}}</h2>
         <p>{{achievement.description}}</p>
       </article>
@@ -20,20 +37,39 @@
 </template>
 
 <script>
-import {useStore} from 'vuex'
 import {computed} from 'vue'
+import {useStore} from 'vuex'
+import useParseText from '../../hooks/useParseText'
 
 export default {
   name: 'Achievements',
   setup() {
-    const {state} = useStore()
+    const {commit, state} = useStore()
     const achievements = computed(() => state.pages.about.achievements)
     const achievementsText = computed(() => state.pages.about.texts.find(({page_key}) => page_key === 'made') || {})
+    const achievementsDescription = computed(() => useParseText(achievementsText.value?.meta_description || '').value)
+
+    const openVideoModal = videoUrl => {
+      commit('common/setShownAchievement', videoUrl)
+    }
 
     return {
       achievements,
       achievementsText,
+      achievementsDescription,
+      openVideoModal,
     }
+  },
+  methods: {
+    getVideoThumbnail(url) {
+      console.log(url)
+      return `https://img.youtube.com/vi/${this.getVideoId(url)}/maxresdefault.jpg`
+    },
+    getVideoId(url) {
+      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+      const match = url.match(regExp)
+      return (match && match[7].length === 11) ? match[7] : false
+    },
   },
 }
 </script>
@@ -51,53 +87,71 @@ export default {
 
   &__list {
     width: 100vw;
-    margin: 0 0 0 -32px;
-    transform: translateX(16px);
+    margin: 0 0 0 -#{$spacing-md + $spacing-sm};
+    transform: translateX($spacing);
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
 
-    @include tablets() {
+    @include tablets {
       width: initial;
       margin: initial;
       display: grid;
       transform: initial;
       grid-template-columns: repeat(2, 1fr);
-      column-gap: 40px;
-      row-gap: 24px;
+      column-gap: $spacing-lg;
+      row-gap: $spacing-md;
       overflow-x: initial;
     }
 
-    @include laptop() {
+    @include laptop {
       grid-template-columns: repeat(3, 1fr);
     }
 
-    @include large-desktop() {
+    @include large-desktop {
       grid-template-columns: repeat(4, 1fr);
     }
   }
 
   &__list-item {
-    padding: 16px;
-    margin-right: 16px;
+    padding: $spacing;
+    margin-right: $spacing;
     background-color: $smoke;
     text-align: center;
 
     &:first-of-type {
-      margin-left: 16px;
+      margin-left: $spacing;
     }
 
     &:last-of-type {
-      margin-right: 16px;
+      margin-right: $spacing;
     }
 
-    @include tablets() {
-      padding: 32px 16px;
+    @include tablets {
+      padding: #{$spacing-md + $spacing-sm} $spacing;
       margin: initial;
 
       &:first-of-type,
       &:last-of-type {
         margin: initial;
+      }
+    }
+
+    &__video {
+      position: relative;
+      cursor: pointer;
+
+      &-thumbnail {
+        width: 100%;
+        min-width: 250px;
+      }
+
+      &-icon {
+        width: 48px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
       }
     }
   }

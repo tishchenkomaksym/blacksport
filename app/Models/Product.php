@@ -36,12 +36,12 @@ class Product extends Model
     use Translatable;
 
     protected $translatable = [
-        'description', 'specifications'
+        'title', 'description', 'specifications'
     ];
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = ['title', 'description', 'specifications', 'image', 'order_count'];
+    protected $fillable = ['title', 'description', 'specifications', 'image', 'order_count', 'show_on_main'];
 
     public static function translatedFields(){
         return [

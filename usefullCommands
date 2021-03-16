@@ -10,6 +10,7 @@ php artisan route:list | grep order
 php artisan make:command User/VerifyCommand - создание класса для консольной команды с директорией
 
 php artisan make:migration CreateRegionsTable - пример создания миграции
+php artisan make:migration add_comment_to_orders_table --table=orders
 
 php artisan make:mail -m -- Auth\\VerifyMail
 
