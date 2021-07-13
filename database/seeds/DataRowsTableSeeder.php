@@ -399,7 +399,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 3,
             ])->save();
         }
@@ -497,7 +499,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -758,7 +762,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -838,7 +844,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 9,
             ])->save();
         }
@@ -1280,7 +1288,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 3,
             ])->save();
         }
@@ -1302,7 +1312,7 @@ class DataRowsTableSeeder extends Seeder
                         "square" => "square",
                         "rectangle" => "rectangle"
                     ],
-
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
                 ],
                 'order'        => 4,
             ])->save();
@@ -1543,7 +1553,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 6,
             ])->save();
         }
@@ -1724,7 +1736,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -1864,7 +1878,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 6,
             ])->save();
         }
@@ -1963,7 +1979,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -2098,7 +2116,9 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '{}',
+                'details'      => [
+                    "description" => "Можно загружать изображения png, jpg. Не более 10 мегабайт"
+                ],
                 'order'        => 4,
             ])->save();
         }
