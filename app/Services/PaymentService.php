@@ -16,7 +16,7 @@ use WayForPay\SDK\Wizard\InvoiceWizard;
 class PaymentService
 {
     private const WAYFORPAY_LOGIN = 'blacksport_org';
-    private const WAYFORPAY_SECRET_KEY = '3f88d950a4ce39f85b27c2aa5e75592656b7c880';
+    private const WAYFORPAY_SECRET_KEY = '@@@@@@@@@@@@@@@@@@@@@@@@@@';
 
     private function wayForPayRequest($client, $products, $order)
     {
